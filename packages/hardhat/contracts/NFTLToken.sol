@@ -4,7 +4,6 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/utils/introspection/IERC165.sol";
-import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "./INifty.sol";
 
 import "hardhat/console.sol";
@@ -15,8 +14,6 @@ import "hardhat/console.sol";
  * @dev Extends standard ERC20 contract
  */
 contract NFTLToken is ERC20 {
-    using SafeMath for uint256;
-
     // Constants
     uint256 private constant SECONDS_IN_A_DAY = 86400;
     uint256 private constant INITIAL_ALLOTMENT = 1830 * (10 ** 18);
@@ -70,12 +67,12 @@ contract NFTLToken is ERC20 {
         if (lastClaimed >= emissionEnd) return 0;
 
         uint256 accumulationPeriod = block.timestamp < emissionEnd ? block.timestamp : emissionEnd; // Getting the min value of both
-        uint256 totalAccumulated = accumulationPeriod.sub(lastClaimed).mul(emissionPerDay).div(SECONDS_IN_A_DAY);
+        uint256 totalAccumulated = (accumulationPeriod - lastClaimed) * emissionPerDay / SECONDS_IN_A_DAY;
 
         // If claim hasn't been done before for the index, add initial allotment (plus prereveal multiplier if applicable)
         if (lastClaimed == emissionStart) {
-            uint256 initialAllotment = INifty(_masksAddress).isMintedBeforeReveal(tokenIndex) == true ? INITIAL_ALLOTMENT.mul(PRE_REVEAL_MULTIPLIER) : INITIAL_ALLOTMENT;
-            totalAccumulated = totalAccumulated.add(initialAllotment);
+            uint256 initialAllotment = INifty(_masksAddress).isMintedBeforeReveal(tokenIndex) == true ? INITIAL_ALLOTMENT * PRE_REVEAL_MULTIPLIER : INITIAL_ALLOTMENT;
+            totalAccumulated = totalAccumulated + initialAllotment;
         }
 
         return totalAccumulated;
@@ -110,7 +107,7 @@ contract NFTLToken is ERC20 {
 
             uint256 claimQty = accumulated(tokenIndex);
             if (claimQty != 0) {
-                totalClaimQty = totalClaimQty.add(claimQty);
+                totalClaimQty = totalClaimQty + claimQty;
                 _lastClaim[tokenIndex] = block.timestamp;
             }
         }
