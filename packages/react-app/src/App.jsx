@@ -116,10 +116,10 @@ function App(props) {
   ]);
 
   // keep track of a variable from the contract in the local React state:
-  const purpose = useContractReader(readContracts, "YourContract", "purpose");
+  // const purpose = useContractReader(readContracts, "YourContract", "purpose");
 
   //📟 Listen for broadcast events
-  const setPurposeEvents = useEventListener(readContracts, "YourContract", "SetPurpose", localProvider, 1);
+  // const setPurposeEvents = useEventListener(readContracts, "YourContract", "SetPurpose", localProvider, 1);
 
   /*
   const addressFromENS = useResolveName(mainnetProvider, "austingriffith.eth");
@@ -166,7 +166,7 @@ function App(props) {
   const [oldMainnetBalance, setOldMainnetDAIBalance] = useState(0);
 
   // For Master Branch Example
-  const [oldPurposeEvents, setOldPurposeEvents] = useState([]);
+  // const [oldPurposeEvents, setOldPurposeEvents] = useState([]);
 
   // For Buyer-Lazy-Mint Branch Example
   // const [oldTransferEvents, setOldTransferEvents] = useState([])
@@ -191,10 +191,10 @@ function App(props) {
       //}
 
       // For Master Branch Example
-      if (setPurposeEvents && setPurposeEvents !== oldPurposeEvents) {
-        console.log("📟 SetPurpose events:", setPurposeEvents);
-        setOldPurposeEvents(setPurposeEvents);
-      }
+      // if (setPurposeEvents && setPurposeEvents !== oldPurposeEvents) {
+      //   console.log("📟 SetPurpose events:", setPurposeEvents);
+      //   setOldPurposeEvents(setPurposeEvents);
+      // }
     }
   }, [myMainnetDAIBalance]); // For Buyer-Lazy-Mint Branch: balance, transferEvents
 
@@ -337,7 +337,7 @@ function App(props) {
             */}
 
             <Contract
-              name="YourContract"
+              name="NFTLToken"
               signer={userProvider.getSigner()}
               provider={localProvider}
               address={address}
@@ -374,7 +374,7 @@ function App(props) {
             />
           </Route>
           <Route path="/exampleui">
-            <ExampleUI
+            {/* <ExampleUI
               address={address}
               userProvider={userProvider}
               mainnetProvider={mainnetProvider}
@@ -386,7 +386,7 @@ function App(props) {
               readContracts={readContracts}
               purpose={purpose}
               setPurposeEvents={setPurposeEvents}
-            />
+            /> */}
           </Route>
           <Route path="/mainnetdai">
             <Contract

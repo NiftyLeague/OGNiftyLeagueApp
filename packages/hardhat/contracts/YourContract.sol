@@ -14,6 +14,12 @@ contract YourContract {
     // what should we do on deploy?
   }
 
+  uint128 public counter = 5;
+
+  function dec() public {
+    counter--;
+  }
+
   function setPurpose(string memory newPurpose) public {
     purpose = newPurpose;
     console.log(msg.sender,"set purpose to",purpose);
