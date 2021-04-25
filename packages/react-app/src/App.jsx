@@ -7,22 +7,22 @@ import { Row, Col, Button, Menu, Alert, Switch as SwitchD } from "antd";
 import Web3Modal from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { useUserAddress } from "eth-hooks";
+import { formatEther, parseEther } from "@ethersproject/units";
+// import { useThemeSwitcher } from "react-css-theme-switcher";
 import {
   useExchangePrice,
   useGasPrice,
   useUserProvider,
   useContractLoader,
   useContractReader,
-  useEventListener,
+  // useEventListener,
   useBalance,
   useExternalContractLoader,
 } from "./hooks";
 import { Header, Account, Faucet, Ramp, Contract, GasGauge, ThemeSwitch } from "./components";
 import { Transactor } from "./helpers";
-import { formatEther, parseEther } from "@ethersproject/units";
-//import Hints from "./Hints";
+// import Hints from "./Hints";
 import { Hints, ExampleUI, Subgraph } from "./views";
-import { useThemeSwitcher } from "react-css-theme-switcher";
 import { INFURA_ID, DAI_ADDRESS, DAI_ABI, NETWORK, NETWORKS } from "./constants";
 /*
     Welcome to 🏗 scaffold-eth !
@@ -44,7 +44,7 @@ import { INFURA_ID, DAI_ADDRESS, DAI_ABI, NETWORK, NETWORKS } from "./constants"
 */
 
 /// 📡 What chain are your contracts deployed to?
-const targetNetwork = NETWORKS["localhost"]; // <------- select your target frontend network (localhost, rinkeby, xdai, mainnet)
+const targetNetwork = NETWORKS.localhost; // <------- select your target frontend network (localhost, rinkeby, xdai, mainnet)
 
 const DEBUG = true;
 
@@ -66,9 +66,32 @@ if (DEBUG) console.log("🏠 Connecting to provider:", localProviderUrlFromEnv);
 const localProvider = new JsonRpcProvider(localProviderUrlFromEnv);
 
 // 🔭 block explorer URL
-const blockExplorer = targetNetwork.blockExplorer;
+const { blockExplorer } = targetNetwork;
 
-function App(props) {
+/*
+  Web3 modal helps us "connect" external wallets:
+*/
+const web3Modal = new Web3Modal({
+  // network: "mainnet", // optional
+  cacheProvider: true, // optional
+  providerOptions: {
+    walletconnect: {
+      package: WalletConnectProvider, // required
+      options: {
+        infuraId: INFURA_ID,
+      },
+    },
+  },
+});
+
+const logoutOfWeb3Modal = async () => {
+  await web3Modal.clearCachedProvider();
+  setTimeout(() => {
+    window.location.reload();
+  }, 1);
+};
+
+function App({ subgraphUri }) {
   const mainnetProvider = scaffoldEthProvider && scaffoldEthProvider._network ? scaffoldEthProvider : mainnetInfura;
 
   const [injectedProvider, setInjectedProvider] = useState();
@@ -82,8 +105,8 @@ function App(props) {
   const address = useUserAddress(userProvider);
 
   // You can warn the user if you would like them to be on a specific network
-  let localChainId = localProvider && localProvider._network && localProvider._network.chainId;
-  let selectedChainId = userProvider && userProvider._network && userProvider._network.chainId;
+  const localChainId = localProvider && localProvider._network && localProvider._network.chainId;
+  const selectedChainId = userProvider && userProvider._network && userProvider._network.chainId;
 
   // For more hooks, check out 🔗eth-hooks at: https://www.npmjs.com/package/eth-hooks
 
@@ -118,7 +141,7 @@ function App(props) {
   // keep track of a variable from the contract in the local React state:
   // const purpose = useContractReader(readContracts, "YourContract", "purpose");
 
-  //📟 Listen for broadcast events
+  // 📟 Listen for broadcast events
   // const setPurposeEvents = useEventListener(readContracts, "YourContract", "SetPurpose", localProvider, 1);
 
   /*
@@ -181,14 +204,14 @@ function App(props) {
       }
 
       // For Buyer-Lazy-Mint Branch Example
-      //if(transferEvents && oldTransferEvents !== transferEvents){
+      // if(transferEvents && oldTransferEvents !== transferEvents){
       //  console.log("📟 Transfer events:", transferEvents)
       //  setOldTransferEvents(transferEvents)
-      //}
-      //if(balance && !balance.eq(oldBalance)){
+      // }
+      // if(balance && !balance.eq(oldBalance)){
       //  console.log("🤗 balance:", balance)
       //  setOldBalance(balance)
-      //}
+      // }
 
       // For Master Branch Example
       // if (setPurposeEvents && setPurposeEvents !== oldPurposeEvents) {
@@ -199,11 +222,19 @@ function App(props) {
   }, [myMainnetDAIBalance]); // For Buyer-Lazy-Mint Branch: balance, transferEvents
 
   let networkDisplay = "";
-  if (localChainId && selectedChainId && localChainId != selectedChainId) {
+  if (localChainId && selectedChainId && localChainId !== selectedChainId) {
     networkDisplay = (
-      <div style={{ zIndex: 2, position: "absolute", right: 0, top: 60, padding: 16 }}>
+      <div
+        style={{
+          zIndex: 2,
+          position: "absolute",
+          right: 0,
+          top: 60,
+          padding: 16,
+        }}
+      >
         <Alert
-          message={"⚠️ Wrong Network"}
+          message="⚠️ Wrong Network"
           description={
             <div>
               You have <b>{NETWORK(selectedChainId).name}</b> selected and you need to be on{" "}
@@ -217,7 +248,16 @@ function App(props) {
     );
   } else {
     networkDisplay = (
-      <div style={{ zIndex: -1, position: "absolute", right: 154, top: 28, padding: 16, color: targetNetwork.color }}>
+      <div
+        style={{
+          zIndex: -1,
+          position: "absolute",
+          right: 154,
+          top: 28,
+          padding: 16,
+          color: targetNetwork.color,
+        }}
+      >
         {targetNetwork.name}
       </div>
     );
@@ -240,21 +280,21 @@ function App(props) {
   }, [setRoute]);
 
   let faucetHint = "";
-  const faucetAvailable = localProvider && localProvider.connection && targetNetwork.name == "localhost";
+  const faucetAvailable = localProvider && localProvider.connection && targetNetwork.name === "localhost";
 
   const [faucetClicked, setFaucetClicked] = useState(false);
   if (
     !faucetClicked &&
     localProvider &&
     localProvider._network &&
-    localProvider._network.chainId == 31337 &&
+    localProvider._network.chainId === 31337 &&
     yourLocalBalance &&
     formatEther(yourLocalBalance) <= 0
   ) {
     faucetHint = (
       <div style={{ padding: 16 }}>
         <Button
-          type={"primary"}
+          type="primary"
           onClick={() => {
             faucetTx({
               to: address,
@@ -395,12 +435,12 @@ function App(props) {
               signer={userProvider.getSigner()}
               provider={mainnetProvider}
               address={address}
-              blockExplorer={"https://etherscan.io/"}
+              blockExplorer="https://etherscan.io/"
             />
           </Route>
           <Route path="/subgraph">
             <Subgraph
-              subgraphUri={props.subgraphUri}
+              subgraphUri={subgraphUri}
               tx={tx}
               writeContracts={writeContracts}
               mainnetProvider={mainnetProvider}
@@ -412,7 +452,15 @@ function App(props) {
       <ThemeSwitch />
 
       {/* 👨‍💼 Your account is in the top right with a wallet at connect options */}
-      <div style={{ position: "fixed", textAlign: "right", right: 0, top: 0, padding: 10 }}>
+      <div
+        style={{
+          position: "fixed",
+          textAlign: "right",
+          right: 0,
+          top: 0,
+          padding: 10,
+        }}
+      >
         <Account
           address={address}
           localProvider={localProvider}
@@ -428,7 +476,15 @@ function App(props) {
       </div>
 
       {/* 🗺 Extra UI like gas price, eth price, faucet, and support: */}
-      <div style={{ position: "fixed", textAlign: "left", left: 0, bottom: 20, padding: 10 }}>
+      <div
+        style={{
+          position: "fixed",
+          textAlign: "left",
+          left: 0,
+          bottom: 20,
+          padding: 10,
+        }}
+      >
         <Row align="middle" gutter={[4, 4]}>
           <Col span={8}>
             <Ramp price={price} address={address} networks={NETWORKS} />
@@ -470,30 +526,9 @@ function App(props) {
   );
 }
 
-/*
-  Web3 modal helps us "connect" external wallets:
-*/
-const web3Modal = new Web3Modal({
-  // network: "mainnet", // optional
-  cacheProvider: true, // optional
-  providerOptions: {
-    walletconnect: {
-      package: WalletConnectProvider, // required
-      options: {
-        infuraId: INFURA_ID,
-      },
-    },
-  },
-});
-
-const logoutOfWeb3Modal = async () => {
-  await web3Modal.clearCachedProvider();
-  setTimeout(() => {
-    window.location.reload();
-  }, 1);
-};
-
+// eslint-disable-next-line no-unused-expressions
 window.ethereum &&
+  // eslint-disable-next-line no-unused-vars
   window.ethereum.on("chainChanged", chainId => {
     setTimeout(() => {
       window.location.reload();

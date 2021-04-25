@@ -19,8 +19,7 @@ import { Button } from "antd";
   - Provide gasPrice={gasPrice} and get current gas gauge
 */
 
-export default function GasGauge(props) {
-  
+export default function GasGauge({ gasPrice }) {
   return (
     <Button
       onClick={() => {
@@ -29,8 +28,12 @@ export default function GasGauge(props) {
       size="large"
       shape="round"
     >
-      <span style={{ marginRight: 8 }}><span role="img" aria-label="fuelpump">⛽️</span></span>
-      {typeof props.gasPrice == "undefined" ? 0 : parseInt(props.gasPrice, 10) / 10 ** 9}g
+      <span style={{ marginRight: 8 }}>
+        <span role="img" aria-label="fuelpump">
+          ⛽️
+        </span>
+      </span>
+      {typeof gasPrice === "undefined" ? 0 : parseInt(gasPrice, 10) / 10 ** 9}g
     </Button>
   );
 }

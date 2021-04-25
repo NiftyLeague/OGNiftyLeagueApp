@@ -1,10 +1,8 @@
 import React from "react";
 import Blockies from "react-blockies";
+import { useThemeSwitcher } from "react-css-theme-switcher";
 import { Typography, Skeleton } from "antd";
 import { useLookupAddress } from "../hooks";
-import { useThemeSwitcher } from "react-css-theme-switcher";
-
-// changed value={address} to address={address}
 
 /*
   ~ What it does? ~
@@ -31,13 +29,13 @@ import { useThemeSwitcher } from "react-css-theme-switcher";
 
 const { Text } = Typography;
 
-const blockExplorerLink = (address, blockExplorer) => `${blockExplorer || "https://etherscan.io/"}${"address/"}${address}`;
+const blockExplorerLink = (address, blockExplorer) =>
+  `${blockExplorer || "https://etherscan.io/"}${"address/"}${address}`;
 
 export default function Address(props) {
+  const { address, blockExplorer, ensProvider, fontSize, minimized, onChange, size } = props;
 
-  const address = props.value || props.address;
-
-  const ens = useLookupAddress(props.ensProvider, address);
+  const ens = useLookupAddress(ensProvider, address);
 
   const { currentTheme } = useThemeSwitcher();
 
@@ -51,19 +49,24 @@ export default function Address(props) {
 
   let displayAddress = address.substr(0, 6);
 
-  if (ens && ens.indexOf("0x")<0) {
+  if (ens && ens.indexOf("0x") < 0) {
     displayAddress = ens;
-  } else if (props.size === "short") {
+  } else if (size === "short") {
     displayAddress += "..." + address.substr(-4);
-  } else if (props.size === "long") {
+  } else if (size === "long") {
     displayAddress = address;
   }
 
-  const etherscanLink = blockExplorerLink(address, props.blockExplorer);
-  if (props.minimized) {
+  const etherscanLink = blockExplorerLink(address, blockExplorer);
+  if (minimized) {
     return (
       <span style={{ verticalAlign: "middle" }}>
-        <a style={{ color: currentTheme == "light" ? "#222222" : "#ddd" }} target={"_blank"} href={etherscanLink} rel="noopener noreferrer">
+        <a
+          style={{ color: currentTheme === "light" ? "#222222" : "#ddd" }}
+          target="_blank"
+          href={etherscanLink}
+          rel="noopener noreferrer"
+        >
           <Blockies seed={address.toLowerCase()} size={8} scale={2} />
         </a>
       </span>
@@ -71,10 +74,15 @@ export default function Address(props) {
   }
 
   let text;
-  if (props.onChange) {
+  if (onChange) {
     text = (
-      <Text editable={{ onChange: props.onChange }} copyable={{ text: address }}>
-        <a style={{ color: currentTheme == "light" ? "#222222" : "#ddd" }} target={"_blank"} href={etherscanLink} rel="noopener noreferrer">
+      <Text editable={{ onChange }} copyable={{ text: address }}>
+        <a
+          style={{ color: currentTheme === "light" ? "#222222" : "#ddd" }}
+          target="_blank"
+          href={etherscanLink}
+          rel="noopener noreferrer"
+        >
           {displayAddress}
         </a>
       </Text>
@@ -82,7 +90,12 @@ export default function Address(props) {
   } else {
     text = (
       <Text copyable={{ text: address }}>
-        <a style={{ color: currentTheme == "light" ? "#222222" : "#ddd" }} target={"_blank"} href={etherscanLink} rel="noopener noreferrer">
+        <a
+          style={{ color: currentTheme === "light" ? "#222222" : "#ddd" }}
+          target="_blank"
+          href={etherscanLink}
+          rel="noopener noreferrer"
+        >
           {displayAddress}
         </a>
       </Text>
@@ -92,9 +105,9 @@ export default function Address(props) {
   return (
     <span>
       <span style={{ verticalAlign: "middle" }}>
-        <Blockies seed={address.toLowerCase()} size={8} scale={props.fontSize?props.fontSize/7:4} />
+        <Blockies seed={address.toLowerCase()} size={8} scale={fontSize ? fontSize / 7 : 4} />
       </span>
-      <span style={{ verticalAlign: "middle", paddingLeft: 5, fontSize: props.fontSize?props.fontSize:28 }}>{text}</span>
+      <span style={{ verticalAlign: "middle", paddingLeft: 5, fontSize: fontSize || 28 }}>{text}</span>
     </span>
   );
 }

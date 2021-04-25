@@ -28,15 +28,15 @@ import { Input } from "antd";
   - Control input change by onChange={value => { setAmount(value);}}
 */
 
-export default function EtherInput(props) {
-  const [mode, setMode] = useState(props.price ? "USD" : "ETH");
+export default function EtherInput({ autoFocus, onChange, placeholder, price, value: currValue }) {
+  const [mode, setMode] = useState(price ? "USD" : "ETH");
   const [display, setDisplay] = useState();
   const [value, setValue] = useState();
 
-  const currentValue = typeof props.value !== "undefined" ? props.value : value;
+  const currentValue = typeof currValue !== "undefined" ? currValue : value;
 
   const option = title => {
-    if (!props.price) return "";
+    if (!price) return "";
     return (
       <div
         style={{ cursor: "pointer" }}
@@ -47,7 +47,7 @@ export default function EtherInput(props) {
           } else {
             setMode("USD");
             if (currentValue) {
-              const usdValue = "" + (parseFloat(currentValue) * props.price).toFixed(2);
+              const usdValue = "" + (parseFloat(currentValue) * price).toFixed(2);
               setDisplay(usdValue);
             } else {
               setDisplay(currentValue);
@@ -70,39 +70,37 @@ export default function EtherInput(props) {
     addonAfter = option("ETH 🔀");
   }
 
-  useEffect(
-    ()=>{
-      if(!currentValue){
-        setDisplay("");
-      }
+  useEffect(() => {
+    if (!currentValue) {
+      setDisplay("");
     }
-  ,[ currentValue ])
+  }, [currentValue]);
 
   return (
     <Input
-      placeholder={props.placeholder ? props.placeholder : "amount in " + mode}
-      autoFocus={props.autoFocus}
+      placeholder={placeholder || "amount in " + mode}
+      autoFocus={autoFocus}
       prefix={prefix}
       value={display}
       addonAfter={addonAfter}
       onChange={async e => {
         const newValue = e.target.value;
         if (mode === "USD") {
-          const possibleNewValue = parseFloat(newValue)
-          if(possibleNewValue){
-            const ethValue = possibleNewValue / props.price;
+          const possibleNewValue = parseFloat(newValue);
+          if (possibleNewValue) {
+            const ethValue = possibleNewValue / price;
             setValue(ethValue);
-            if (typeof props.onChange === "function") {
-              props.onChange(ethValue);
+            if (typeof onChange === "function") {
+              onChange(ethValue);
             }
             setDisplay(newValue);
-          }else{
+          } else {
             setDisplay(newValue);
           }
         } else {
           setValue(newValue);
-          if (typeof props.onChange === "function") {
-            props.onChange(newValue);
+          if (typeof onChange === "function") {
+            onChange(newValue);
           }
           setDisplay(newValue);
         }

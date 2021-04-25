@@ -28,15 +28,14 @@ import { usePoller } from "eth-hooks";
   - Provide price={price} of ether and get your balance converted to dollars
 */
 
-
-export default function Balance(props) {
+export default function Balance({ address, balance: bal, dollarMultiplier, pollTime, price, provider, size, value }) {
   const [dollarMode, setDollarMode] = useState(true);
   const [balance, setBalance] = useState();
 
   const getBalance = async () => {
-    if (props.address && props.provider) {
+    if (address && provider) {
       try {
-        const newBalance = await props.provider.getBalance(props.address);
+        const newBalance = await provider.getBalance(address);
         setBalance(newBalance);
       } catch (e) {
         console.log(e);
@@ -44,22 +43,19 @@ export default function Balance(props) {
     }
   };
 
-  usePoller(
-    () => {
-      getBalance();
-    },
-    props.pollTime ? props.pollTime : 1999,
-  );
+  usePoller(() => {
+    getBalance();
+  }, pollTime || 1999);
 
   let floatBalance = parseFloat("0.00");
 
   let usingBalance = balance;
 
-  if (typeof props.balance !== "undefined") {
-    usingBalance = props.balance;
+  if (typeof bal !== "undefined") {
+    usingBalance = bal;
   }
-  if (typeof props.value !== "undefined") {
-    usingBalance = props.value;
+  if (typeof value !== "undefined") {
+    usingBalance = value;
   }
 
   if (usingBalance) {
@@ -70,17 +66,17 @@ export default function Balance(props) {
 
   let displayBalance = floatBalance.toFixed(4);
 
-  const price = props.price || props.dollarMultiplier
+  const setPrice = price || dollarMultiplier;
 
-  if (price && dollarMode) {
-    displayBalance = "$" + (floatBalance * price).toFixed(2);
+  if (setPrice && dollarMode) {
+    displayBalance = "$" + (floatBalance * setPrice).toFixed(2);
   }
 
   return (
     <span
       style={{
         verticalAlign: "middle",
-        fontSize: props.size ? props.size : 24,
+        fontSize: size || 24,
         padding: 8,
         cursor: "pointer",
       }}
