@@ -3,7 +3,6 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/utils/introspection/IERC165.sol";
 import "./INifty.sol";
 
 import "hardhat/console.sol";
@@ -13,7 +12,7 @@ import "hardhat/console.sol";
  * NFTL Contract (The native token of Nifty League)
  * @dev Extends standard ERC20 contract
  */
-contract NFTLToken is ERC20 {
+contract NFTLToken is ERC20('NFTLToken','NFTL') {
     uint256 public constant INITIAL_ALLOTMENT = 5000e18; // 5000 NFTL
     uint256 public constant EMISSION_PER_DAY = 27.3972603e18;  // 27.397 NFTL
 
@@ -30,7 +29,7 @@ contract NFTLToken is ERC20 {
      * All three of these values are immutable: they can only be set once during
      * construction.
      */
-    constructor (uint256 emissionStartTimestamp, uint256 initialSupply) ERC20('NFTLToken','NFTL') {
+    constructor (uint256 emissionStartTimestamp, uint256 initialSupply) {
         emissionStart = emissionStartTimestamp;
         emissionEnd = emissionStartTimestamp + (1 days * 365 * 5);
         _mint(msg.sender, initialSupply);
