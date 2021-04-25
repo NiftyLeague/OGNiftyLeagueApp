@@ -16,10 +16,12 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.2.2",
+    "@apollo/client": "^3.3.15",
     "@apollo/react-hooks": "^4.0.0",
     "@ethersproject/address": "^5.0.5",
     "@ethersproject/bignumber": "^5.0.8",
     "@ethersproject/bytes": "^5.0.5",
+    "@ethersproject/constants": "^5.1.0",
     "@ethersproject/contracts": "^5.0.5",
     "@ethersproject/providers": "^5.0.12",
     "@ethersproject/solidity": "^5.0.9",

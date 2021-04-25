@@ -1,23 +1,22 @@
 import React, { useState } from "react";
 import { Button, Badge } from "antd";
 import { usePoller, useBlockNumber } from "eth-hooks";
-// import { WalletOutlined } from '@ant-design/icons';
 
 import Address from "./Address";
 
-export default function Provider(props) {
+export default function Provider({ name, provider }) {
   const [showMore, setShowMore] = useState(false);
   const [status, setStatus] = useState("processing");
   const [network, setNetwork] = useState();
   const [signer, setSigner] = useState();
   const [address, setAddress] = useState();
 
-  const blockNumber = useBlockNumber(props.provider);
+  const blockNumber = useBlockNumber(provider);
 
   usePoller(async () => {
-    if (props.provider && typeof props.provider.getNetwork === "function") {
+    if (provider && typeof provider.getNetwork === "function") {
       try {
-        const newNetwork = await props.provider.getNetwork();
+        const newNetwork = await provider.getNetwork();
         setNetwork(newNetwork);
         if (newNetwork.chainId > 0) {
           setStatus("success");
@@ -29,7 +28,7 @@ export default function Provider(props) {
         setStatus("processing");
       }
       try {
-        const newSigner = await props.provider.getSigner();
+        const newSigner = await provider.getSigner();
         setSigner(newSigner);
         const newAddress = await newSigner.getAddress();
         setAddress(newAddress);
@@ -38,12 +37,7 @@ export default function Provider(props) {
     }
   }, 1377);
 
-  if (
-    typeof props.provider === "undefined" ||
-    typeof props.provider.getNetwork !== "function" ||
-    !network ||
-    !network.chainId
-  ) {
+  if (typeof provider === "undefined" || typeof provider.getNetwork !== "function" || !network || !network.chainId) {
     return (
       <Button
         shape="round"
@@ -52,7 +46,7 @@ export default function Provider(props) {
           setShowMore(!showMore);
         }}
       >
-        <Badge status={status} /> {props.name}
+        <Badge status={status} /> {name}
       </Button>
     );
   }
@@ -92,7 +86,7 @@ export default function Provider(props) {
         setShowMore(!showMore);
       }}
     >
-      <Badge status={status} /> {props.name} {showWallet} #{blockNumber} {showExtra}
+      <Badge status={status} /> {name} {showWallet} #{blockNumber} {showExtra}
     </Button>
   );
 }
