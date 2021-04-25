@@ -34,19 +34,20 @@ contract NFTLToken is ERC20("NFTLToken", "NFTL") {
      * @notice Construct the NFTL token
      * @param emissionStartTimestamp Timestamp of deployment
      * @param initialSupply The initial supply minted and transferred to appropriate accounts
+     * @param nftAddress Address of verified Nifty League NFT contract
      */
-    constructor (uint256 emissionStartTimestamp, uint256 initialSupply) {
+    constructor (uint256 emissionStartTimestamp, uint256 initialSupply, address nftAddress) {
         emissionStart = emissionStartTimestamp;
         emissionEnd = emissionStartTimestamp + (1 days * 365 * 5);
         _mint(msg.sender, initialSupply);
+        _setNFTAddress(nftAddress);
     }
 
     /**
-     * @notice Sets the contract address to Nifty League ____ NFTs after deployment
-     * @dev Permissioning not added because it is only callable once
-     * @param nftAddress Address of NFT contract verified upon deployment
+     * @notice Sets the contract address to Nifty League ____ NFTs upon deployment
+     * @param nftAddress Address of verified NFT contract
      */
-    function setNFTAddress(address nftAddress) public {
+    function _setNFTAddress(address nftAddress) internal {
         require(_nftAddress == address(0), "Already set");
         _nftAddress = nftAddress;
     }
