@@ -8,26 +8,32 @@ import "./INifty.sol";
 import "hardhat/console.sol";
 
 /**
- *
- * NFTL Contract (The native token of Nifty League)
- * @dev Extends standard ERC20 contract
+ * @title NFTL Token (The native token of Nifty League)
+ * @dev Extends standard ERC20 contract from OpenZeppelin
  */
-contract NFTLToken is ERC20('NFTLToken','NFTL') {
+contract NFTLToken is ERC20("NFTLToken", "NFTL") {
+    /// @notice Initial supply given upon minting an NFT
     uint256 public constant INITIAL_ALLOTMENT = 5000e18; // 5000 NFTL
+
+    /// @notice NFTL tokens calaimable per day for NFT holders
     uint256 public constant EMISSION_PER_DAY = 27.3972603e18;  // 27.397 NFTL
 
+    /// @notice Start timestamp from contract deployment
     uint256 public emissionStart;
+
+    /// @notice End date for NFTL emissions to NFT holder
     uint256 public emissionEnd;
 
+    /// @dev A record of last claimed timestamp for NFTs
     mapping(uint256 => uint256) private _lastClaim;
 
+    /// @dev Contract address for ___ NFT
     address private _nftAddress;
 
     /**
-     * @dev Sets the values for {name}, {symbol}, and initalizes {emissionStart}
-     *
-     * All three of these values are immutable: they can only be set once during
-     * construction.
+     * @notice Construct the NFTL token
+     * @param emissionStartTimestamp Timestamp of deployment
+     * @param initialSupply The initial supply minted and transferred to appropriate accounts
      */
     constructor (uint256 emissionStartTimestamp, uint256 initialSupply) {
         emissionStart = emissionStartTimestamp;
@@ -36,7 +42,9 @@ contract NFTLToken is ERC20('NFTLToken','NFTL') {
     }
 
     /**
-     * @dev Permissioning not added because it is only callable once. It is set right after deployment and verified.
+     * @notice Sets the contract address to Nifty League ____ NFTs after deployment
+     * @dev Permissioning not added because it is only callable once
+     * @param nftAddress Address of NFT contract verified upon deployment
      */
     function setNFTAddress(address nftAddress) public {
         require(_nftAddress == address(0), "Already set");
@@ -44,9 +52,11 @@ contract NFTLToken is ERC20('NFTLToken','NFTL') {
     }
     
     /**
-     * @dev When accumulated NFTL have last been claimed for a NFT index
+     * @notice Check last claim timestamp of accumulated NFTL for given NFT
+     * @param tokenIndex Index of NFT to check
+     * @return Last claim timestamp
      */
-    function lastClaim(uint256 tokenIndex) public view returns (uint256) {
+    function getLastClaim(uint256 tokenIndex) public view returns (uint256) {
         require(INifty(_nftAddress).ownerOf(tokenIndex) != address(0), "Owner cannot be 0 address");
         require(tokenIndex < INifty(_nftAddress).totalSupply(), "NFT at index has not been minted yet");
 
@@ -55,14 +65,16 @@ contract NFTLToken is ERC20('NFTLToken','NFTL') {
     }
     
     /**
-     * @dev Accumulated NFTL tokens for a NFT token index.
+     * @notice Check accumulated NFTL tokens for an NFT
+     * @param tokenIndex Index of NFT to check
+     * @return Total NFTL accumulated and ready to claim
      */
     function accumulated(uint256 tokenIndex) public view returns (uint256) {
         require(block.timestamp > emissionStart, "Emission has not started yet");
         require(INifty(_nftAddress).ownerOf(tokenIndex) != address(0), "Owner cannot be 0 address");
         require(tokenIndex < INifty(_nftAddress).totalSupply(), "NFT at index has not been minted yet");
 
-        uint256 lastClaimed = lastClaim(tokenIndex);
+        uint256 lastClaimed = getLastClaim(tokenIndex);
         // Sanity check if last claim was on or after emission end
         if (lastClaimed >= emissionEnd) return 0;
 
@@ -77,7 +89,9 @@ contract NFTLToken is ERC20('NFTLToken','NFTL') {
     }
 
     /**
-     * @dev Claim mints NFTL and supports multiple NFT token indices at once.
+     * @notice Mint and claim available NFTL for each NFT and
+     * @param tokenIndices Indexes of NFTs to claim for
+     * @return Total NFTL claimed
      */
     function claim(uint256[] memory tokenIndices) public returns (uint256) {
         require(block.timestamp > emissionStart, "Emission has not started yet");
