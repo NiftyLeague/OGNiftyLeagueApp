@@ -8,8 +8,11 @@ const R = require('ramda');
 const main = async () => {
   console.log('\n\n 📡 Deploying...\n');
 
-  // const inifty = await deploy('INifty');
-  const nftlToken = await deploy('NFTLToken', [Date.now(), 100000]); // <-- add in constructor args like line 19 vvvv
+  const nftlToken = await deploy('NFTLToken', [
+    Math.floor(Date.now() / 1000),
+    100000,
+  ]);
+  await nftlToken.setNFTAddress('0xc2c747e0f7004f9e8817db2ca4997657a7746928');
 
   //const yourContract = await ethers.getContractAt('YourContract', "0xaAC799eC2d00C013f1F11c37E654e59B0429DF6A") //<-- if you want to instantiate a version of a contract at a specific address!
   //const secondContract = await deploy("SecondContract")
