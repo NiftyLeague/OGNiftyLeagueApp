@@ -1,6 +1,7 @@
 {
   "name": "@scaffold-eth/monorepo",
   "version": "1.0.0",
+  "license": "MIT",
   "keywords": [
     "ethereum",
     "react",
@@ -36,6 +37,7 @@
     "wallet": "cd packages/hardhat && npx hardhat wallet",
     "fundedwallet": "cd packages/hardhat && npx hardhat fundedwallet",
     "flatten": "cd packages/hardhat && npx hardhat flatten",
+    "recycle": "cd packages/react-app && rm -rf node_modules/ && cd ../hardhat && rm -rf node_modules/ && cd ../subgraph && rm -rf node_modules/ && cd ../../ && yarn",
     "graph-run-node": "cd docker/graph-node && docker-compose up",
     "graph-remove-node": "cd docker/graph-node && docker-compose down",
     "graph-prepare": "mustache packages/subgraph/config/config.json packages/subgraph/src/subgraph.template.yaml > packages/subgraph/subgraph.yaml",

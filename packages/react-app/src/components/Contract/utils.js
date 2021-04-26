@@ -1,6 +1,6 @@
 import React from "react";
 import { formatUnits } from "@ethersproject/units";
-import { Address } from "..";
+import Address from "../Address";
 
 const tryToDisplay = thing => {
   if (thing && thing.toNumber) {
