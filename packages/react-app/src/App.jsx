@@ -1,14 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
-import "antd/dist/antd.css";
 import { JsonRpcProvider, Web3Provider } from "@ethersproject/providers";
-import "./App.css";
 import { Row, Col, Button, Menu, Alert, Switch as SwitchD } from "antd";
 import Web3Modal from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { useUserAddress } from "eth-hooks";
 import { formatEther, parseEther } from "@ethersproject/units";
-// import { useThemeSwitcher } from "react-css-theme-switcher";
 import {
   useExchangePrice,
   useGasPrice,
@@ -21,9 +18,9 @@ import {
 } from "./hooks";
 import { Header, Account, Faucet, Ramp, Contract, GasGauge, ThemeSwitch } from "./components";
 import { Transactor } from "./helpers";
-// import Hints from "./Hints";
 import { Hints, ExampleUI, Subgraph } from "./views";
 import { INFURA_ID, DAI_ADDRESS, DAI_ABI, NETWORK, NETWORKS } from "./constants";
+import "./App.css";
 /*
     Welcome to 🏗 scaffold-eth !
 
@@ -134,9 +131,9 @@ function App({ subgraphUri }) {
   const mainnetDAIContract = useExternalContractLoader(mainnetProvider, DAI_ADDRESS, DAI_ABI);
 
   // Then read your DAI balance like:
-  const myMainnetDAIBalance = useContractReader({ DAI: mainnetDAIContract }, "DAI", "balanceOf", [
-    "0x34aA3F359A9D614239015126635CE7732c18fDF3",
-  ]);
+  // const myMainnetDAIBalance = useContractReader({ DAI: mainnetDAIContract }, "DAI", "balanceOf", [
+  //   "0x34aA3F359A9D614239015126635CE7732c18fDF3",
+  // ]);
 
   // keep track of a variable from the contract in the local React state:
   // const purpose = useContractReader(readContracts, "YourContract", "purpose");
@@ -186,7 +183,7 @@ function App({ subgraphUri }) {
     mainnetDAIContract,
   ]);
 
-  const [oldMainnetBalance, setOldMainnetDAIBalance] = useState(0);
+  // const [oldMainnetBalance, setOldMainnetDAIBalance] = useState(0);
 
   // For Master Branch Example
   // const [oldPurposeEvents, setOldPurposeEvents] = useState([]);
@@ -196,34 +193,33 @@ function App({ subgraphUri }) {
   // const [oldBalance, setOldBalance] = useState(0)
 
   // Use this effect for often changing things like your balance and transfer events or contract-specific effects
-  useEffect(() => {
-    if (DEBUG) {
-      if (myMainnetDAIBalance && !myMainnetDAIBalance.eq(oldMainnetBalance)) {
-        console.log("🥇 myMainnetDAIBalance:", myMainnetDAIBalance);
-        setOldMainnetDAIBalance(myMainnetDAIBalance);
-      }
+  // useEffect(() => {
+  //   if (DEBUG) {
+  //     if (myMainnetDAIBalance && !myMainnetDAIBalance.eq(oldMainnetBalance)) {
+  //       console.log("🥇 myMainnetDAIBalance:", myMainnetDAIBalance);
+  //       setOldMainnetDAIBalance(myMainnetDAIBalance);
+  //     }
 
-      // For Buyer-Lazy-Mint Branch Example
-      // if(transferEvents && oldTransferEvents !== transferEvents){
-      //  console.log("📟 Transfer events:", transferEvents)
-      //  setOldTransferEvents(transferEvents)
-      // }
-      // if(balance && !balance.eq(oldBalance)){
-      //  console.log("🤗 balance:", balance)
-      //  setOldBalance(balance)
-      // }
+  //     // For Buyer-Lazy-Mint Branch Example
+  //     if(transferEvents && oldTransferEvents !== transferEvents){
+  //      console.log("📟 Transfer events:", transferEvents)
+  //      setOldTransferEvents(transferEvents)
+  //     }
+  //     if(balance && !balance.eq(oldBalance)){
+  //      console.log("🤗 balance:", balance)
+  //      setOldBalance(balance)
+  //     }
 
-      // For Master Branch Example
-      // if (setPurposeEvents && setPurposeEvents !== oldPurposeEvents) {
-      //   console.log("📟 SetPurpose events:", setPurposeEvents);
-      //   setOldPurposeEvents(setPurposeEvents);
-      // }
-    }
-  }, [myMainnetDAIBalance]); // For Buyer-Lazy-Mint Branch: balance, transferEvents
+  //     // For Master Branch Example
+  //     if (setPurposeEvents && setPurposeEvents !== oldPurposeEvents) {
+  //       console.log("📟 SetPurpose events:", setPurposeEvents);
+  //       setOldPurposeEvents(setPurposeEvents);
+  //     }
+  //   }
+  // }, [myMainnetDAIBalance]); // For Buyer-Lazy-Mint Branch: balance, transferEvents
 
-  let networkDisplay = "";
-  if (localChainId && selectedChainId && localChainId !== selectedChainId) {
-    networkDisplay = (
+  const networkDisplay =
+    localChainId && selectedChainId && localChainId !== selectedChainId ? (
       <div
         style={{
           zIndex: 2,
@@ -245,9 +241,7 @@ function App({ subgraphUri }) {
           closable={false}
         />
       </div>
-    );
-  } else {
-    networkDisplay = (
+    ) : (
       <div
         style={{
           zIndex: -1,
@@ -261,7 +255,6 @@ function App({ subgraphUri }) {
         {targetNetwork.name}
       </div>
     );
-  }
 
   const loadWeb3Modal = useCallback(async () => {
     const provider = await web3Modal.connect();
@@ -269,9 +262,7 @@ function App({ subgraphUri }) {
   }, [setInjectedProvider]);
 
   useEffect(() => {
-    if (web3Modal.cachedProvider) {
-      loadWeb3Modal();
-    }
+    if (web3Modal.cachedProvider) loadWeb3Modal();
   }, [loadWeb3Modal]);
 
   const [route, setRoute] = useState();
@@ -311,7 +302,6 @@ function App({ subgraphUri }) {
 
   return (
     <div className="App">
-      {/* ✏️ Edit the header and change the title to your project name */}
       <Header />
       {networkDisplay}
       <BrowserRouter>
