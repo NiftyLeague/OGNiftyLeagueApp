@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/accessible-emoji */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect, useCallback } from "react";
 import { Row, Col, Divider } from "antd";

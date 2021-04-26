@@ -175,7 +175,7 @@ Look for the [HardHat](https://hardhat.org) console.log() output in the `yarn ch
 
 🔐 Global variables like `msg.sender` and `msg.value` are cryptographically backed and can be used to make rules
 
-📝 Keep this [cheat sheet](https://solidity.readthedocs.io/en/v0.7.0/cheatsheet.html?highlight=global#global-variables) handy
+📝 Keep this [cheat sheet](https://solidity.readthedocs.io/en/v0.8.0/cheatsheet.html?highlight=global#global-variables) handy
 
 ⏳ Maybe we could use `block.timestamp` or `block.number` to track time in our contract
 
@@ -344,13 +344,7 @@ const owner = useContractReader(props.readContracts, contractName, "owner");
 `useEventListener(contracts, contractName, eventName, [provider], [startBlock])`: listens for events from a smart contract and keeps them in the state
 
 ```js
-const ownerUpdates = useEventListener(
-  readContracts,
-  contractName,
-  "UpdateOwner",
-  props.localProvider,
-  1
-);
+const ownerUpdates = useEventListener(readContracts, contractName, "UpdateOwner", props.localProvider, 1);
 ```
 
 ---
@@ -394,11 +388,7 @@ Your commonly used React Ethereum components located in `packages/react-app/src/
 💵 `<Balance />`: Displays the balance of an address in either dollars or decimal.
 
 ```jsx
-<Balance
-  address={address}
-  provider={injectedProvider}
-  dollarMultiplier={price}
-/>
+<Balance address={address} provider={injectedProvider} dollarMultiplier={price} />
 ```
 
 ![balance](https://user-images.githubusercontent.com/2653167/80522919-86c71280-894a-11ea-8f61-70bac7a72106.gif)
