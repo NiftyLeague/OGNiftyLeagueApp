@@ -1,7 +1,8 @@
+/* eslint-disable jsx-a11y/accessible-emoji */
 import React, { useCallback, useEffect, useState } from "react";
 import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
 import { JsonRpcProvider, Web3Provider } from "@ethersproject/providers";
-import { Row, Col, Button, Menu, Alert, Switch as SwitchD } from "antd";
+import { Row, Col, Button, Menu, Alert } from "antd";
 import Web3Modal from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { useUserAddress } from "eth-hooks";
@@ -11,6 +12,7 @@ import {
   useGasPrice,
   useUserProvider,
   useContractLoader,
+  // eslint-disable-next-line no-unused-vars
   useContractReader,
   // useEventListener,
   useBalance,
@@ -161,7 +163,7 @@ function App({ subgraphUri }) {
       writeContracts &&
       mainnetDAIContract
     ) {
-      console.log("_____________________________________ 🏗 scaffold-eth _____________________________________");
+      console.log("_________________ 🏗 scaffold-eth _________________");
       console.log("🌎 mainnetProvider", mainnetProvider);
       console.log("🏠 localChainId", localChainId);
       console.log("👩‍💼 selected address:", address);
@@ -173,14 +175,15 @@ function App({ subgraphUri }) {
       console.log("🔐 writeContracts", writeContracts);
     }
   }, [
-    mainnetProvider,
     address,
+    localChainId,
+    mainnetDAIContract,
+    mainnetProvider,
+    readContracts,
     selectedChainId,
+    writeContracts,
     yourLocalBalance,
     yourMainnetBalance,
-    readContracts,
-    writeContracts,
-    mainnetDAIContract,
   ]);
 
   // const [oldMainnetBalance, setOldMainnetDAIBalance] = useState(0);
@@ -313,16 +316,16 @@ function App({ subgraphUri }) {
               }}
               to="/"
             >
-              YourContract
+              NFTL Token
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="/NFTs">
+            <Link onClick={() => setRoute("/NFTs")} to="/NFTs">
+              NFTs
             </Link>
           </Menu.Item>
           <Menu.Item key="/hints">
-            <Link
-              onClick={() => {
-                setRoute("/hints");
-              }}
-              to="/hints"
-            >
+            <Link onClick={() => setRoute("/hints")} to="/hints">
               Hints
             </Link>
           </Menu.Item>
@@ -333,10 +336,10 @@ function App({ subgraphUri }) {
               }}
               to="/exampleui"
             >
-              ExampleUI
+              Example UI
             </Link>
           </Menu.Item>
-          <Menu.Item key="/mainnetdai">
+          {/* <Menu.Item key="/mainnetdai">
             <Link
               onClick={() => {
                 setRoute("/mainnetdai");
@@ -345,7 +348,7 @@ function App({ subgraphUri }) {
             >
               Mainnet DAI
             </Link>
-          </Menu.Item>
+          </Menu.Item> */}
           <Menu.Item key="/subgraph">
             <Link
               onClick={() => {
@@ -360,12 +363,6 @@ function App({ subgraphUri }) {
 
         <Switch>
           <Route exact path="/">
-            {/*
-                🎛 this scaffolding is full of commonly used components
-                this <Contract/> component will automatically parse your ABI
-                and give you a form to interact with it locally
-            */}
-
             <Contract
               name="NFTLToken"
               signer={userProvider.getSigner()}
@@ -373,27 +370,16 @@ function App({ subgraphUri }) {
               address={address}
               blockExplorer={blockExplorer}
             />
-
-            {/* uncomment for a second contract:
+          </Route>
+          <Route path="/NFTs">
             <Contract
-              name="SecondContract"
+              // name="NiftyERC1155"
+              name="ZepERC1155"
               signer={userProvider.getSigner()}
               provider={localProvider}
               address={address}
               blockExplorer={blockExplorer}
             />
-            */}
-
-            {/* Uncomment to display and interact with an external contract (DAI on mainnet):
-            <Contract
-              name="DAI"
-              customContract={mainnetDAIContract}
-              signer={userProvider.getSigner()}
-              provider={mainnetProvider}
-              address={address}
-              blockExplorer={blockExplorer}
-            />
-            */}
           </Route>
           <Route path="/hints">
             <Hints
@@ -404,7 +390,7 @@ function App({ subgraphUri }) {
             />
           </Route>
           <Route path="/exampleui">
-            {/* <ExampleUI
+            <ExampleUI
               address={address}
               userProvider={userProvider}
               mainnetProvider={mainnetProvider}
@@ -414,11 +400,11 @@ function App({ subgraphUri }) {
               tx={tx}
               writeContracts={writeContracts}
               readContracts={readContracts}
-              purpose={purpose}
-              setPurposeEvents={setPurposeEvents}
-            /> */}
+              // purpose={purpose}
+              // setPurposeEvents={setPurposeEvents}
+            />
           </Route>
-          <Route path="/mainnetdai">
+          {/* <Route path="/mainnetdai">
             <Contract
               name="DAI"
               customContract={mainnetDAIContract}
@@ -427,7 +413,7 @@ function App({ subgraphUri }) {
               address={address}
               blockExplorer="https://etherscan.io/"
             />
-          </Route>
+          </Route> */}
           <Route path="/subgraph">
             <Subgraph
               subgraphUri={subgraphUri}

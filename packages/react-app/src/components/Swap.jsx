@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   Space,
   Row,
@@ -123,9 +123,9 @@ function Swap({ selectedProvider, tokenListURI }) {
       }
     };
     getTokenList();
-  }, [_tokenListUri]);
+  }, [_tokenListUri, activeChainId]);
 
-  const getTrades = async () => {
+  const getTrades = useCallback(async () => {
     if (tokenIn && tokenOut && (amountIn || amountOut)) {
       const pairs = arr => arr.map((v, i) => arr.slice(i + 1).map(w => [v, w])).flat();
 
@@ -180,11 +180,11 @@ function Swap({ selectedProvider, tokenListURI }) {
 
       console.log(bestTrade);
     }
-  };
+  }, [amountIn, exact, selectedProvider, tokenIn, tokenList, amountOut, tokenOut, tokens]);
 
   useEffect(() => {
     getTrades();
-  }, [tokenIn, tokenOut, debouncedAmountIn, debouncedAmountOut, slippageTolerance, selectedProvider]);
+  }, [tokenIn, tokenOut, debouncedAmountIn, getTrades, debouncedAmountOut, slippageTolerance, selectedProvider]);
 
   useEffect(() => {
     if (trades && trades[0]) {
@@ -194,7 +194,7 @@ function Swap({ selectedProvider, tokenListURI }) {
         setAmountInMax(trades[0].maximumAmountIn(slippageTolerance));
       }
     }
-  }, [slippageTolerance, amountIn, amountOut, trades]);
+  }, [slippageTolerance, amountIn, amountOut, trades, exact]);
 
   const getBalance = async (_token, _account, _contract) => {
     let newBalance;

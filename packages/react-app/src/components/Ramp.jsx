@@ -31,10 +31,11 @@ export default function Ramp({ address, networks, price }) {
   const type = "default";
 
   const allFaucets = [];
-  for (let n in networks) {
+  // eslint-disable-next-line no-restricted-syntax
+  for (const n in networks) {
     if (networks[n].chainId !== 31337 && networks[n].chainId !== 1) {
       allFaucets.push(
-        <p key={networks[n].id}>
+        <p key={networks[n].chainId}>
           <Button
             style={{ color: networks[n].color }}
             type={type}

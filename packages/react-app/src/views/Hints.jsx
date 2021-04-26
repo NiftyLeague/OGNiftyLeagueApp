@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/accessible-emoji */
 import React, { useState } from "react";
 import { formatEther } from "@ethersproject/units";
 import { Select } from "antd";
@@ -80,7 +81,7 @@ export default function Hints({ yourLocalBalance, mainnetProvider, price, addres
       <div style={{ margin: 8 }}>
         <div>
           <b>useTokenList()</b> can get you an array of tokens from{" "}
-          <a href="https://tokenlists.org" target="_blank" rel="noreferrer">
+          <a href="https://tokenlists.org" target="_blank" rel="noopener noreferrer">
             tokenlists.org!
           </a>
         </div>
