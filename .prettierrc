@@ -1,3 +1,16 @@
 {
-  "prettierPath": "packages/react-app/node_modules/prettier"
+  "arrowParens": "avoid",
+  "bracketSpacing": true,
+  "printWidth": 120,
+  "singleQuote": false,
+  "tabWidth": 2,
+  "trailingComma": "all",
+  "overrides": [
+    {
+      "files": "*.sol",
+      "options": {
+        "tabWidth": 4
+      }
+    }
+  ]
 }

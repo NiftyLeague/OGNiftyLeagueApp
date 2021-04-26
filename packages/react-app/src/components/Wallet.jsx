@@ -112,7 +112,6 @@ export default function Wallet({ address, color, ensProvider, price, provider })
       </Button>
     );
   } else if (pk) {
-    let pk = localStorage.getItem("metaPrivateKey");
     const wallet = new ethers.Wallet(pk);
 
     if (wallet.address !== selectedAddress) {
@@ -272,7 +271,7 @@ export default function Wallet({ address, color, ensProvider, price, provider })
       <Button
         key="hide"
         onClick={() => {
-          setPK(selectedAddress);
+          setPK(localStorage.getItem("metaPrivateKey"));
           setQr("");
         }}
       >

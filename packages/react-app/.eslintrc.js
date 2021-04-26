@@ -2,10 +2,9 @@ module.exports = {
   env: {
     browser: true,
   },
-  extends: ["airbnb", "plugin:prettier/recommended", "prettier/react"],
+  extends: ["airbnb", "airbnb/hooks", "plugin:prettier/recommended"],
   plugins: ["babel"],
   rules: {
-    "prettier/prettier": ["error"],
     "import/extensions": [
       "error",
       "ignorePackages",
