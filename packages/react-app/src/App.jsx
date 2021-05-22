@@ -373,8 +373,7 @@ function App({ subgraphUri }) {
           </Route>
           <Route path="/NFTs">
             <Contract
-              // name="NiftyERC1155"
-              name="ZepERC1155"
+              name="NiftyLeagueCharacter"
               signer={userProvider.getSigner()}
               provider={localProvider}
               address={address}

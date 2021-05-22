@@ -34,26 +34,31 @@ contract NFTLToken is ERC20("Nifty League", "NFTL") {
      * @notice Construct the NFTL token
      * @param emissionStartTimestamp Timestamp of deployment
      * @param initialSupply The initial supply minted and transferred to appropriate accounts
-     * @param nftAddress Address of verified Nifty League NFT contract
      */
-    constructor(
-        uint256 emissionStartTimestamp,
-        uint256 initialSupply,
-        address nftAddress
-    ) {
+    constructor(uint256 emissionStartTimestamp, uint256 initialSupply) {
         emissionStart = emissionStartTimestamp;
         emissionEnd = emissionStartTimestamp + (1 days * 365 * 5);
         _mint(msg.sender, initialSupply);
-        _setNFTAddress(nftAddress);
     }
 
     /**
      * @notice Sets the contract address to Nifty League ____ NFTs upon deployment
      * @param nftAddress Address of verified NFT contract
+     * @dev Permissioning not added because it is only callable once.
      */
-    function _setNFTAddress(address nftAddress) internal {
+    function setNFTAddress(address nftAddress) external {
         require(_nftAddress == address(0), "Already set");
         _nftAddress = nftAddress;
+    }
+
+    /**
+     * @notice Burns a quantity of tokens held by the caller, reducing total supply
+     * @param burnQuantity Amount of tokens to burn
+     * @dev Emits an {Transfer} event to 0 address
+     */
+    function burn(uint256 burnQuantity) public virtual returns (bool) {
+        _burn(msg.sender, burnQuantity);
+        return true;
     }
 
     /**
@@ -62,9 +67,8 @@ contract NFTLToken is ERC20("Nifty League", "NFTL") {
      * @return Last claim timestamp
      */
     function getLastClaim(uint256 tokenIndex) public view returns (uint256) {
+        require(tokenIndex <= ERC721Enumerable(_nftAddress).totalSupply(), "NFT at index has not been minted yet");
         require(ERC721Enumerable(_nftAddress).ownerOf(tokenIndex) != address(0), "Owner cannot be 0 address");
-        require(tokenIndex < ERC721Enumerable(_nftAddress).totalSupply(), "NFT at index has not been minted yet");
-
         uint256 lastClaimed = uint256(_lastClaim[tokenIndex]) != 0 ? uint256(_lastClaim[tokenIndex]) : emissionStart;
         return lastClaimed;
     }
@@ -76,8 +80,6 @@ contract NFTLToken is ERC20("Nifty League", "NFTL") {
      */
     function accumulated(uint256 tokenIndex) public view returns (uint256) {
         require(block.timestamp > emissionStart, "Emission has not started yet");
-        require(ERC721Enumerable(_nftAddress).ownerOf(tokenIndex) != address(0), "Owner cannot be 0 address");
-        require(tokenIndex < ERC721Enumerable(_nftAddress).totalSupply(), "NFT at index has not been minted yet");
 
         uint256 lastClaimed = getLastClaim(tokenIndex);
         // Sanity check if last claim was on or after emission end
@@ -105,7 +107,7 @@ contract NFTLToken is ERC20("Nifty League", "NFTL") {
         for (uint256 i = 0; i < tokenIndices.length; i++) {
             // Sanity check for non-minted index
             require(
-                tokenIndices[i] < ERC721Enumerable(_nftAddress).totalSupply(),
+                tokenIndices[i] <= ERC721Enumerable(_nftAddress).totalSupply(),
                 "NFT at index has not been minted yet"
             );
             // Duplicate token index check

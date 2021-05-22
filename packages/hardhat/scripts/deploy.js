@@ -9,13 +9,10 @@ const main = async () => {
   console.log("\n\n 📡 Deploying...\n");
 
   // const nft = await deploy("NiftyERC1155", ["https://abcoathup.github.io/SampleERC1155/api/token/{id}.json"]);
-  const nft = await deploy("ZepERC1155", ["https://abcoathup.github.io/SampleERC1155/api/token/{id}.json"]);
 
-  const nftlToken = await deploy("NFTLToken", [
-    Math.floor(Date.now() / 1000),
-    100000,
-    "0xc2c747e0f7004f9e8817db2ca4997657a7746928",
-  ]);
+  const nftlToken = await deploy("NFTLToken", [Math.floor(Date.now() / 1000), 100000]);
+  const nft = await deploy("NiftyLeagueCharacter", [nftlToken.address]);
+  await nftlToken.setNFTAddress(nft.address);
   // const yourContract = await ethers.getContractAt('YourContract', "0xaAC799eC2d00C013f1F11c37E654e59B0429DF6A") //<-- if you want to instantiate a version of a contract at a specific address!
   // const secondContract = await deploy("SecondContract")
 
