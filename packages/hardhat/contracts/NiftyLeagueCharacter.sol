@@ -25,29 +25,29 @@ contract NiftyLeagueCharacter is ERC721, Ownable, Pausable {
     }
     struct CharacterTraits {
         // character
-        uint256 tribe;
-        uint256 skinColor;
-        // head
-        uint256 hair;
-        uint256 eyes;
-        uint256 mouth;
-        uint256 beard;
-        // clothing
-        uint256 top;
-        uint256 topPrint;
-        uint256 outerwear;
-        uint256 bottom;
-        uint256 footwear;
-        // accessories
-        uint256 hat;
-        uint256 glasses;
-        uint256 piercings;
-        uint256 neckwear;
-        uint256 wrists;
-        uint256 hands;
-        // items
-        uint256 leftItem;
-        uint256 rightItem;
+        uint8 tribe;
+        uint8 skinColor;
+        //  head
+        uint8 hair;
+        uint8 eyes;
+        uint8 mouth;
+        uint8 beard;
+        //  clothing
+        uint8 top;
+        uint8 topPrint;
+        uint8 outerwear;
+        uint8 bottom;
+        uint8 footwear;
+        //  accessories
+        uint8 hat;
+        uint8 glasses;
+        uint8 piercings;
+        uint8 neckwear;
+        uint8 wrists;
+        uint8 hands;
+        //  items
+        uint8 leftItem;
+        uint8 rightItem;
     }
 
     /// @dev Mapping of created character structs from token ID
@@ -189,28 +189,25 @@ contract NiftyLeagueCharacter is ERC721, Ownable, Pausable {
         require(acc.length == 6, "Requires 6 accessories");
         require(items.length == 2, "Requires 2 items");
 
-        require(
-            char[0] > 0 && (char[0] < 7 || (char[0] < 10 && msg.sender == owner())),
-            "Provided character tribe is incorrect"
-        );
-        require(char[1] == EMPTY_TRAIT || (char[1] > 10 && char[1] < 20), "Provided character skin color is incorrect");
-        require(head[0] == EMPTY_TRAIT || (head[0] > 20 && head[0] < 25), "Provided hair is incorrect");
-        require(head[1] == EMPTY_TRAIT || (head[1] > 25 && head[1] < 30), "Provided eyes is incorrect");
-        require(head[2] == EMPTY_TRAIT || (head[2] > 30 && head[2] < 35), "Provided mouth is incorrect");
-        require(head[3] == EMPTY_TRAIT || (head[3] > 35 && head[3] < 40), "Provided beard is incorrect");
-        require(cloth[0] == EMPTY_TRAIT || (cloth[0] > 40 && cloth[0] < 45), "Provided top is incorrect");
-        require(cloth[1] == EMPTY_TRAIT || (cloth[1] > 45 && cloth[1] < 50), "Provided print is incorrect");
-        require(cloth[2] == EMPTY_TRAIT || (cloth[2] > 50 && cloth[2] < 55), "Provided outerwear is incorrect");
-        require(cloth[3] == EMPTY_TRAIT || (cloth[3] > 55 && cloth[3] < 60), "Provided bottom is incorrect");
-        require(cloth[4] == EMPTY_TRAIT || (cloth[4] > 60 && cloth[4] < 65), "Provided footwear is incorrect");
-        require(acc[0] == EMPTY_TRAIT || (acc[0] > 65 && acc[0] < 70), "Provided hat is incorrect");
-        require(acc[1] == EMPTY_TRAIT || (acc[1] > 70 && acc[1] < 75), "Provided glasses is incorrect");
-        require(acc[2] == EMPTY_TRAIT || (acc[2] > 75 && acc[2] < 80), "Provided piercing is incorrect");
-        require(acc[3] == EMPTY_TRAIT || (acc[3] > 80 && acc[3] < 85), "Provided neckwear is incorrect");
-        require(acc[4] == EMPTY_TRAIT || (acc[4] > 85 && acc[4] < 90), "Provided wrist accessory is incorrect");
-        require(acc[5] == EMPTY_TRAIT || (acc[5] > 90 && acc[5] < 95), "Provided hand accessory is incorrect");
-        require(items[0] == EMPTY_TRAIT || (items[0] > 95 && items[0] < 100), "Provided left item is incorrect");
-        require(items[1] == EMPTY_TRAIT || (items[1] > 100 && items[1] < 105), "Provided left item is incorrect");
+        require(char[0] > 0 && (char[0] < 7 || (char[0] < 10 && msg.sender == owner())), "Provided tribe is incorrect");
+        require(char[1] == EMPTY_TRAIT || (char[1] >= 10 && char[1] < 20), "Provided skin color is incorrect");
+        require(head[0] == EMPTY_TRAIT || (head[0] >= 20 && head[0] < 25), "Provided hair is incorrect");
+        require(head[1] == EMPTY_TRAIT || (head[1] >= 25 && head[1] < 30), "Provided eyes is incorrect");
+        require(head[2] == EMPTY_TRAIT || (head[2] >= 30 && head[2] < 35), "Provided mouth is incorrect");
+        require(head[3] == EMPTY_TRAIT || (head[3] >= 35 && head[3] < 40), "Provided beard is incorrect");
+        require(cloth[0] == EMPTY_TRAIT || (cloth[0] >= 40 && cloth[0] < 45), "Provided top is incorrect");
+        require(cloth[1] == EMPTY_TRAIT || (cloth[1] >= 45 && cloth[1] < 50), "Provided print is incorrect");
+        require(cloth[2] == EMPTY_TRAIT || (cloth[2] >= 50 && cloth[2] < 55), "Provided outerwear is incorrect");
+        require(cloth[3] == EMPTY_TRAIT || (cloth[3] >= 55 && cloth[3] < 60), "Provided bottom is incorrect");
+        require(cloth[4] == EMPTY_TRAIT || (cloth[4] >= 60 && cloth[4] < 65), "Provided footwear is incorrect");
+        require(acc[0] == EMPTY_TRAIT || (acc[0] >= 65 && acc[0] < 70), "Provided hat is incorrect");
+        require(acc[1] == EMPTY_TRAIT || (acc[1] >= 70 && acc[1] < 75), "Provided glasses is incorrect");
+        require(acc[2] == EMPTY_TRAIT || (acc[2] >= 75 && acc[2] < 80), "Provided piercing is incorrect");
+        require(acc[3] == EMPTY_TRAIT || (acc[3] >= 80 && acc[3] < 85), "Provided neckwear is incorrect");
+        require(acc[4] == EMPTY_TRAIT || (acc[4] >= 85 && acc[4] < 90), "Provided wrist accessory is incorrect");
+        require(acc[5] == EMPTY_TRAIT || (acc[5] >= 90 && acc[5] < 95), "Provided hand accessory is incorrect");
+        require(items[0] == EMPTY_TRAIT || (items[0] >= 95 && items[0] < 100), "Provided left item is incorrect");
+        require(items[1] == EMPTY_TRAIT || (items[1] >= 100 && items[1] < 105), "Provided left item is incorrect");
 
         require(isAvailableTrait(char[1]), "Provided character skin color is unavailable");
         require(isAvailableTrait(head[0]), "Provided hair is unavailable");
@@ -242,22 +239,22 @@ contract NiftyLeagueCharacter is ERC721, Ownable, Pausable {
         uint256 traits = character[0];
         traits |= character[1] << 8;
         traits |= head[0] << 16;
-        traits |= head[1] << 32;
-        traits |= head[2] << 40;
-        traits |= head[3] << 48;
-        traits |= clothing[0] << 56;
-        traits |= clothing[1] << 64;
-        traits |= clothing[2] << 72;
-        traits |= clothing[3] << 80;
-        traits |= clothing[4] << 88;
-        traits |= accessories[0] << 96;
-        traits |= accessories[1] << 104;
-        traits |= accessories[2] << 112;
-        traits |= accessories[3] << 120;
-        traits |= accessories[4] << 128;
-        traits |= accessories[5] << 136;
-        traits |= items[0] << 144;
-        traits |= items[1] << 152;
+        traits |= head[1] << 24;
+        traits |= head[2] << 32;
+        traits |= head[3] << 40;
+        traits |= clothing[0] << 48;
+        traits |= clothing[1] << 56;
+        traits |= clothing[2] << 64;
+        traits |= clothing[3] << 72;
+        traits |= clothing[4] << 80;
+        traits |= accessories[0] << 88;
+        traits |= accessories[1] << 96;
+        traits |= accessories[2] << 104;
+        traits |= accessories[3] << 112;
+        traits |= accessories[4] << 120;
+        traits |= accessories[5] << 128;
+        traits |= items[0] << 136;
+        traits |= items[1] << 144;
         return traits;
     }
 
@@ -285,25 +282,25 @@ contract NiftyLeagueCharacter is ERC721, Ownable, Pausable {
     function getCharacterTraits(uint256 tokenID) external view returns (CharacterTraits memory _characterTraits) {
         require(_exists(tokenID), "nonexistent token");
         Character memory character = _characters[tokenID];
-        _characterTraits.tribe = uint256(uint8(character.traits));
-        _characterTraits.skinColor = uint256(uint8(character.traits >> 8));
-        _characterTraits.hair = uint256(uint8(character.traits >> 16));
-        _characterTraits.eyes = uint256(uint8(character.traits >> 24));
-        _characterTraits.mouth = uint256(uint8(character.traits >> 32));
-        _characterTraits.beard = uint256(uint8(character.traits >> 40));
-        _characterTraits.top = uint256(uint8(character.traits >> 48));
-        _characterTraits.topPrint = uint256(uint8(character.traits >> 56));
-        _characterTraits.outerwear = uint256(uint8(character.traits >> 64));
-        _characterTraits.bottom = uint256(uint8(character.traits >> 72));
-        _characterTraits.footwear = uint256(uint8(character.traits >> 80));
-        _characterTraits.hat = uint256(uint8(character.traits >> 88));
-        _characterTraits.glasses = uint256(uint8(character.traits >> 96));
-        _characterTraits.piercings = uint256(uint8(character.traits >> 104));
-        _characterTraits.neckwear = uint256(uint8(character.traits >> 112));
-        _characterTraits.wrists = uint256(uint8(character.traits >> 124));
-        _characterTraits.hands = uint256(uint8(character.traits >> 136));
-        _characterTraits.leftItem = uint256(uint8(character.traits >> 144));
-        _characterTraits.rightItem = uint256(uint8(character.traits >> 152));
+        _characterTraits.tribe = uint8(character.traits);
+        _characterTraits.skinColor = uint8(character.traits >> 8);
+        _characterTraits.hair = uint8(character.traits >> 16);
+        _characterTraits.eyes = uint8(character.traits >> 24);
+        _characterTraits.mouth = uint8(character.traits >> 32);
+        _characterTraits.beard = uint8(character.traits >> 40);
+        _characterTraits.top = uint8(character.traits >> 48);
+        _characterTraits.topPrint = uint8(character.traits >> 56);
+        _characterTraits.outerwear = uint8(character.traits >> 64);
+        _characterTraits.bottom = uint8(character.traits >> 72);
+        _characterTraits.footwear = uint8(character.traits >> 80);
+        _characterTraits.hat = uint8(character.traits >> 88);
+        _characterTraits.glasses = uint8(character.traits >> 96);
+        _characterTraits.piercings = uint8(character.traits >> 104);
+        _characterTraits.neckwear = uint8(character.traits >> 112);
+        _characterTraits.wrists = uint8(character.traits >> 120);
+        _characterTraits.hands = uint8(character.traits >> 128);
+        _characterTraits.leftItem = uint8(character.traits >> 136);
+        _characterTraits.rightItem = uint8(character.traits >> 144);
     }
 
     function getRemovedTraits() external view returns (uint256[] memory) {

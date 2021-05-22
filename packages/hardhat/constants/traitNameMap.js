@@ -1,0 +1,113 @@
+module.exports = {
+  // Tribe
+  1: "Ape",
+  2: "Doge",
+  3: "Human",
+  4: "Alien",
+  5: "Cat",
+  6: "Frog",
+  // Skin Color
+  10: "Blue",
+  11: "Green",
+  12: "Red",
+  13: "Blue",
+  // Hair
+  20: "Afro",
+  21: "Shaved",
+  22: "Mohawk",
+  23: "Pigtails",
+  24: "Man Bun",
+  // Eyes
+  25: "Blue",
+  26: "Green",
+  27: "Brown",
+  28: "Hazel",
+  29: "Black",
+  // Mouth
+  30: "Pipe",
+  31: "Cigarette",
+  // Beard
+  35: "Covid Mask",
+  36: "Handlebar Mustache",
+  37: "Lamb-Chops",
+  38: "Big Beard",
+  39: "Mustache",
+  // Top
+  40: "Basic Tee",
+  41: "Crop Top",
+  42: "Sport Bra",
+  43: "Camouflage Shirt",
+  44: "Golf Shirt",
+  // Top Print
+  45: "Rainbow",
+  46: "Alligator",
+  47: "Ethereum",
+  48: "Bitcoin",
+  49: "Moon",
+  // Outerwear
+  50: "Hoodie",
+  51: "Leather Jacket",
+  52: "Suit Jacket",
+  53: "Suspenders",
+  54: "Windbreaker",
+  // Bottom
+  55: "Baggy Pants",
+  56: "Track Suit Pants",
+  57: "Jeans",
+  58: "Underpants",
+  59: "Skirt",
+  // Footwear
+  60: "Winged Shoes",
+  61: "Timberlands",
+  62: "Space Boots",
+  63: "Work Boots",
+  64: "Duck Shoes",
+  // Hat
+  65: "Bow",
+  66: "Fedora",
+  67: "Tupac Headband",
+  68: "Chef Hat",
+  69: "Propeller Hat",
+  // Glasses
+  70: "Aviators",
+  71: "Rockstar",
+  72: "Broken Glasses",
+  73: "VR Goggles",
+  74: "Pirate Patch",
+  // Piercings
+  75: "Diamond Studs",
+  76: "Gold Hoop Earnings",
+  77: "Silver Hoop Earnings",
+  78: "Left Gold Stud",
+  79: "Right Gold Stud",
+  // Neckwear
+  80: "Goth Chocker",
+  81: "Gold Bling",
+  82: "Spikey Collar",
+  83: "Scarf",
+  84: "Tie",
+  // Wrists
+  85: "Studded Wristbands",
+  86: "Tennis Sweatbands",
+  87: "Gold Watch",
+  88: "Silver Watch",
+  89: "Plur Beads",
+  // Hands
+  90: "Blue Mittens",
+  91: "Yellow Mittens",
+  92: "Red Gloves",
+  93: "Black Gloves",
+  94: "Driving Gloves",
+  // Left Item
+  95: "Sword",
+  96: "Lifesaver Ring",
+  97: "Musical Keyboard",
+  98: "Umbrella",
+  99: "Guitar",
+  // Right Item
+  100: "Sword",
+  101: "Lifesaver Ring",
+  102: "Musical Keyboard",
+  103: "Umbrella",
+  104: "Guitar",
+};
