@@ -35,6 +35,7 @@
     "compile": "hardhat compile",
     "deploy": "hardhat run scripts/deploy.js",
     "postdeploy": "hardhat run scripts/publish.js",
+    "create-metadata": "hardhat run scripts/createMetadata.js",
     "watch": "node scripts/watch.js",
     "accounts": "hardhat accounts",
     "balance": "hardhat balance",
