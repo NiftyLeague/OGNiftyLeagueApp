@@ -87,6 +87,7 @@ contract NiftyLeagueCharacter is ERC721, Ownable, Pausable {
     string ipfsGeneratorHash = "Qmc4sLXQPVyuGCi71Z2G7ezanhn9NjmyPwxAw2BFaCFsgT";
 
     event NameUpdated(uint256 indexed tokenID, string previousName, string newName);
+    event CharacterGenerated(uint256 indexed tokenID, uint256 traits, address owner);
     event GeneratorUpdated(
         string previousArweaveHash,
         string newArweaveHash,
@@ -273,6 +274,7 @@ contract NiftyLeagueCharacter is ERC721, Ownable, Pausable {
         }
 
         _safeMint(msg.sender, newCharId);
+        emit CharacterGenerated(newCharId, traitCombo, msg.sender);
     }
 
     function _rngIndex(uint256 id) private view returns (uint256) {

@@ -18,5 +18,6 @@ module.exports = {
     "prefer-template": "off",
     "no-console": "off",
     "func-names": "off",
+    "no-underscore-dangle": "off",
   },
 };
