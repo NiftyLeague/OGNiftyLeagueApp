@@ -1,13 +1,14 @@
 const fs = require("fs");
 const { ethers } = require("hardhat");
+const config = require("getconfig");
 const metadataTemple = require("../constants/metadataTemplate");
 const TRAIT_TYPES = require("../constants/traitTypes");
 const TRAIT_NAME_MAP = require("../constants/traitNameMap");
 
 async function main() {
   const contract = await ethers.getContractAt(
-    "NiftyLeagueCharacter",
-    fs.readFileSync("./artifacts/NiftyLeagueCharacter.address").toString(),
+    config.nftContractName,
+    fs.readFileSync(`./artifacts/${config.nftContractName}.address`).toString(),
   );
   await contract.deployed();
   const length = await contract.totalSupply();
