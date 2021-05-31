@@ -1,8 +1,11 @@
+import dotenv from "dotenv";
 import React from "react";
 import ReactDOM from "react-dom";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { ThemeSwitcherProvider } from "react-css-theme-switcher";
 import App from "./App";
+
+dotenv.config();
 
 const themes = {
   dark: `${process.env.PUBLIC_URL}/dark-theme.css`,

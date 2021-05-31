@@ -1,3 +1,4 @@
+require("dotenv").config();
 const { utils } = require("ethers");
 const fs = require("fs");
 const chalk = require("chalk");
@@ -18,9 +19,7 @@ const { isAddress, getAddress, formatUnits, parseUnits } = utils;
       plus it will use *.args for constructor args
 */
 
-//
 // Select the network you want to deploy to here:
-//
 const defaultNetwork = "localhost";
 
 function getMnemonic() {
@@ -53,31 +52,31 @@ module.exports = {
       */
     },
     rinkeby: {
-      url: "https://rinkeby.infura.io/v3/460f40a260564ac4a4f4b3fffb032dad", // <---- YOUR INFURA ID! (or it won't work)
+      url: `https://rinkeby.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
       accounts: {
         mnemonic: getMnemonic(),
       },
     },
     kovan: {
-      url: "https://kovan.infura.io/v3/460f40a260564ac4a4f4b3fffb032dad", // <---- YOUR INFURA ID! (or it won't work)
+      url: `https://kovan.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
       accounts: {
         mnemonic: getMnemonic(),
       },
     },
     mainnet: {
-      url: "https://mainnet.infura.io/v3/460f40a260564ac4a4f4b3fffb032dad", // <---- YOUR INFURA ID! (or it won't work)
+      url: `https://mainnet.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
       accounts: {
         mnemonic: getMnemonic(),
       },
     },
     ropsten: {
-      url: "https://ropsten.infura.io/v3/460f40a260564ac4a4f4b3fffb032dad", // <---- YOUR INFURA ID! (or it won't work)
+      url: `https://ropsten.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
       accounts: {
         mnemonic: getMnemonic(),
       },
     },
     goerli: {
-      url: "https://goerli.infura.io/v3/460f40a260564ac4a4f4b3fffb032dad", // <---- YOUR INFURA ID! (or it won't work)
+      url: `https://goerli.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
       accounts: {
         mnemonic: getMnemonic(),
       },
@@ -129,13 +128,12 @@ module.exports = {
     ],
   },
   etherscan: {
-    // Your API key for Etherscan
-    // Obtain one at https://etherscan.io/
-    apiKey: "PSW8C433Q667DVEX5BCRMGNAH9FSGFZ7Q8",
+    // Your API key for https://etherscan.io/
+    apiKey: process.env.ETHERSCAN_KEY,
   },
 };
 
-const DEBUG = false;
+const { DEBUG } = process.env;
 
 function debug(text) {
   if (DEBUG) {
