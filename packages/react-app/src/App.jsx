@@ -19,7 +19,7 @@ import {
   useExternalContractLoader,
 } from "./hooks";
 import { Header, Account, Faucet, Ramp, Contract, GasGauge, ThemeSwitch } from "./components";
-import { Transactor } from "./helpers";
+import { Notifier } from "./helpers";
 import { Hints, ExampleUI, Subgraph } from "./views";
 import { INFURA_ID, DAI_ADDRESS, DAI_ABI, NETWORK, NETWORKS } from "./constants";
 import "./App.css";
@@ -107,11 +107,11 @@ function App({ subgraphUri }) {
 
   // For more hooks, check out 🔗eth-hooks at: https://www.npmjs.com/package/eth-hooks
 
-  // The transactor wraps transactions and provides notificiations
-  const tx = Transactor(userProvider, gasPrice);
+  // The Notifier wraps transactions and provides notificiations
+  const tx = Notifier(userProvider, gasPrice);
 
   // Faucet Tx can be used to send funds from the faucet
-  const faucetTx = Transactor(localProvider, gasPrice);
+  const faucetTx = Notifier(localProvider, gasPrice);
 
   // 🏗 scaffold-eth is full of handy hooks like this one to get your balance:
   const yourLocalBalance = useBalance(localProvider, address);

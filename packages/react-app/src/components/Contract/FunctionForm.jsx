@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { BigNumber } from "@ethersproject/bignumber";
 import { Row, Col, Input, Divider, Tooltip, Button } from "antd";
 import Blockies from "react-blockies";
-import { Transactor } from "../../helpers";
+import { Notifier } from "../../helpers";
 import tryToDisplay from "./utils";
 
 const { utils } = require("ethers");
@@ -13,7 +13,7 @@ export default function FunctionForm({ contractFunction, functionInfo, provider,
   const [txValue, setTxValue] = useState();
   const [returnValue, setReturnValue] = useState();
 
-  const tx = Transactor(provider, gasPrice);
+  const tx = Notifier(provider, gasPrice);
 
   let inputIndex = 0;
   const inputs = functionInfo.inputs.map(input => {
