@@ -4,7 +4,7 @@ import Blockies from "react-blockies";
 import { SendOutlined } from "@ant-design/icons";
 import { parseEther } from "@ethersproject/units";
 import { useLookupAddress } from "eth-hooks";
-import { Transactor } from "../helpers";
+import { Notifier } from "../helpers";
 import Wallet from "./Wallet";
 
 // improved a bit by converting address to ens if it exists
@@ -66,7 +66,7 @@ export default function Faucet({ ensProvider, localProvider, placeholder, price 
     [ensProvider],
   );
 
-  const tx = Transactor(localProvider);
+  const tx = Notifier(localProvider);
 
   return (
     <span>

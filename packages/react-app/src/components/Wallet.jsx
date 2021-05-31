@@ -5,7 +5,7 @@ import QR from "qrcode.react";
 import { parseEther } from "@ethersproject/units";
 import { useUserAddress } from "eth-hooks";
 import { ethers } from "ethers";
-import { Transactor } from "../helpers";
+import { Notifier } from "../helpers";
 import Address from "./Address";
 import Balance from "./Balance";
 import AddressInput from "./AddressInput";
@@ -312,7 +312,7 @@ export default function Wallet({ address, color, ensProvider, price, provider })
             disabled={!amount || !toAddress || qr}
             loading={false}
             onClick={() => {
-              const tx = Transactor(provider);
+              const tx = Notifier(provider);
 
               let value;
               try {

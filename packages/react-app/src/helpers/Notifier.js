@@ -4,11 +4,10 @@ import { notification } from "antd";
 import Notify from "bnc-notify";
 import { BLOCKNATIVE_DAPPID } from "../constants";
 
-// this should probably just be renamed to "notifier"
-// it is basically just a wrapper around BlockNative's wonderful Notify.js
+// Wrapper around BlockNative's wonderful Notify.js
 // https://docs.blocknative.com/notify
 
-export default function Transactor(provider, gasPrice, etherscan) {
+export default function Notifier(provider, gasPrice, etherscan) {
   if (typeof provider !== "undefined") {
     // eslint-disable-next-line consistent-return
     return async tx => {
@@ -52,7 +51,7 @@ export default function Transactor(provider, gasPrice, etherscan) {
           result = await signer.sendTransaction(tx);
         }
         console.log("RESULT:", result);
-        // console.log("Notify", notify);
+        console.log("Notify", notify);
 
         // if it is a valid Notify.js network, use that, if not, just send a default notification
         if ([1, 3, 4, 5, 42, 100].indexOf(network.chainId) >= 0) {
