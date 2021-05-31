@@ -16,6 +16,9 @@ const { BigNumber } = require("ethers");
 // different environments (e.g. testnet, mainnet, staging, production, etc).
 const config = require("getconfig");
 
+const TRAIT_TYPES = require("../constants/traitTypes");
+const TRAIT_NAME_MAP = require("../constants/traitNameMap");
+
 // ipfs.add parameters for more deterministic CIDs
 const ipfsAddOptions = {
   cidVersion: 1,
@@ -82,18 +85,16 @@ class Minty {
    *
    * @typedef {object} CreateNFTResult
    * @property {string} tokenId - the unique ID of the new token
-   * @property {string} ownerAddress - the ethereum address of the new token's owner
    * @property {object} metadata - the JSON metadata stored in IPFS and referenced by the token's metadata URI
-   * @property {string} metadataURI - an ipfs:// URI for the NFT metadata
-   * @property {string} metadataGatewayURL - an HTTP gateway URL for the NFT metadata
    * @property {string} assetURI - an ipfs:// URI for the NFT asset
+   * @property {string} metadataURI - an ipfs:// URI for the NFT metadata
    * @property {string} assetGatewayURL - an HTTP gateway URL for the NFT asset
+   * @property {string} metadataGatewayURL - an HTTP gateway URL for the NFT metadata
    *
    * @returns {Promise<CreateNFTResult>}
    */
-  async createNFTFromAssetData(content, options) {
+  async createNFTFromAssetData(tokenId, filePath, content) {
     // add the asset to IPFS
-    const filePath = options.path || "asset.bin";
     const basename = path.basename(filePath);
 
     // When you add an object to IPFS with a directory prefix in its path,
@@ -106,7 +107,7 @@ class Minty {
 
     // make the NFT metadata JSON
     const assetURI = ensureIpfsUriPrefix(assetCid) + "/" + basename;
-    const metadata = await this.makeNFTMetadata(assetURI, options);
+    const metadata = await this.makeNFTMetadata(tokenId, assetURI);
 
     // add the metadata to IPFS
     const { cid: metadataCid } = await this.ipfs.add(
@@ -115,19 +116,8 @@ class Minty {
     );
     const metadataURI = ensureIpfsUriPrefix(metadataCid) + "/metadata.json";
 
-    // get the address of the token owner from options, or use the default signing address if no owner is given
-    let ownerAddress = options.owner;
-    if (!ownerAddress) {
-      ownerAddress = await this.defaultOwnerAddress();
-    }
-
-    // mint a new token referencing the metadata URI
-    const tokenId = await this.mintToken(ownerAddress, metadataURI);
-
-    // format and return the results
     return {
       tokenId,
-      ownerAddress,
       metadata,
       assetURI,
       metadataURI,
@@ -139,38 +129,74 @@ class Minty {
   /**
    * Create a new NFT from an asset file at the given path.
    *
-   * @param {string} filename - the path to an image file or other asset to use
    * @param {object} options
-   * @param {?string} name - optional name to set in NFT metadata
-   * @param {?string} description - optional description to store in NFT metadata
-   * @param {?string} owner - optional ethereum address that should own the new NFT.
-   * If missing, the default signing address will be used.
+   * @param {?[]} character - Character base traits
+   * @param {?[]} head - Character head traits
+   * @param {?[]} clothing - Character clothing options
+   * @param {?[]} accessories - Character accessories
+   * @param {?[]} items - Character items
    *
    * @returns {Promise<CreateNFTResult>}
    */
-  async createNFTFromAssetFile(filename, options) {
-    const content = await fs.readFile(filename);
-    return this.createNFTFromAssetData(content, { ...options, path: filename });
+  async createNFT(options) {
+    const tokenId = await this.mintToken(options);
+    const filePath = await this.generateImage(tokenId, options);
+    const content = await fs.readFile(filePath);
+    return this.createNFTFromAssetData(tokenId, filePath, content);
   }
 
   /**
-   * Helper to construct metadata JSON for
-   * @param {string} assetCid - IPFS URI for the NFT asset
+   * Helper to generate image from character options
+   *
+   * @param {number} tokenId - the unique ID of the new token
    * @param {object} options
-   * @param {?string} name - optional name to set in NFT metadata
-   * @param {?string} description - optional description to store in NFT metadata
-   * @param {?string} external_url - optional external_url to store in NFT metadata
-   * @param {?[]} attributes - optional attributes to store in NFT metadata
-   * @returns {object} - NFT metadata object
+   * @param {?[]} character - Character base traits
+   * @param {?[]} head - Character head traits
+   * @param {?[]} clothing - Character clothing options
+   * @param {?[]} accessories - Character accessories
+   * @param {?[]} items - Character items
+   *
+   * @returns {string} - NFT image filepath
    */
   // eslint-disable-next-line class-methods-use-this
-  async makeNFTMetadata(assetURI, options) {
-    const { name, description, external_url: extURL, attributes } = options;
+  async generateImage(tokenId, options) {
+    const filePath = `images/${tokenId}.jpeg`;
+    if (fs.existsSync(filePath)) {
+      console.log(`File already exists`);
+    } else {
+      // TODO: generate image from Unity using options
+      console.log("image options", options);
+    }
+    return filePath;
+  }
+
+  /**
+   * Helper to construct metadata JSON for character NFTs
+   *
+   * @param {number} tokenId - the unique ID of the new token
+   * @param {string} assetURI - IPFS URI for the NFT asset
+   *
+   * @typedef {object} CreateMetadataResult
+   * @property {string} name - optional name to set in NFT metadata
+   * @property {object} image - an ipfs:// URI for the NFT asset
+   * @property {string} description - optional description to store in NFT metadata
+   * @property {string} external_url - an HTTP gateway URL for the NFT asset
+   * @property {string} attributes - optional attributes to store in NFT metadata
+   *
+   * @returns {Promise<CreateMetadataResult>}
+   */
+  async makeNFTMetadata(tokenId, assetURI) {
+    const characterTraits = await this.contract.getCharacterTraits(tokenId);
+    const attributes = characterTraits
+      .filter(trait => trait !== 0)
+      .map((trait, i) => {
+        return { trait_type: TRAIT_TYPES[i], value: TRAIT_NAME_MAP[trait] };
+      });
     return {
-      name,
-      description,
+      name: (await this.contract.getName(tokenId)) || `${TRAIT_NAME_MAP[characterTraits[0]]} #${tokenId}`,
       image: ensureIpfsUriPrefix(assetURI),
-      external_url: extURL,
+      description: config.metadata.description,
+      external_url: `${config.metadata.externalURL}/${tokenId}`,
       attributes,
     };
   }
@@ -245,20 +271,22 @@ class Minty {
   //////////////////////////////////////////////
 
   /**
-   * Create a new NFT token that references the given metadata CID, owned by the given address.
+   * Create a new NFT token that references the given character options.
    *
-   * @param {string} ownerAddress - the ethereum address that should own the new token
-   * @param {string} metadataURI - IPFS URI for the NFT metadata that should be associated with this token
+   * @param {object} options
+   * @param {?[]} character - Character base traits
+   * @param {?[]} head - Character head traits
+   * @param {?[]} clothing - Character clothing options
+   * @param {?[]} accessories - Character accessories
+   * @param {?[]} items - Character items
+   *
    * @returns {Promise<string>} - the ID of the new token
    */
-  async mintToken(ownerAddress, metadataURI) {
-    // the smart contract adds an ipfs:// prefix to all URIs, so make sure it doesn't get added twice
-    metadataURI = stripIpfsUriPrefix(metadataURI);
-
+  async mintToken(options) {
     // Call the mintToken method to issue a new token to the given address
     // This returns a transaction object, but the transaction hasn't been confirmed
     // yet, so it doesn't have our token id.
-    const tx = await this.contract.mintToken(ownerAddress, metadataURI);
+    const tx = await this.contract.purchase(...options);
 
     // The OpenZeppelin base ERC721 contract emits a Transfer event when a token is issued.
     // tx.wait() will wait until a block containing our transaction has been mined and confirmed.

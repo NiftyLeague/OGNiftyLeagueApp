@@ -11,6 +11,10 @@ const config = {
 
   // Commands that interact with the smart contract (minting, etc), will load the file to connect to the deployed contract.
   nftContractName: "NiftyLeagueCharacter",
+  metadata: {
+    description: "",
+    externalURL: "https://nifty-league.com",
+  },
 
   // If you're running IPFS on a non-default port, update this URL. If you're using the IPFS defaults, you should be all set.
   ipfsApiUrl: "http://localhost:5001",
