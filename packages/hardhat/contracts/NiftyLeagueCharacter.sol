@@ -86,8 +86,8 @@ contract NiftyLeagueCharacter is ERC721, Ownable, Pausable {
     string arweaveGeneratorHash = "-eEz1VUXZE9EDaEyEe927S_TV53OGBPN4LXobDGkaWA";
     string ipfsGeneratorHash = "Qmc4sLXQPVyuGCi71Z2G7ezanhn9NjmyPwxAw2BFaCFsgT";
 
-    event NameUpdated(uint256 indexed tokenID, string previousName, string newName);
-    event CharacterGenerated(uint256 indexed tokenID, uint256 traits, address owner);
+    event NameUpdated(uint256 indexed tokenId, string previousName, string newName);
+    event CharacterGenerated(uint256 indexed tokenId, uint256 traits, address owner);
     event GeneratorUpdated(
         string previousArweaveHash,
         string newArweaveHash,
@@ -281,9 +281,9 @@ contract NiftyLeagueCharacter is ERC721, Ownable, Pausable {
         return (uint256(keccak256(abi.encodePacked(id, block.timestamp, block.difficulty))) % 19) + 1;
     }
 
-    function getCharacterTraits(uint256 tokenID) external view returns (CharacterTraits memory _characterTraits) {
-        require(_exists(tokenID), "nonexistent token");
-        Character memory character = _characters[tokenID];
+    function getCharacterTraits(uint256 tokenId) external view returns (CharacterTraits memory _characterTraits) {
+        require(_exists(tokenId), "nonexistent token");
+        Character memory character = _characters[tokenId];
         _characterTraits.tribe = uint8(character.traits);
         _characterTraits.skinColor = uint8(character.traits >> 8);
         _characterTraits.hair = uint8(character.traits >> 16);
@@ -343,27 +343,27 @@ contract NiftyLeagueCharacter is ERC721, Ownable, Pausable {
         return !_existMap[traitCombo];
     }
 
-    function getName(uint256 tokenID) external view returns (string memory) {
-        require(_exists(tokenID), "nonexistent token");
-        return _characters[tokenID].name;
+    function getName(uint256 tokenId) external view returns (string memory) {
+        require(_exists(tokenId), "nonexistent token");
+        return _characters[tokenId].name;
     }
 
-    function changeName(uint256 tokenID, string memory newName) external returns (string memory) {
-        require(_exists(tokenID), "nonexistent token");
-        require(_isApprovedOrOwner(_msgSender(), tokenID), "Caller is not owner nor approved");
-        string memory prevName = _characters[tokenID].name;
+    function changeName(uint256 tokenId, string memory newName) external returns (string memory) {
+        require(_exists(tokenId), "nonexistent token");
+        require(_isApprovedOrOwner(_msgSender(), tokenId), "Caller is not owner nor approved");
+        string memory prevName = _characters[tokenId].name;
         require(sha256(bytes(newName)) != sha256(bytes(prevName)), "New name and old name are equal");
         require(validateName(newName), "Name is not allowed");
         require(!isNameReserved(newName), "Name already reserved");
 
         INFTL(_nftlAddress).transferFrom(msg.sender, address(this), NAME_CHANGE_PRICE);
-        if (bytes(_characters[tokenID].name).length > 0) {
-            _toggleReserveName(_characters[tokenID].name, false);
+        if (bytes(_characters[tokenId].name).length > 0) {
+            _toggleReserveName(_characters[tokenId].name, false);
         }
         _toggleReserveName(newName, true);
-        _characters[tokenID].name = newName;
+        _characters[tokenId].name = newName;
         INFTL(_nftlAddress).burn(NAME_CHANGE_PRICE);
-        emit NameUpdated(tokenID, prevName, newName);
+        emit NameUpdated(tokenId, prevName, newName);
         return newName;
     }
 

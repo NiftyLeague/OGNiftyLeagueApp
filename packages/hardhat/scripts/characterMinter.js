@@ -4,14 +4,11 @@
 // This file contains the main entry point for the command line `minty` app, and the command line option parsing code.
 // See minty.js for the core functionality.
 
-const fs = require("fs/promises");
 const path = require("path");
 const { Command } = require("commander");
 const chalk = require("chalk");
 const colorize = require("json-colorizer");
-const config = require("getconfig");
 const { MakeMinty } = require("./minty");
-const { deployContract, saveDeploymentInfo } = require("./deploy");
 
 const colorizeOptions = {
   pretty: true,
@@ -26,14 +23,13 @@ async function main() {
 
   // commands
   program
-    .command("mint <image-path>")
+    .command("mint")
     .description("create a new NFT from an image file")
-    .option("-n, --name <name>", "The name of the NFT")
-    .option("-d, --description <desc>", "A description of the NFT")
-    .option(
-      "-o, --owner <address>",
-      "The ethereum address that should own the NFT." + "If not provided, defaults to the first signing address.",
-    )
+    .option("-ch, --character <character>", "Character base traits.")
+    .option("-h, --head <head>", "Character head traits.")
+    .option("-c, --clothing <clothing>", "Character clothing options.")
+    .option("-a, --accessories <accessories>", "Character accessories.")
+    .option("-i, --items <items>", "Character items.")
     .action(createNFT);
 
   program
@@ -60,10 +56,9 @@ async function main() {
 
 // ---- command action functions
 
-async function createNFT(imagePath, options) {
+async function createNFT(options) {
   const minty = await MakeMinty();
-
-  const nft = await minty.createNFTFromAssetFile(imagePath, options);
+  const nft = await minty.createNFT(options);
   console.log("🌿 Minted a new NFT: ");
 
   alignOutput([
@@ -111,6 +106,7 @@ async function pinNFTData(tokenId) {
   const minty = await MakeMinty();
   const { assetURI, metadataURI } = await minty.pinTokenData(tokenId);
   console.log(`🌿 Pinned all data for token id ${chalk.green(tokenId)}`);
+  console.log(`Asset URI: ${assetURI} | Metadata URI: ${metadataURI}`);
 }
 
 // ---- helpers
