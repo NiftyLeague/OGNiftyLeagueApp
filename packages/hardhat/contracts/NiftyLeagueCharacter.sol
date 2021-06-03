@@ -27,24 +27,29 @@ contract NiftyLeagueCharacter is ERC721, Ownable, Pausable {
         // character
         uint8 tribe;
         uint8 skinColor;
+        uint8 secondarySkinColor;
+        uint8 eyeColor;
+        uint8 secondaryEyeColor;
         //  head
         uint8 hair;
-        uint8 eyes;
         uint8 mouth;
         uint8 beard;
+        uint8 facemarks;
+        uint8 misc;
         //  clothing
         uint8 top;
-        uint8 topPrint;
         uint8 outerwear;
+        uint8 topPrint;
         uint8 bottom;
         uint8 footwear;
+        uint8 belt;
         //  accessories
         uint8 hat;
-        uint8 glasses;
+        uint8 eyewear;
         uint8 piercings;
-        uint8 neckwear;
         uint8 wrists;
         uint8 hands;
+        uint8 neckwear;
         //  items
         uint8 leftItem;
         uint8 rightItem;
@@ -164,11 +169,11 @@ contract NiftyLeagueCharacter is ERC721, Ownable, Pausable {
     }
 
     function purchase(
-        uint256[] memory character,
-        uint256[] memory head,
-        uint256[] memory clothing,
-        uint256[] memory accessories,
-        uint256[] memory items
+        uint256[5] memory character,
+        uint256[5] memory head,
+        uint256[6] memory clothing,
+        uint256[6] memory accessories,
+        uint256[2] memory items
     ) external payable {
         require(!paused() || msg.sender == owner(), "Purchases are paused.");
         require(msg.value == getNFTPrice() || msg.sender == owner(), "Ether value incorrect");
@@ -178,93 +183,104 @@ contract NiftyLeagueCharacter is ERC721, Ownable, Pausable {
     }
 
     function validateTraits(
-        uint256[] memory char,
-        uint256[] memory head,
-        uint256[] memory cloth,
-        uint256[] memory acc,
-        uint256[] memory items
-    ) public view {
-        require(char.length == 2, "Requires 2 character traits");
-        require(head.length == 4, "Requires 4 head traits");
-        require(cloth.length == 5, "Requires 5 clothing selections");
-        require(acc.length == 6, "Requires 6 accessories");
-        require(items.length == 2, "Requires 2 items");
+        uint256[5] memory char,
+        uint256[5] memory head,
+        uint256[6] memory cloth,
+        uint256[6] memory acc,
+        uint256[2] memory items
+    ) internal view {
+        require(char[0] > 0 && (char[0] < 7 || (char[0] < 10 && msg.sender == owner())), "Tribe incorrect");
+        require(char[1] == EMPTY_TRAIT || (char[1] >= 10 && char[1] < 20), "Skin color incorrect");
+        require(char[2] == EMPTY_TRAIT || (char[2] >= 20 && char[2] < 25), "Secondary skin color incorrect");
+        require(char[3] == EMPTY_TRAIT || (char[3] >= 25 && char[3] < 30), "Eye color incorrect");
+        require(char[4] == EMPTY_TRAIT || (char[4] >= 30 && char[4] < 35), "Secondary eye color incorrect");
+        require(head[0] == EMPTY_TRAIT || (head[0] >= 35 && head[0] < 40), "Hair incorrect");
+        require(head[1] == EMPTY_TRAIT || (head[1] >= 40 && head[1] < 45), "Mouth incorrect");
+        require(head[2] == EMPTY_TRAIT || (head[2] >= 45 && head[2] < 50), "Beard incorrect");
+        require(head[3] == EMPTY_TRAIT || (head[3] >= 50 && head[3] < 55), "Facemarks incorrect");
+        require(head[4] == EMPTY_TRAIT || (head[4] >= 55 && head[4] < 60), "Misc incorrect");
+        require(cloth[0] == EMPTY_TRAIT || (cloth[0] >= 60 && cloth[0] < 65), "Top incorrect");
+        require(cloth[1] == EMPTY_TRAIT || (cloth[1] >= 65 && cloth[1] < 70), "Outerwear incorrect");
+        require(cloth[2] == EMPTY_TRAIT || (cloth[2] >= 70 && cloth[2] < 75), "Print incorrect");
+        require(cloth[3] == EMPTY_TRAIT || (cloth[3] >= 75 && cloth[3] < 80), "Bottom incorrect");
+        require(cloth[4] == EMPTY_TRAIT || (cloth[4] >= 80 && cloth[4] < 85), "Footwear incorrect");
+        require(cloth[5] == EMPTY_TRAIT || (cloth[5] >= 85 && cloth[5] < 90), "Belt incorrect");
+        require(acc[0] == EMPTY_TRAIT || (acc[0] >= 90 && acc[0] < 95), "Hat incorrect");
+        require(acc[1] == EMPTY_TRAIT || (acc[1] >= 95 && acc[1] < 100), "Eyewear incorrect");
+        require(acc[2] == EMPTY_TRAIT || (acc[2] >= 100 && acc[2] < 105), "Piercings incorrect");
+        require(acc[3] == EMPTY_TRAIT || (acc[3] >= 105 && acc[3] < 110), "Wist accessory incorrect");
+        require(acc[4] == EMPTY_TRAIT || (acc[4] >= 110 && acc[4] < 115), "Hand accessory incorrect");
+        require(acc[5] == EMPTY_TRAIT || (acc[5] >= 115 && acc[5] < 120), "Neckwear incorrect");
+        require(items[0] == EMPTY_TRAIT || (items[0] >= 120 && items[0] < 125), "Left item incorrect");
+        require(items[1] == EMPTY_TRAIT || (items[1] >= 125 && items[1] < 130), "Right item incorrect");
 
-        require(char[0] > 0 && (char[0] < 7 || (char[0] < 10 && msg.sender == owner())), "Provided tribe is incorrect");
-        require(char[1] == EMPTY_TRAIT || (char[1] >= 10 && char[1] < 20), "Provided skin color is incorrect");
-        require(head[0] == EMPTY_TRAIT || (head[0] >= 20 && head[0] < 25), "Provided hair is incorrect");
-        require(head[1] == EMPTY_TRAIT || (head[1] >= 25 && head[1] < 30), "Provided eyes is incorrect");
-        require(head[2] == EMPTY_TRAIT || (head[2] >= 30 && head[2] < 35), "Provided mouth is incorrect");
-        require(head[3] == EMPTY_TRAIT || (head[3] >= 35 && head[3] < 40), "Provided beard is incorrect");
-        require(cloth[0] == EMPTY_TRAIT || (cloth[0] >= 40 && cloth[0] < 45), "Provided top is incorrect");
-        require(cloth[1] == EMPTY_TRAIT || (cloth[1] >= 45 && cloth[1] < 50), "Provided print is incorrect");
-        require(cloth[2] == EMPTY_TRAIT || (cloth[2] >= 50 && cloth[2] < 55), "Provided outerwear is incorrect");
-        require(cloth[3] == EMPTY_TRAIT || (cloth[3] >= 55 && cloth[3] < 60), "Provided bottom is incorrect");
-        require(cloth[4] == EMPTY_TRAIT || (cloth[4] >= 60 && cloth[4] < 65), "Provided footwear is incorrect");
-        require(acc[0] == EMPTY_TRAIT || (acc[0] >= 65 && acc[0] < 70), "Provided hat is incorrect");
-        require(acc[1] == EMPTY_TRAIT || (acc[1] >= 70 && acc[1] < 75), "Provided glasses is incorrect");
-        require(acc[2] == EMPTY_TRAIT || (acc[2] >= 75 && acc[2] < 80), "Provided piercing is incorrect");
-        require(acc[3] == EMPTY_TRAIT || (acc[3] >= 80 && acc[3] < 85), "Provided neckwear is incorrect");
-        require(acc[4] == EMPTY_TRAIT || (acc[4] >= 85 && acc[4] < 90), "Provided wrist accessory is incorrect");
-        require(acc[5] == EMPTY_TRAIT || (acc[5] >= 90 && acc[5] < 95), "Provided hand accessory is incorrect");
-        require(items[0] == EMPTY_TRAIT || (items[0] >= 95 && items[0] < 100), "Provided left item is incorrect");
-        require(items[1] == EMPTY_TRAIT || (items[1] >= 100 && items[1] < 105), "Provided left item is incorrect");
-
-        require(isAvailableTrait(char[1]), "Provided character skin color is unavailable");
-        require(isAvailableTrait(head[0]), "Provided hair is unavailable");
-        require(isAvailableTrait(head[1]), "Provided eyes are unavailable");
-        require(isAvailableTrait(head[2]), "Provided mouth is unavailable");
-        require(isAvailableTrait(head[3]), "Provided beard is unavailable");
-        require(isAvailableTrait(cloth[0]), "Provided top is unavailable");
-        require(isAvailableTrait(cloth[1]), "Provided print is unavailable");
-        require(isAvailableTrait(cloth[2]), "Provided top over is unavailable");
-        require(isAvailableTrait(cloth[3]), "Provided bottom is unavailable");
-        require(isAvailableTrait(cloth[4]), "Provided footwear is unavailable");
-        require(isAvailableTrait(acc[0]), "Provided hat is unavailable");
-        require(isAvailableTrait(acc[1]), "Provided glasses are unavailable");
-        require(isAvailableTrait(acc[2]), "Provided piercing is unavailable");
-        require(isAvailableTrait(acc[3]), "Provided neckwear is unavailable");
-        require(isAvailableTrait(acc[4]), "Provided wrist accessory is unavailable");
-        require(isAvailableTrait(acc[5]), "Provided hand accessory is unavailable");
-        require(isAvailableTrait(items[0]), "Provided left item is unavailable");
-        require(isAvailableTrait(items[1]), "Provided right item is unavailable");
+        require(isAvailableTrait(char[1]), "Skin color unavailable");
+        require(isAvailableTrait(char[2]), "Secondary Skin color unavailable");
+        require(isAvailableTrait(char[3]), "Eye color unavailable");
+        require(isAvailableTrait(char[4]), "Secondary eye color unavailable");
+        require(isAvailableTrait(head[0]), "Hair unavailable");
+        require(isAvailableTrait(head[1]), "Mouth unavailable");
+        require(isAvailableTrait(head[2]), "Beard unavailable");
+        require(isAvailableTrait(head[3]), "Facemarks unavailable");
+        require(isAvailableTrait(head[4]), "Misc unavailable");
+        require(isAvailableTrait(cloth[0]), "Top unavailable");
+        require(isAvailableTrait(cloth[1]), "Outerwear unavailable");
+        require(isAvailableTrait(cloth[2]), "Print unavailable");
+        require(isAvailableTrait(cloth[3]), "Bottom unavailable");
+        require(isAvailableTrait(cloth[4]), "Footwear unavailable");
+        require(isAvailableTrait(cloth[5]), "Belt unavailable");
+        require(isAvailableTrait(acc[0]), "Hat unavailable");
+        require(isAvailableTrait(acc[1]), "Eyewear unavailable");
+        require(isAvailableTrait(acc[2]), "Piercings unavailable");
+        require(isAvailableTrait(acc[3]), "Wrist accessory unavailable");
+        require(isAvailableTrait(acc[4]), "Hand accessory unavailable");
+        require(isAvailableTrait(acc[5]), "Neckwear unavailable");
+        require(isAvailableTrait(items[0]), "Left item unavailable");
+        require(isAvailableTrait(items[1]), "Right item unavailable");
     }
 
     function _generateTraitCombo(
-        uint256[] memory character,
-        uint256[] memory head,
-        uint256[] memory clothing,
-        uint256[] memory accessories,
-        uint256[] memory items
-    ) private pure returns (uint256) {
+        uint256[5] memory character,
+        uint256[5] memory head,
+        uint256[6] memory clothing,
+        uint256[6] memory accessories,
+        uint256[2] memory items
+    ) internal pure returns (uint256) {
         uint256 traits = character[0];
         traits |= character[1] << 8;
-        traits |= head[0] << 16;
-        traits |= head[1] << 24;
-        traits |= head[2] << 32;
-        traits |= head[3] << 40;
-        traits |= clothing[0] << 48;
-        traits |= clothing[1] << 56;
-        traits |= clothing[2] << 64;
-        traits |= clothing[3] << 72;
-        traits |= clothing[4] << 80;
-        traits |= accessories[0] << 88;
-        traits |= accessories[1] << 96;
-        traits |= accessories[2] << 104;
-        traits |= accessories[3] << 112;
-        traits |= accessories[4] << 120;
-        traits |= accessories[5] << 128;
-        traits |= items[0] << 136;
-        traits |= items[1] << 144;
+        traits |= character[2] << 16;
+        traits |= character[3] << 24;
+        traits |= character[4] << 32;
+        traits |= head[0] << 40;
+        traits |= head[1] << 48;
+        traits |= head[2] << 56;
+        traits |= head[3] << 64;
+        traits |= head[4] << 72;
+        traits |= clothing[0] << 80;
+        traits |= clothing[1] << 88;
+        traits |= clothing[2] << 96;
+        traits |= clothing[3] << 104;
+        traits |= clothing[4] << 112;
+        traits |= clothing[5] << 120;
+        traits |= accessories[0] << 128;
+        traits |= accessories[1] << 136;
+        traits |= accessories[2] << 144;
+        traits |= accessories[3] << 152;
+        traits |= accessories[4] << 160;
+        traits |= accessories[5] << 168;
+        traits |= items[0] << 176;
+        traits |= items[1] << 184;
         return traits;
     }
 
     function _storeNewCharacter(uint256 traitCombo) private {
-        require(isUnique(traitCombo), "Character with trait combination already exists");
+        require(isUnique(traitCombo), "NFT trait combo already exists");
         _existMap[traitCombo] = true;
         totalSupply.increment();
         uint256 newCharId = totalSupply.current();
-        _characters[newCharId] = Character(traitCombo, "");
+        Character memory newChar;
+        newChar.traits = traitCombo;
+        _characters[newCharId] = newChar;
 
         if (newCharId % 5 == 0) {
             uint256 randomIndex = _rngIndex(newCharId);
@@ -277,7 +293,7 @@ contract NiftyLeagueCharacter is ERC721, Ownable, Pausable {
         emit CharacterGenerated(newCharId, traitCombo, msg.sender);
     }
 
-    function _rngIndex(uint256 id) private view returns (uint256) {
+    function _rngIndex(uint256 id) internal view returns (uint256) {
         return (uint256(keccak256(abi.encodePacked(id, block.timestamp, block.difficulty))) % 19) + 1;
     }
 
@@ -286,23 +302,28 @@ contract NiftyLeagueCharacter is ERC721, Ownable, Pausable {
         Character memory character = _characters[tokenId];
         _characterTraits.tribe = uint8(character.traits);
         _characterTraits.skinColor = uint8(character.traits >> 8);
-        _characterTraits.hair = uint8(character.traits >> 16);
-        _characterTraits.eyes = uint8(character.traits >> 24);
-        _characterTraits.mouth = uint8(character.traits >> 32);
-        _characterTraits.beard = uint8(character.traits >> 40);
-        _characterTraits.top = uint8(character.traits >> 48);
-        _characterTraits.topPrint = uint8(character.traits >> 56);
-        _characterTraits.outerwear = uint8(character.traits >> 64);
-        _characterTraits.bottom = uint8(character.traits >> 72);
-        _characterTraits.footwear = uint8(character.traits >> 80);
-        _characterTraits.hat = uint8(character.traits >> 88);
-        _characterTraits.glasses = uint8(character.traits >> 96);
-        _characterTraits.piercings = uint8(character.traits >> 104);
-        _characterTraits.neckwear = uint8(character.traits >> 112);
-        _characterTraits.wrists = uint8(character.traits >> 120);
-        _characterTraits.hands = uint8(character.traits >> 128);
-        _characterTraits.leftItem = uint8(character.traits >> 136);
-        _characterTraits.rightItem = uint8(character.traits >> 144);
+        _characterTraits.secondarySkinColor = uint8(character.traits >> 16);
+        _characterTraits.eyeColor = uint8(character.traits >> 24);
+        _characterTraits.secondaryEyeColor = uint8(character.traits >> 32);
+        _characterTraits.hair = uint8(character.traits >> 40);
+        _characterTraits.mouth = uint8(character.traits >> 48);
+        _characterTraits.beard = uint8(character.traits >> 56);
+        _characterTraits.facemarks = uint8(character.traits >> 64);
+        _characterTraits.misc = uint8(character.traits >> 72);
+        _characterTraits.top = uint8(character.traits >> 80);
+        _characterTraits.outerwear = uint8(character.traits >> 88);
+        _characterTraits.topPrint = uint8(character.traits >> 96);
+        _characterTraits.bottom = uint8(character.traits >> 104);
+        _characterTraits.footwear = uint8(character.traits >> 112);
+        _characterTraits.belt = uint8(character.traits >> 120);
+        _characterTraits.hat = uint8(character.traits >> 128);
+        _characterTraits.eyewear = uint8(character.traits >> 136);
+        _characterTraits.piercings = uint8(character.traits >> 144);
+        _characterTraits.wrists = uint8(character.traits >> 152);
+        _characterTraits.hands = uint8(character.traits >> 160);
+        _characterTraits.neckwear = uint8(character.traits >> 168);
+        _characterTraits.leftItem = uint8(character.traits >> 176);
+        _characterTraits.rightItem = uint8(character.traits >> 184);
     }
 
     function getRemovedTraits() external view returns (uint256[] memory) {
@@ -412,7 +433,7 @@ contract NiftyLeagueCharacter is ERC721, Ownable, Pausable {
     /**
      * @dev Converts strings to lowercase
      */
-    function _toLower(string memory str) private pure returns (string memory) {
+    function _toLower(string memory str) internal pure returns (string memory) {
         bytes memory bStr = bytes(str);
         bytes memory bLower = new bytes(bStr.length);
         for (uint256 i = 0; i < bStr.length; i++) {
