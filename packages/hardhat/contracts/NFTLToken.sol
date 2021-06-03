@@ -67,7 +67,7 @@ contract NFTLToken is ERC20("Nifty League", "NFTL") {
      * @return Last claim timestamp
      */
     function getLastClaim(uint256 tokenIndex) public view returns (uint256) {
-        require(tokenIndex <= ERC721Enumerable(_nftAddress).totalSupply(), "NFT at index has not been minted yet");
+        require(tokenIndex <= ERC721Enumerable(_nftAddress).totalSupply(), "NFT at index not been minted");
         require(ERC721Enumerable(_nftAddress).ownerOf(tokenIndex) != address(0), "Owner cannot be 0 address");
         uint256 lastClaimed = uint256(_lastClaim[tokenIndex]) != 0 ? uint256(_lastClaim[tokenIndex]) : emissionStart;
         return lastClaimed;
@@ -106,10 +106,7 @@ contract NFTLToken is ERC20("Nifty League", "NFTL") {
         uint256 totalClaimQty = 0;
         for (uint256 i = 0; i < tokenIndices.length; i++) {
             // Sanity check for non-minted index
-            require(
-                tokenIndices[i] <= ERC721Enumerable(_nftAddress).totalSupply(),
-                "NFT at index has not been minted yet"
-            );
+            require(tokenIndices[i] <= ERC721Enumerable(_nftAddress).totalSupply(), "NFT at index not been minted");
             // Duplicate token index check
             for (uint256 j = i + 1; j < tokenIndices.length; j++) {
                 require(tokenIndices[i] != tokenIndices[j], "Duplicate token index");
