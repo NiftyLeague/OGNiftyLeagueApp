@@ -92,7 +92,7 @@ contract NiftyLeagueCharacter is ERC721, Ownable, Pausable {
     string ipfsGeneratorHash = "Qmc4sLXQPVyuGCi71Z2G7ezanhn9NjmyPwxAw2BFaCFsgT";
 
     event NameUpdated(uint256 indexed tokenId, string previousName, string newName);
-    event CharacterGenerated(uint256 indexed tokenId, uint256 traits, address owner);
+    event CharacterGenerated(uint256 indexed tokenId, uint256 traits, address sender);
     event GeneratorUpdated(
         string previousArweaveHash,
         string newArweaveHash,

@@ -6,7 +6,7 @@ dataSources:
     name: YourContract
     network: localhost
     source:
-      address: '{{YourContractAddress}}'
+      address: "{{YourContractAddress}}"
       abi: YourContract
       startBlock: 1
     mapping:
@@ -22,4 +22,27 @@ dataSources:
       eventHandlers:
         - event: SetPurpose(address,string)
           handler: handleSetPurpose
+      file: ./src/mapping.ts
+  - kind: ethereum/contract
+    name: NiftyLeagueCharacter
+    network: localhost
+    source:
+      address: "{{NiftyLeagueCharacterAddress}}"
+      abi: NiftyLeagueCharacter
+      startBlock: 1
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Character
+        - Owner
+      abis:
+        - name: NiftyLeagueCharacter
+          file: ./abis/NiftyLeagueCharacter.json
+      eventHandlers:
+        - event: CharacterGenerated(indexed uint256,uint256,address)
+          handler: handleCharacterGenerated
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
       file: ./src/mapping.ts
