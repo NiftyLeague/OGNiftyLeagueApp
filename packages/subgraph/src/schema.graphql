@@ -13,3 +13,20 @@ type Sender @entity {
   createdAt: BigInt!
   purposeCount: BigInt!
 }
+
+type Character @entity {
+  id: ID!
+  owner: Owner!
+  traits: BigInt!
+  name: String!
+  createdAt: BigInt!
+  transactionHash: String!
+}
+
+type Owner @entity {
+  id: ID!
+  address: Bytes!
+  createdAt: BigInt!
+  characters: [Character!] @derivedFrom(field: "owner")
+  characterCount: BigInt!
+}

@@ -9,7 +9,7 @@ const main = async () => {
   console.log("\n\n 📡 Deploying...\n");
 
   // const nft = await deploy("NiftyERC1155", ["https://abcoathup.github.io/SampleERC1155/api/token/{id}.json"]);
-
+  const yourContract = await deploy("YourContract");
   const nftlToken = await deploy("NFTLToken", [Math.floor(Date.now() / 1000), 100000]);
   const nft = await deploy("NiftyLeagueCharacter", [nftlToken.address]);
   await nftlToken.setNFTAddress(nft.address);

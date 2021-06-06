@@ -434,10 +434,10 @@ const price = useExchangePrice(mainnetProvider);
 
 ## ⛑ Helpers:
 
-`Transactor`: The transactor returns a `tx()` function to make running and tracking transactions as simple and standardized as possible. We will bring in [BlockNative's Notify](https://www.blocknative.com/notify) library to track our testnet and mainnet transactions.
+`Notifier`: The Notifier returns a `tx()` function to make running and tracking transactions as simple and standardized as possible. We will bring in [BlockNative's Notify](https://www.blocknative.com/notify) library to track our testnet and mainnet transactions.
 
 ```js
-const tx = Transactor(props.injectedProvider, props.gasPrice);
+const tx = Notifier(props.injectedProvider, props.gasPrice);
 ```
 
 Then you can use the `tx()` function to send funds and write to your smart contracts:
@@ -453,7 +453,7 @@ tx({
 tx(writeContracts["SmartContractWallet"].updateOwner(newOwner));
 ```
 
-> ☢️ **Warning**: You will need to update the configuration for `react-app/src/helpers/Transactor.js` to use _your_ [BlockNative dappId](https://www.blocknative.com/notify)
+> ☢️ **Warning**: You will need to update the configuration for `react-app/src/helpers/Notifier.js` to use _your_ [BlockNative dappId](https://www.blocknative.com/notify)
 
 ---
 
