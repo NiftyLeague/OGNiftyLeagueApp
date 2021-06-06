@@ -85,7 +85,7 @@ export default function ExampleUI({
           <Button
             onClick={() => {
               /*
-              you can also just craft a transaction and send it to the tx() transactor
+              you can also just craft a transaction and send it to the tx() Notifier
               here we are sending value straight to the contract's address:
             */
               tx({
@@ -116,7 +116,7 @@ export default function ExampleUI({
         <div style={{ margin: 8 }}>
           <Button
             onClick={() => {
-              /* you can also just craft a transaction and send it to the tx() transactor */
+              /* you can also just craft a transaction and send it to the tx() Notifier */
               tx({
                 to: writeContracts.YourContract.address,
                 value: parseEther("0.001"),
