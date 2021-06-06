@@ -2,11 +2,11 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
 import { JsonRpcProvider, Web3Provider } from "@ethersproject/providers";
-import { Row, Col, Button, Menu, Alert } from "antd";
+import { Menu, Alert } from "antd";
 import Web3Modal from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { useUserAddress } from "eth-hooks";
-import { formatEther, parseEther } from "@ethersproject/units";
+import { formatEther } from "@ethersproject/units";
 import {
   useExchangePrice,
   useGasPrice,
@@ -16,12 +16,12 @@ import {
   useContractReader,
   // useEventListener,
   useBalance,
-  useExternalContractLoader,
+  // useExternalContractLoader,
 } from "./hooks";
-import { Header, Account, Faucet, Ramp, Contract, GasGauge, ThemeSwitch } from "./components";
+import { Header, Account, Faucet, Contract, ThemeSwitch } from "./components";
 import { Notifier } from "./helpers";
-import { Hints, ExampleUI, Subgraph } from "./views";
-import { INFURA_ID, DAI_ADDRESS, DAI_ABI, NETWORK, NETWORKS } from "./constants";
+import { Hints, ExampleUI, Subgraph, Home } from "./views";
+import { INFURA_ID, NETWORK, NETWORKS } from "./constants";
 import "./App.css";
 /*
     Welcome to 🏗 scaffold-eth !
@@ -110,9 +110,6 @@ function App({ subgraphUri }) {
   // The Notifier wraps transactions and provides notificiations
   const tx = Notifier(userProvider, gasPrice);
 
-  // Faucet Tx can be used to send funds from the faucet
-  const faucetTx = Notifier(localProvider, gasPrice);
-
   // 🏗 scaffold-eth is full of handy hooks like this one to get your balance:
   const yourLocalBalance = useBalance(localProvider, address);
 
@@ -128,7 +125,7 @@ function App({ subgraphUri }) {
   // EXTERNAL CONTRACT EXAMPLE:
   //
   // If you want to bring in the mainnet DAI contract it would look like:
-  const mainnetDAIContract = useExternalContractLoader(mainnetProvider, DAI_ADDRESS, DAI_ABI);
+  // const mainnetDAIContract = useExternalContractLoader(mainnetProvider, DAI_ADDRESS, DAI_ABI);
 
   // Then read your DAI balance like:
   // const myMainnetDAIBalance = useContractReader({ DAI: mainnetDAIContract }, "DAI", "balanceOf", [
@@ -140,11 +137,6 @@ function App({ subgraphUri }) {
 
   // 📟 Listen for broadcast events
   // const setPurposeEvents = useEventListener(readContracts, "YourContract", "SetPurpose", localProvider, 1);
-
-  /*
-  const addressFromENS = useResolveName(mainnetProvider, "austingriffith.eth");
-  console.log("🏷 Resolved austingriffith.eth as:",addressFromENS)
-  */
 
   //
   // ☝️ These effects will log your major set up and upcoming transferEvents- and balance changes
@@ -158,8 +150,7 @@ function App({ subgraphUri }) {
       yourLocalBalance &&
       yourMainnetBalance &&
       readContracts &&
-      writeContracts &&
-      mainnetDAIContract
+      writeContracts
     ) {
       console.log("_________________ 🏗 scaffold-eth _________________");
       console.log("🌎 mainnetProvider", mainnetProvider);
@@ -169,13 +160,11 @@ function App({ subgraphUri }) {
       console.log("💵 yourLocalBalance", yourLocalBalance ? formatEther(yourLocalBalance) : "...");
       console.log("💵 yourMainnetBalance", yourMainnetBalance ? formatEther(yourMainnetBalance) : "...");
       console.log("📝 readContracts", readContracts);
-      console.log("🌍 DAI contract on mainnet:", mainnetDAIContract);
       console.log("🔐 writeContracts", writeContracts);
     }
   }, [
     address,
     localChainId,
-    mainnetDAIContract,
     mainnetProvider,
     readContracts,
     selectedChainId,
@@ -271,35 +260,7 @@ function App({ subgraphUri }) {
     setRoute(window.location.pathname);
   }, [setRoute]);
 
-  let faucetHint = "";
   const faucetAvailable = localProvider && localProvider.connection && targetNetwork.name === "localhost";
-
-  const [faucetClicked, setFaucetClicked] = useState(false);
-  if (
-    !faucetClicked &&
-    localProvider &&
-    localProvider._network &&
-    localProvider._network.chainId === 31337 &&
-    yourLocalBalance &&
-    formatEther(yourLocalBalance) <= 0
-  ) {
-    faucetHint = (
-      <div style={{ padding: 16 }}>
-        <Button
-          type="primary"
-          onClick={() => {
-            faucetTx({
-              to: address,
-              value: parseEther("0.01"),
-            });
-            setFaucetClicked(true);
-          }}
-        >
-          💰 Grab funds from the faucet ⛽️
-        </Button>
-      </div>
-    );
-  }
 
   return (
     <div className="App">
@@ -308,12 +269,12 @@ function App({ subgraphUri }) {
       <BrowserRouter>
         <Menu style={{ textAlign: "center" }} selectedKeys={[route]} mode="horizontal">
           <Menu.Item key="/">
-            <Link
-              onClick={() => {
-                setRoute("/");
-              }}
-              to="/"
-            >
+            <Link onClick={() => setRoute("/")} to="/">
+              Home
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="/NFTL">
+            <Link onClick={() => setRoute("/NTFL")} to="/NFTL">
               NFTL Token
             </Link>
           </Menu.Item>
@@ -327,33 +288,13 @@ function App({ subgraphUri }) {
               Hints
             </Link>
           </Menu.Item>
-          <Menu.Item key="/exampleui">
-            <Link
-              onClick={() => {
-                setRoute("/exampleui");
-              }}
-              to="/exampleui"
-            >
+          <Menu.Item key="/example">
+            <Link onClick={() => setRoute("/example")} to="/example">
               Example UI
             </Link>
           </Menu.Item>
-          {/* <Menu.Item key="/mainnetdai">
-            <Link
-              onClick={() => {
-                setRoute("/mainnetdai");
-              }}
-              to="/mainnetdai"
-            >
-              Mainnet DAI
-            </Link>
-          </Menu.Item> */}
           <Menu.Item key="/subgraph">
-            <Link
-              onClick={() => {
-                setRoute("/subgraph");
-              }}
-              to="/subgraph"
-            >
+            <Link onClick={() => setRoute("/subgraph")} to="/subgraph">
               Subgraph
             </Link>
           </Menu.Item>
@@ -361,6 +302,9 @@ function App({ subgraphUri }) {
 
         <Switch>
           <Route exact path="/">
+            <Home subgraphUri={subgraphUri} tx={tx} writeContracts={writeContracts} mainnetProvider={mainnetProvider} />
+          </Route>
+          <Route path="/NFTL">
             <Contract
               name="NFTLToken"
               signer={userProvider.getSigner()}
@@ -386,7 +330,7 @@ function App({ subgraphUri }) {
               price={price}
             />
           </Route>
-          <Route path="/exampleui">
+          <Route path="/example">
             <ExampleUI
               address={address}
               userProvider={userProvider}
@@ -401,16 +345,6 @@ function App({ subgraphUri }) {
               // setPurposeEvents={setPurposeEvents}
             />
           </Route>
-          {/* <Route path="/mainnetdai">
-            <Contract
-              name="DAI"
-              customContract={mainnetDAIContract}
-              signer={userProvider.getSigner()}
-              provider={mainnetProvider}
-              address={address}
-              blockExplorer="https://etherscan.io/"
-            />
-          </Route> */}
           <Route path="/subgraph">
             <Subgraph
               subgraphUri={subgraphUri}
@@ -445,56 +379,22 @@ function App({ subgraphUri }) {
           logoutOfWeb3Modal={logoutOfWeb3Modal}
           blockExplorer={blockExplorer}
         />
-        {faucetHint}
       </div>
 
-      {/* 🗺 Extra UI like gas price, eth price, faucet, and support: */}
-      <div
-        style={{
-          position: "fixed",
-          textAlign: "left",
-          left: 0,
-          bottom: 20,
-          padding: 10,
-        }}
-      >
-        <Row align="middle" gutter={[4, 4]}>
-          <Col span={8}>
-            <Ramp price={price} address={address} networks={NETWORKS} />
-          </Col>
-
-          <Col span={8} style={{ textAlign: "center", opacity: 0.8 }}>
-            <GasGauge gasPrice={gasPrice} />
-          </Col>
-          <Col span={8} style={{ textAlign: "center", opacity: 1 }}>
-            <Button
-              onClick={() => {
-                window.open("https://t.me/joinchat/KByvmRe5wkR-8F_zz6AjpA");
-              }}
-              size="large"
-              shape="round"
-            >
-              <span style={{ marginRight: 8 }} role="img" aria-label="support">
-                💬
-              </span>
-              Support
-            </Button>
-          </Col>
-        </Row>
-
-        <Row align="middle" gutter={[4, 4]}>
-          <Col span={24}>
-            {
-              /*  if the local provider has a signer, let's show the faucet:  */
-              faucetAvailable ? (
-                <Faucet localProvider={localProvider} price={price} ensProvider={mainnetProvider} />
-              ) : (
-                ""
-              )
-            }
-          </Col>
-        </Row>
-      </div>
+      {/* if the local provider has a signer, let's show the faucet: */}
+      {faucetAvailable && (
+        <div
+          style={{
+            position: "fixed",
+            textAlign: "left",
+            left: 0,
+            bottom: 20,
+            padding: 10,
+          }}
+        >
+          <Faucet localProvider={localProvider} price={price} ensProvider={mainnetProvider} />
+        </div>
+      )}
     </div>
   );
 }

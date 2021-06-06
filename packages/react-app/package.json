@@ -60,6 +60,7 @@
     "react-qr-reader": "^2.2.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.3",
+    "react-unity-webgl": "^8.4.0",
     "s3-folder-upload": "^2.3.5",
     "web3modal": "^1.9.3"
   },
