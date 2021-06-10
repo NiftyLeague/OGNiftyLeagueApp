@@ -18,7 +18,7 @@ import {
   useBalance,
   // useExternalContractLoader,
 } from "./hooks";
-import { Header, Account, Faucet, Contract, ThemeSwitch } from "./components";
+import { AppBar, Header, Account, Faucet, Contract, ThemeSwitch } from "./components";
 import { Notifier } from "./helpers";
 import { Hints, ExampleUI, Subgraph, Home } from "./views";
 import { INFURA_ID, NETWORK, NETWORKS } from "./constants";
@@ -264,6 +264,7 @@ function App({ subgraphUri }) {
 
   return (
     <div className="App">
+      <AppBar />
       <Header />
       {networkDisplay}
       <BrowserRouter>

@@ -368,5 +368,5 @@ export const NETWORKS = {
 };
 
 export const NETWORK = chainId => {
-  return NETWORKS.find(n => n.chainId === chainId) || {};
+  return Object.values(NETWORKS).find(n => n.chainId === chainId) || {};
 };
