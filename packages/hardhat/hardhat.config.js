@@ -81,13 +81,6 @@ module.exports = {
         mnemonic: getMnemonic(),
       },
     },
-    xdai: {
-      url: "https://rpc.xdaichain.com/",
-      gasPrice: 1000000000,
-      accounts: {
-        mnemonic: getMnemonic(),
-      },
-    },
     matic: {
       url: "https://rpc-mainnet.maticvigil.com/",
       gasPrice: 1000000000,

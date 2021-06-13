@@ -3,3 +3,11 @@
 .App {
   text-align: center;
 }
+
+.AppBody {
+  margin-top: 65px;
+}
+
+.blockies {
+  margin-bottom: 20px;
+}

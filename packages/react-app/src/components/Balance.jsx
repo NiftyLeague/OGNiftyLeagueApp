@@ -29,7 +29,7 @@ import { usePoller } from "eth-hooks";
 */
 
 export default function Balance({ address, balance: bal, dollarMultiplier, pollTime, price, provider, size, value }) {
-  const [dollarMode, setDollarMode] = useState(true);
+  const [dollarMode, setDollarMode] = useState(false);
   const [balance, setBalance] = useState();
 
   const getBalance = async () => {
@@ -64,19 +64,21 @@ export default function Balance({ address, balance: bal, dollarMultiplier, pollT
     floatBalance = parseFloat(etherBalance);
   }
 
-  let displayBalance = floatBalance.toFixed(4);
+  let displayBalance = floatBalance.toFixed(3);
 
   const setPrice = price || dollarMultiplier;
 
   if (setPrice && dollarMode) {
     displayBalance = "$" + (floatBalance * setPrice).toFixed(2);
+  } else {
+    displayBalance = `${displayBalance} ETH`;
   }
 
   return (
     <span
       style={{
         verticalAlign: "middle",
-        fontSize: size || 24,
+        fontSize: size || 20,
         padding: 8,
         cursor: "pointer",
       }}

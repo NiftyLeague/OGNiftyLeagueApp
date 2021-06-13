@@ -52,13 +52,16 @@ window.ctx = unityContext;
 
 function objectify(array) {
   return array.reduce((p, c) => {
+    // eslint-disable-next-line prefer-destructuring
     p[c[0].replace(" ", "")] = c[1];
     return p;
   }, {});
 }
 
-export default function Home({ mainnetProvider, subgraphUri, tx, writeContracts }) {
-  const { loading, data } = useQuery(CHARACTERS_GQL, { pollInterval: 2500 });
+export default function Home({ nftPrice, mainnetProvider, subgraphUri, tx, writeContracts }) {
+  // const { loading, data } = useQuery(CHARACTERS_GQL, { pollInterval: 5000 });
+  const loading = true;
+  const data = {};
   console.log("data", loading, data);
   console.log("writeContracts", writeContracts);
   function graphQLFetcher(graphQLParams) {
@@ -91,10 +94,9 @@ export default function Home({ mainnetProvider, subgraphUri, tx, writeContracts 
   const [txCost, setTxCost] = useState(0.05);
   const [isLoaded, setLoaded] = useState(false);
   const [progression, setProgression] = useState(0);
-  const [message, setMessage] = useState("");
 
   const mintCharacter = useCallback(
-    e => {
+    async e => {
       console.log("mintCharacter detail", e, e.detail);
       const traits = objectify(e.detail);
       const {
@@ -128,10 +130,10 @@ export default function Home({ mainnetProvider, subgraphUri, tx, writeContracts 
       const clothing = [Top, Outerwear, Print, Bottom, Footwear, Belt];
       const accessories = [Hat, Eyewear, Piercing, Wrist, Hand, Neckwear];
       const items = [LeftHand, RightHand];
-      const value = "" + parseFloat(txCost) * 10 ** 18;
+      const value = "" + parseFloat(nftPrice) * 10 ** 18;
       tx(writeContracts.NiftyLeagueCharacter.purchase(character, head, clothing, accessories, items, { value }));
     },
-    [writeContracts, tx, txCost],
+    [writeContracts, tx, nftPrice],
   );
 
   useEffect(() => {
@@ -159,12 +161,12 @@ export default function Home({ mainnetProvider, subgraphUri, tx, writeContracts 
           <Spin
             size="large"
             tip="Loading character creator..."
-            style={{ position: "absolute", top: 460, left: "50%", fontSize: "50px !important" }}
+            style={{ position: "absolute", top: 460, left: "45%", fontSize: "50px !important" }}
           />
         )}
         <Unity
           unityContext={unityContext}
-          style={{ width: 1120, height: 840, visibility: isLoaded ? "visible" : "hidden" }}
+          style={{ width: 1120, height: 840, visibility: isLoaded ? "visible" : "hidden", cursor: "pointer" }}
         />
       </div>
       <div style={{ width: 780, margin: "auto", paddingBottom: 64 }}>
@@ -181,7 +183,7 @@ export default function Home({ mainnetProvider, subgraphUri, tx, writeContracts 
           </Typography>
         )}
         <div style={{ margin: 32, height: 400, border: "1px solid #888888", textAlign: "left" }}>
-          <GraphiQL fetcher={graphQLFetcher} docExplorerOpen query={CHARACTERS_QUERY} />
+          {/* <GraphiQL fetcher={graphQLFetcher} docExplorerOpen query={CHARACTERS_QUERY} /> */}
         </div>
       </div>
     </div>

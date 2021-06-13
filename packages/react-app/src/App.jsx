@@ -1,10 +1,9 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
-import React, { useCallback, useEffect, useState } from "react";
-import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
-import { JsonRpcProvider, Web3Provider } from "@ethersproject/providers";
-import { Menu, Alert } from "antd";
-import Web3Modal from "web3modal";
-import WalletConnectProvider from "@walletconnect/web3-provider";
+import React, { useEffect, useState } from "react";
+import { Switch, Route } from "react-router-dom";
+import { JsonRpcProvider } from "@ethersproject/providers";
+// eslint-disable-next-line no-unused-vars
+import { BigNumber } from "ethers";
 import { useUserAddress } from "eth-hooks";
 import { formatEther } from "@ethersproject/units";
 import {
@@ -18,10 +17,10 @@ import {
   useBalance,
   // useExternalContractLoader,
 } from "./hooks";
-import { AppBar, Header, Account, Faucet, Contract, ThemeSwitch } from "./components";
+import { Contract, Faucet, Navigation, ThemeSwitch } from "./components";
 import { Notifier } from "./helpers";
 import { Hints, ExampleUI, Subgraph, Home } from "./views";
-import { INFURA_ID, NETWORK, NETWORKS } from "./constants";
+import { DEBUG, NETWORKS, NFT_CONTRACT, INFURA_ID } from "./constants";
 import "./App.css";
 /*
     Welcome to 🏗 scaffold-eth !
@@ -42,10 +41,9 @@ import "./App.css";
     (and then use the `useExternalContractLoader()` hook!)
 */
 
-/// 📡 What chain are your contracts deployed to?
-const targetNetwork = NETWORKS[process.env.REACT_APP_NETWORK]; // <------- select your target frontend network (localhost, rinkeby, xdai, mainnet)
-
-const DEBUG = process.env.NODE_ENV === "development";
+// 📡 What chain are your contracts deployed to?
+// select your target frontend network (localhost, rinkeby, mainnet)
+const targetNetwork = NETWORKS[process.env.REACT_APP_NETWORK];
 
 // 🛰 providers
 if (DEBUG) console.log("📡 Connecting to Mainnet Ethereum");
@@ -55,7 +53,7 @@ if (DEBUG) console.log("📡 Connecting to Mainnet Ethereum");
 // attempt to connect to our own scaffold eth rpc and if that fails fall back to infura...
 const scaffoldEthProvider = new JsonRpcProvider("https://rpc.scaffoldeth.io:48544");
 const mainnetInfura = new JsonRpcProvider("https://mainnet.infura.io/v3/" + INFURA_ID);
-// ( ⚠️ Getting "failed to meet quorum" errors? Check your INFURA_I
+// ( ⚠️ Getting "failed to meet quorum" errors? Check your INFURA_ID
 
 // 🏠 Your local provider is usually pointed at your local blockchain
 const localProviderUrl = targetNetwork.rpcUrl;
@@ -64,29 +62,6 @@ const localProvider = new JsonRpcProvider(localProviderUrl);
 
 // 🔭 block explorer URL
 const { blockExplorer } = targetNetwork;
-
-/*
-  Web3 modal helps us "connect" external wallets:
-*/
-const web3Modal = new Web3Modal({
-  // network: "mainnet", // optional
-  cacheProvider: true, // optional
-  providerOptions: {
-    walletconnect: {
-      package: WalletConnectProvider, // required
-      options: {
-        infuraId: INFURA_ID,
-      },
-    },
-  },
-});
-
-const logoutOfWeb3Modal = async () => {
-  await web3Modal.clearCachedProvider();
-  setTimeout(() => {
-    window.location.reload();
-  }, 1);
-};
 
 function App({ subgraphUri }) {
   const mainnetProvider = scaffoldEthProvider && scaffoldEthProvider._network ? scaffoldEthProvider : mainnetInfura;
@@ -133,8 +108,9 @@ function App({ subgraphUri }) {
   // ]);
 
   // keep track of a variable from the contract in the local React state:
-  // const purpose = useContractReader(readContracts, "YourContract", "purpose");
-
+  // const nftPriceBN = useContractReader(readContracts, NFT_CONTRACT, "getNFTPrice", null, 5000);
+  // const nftPrice = nftPriceBN && formatEther(nftPriceBN.toString());
+  const nftPrice = 0.05;
   // 📟 Listen for broadcast events
   // const setPurposeEvents = useEventListener(readContracts, "YourContract", "SetPurpose", localProvider, 1);
 
@@ -208,53 +184,6 @@ function App({ subgraphUri }) {
   //   }
   // }, [myMainnetDAIBalance]); // For Buyer-Lazy-Mint Branch: balance, transferEvents
 
-  const networkDisplay =
-    localChainId && selectedChainId && localChainId !== selectedChainId ? (
-      <div
-        style={{
-          zIndex: 2,
-          position: "absolute",
-          right: 0,
-          top: 60,
-          padding: 16,
-        }}
-      >
-        <Alert
-          message="⚠️ Wrong Network"
-          description={
-            <div>
-              You have <b>{NETWORK(selectedChainId).name}</b> selected and you need to be on{" "}
-              <b>{NETWORK(localChainId).name}</b>.
-            </div>
-          }
-          type="error"
-          closable={false}
-        />
-      </div>
-    ) : (
-      <div
-        style={{
-          zIndex: -1,
-          position: "absolute",
-          right: 154,
-          top: 28,
-          padding: 16,
-          color: targetNetwork.color,
-        }}
-      >
-        {targetNetwork.name}
-      </div>
-    );
-
-  const loadWeb3Modal = useCallback(async () => {
-    const provider = await web3Modal.connect();
-    setInjectedProvider(new Web3Provider(provider));
-  }, [setInjectedProvider]);
-
-  useEffect(() => {
-    if (web3Modal.cachedProvider) loadWeb3Modal();
-  }, [loadWeb3Modal]);
-
   const [route, setRoute] = useState();
   useEffect(() => {
     setRoute(window.location.pathname);
@@ -264,46 +193,31 @@ function App({ subgraphUri }) {
 
   return (
     <div className="App">
-      <AppBar />
-      <Header />
-      {networkDisplay}
-      <BrowserRouter>
-        <Menu style={{ textAlign: "center" }} selectedKeys={[route]} mode="horizontal">
-          <Menu.Item key="/">
-            <Link onClick={() => setRoute("/")} to="/">
-              Home
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="/NFTL">
-            <Link onClick={() => setRoute("/NTFL")} to="/NFTL">
-              NFTL Token
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="/NFTs">
-            <Link onClick={() => setRoute("/NFTs")} to="/NFTs">
-              NFTs
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="/hints">
-            <Link onClick={() => setRoute("/hints")} to="/hints">
-              Hints
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="/example">
-            <Link onClick={() => setRoute("/example")} to="/example">
-              Example UI
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="/subgraph">
-            <Link onClick={() => setRoute("/subgraph")} to="/subgraph">
-              Subgraph
-            </Link>
-          </Menu.Item>
-        </Menu>
-
+      {/* <AppBar /> */}
+      <Navigation
+        address={address}
+        blockExplorer={blockExplorer}
+        localChainId={localChainId}
+        localProvider={localProvider}
+        mainnetProvider={mainnetProvider}
+        price={price}
+        route={route}
+        selectedChainId={selectedChainId}
+        setInjectedProvider={setInjectedProvider}
+        setRoute={setRoute}
+        targetNetwork={targetNetwork}
+        userProvider={userProvider}
+      />
+      <div className="AppBody">
         <Switch>
           <Route exact path="/">
-            <Home subgraphUri={subgraphUri} tx={tx} writeContracts={writeContracts} mainnetProvider={mainnetProvider} />
+            <Home
+              nftPrice={nftPrice}
+              mainnetProvider={mainnetProvider}
+              subgraphUri={subgraphUri}
+              tx={tx}
+              writeContracts={writeContracts}
+            />
           </Route>
           <Route path="/NFTL">
             <Contract
@@ -316,7 +230,7 @@ function App({ subgraphUri }) {
           </Route>
           <Route path="/NFTs">
             <Contract
-              name="NiftyLeagueCharacter"
+              name={NFT_CONTRACT}
               signer={userProvider.getSigner()}
               provider={localProvider}
               address={address}
@@ -355,32 +269,9 @@ function App({ subgraphUri }) {
             />
           </Route>
         </Switch>
-      </BrowserRouter>
+      </div>
 
       <ThemeSwitch />
-
-      {/* 👨‍💼 Your account is in the top right with a wallet at connect options */}
-      <div
-        style={{
-          position: "fixed",
-          textAlign: "right",
-          right: 0,
-          top: 0,
-          padding: 10,
-        }}
-      >
-        <Account
-          address={address}
-          localProvider={localProvider}
-          userProvider={userProvider}
-          mainnetProvider={mainnetProvider}
-          price={price}
-          web3Modal={web3Modal}
-          loadWeb3Modal={loadWeb3Modal}
-          logoutOfWeb3Modal={logoutOfWeb3Modal}
-          blockExplorer={blockExplorer}
-        />
-      </div>
 
       {/* if the local provider has a signer, let's show the faucet: */}
       {faucetAvailable && (

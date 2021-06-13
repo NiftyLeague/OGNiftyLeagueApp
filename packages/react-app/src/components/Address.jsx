@@ -33,7 +33,7 @@ const blockExplorerLink = (address, blockExplorer) =>
   `${blockExplorer || "https://etherscan.io/"}${"address/"}${address}`;
 
 export default function Address(props) {
-  const { address, blockExplorer, ensProvider, fontSize, minimized, onChange, size } = props;
+  const { address, blockExplorer, ensProvider, fontSize, onChange, size } = props;
 
   const ens = useLookupAddress(ensProvider, address);
 
@@ -58,20 +58,6 @@ export default function Address(props) {
   }
 
   const etherscanLink = blockExplorerLink(address, blockExplorer);
-  if (minimized) {
-    return (
-      <span style={{ verticalAlign: "middle" }}>
-        <a
-          style={{ color: currentTheme === "light" ? "#222222" : "#ddd" }}
-          target="_blank"
-          href={etherscanLink}
-          rel="noopener noreferrer"
-        >
-          <Blockies seed={address.toLowerCase()} size={8} scale={2} />
-        </a>
-      </span>
-    );
-  }
 
   let text;
   if (onChange) {
@@ -103,11 +89,19 @@ export default function Address(props) {
   }
 
   return (
-    <span>
-      <span style={{ verticalAlign: "middle" }}>
-        <Blockies seed={address.toLowerCase()} size={8} scale={fontSize ? fontSize / 7 : 4} />
-      </span>
-      <span style={{ verticalAlign: "middle", paddingLeft: 5, fontSize: fontSize || 28 }}>{text}</span>
-    </span>
+    <>
+      <div
+        style={{
+          borderRadius: "50%",
+          overflow: "hidden",
+          width: 20,
+          height: 20,
+          margin: "auto 0",
+        }}
+      >
+        <Blockies seed={address.toLowerCase()} size={5} className="blockies" />
+      </div>
+      <span style={{ verticalAlign: "middle", paddingLeft: 5, fontSize: fontSize || 20 }}>{text}</span>
+    </>
   );
 }
