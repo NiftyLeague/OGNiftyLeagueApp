@@ -1,13 +1,14 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
 import React, { useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
-import { Layout, Menu, Alert, Typography } from "antd";
+import { Alert, Button, Dropdown, Layout, Menu, Typography } from "antd";
+import { MoreVert } from "@material-ui/icons";
 import Web3Modal from "web3modal";
 import { Web3Provider } from "@ethersproject/providers";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 
 import Account from "./Account";
-import { INFURA_ID, NETWORK } from "../constants";
+import { DEBUG, INFURA_ID, NETWORK } from "../constants";
 
 const { Title } = Typography;
 
@@ -32,6 +33,41 @@ const logoutOfWeb3Modal = async () => {
   setTimeout(() => {
     window.location.reload();
   }, 1);
+};
+
+const DropdownMenu = ({ setRoute }) => {
+  const menu = (
+    <Menu>
+      <Menu.Item key="/NFTL">
+        <Link onClick={() => setRoute("/NTFL")} to="/NFTL">
+          NFTL Token
+        </Link>
+      </Menu.Item>
+      <Menu.Item key="/NFTs">
+        <Link onClick={() => setRoute("/NFTs")} to="/NFTs">
+          NFTs
+        </Link>
+      </Menu.Item>
+      <Menu.Item key="/hints">
+        <Link onClick={() => setRoute("/hints")} to="/hints">
+          Hints
+        </Link>
+      </Menu.Item>
+      <Menu.Item key="/subgraph">
+        <Link onClick={() => setRoute("/subgraph")} to="/subgraph">
+          Subgraph
+        </Link>
+      </Menu.Item>
+    </Menu>
+  );
+
+  return (
+    <Dropdown key="more" overlay={menu}>
+      <Button style={{ border: "none", padding: 0, backgroundColor: "transparent", margin: "auto 0" }}>
+        <MoreVert style={{ fontSize: 20, verticalAlign: "top" }} />
+      </Button>
+    </Dropdown>
+  );
 };
 
 function Navigation({
@@ -81,7 +117,7 @@ function Navigation({
         />
       </div>
     ) : (
-      <div style={{ color: targetNetwork.color }}>{targetNetwork.name}</div>
+      <div style={{ color: targetNetwork.color, marginLeft: "auto", padding: "0 16px" }}>{targetNetwork.name}</div>
     );
 
   return (
@@ -92,11 +128,10 @@ function Navigation({
           zIndex: 2,
           width: "100%",
           display: "flex",
-          justifyContent: "space-between",
           padding: "0 20px",
         }}
       >
-        <Title level={4} style={{ margin: "auto 0" }}>
+        <Title level={4} style={{ margin: "auto 30px auto 0" }}>
           👾 Nifty League
         </Title>
         <Menu style={{ textAlign: "center" }} selectedKeys={[route]} mode="horizontal" defaultSelectedKeys={["/"]}>
@@ -105,29 +140,24 @@ function Navigation({
               Home
             </Link>
           </Menu.Item>
-          <Menu.Item key="/NFTL">
-            <Link onClick={() => setRoute("/NTFL")} to="/NFTL">
-              NFTL Token
+          <Menu.Item key="/about">
+            <Link onClick={() => setRoute("/about")} to="/about">
+              About
             </Link>
           </Menu.Item>
-          <Menu.Item key="/NFTs">
-            <Link onClick={() => setRoute("/NFTs")} to="/NFTs">
-              NFTs
+          <Menu.Item key="/characters">
+            <Link onClick={() => setRoute("/characters")} to="/characters">
+              Characters
             </Link>
           </Menu.Item>
-          <Menu.Item key="/hints">
-            <Link onClick={() => setRoute("/hints")} to="/hints">
-              Hints
+          <Menu.Item key="/games">
+            <Link onClick={() => setRoute("/games")} to="/games">
+              Games
             </Link>
           </Menu.Item>
-          <Menu.Item key="/example">
-            <Link onClick={() => setRoute("/example")} to="/example">
-              Example UI
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="/subgraph">
-            <Link onClick={() => setRoute("/subgraph")} to="/subgraph">
-              Subgraph
+          <Menu.Item key="/staking">
+            <Link onClick={() => setRoute("/staking")} to="/staking">
+              Staking
             </Link>
           </Menu.Item>
         </Menu>
@@ -143,6 +173,7 @@ function Navigation({
           logoutOfWeb3Modal={logoutOfWeb3Modal}
           blockExplorer={blockExplorer}
         />
+        {DEBUG && <DropdownMenu key="more" setRoute={setRoute} />}
       </Layout.Header>
     </Layout>
   );

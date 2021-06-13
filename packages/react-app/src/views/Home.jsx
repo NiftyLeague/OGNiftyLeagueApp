@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Unity, { UnityContext } from "react-unity-webgl";
-import { Typography, Table, InputNumber, Spin } from "antd";
+import { Typography, Table, Progress } from "antd";
 import { useQuery, gql } from "@apollo/client";
 import GraphiQL from "graphiql";
 import "graphiql/graphiql.min.css";
@@ -91,7 +91,6 @@ export default function Home({ nftPrice, mainnetProvider, subgraphUri, tx, write
     },
   ];
 
-  const [txCost, setTxCost] = useState(0.05);
   const [isLoaded, setLoaded] = useState(false);
   const [progression, setProgression] = useState(0);
 
@@ -137,7 +136,7 @@ export default function Home({ nftPrice, mainnetProvider, subgraphUri, tx, write
   );
 
   useEffect(() => {
-    unityContext.on("progress", setProgression);
+    unityContext.on("progress", p => setProgression(parseInt(p * 100, 10)));
     unityContext.on("loaded", () => setLoaded(true));
     unityContext.on("error", console.error);
     unityContext.on("canvas", element => console.log("Canvas", element));
@@ -146,7 +145,9 @@ export default function Home({ nftPrice, mainnetProvider, subgraphUri, tx, write
       window.removeEventListener("SubmitTraitMap", mintCharacter);
       unityContext.removeAllEventListeners();
     };
-  }, [mintCharacter]);
+  }, [mintCharacter, progression]);
+
+  const ready = isLoaded && progression === 100;
 
   return (
     <div style={{ textAlign: "center" }}>
@@ -157,20 +158,31 @@ export default function Home({ nftPrice, mainnetProvider, subgraphUri, tx, write
           backgroundRepeat: "repeat-x",
         }}
       >
-        {!isLoaded && (
-          <Spin
-            size="large"
-            tip="Loading character creator..."
-            style={{ position: "absolute", top: 460, left: "45%", fontSize: "50px !important" }}
-          />
+        {!ready && (
+          <div style={{ position: "absolute", top: 360, width: "100%", fontSize: "50px !important" }}>
+            <div style={{ fontWeight: "bold" }}>Loading character creator...</div>
+            <Progress
+              type="circle"
+              strokeColor={{
+                "0%": "#108ee9",
+                "100%": "#87d068",
+              }}
+              percent={progression}
+              key={progression}
+            />
+          </div>
         )}
         <Unity
           unityContext={unityContext}
-          style={{ width: 1120, height: 840, visibility: isLoaded ? "visible" : "hidden", cursor: "pointer" }}
+          style={{
+            width: 1120,
+            height: 840,
+            visibility: ready ? "visible" : "hidden",
+            cursor: "pointer",
+          }}
         />
       </div>
-      <div style={{ width: 780, margin: "auto", paddingBottom: 64 }}>
-        Cost: <InputNumber value={txCost} onChange={setTxCost} style={{ width: 185 }} min={0.05} max={1.25} />
+      <div style={{ width: 780, margin: "auto", padding: 64 }}>
         {data ? (
           <Table dataSource={data.characters} columns={purposeColumns} rowKey="id" />
         ) : (

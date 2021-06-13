@@ -3,6 +3,7 @@ import Blockies from "react-blockies";
 import { useThemeSwitcher } from "react-css-theme-switcher";
 import { Typography, Skeleton } from "antd";
 import { useLookupAddress } from "../hooks";
+import { DEBUG } from "../constants";
 
 /*
   ~ What it does? ~
@@ -33,7 +34,7 @@ const blockExplorerLink = (address, blockExplorer) =>
   `${blockExplorer || "https://etherscan.io/"}${"address/"}${address}`;
 
 export default function Address(props) {
-  const { address, blockExplorer, ensProvider, fontSize, onChange, size } = props;
+  const { address, blockExplorer, ensProvider, fontSize, size } = props;
 
   const ens = useLookupAddress(ensProvider, address);
 
@@ -59,35 +60,6 @@ export default function Address(props) {
 
   const etherscanLink = blockExplorerLink(address, blockExplorer);
 
-  let text;
-  if (onChange) {
-    text = (
-      <Text editable={{ onChange }} copyable={{ text: address }}>
-        <a
-          style={{ color: currentTheme === "light" ? "#222222" : "#ddd" }}
-          target="_blank"
-          href={etherscanLink}
-          rel="noopener noreferrer"
-        >
-          {displayAddress}
-        </a>
-      </Text>
-    );
-  } else {
-    text = (
-      <Text copyable={{ text: address }}>
-        <a
-          style={{ color: currentTheme === "light" ? "#222222" : "#ddd" }}
-          target="_blank"
-          href={etherscanLink}
-          rel="noopener noreferrer"
-        >
-          {displayAddress}
-        </a>
-      </Text>
-    );
-  }
-
   return (
     <>
       <div
@@ -101,7 +73,18 @@ export default function Address(props) {
       >
         <Blockies seed={address.toLowerCase()} size={5} className="blockies" />
       </div>
-      <span style={{ verticalAlign: "middle", paddingLeft: 5, fontSize: fontSize || 20 }}>{text}</span>
+      <span style={{ verticalAlign: "middle", paddingLeft: 5, fontSize: fontSize || 20 }}>
+        <Text copyable={DEBUG && { text: address }}>
+          <a
+            style={{ color: currentTheme === "light" ? "#222222" : "#ddd" }}
+            target="_blank"
+            href={etherscanLink}
+            rel="noopener noreferrer"
+          >
+            {displayAddress}
+          </a>
+        </Text>
+      </span>
     </>
   );
 }

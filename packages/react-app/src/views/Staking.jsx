@@ -1,5 +1,5 @@
 import React from "react";
 
 export default function () {
-  return <div>Characters</div>;
+  return <div>Staking</div>;
 }
