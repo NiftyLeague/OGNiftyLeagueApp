@@ -1,11 +1,14 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
 import React, { useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
+import { useThemeSwitcher } from "react-css-theme-switcher";
 import { Alert, Button, Dropdown, Layout, Menu, Typography } from "antd";
 import { MoreVert } from "@material-ui/icons";
 import Web3Modal from "web3modal";
 import { Web3Provider } from "@ethersproject/providers";
 import WalletConnectProvider from "@walletconnect/web3-provider";
+// import NiftyLeagueLogo from "../assets/images/nifty-league-logo-full.png";
+// import NiftyLeagueLogo from "../assets/images/nifty-league-logo.png";
 
 import Account from "./Account";
 import { DEBUG, INFURA_ID, NETWORK } from "../constants";
@@ -38,32 +41,37 @@ const logoutOfWeb3Modal = async () => {
 const DropdownMenu = ({ setRoute }) => {
   const menu = (
     <Menu>
-      <Menu.Item key="/NFTL">
-        <Link onClick={() => setRoute("/NTFL")} to="/NFTL">
-          NFTL Token
-        </Link>
-      </Menu.Item>
-      <Menu.Item key="/NFTs">
-        <Link onClick={() => setRoute("/NFTs")} to="/NFTs">
-          NFTs
-        </Link>
-      </Menu.Item>
-      <Menu.Item key="/hints">
-        <Link onClick={() => setRoute("/hints")} to="/hints">
-          Hints
-        </Link>
-      </Menu.Item>
-      <Menu.Item key="/subgraph">
-        <Link onClick={() => setRoute("/subgraph")} to="/subgraph">
-          Subgraph
-        </Link>
-      </Menu.Item>
+      {/* TODO: Add Discord, GitHub, Docs links */}
+      {DEBUG && (
+        <>
+          <Menu.Item key="/NFTL">
+            <Link onClick={() => setRoute("/NTFL")} to="/NFTL">
+              NFTL Token
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="/NFTs">
+            <Link onClick={() => setRoute("/NFTs")} to="/NFTs">
+              NFTs
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="/hints">
+            <Link onClick={() => setRoute("/hints")} to="/hints">
+              Hints
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="/subgraph">
+            <Link onClick={() => setRoute("/subgraph")} to="/subgraph">
+              Subgraph
+            </Link>
+          </Menu.Item>
+        </>
+      )}
     </Menu>
   );
 
   return (
     <Dropdown key="more" overlay={menu}>
-      <Button style={{ border: "none", padding: 0, backgroundColor: "transparent", margin: "auto 0" }}>
+      <Button style={{ border: "none", padding: 0, backgroundColor: "transparent", margin: "auto 0 auto 5px" }}>
         <MoreVert style={{ fontSize: 20, verticalAlign: "top" }} />
       </Button>
     </Dropdown>
@@ -84,6 +92,8 @@ function Navigation({
   targetNetwork,
   userProvider,
 }) {
+  const { currentTheme } = useThemeSwitcher();
+  const darkThemed = currentTheme === "dark";
   const loadWeb3Modal = useCallback(async () => {
     const provider = await web3Modal.connect();
     setInjectedProvider(new Web3Provider(provider));
@@ -121,7 +131,7 @@ function Navigation({
     );
 
   return (
-    <Layout theme="light">
+    <Layout>
       <Layout.Header
         style={{
           position: "fixed",
@@ -129,12 +139,30 @@ function Navigation({
           width: "100%",
           display: "flex",
           padding: "0 20px",
+          ...(darkThemed
+            ? {
+                borderBottom: "1px solid rgb(66, 66, 66)",
+                background: "#212121",
+              }
+            : {
+                background: "#c1ccdd",
+              }),
         }}
       >
         <Title level={4} style={{ margin: "auto 30px auto 0" }}>
           👾 Nifty League
         </Title>
-        <Menu style={{ textAlign: "center" }} selectedKeys={[route]} mode="horizontal" defaultSelectedKeys={["/"]}>
+        {/* <img width={42} height={50} src={NiftyLeagueLogo} alt="Nifty League logo" /> */}
+        <Menu
+          style={{
+            textAlign: "center",
+            borderBottom: "none",
+            backgroundColor: "transparent",
+          }}
+          selectedKeys={[route]}
+          mode="horizontal"
+          defaultSelectedKeys={["/"]}
+        >
           <Menu.Item key="/">
             <Link onClick={() => setRoute("/")} to="/">
               Home
@@ -173,7 +201,7 @@ function Navigation({
           logoutOfWeb3Modal={logoutOfWeb3Modal}
           blockExplorer={blockExplorer}
         />
-        {DEBUG && <DropdownMenu key="more" setRoute={setRoute} />}
+        <DropdownMenu key="more" setRoute={setRoute} />
       </Layout.Header>
     </Layout>
   );

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Unity, { UnityContext } from "react-unity-webgl";
 import { Progress } from "antd";
-import "graphiql/graphiql.min.css";
 import { NFT_CONTRACT } from "../constants";
 import { useEventListener } from "../hooks";
 import CharacterBGImg from "../assets/backgrounds/character_creator.png";
@@ -13,8 +12,8 @@ const unityContext = new UnityContext({
   frameworkUrl: "characterBuild/0.3.20.framework.js",
   codeUrl: "characterBuild/0.3.20.wasm",
   streamingAssetsUrl: "streamingassets",
-  companyName: "NiftyCompany",
-  productName: "NiftyLeague",
+  companyName: "NiftyLeague",
+  productName: "NiftyCharacterCreator",
   productVersion: "0.3.20",
 });
 
@@ -104,7 +103,7 @@ export default function Home({ nftPrice, localProvider, readContracts, tx, write
       document.removeEventListener("mousemove", onMouse, false);
       unityContext.removeAllEventListeners();
     };
-  }, [mintCharacter, progression]);
+  }, [mintCharacter]);
 
   const ready = isLoaded && progression === 100;
 
