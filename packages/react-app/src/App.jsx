@@ -19,7 +19,7 @@ import {
 } from "./hooks";
 import { Contract, Faucet, Navigation, ThemeSwitch } from "./components";
 import { Notifier } from "./helpers";
-import { Hints, ExampleUI, Subgraph, Home } from "./views";
+import { About, Characters, Games, Hints, Home, Staking, Subgraph } from "./views";
 import { DEBUG, NETWORKS, NFT_CONTRACT, INFURA_ID } from "./constants";
 import "./App.css";
 /*
@@ -219,55 +219,56 @@ function App({ subgraphUri }) {
               writeContracts={writeContracts}
             />
           </Route>
-          <Route path="/NFTL">
-            <Contract
-              name="NFTLToken"
-              signer={userProvider.getSigner()}
-              provider={localProvider}
-              address={address}
-              blockExplorer={blockExplorer}
-            />
+          <Route exact path="/about">
+            <About />
           </Route>
-          <Route path="/NFTs">
-            <Contract
-              name={NFT_CONTRACT}
-              signer={userProvider.getSigner()}
-              provider={localProvider}
-              address={address}
-              blockExplorer={blockExplorer}
-            />
+          <Route exact path="/characters">
+            <Characters />
           </Route>
-          <Route path="/hints">
-            <Hints
-              address={address}
-              yourLocalBalance={yourLocalBalance}
-              mainnetProvider={mainnetProvider}
-              price={price}
-            />
+          <Route exact path="/games">
+            <Games />
           </Route>
-          <Route path="/example">
-            <ExampleUI
-              address={address}
-              userProvider={userProvider}
-              mainnetProvider={mainnetProvider}
-              localProvider={localProvider}
-              yourLocalBalance={yourLocalBalance}
-              price={price}
-              tx={tx}
-              writeContracts={writeContracts}
-              readContracts={readContracts}
-              // purpose={purpose}
-              // setPurposeEvents={setPurposeEvents}
-            />
+          <Route exact path="/staking">
+            <Staking />
           </Route>
-          <Route path="/subgraph">
-            <Subgraph
-              subgraphUri={subgraphUri}
-              tx={tx}
-              writeContracts={writeContracts}
-              mainnetProvider={mainnetProvider}
-            />
-          </Route>
+          {DEBUG && (
+            <>
+              <Route path="/NFTL">
+                <Contract
+                  name="NFTLToken"
+                  signer={userProvider.getSigner()}
+                  provider={localProvider}
+                  address={address}
+                  blockExplorer={blockExplorer}
+                />
+              </Route>
+              <Route path="/NFTs">
+                <Contract
+                  name={NFT_CONTRACT}
+                  signer={userProvider.getSigner()}
+                  provider={localProvider}
+                  address={address}
+                  blockExplorer={blockExplorer}
+                />
+              </Route>
+              <Route path="/hints">
+                <Hints
+                  address={address}
+                  yourLocalBalance={yourLocalBalance}
+                  mainnetProvider={mainnetProvider}
+                  price={price}
+                />
+              </Route>
+              <Route path="/subgraph">
+                <Subgraph
+                  subgraphUri={subgraphUri}
+                  tx={tx}
+                  writeContracts={writeContracts}
+                  mainnetProvider={mainnetProvider}
+                />
+              </Route>
+            </>
+          )}
         </Switch>
       </div>
 
