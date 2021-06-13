@@ -1,41 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Unity, { UnityContext } from "react-unity-webgl";
-import { Typography, Table, Progress } from "antd";
-import { useQuery, gql } from "@apollo/client";
-import GraphiQL from "graphiql";
+import { Progress } from "antd";
 import "graphiql/graphiql.min.css";
-import fetch from "isomorphic-fetch";
-import { Address } from "../components";
+import { NFT_CONTRACT } from "../constants";
+import { useEventListener } from "../hooks";
 import CharacterBGImg from "../assets/backgrounds/character_creator.png";
 import "antd/dist/antd.css";
-
-const CHARACTERS_QUERY = `
-  {
-    characters {
-      id
-      owner {
-        id
-        address
-      }
-      traits
-      name
-      createdAt
-      transactionHash
-    }
-    owners {
-      id
-      address
-      createdAt
-      characters {
-        id
-        traits
-      }
-      characterCount
-    }
-  }
-  `;
-
-const CHARACTERS_GQL = gql(CHARACTERS_QUERY);
 
 const unityContext = new UnityContext({
   loaderUrl: "characterBuild/0.3.20.loader.js",
@@ -52,47 +22,19 @@ window.ctx = unityContext;
 
 function objectify(array) {
   return array.reduce((p, c) => {
-    // eslint-disable-next-line prefer-destructuring
+    // eslint-disable-next-line prefer-destructuring, no-param-reassign
     p[c[0].replace(" ", "")] = c[1];
     return p;
   }, {});
 }
 
-export default function Home({ nftPrice, mainnetProvider, subgraphUri, tx, writeContracts }) {
-  // const { loading, data } = useQuery(CHARACTERS_GQL, { pollInterval: 5000 });
-  const loading = true;
-  const data = {};
-  console.log("data", loading, data);
-  console.log("writeContracts", writeContracts);
-  function graphQLFetcher(graphQLParams) {
-    return fetch(subgraphUri, {
-      method: "post",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(graphQLParams),
-    }).then(response => response.json());
-  }
-
-  const purposeColumns = [
-    {
-      title: "Token Id",
-      dataIndex: "id",
-      key: "id",
-    },
-    {
-      title: "owner",
-      key: "owner",
-      render: ({ owner }) => <Address address={owner.id} ensProvider={mainnetProvider} fontSize={16} />,
-    },
-    {
-      title: "Traits",
-      key: "traits",
-      dataIndex: "traits",
-      render: traits => traits.split(","),
-    },
-  ];
-
+export default function Home({ nftPrice, localProvider, readContracts, tx, writeContracts }) {
   const [isLoaded, setLoaded] = useState(false);
   const [progression, setProgression] = useState(0);
+
+  // 📟 Listen for broadcast events
+  const characterMintEvents = useEventListener(readContracts, NFT_CONTRACT, "CharacterGenerated", localProvider, 1);
+  console.log("characterMintEvents", characterMintEvents);
 
   const mintCharacter = useCallback(
     async e => {
@@ -130,7 +72,7 @@ export default function Home({ nftPrice, mainnetProvider, subgraphUri, tx, write
       const accessories = [Hat, Eyewear, Piercing, Wrist, Hand, Neckwear];
       const items = [LeftHand, RightHand];
       const value = "" + parseFloat(nftPrice) * 10 ** 18;
-      tx(writeContracts.NiftyLeagueCharacter.purchase(character, head, clothing, accessories, items, { value }));
+      tx(writeContracts[NFT_CONTRACT].purchase(character, head, clothing, accessories, items, { value }));
     },
     [writeContracts, tx, nftPrice],
   );
@@ -199,22 +141,7 @@ export default function Home({ nftPrice, mainnetProvider, subgraphUri, tx, write
           }}
         />
       </div>
-      <div style={{ width: 780, margin: "auto", padding: 64 }}>
-        {data ? (
-          <Table dataSource={data.characters} columns={purposeColumns} rowKey="id" />
-        ) : (
-          <Typography>
-            {loading ? (
-              "Loading..."
-            ) : (
-              <div style={{ marginTop: 8, padding: 8 }}>Warning: Have you deployed your subgraph yet?</div>
-            )}
-          </Typography>
-        )}
-        <div style={{ margin: 32, height: 400, border: "1px solid #888888", textAlign: "left" }}>
-          {/* <GraphiQL fetcher={graphQLFetcher} docExplorerOpen query={CHARACTERS_QUERY} /> */}
-        </div>
-      </div>
+      <div style={{ width: 780, margin: "auto", padding: 64 }} />
     </div>
   );
 }

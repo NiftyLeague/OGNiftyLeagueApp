@@ -1,6 +1,8 @@
+/* eslint-disable no-unused-vars */
 /* eslint no-use-before-define: "warn" */
 const fs = require("fs");
 const chalk = require("chalk");
+// eslint-disable-next-line no-unused-vars
 const { config, ethers, tenderly, run } = require("hardhat");
 const { utils } = require("ethers");
 const R = require("ramda");
@@ -9,7 +11,6 @@ const main = async () => {
   console.log("\n\n 📡 Deploying...\n");
 
   // const nft = await deploy("NiftyERC1155", ["https://abcoathup.github.io/SampleERC1155/api/token/{id}.json"]);
-  const yourContract = await deploy("YourContract");
   const nftlToken = await deploy("NFTLToken", [Math.floor(Date.now() / 1000), 100000]);
   const nft = await deploy("NiftyLeagueCharacter", [nftlToken.address]);
   await nftlToken.setNFTAddress(nft.address);
@@ -130,6 +131,7 @@ function sleep(ms) {
 }
 
 // If you want to verify on https://tenderly.co/
+// eslint-disable-next-line consistent-return
 const tenderlyVerify = async ({ contractName, contractAddress }) => {
   const tenderlyNetworks = ["kovan", "goerli", "mainnet", "rinkeby", "ropsten", "matic", "mumbai", "xDai", "POA"];
   const targetNetwork = process.env.HARDHAT_NETWORK || config.defaultNetwork;
