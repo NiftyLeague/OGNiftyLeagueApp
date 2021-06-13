@@ -135,14 +135,31 @@ export default function Home({ nftPrice, mainnetProvider, subgraphUri, tx, write
     [writeContracts, tx, nftPrice],
   );
 
+  const onScroll = () => {
+    const content = document.getElementsByClassName("character-canvas")[0];
+    if (content) content.style["pointer-events"] = "none";
+  };
+
+  const onMouse = () => {
+    const content = document.getElementsByClassName("character-canvas")[0];
+    if (content) {
+      content.style["pointer-events"] = "auto";
+      content.style.cursor = "pointer";
+    }
+  };
+
   useEffect(() => {
     unityContext.on("progress", p => setProgression(parseInt(p * 100, 10)));
     unityContext.on("loaded", () => setLoaded(true));
     unityContext.on("error", console.error);
     unityContext.on("canvas", element => console.log("Canvas", element));
     window.addEventListener("SubmitTraitMap", mintCharacter);
+    document.addEventListener("wheel", onScroll, false);
+    document.addEventListener("mousemove", onMouse, false);
     return () => {
       window.removeEventListener("SubmitTraitMap", mintCharacter);
+      document.removeEventListener("wheel", onScroll, false);
+      document.removeEventListener("mousemove", onMouse, false);
       unityContext.removeAllEventListeners();
     };
   }, [mintCharacter, progression]);
@@ -173,12 +190,12 @@ export default function Home({ nftPrice, mainnetProvider, subgraphUri, tx, write
           </div>
         )}
         <Unity
+          className="character-canvas"
           unityContext={unityContext}
           style={{
             width: 1120,
             height: 840,
             visibility: ready ? "visible" : "hidden",
-            cursor: "pointer",
           }}
         />
       </div>
