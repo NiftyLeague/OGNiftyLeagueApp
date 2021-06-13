@@ -7,6 +7,7 @@ import GraphiQL from "graphiql";
 import "graphiql/graphiql.min.css";
 import fetch from "isomorphic-fetch";
 import { Address } from "../components";
+import { NFT_CONTRACT } from "../constants";
 
 const highlight = {
   marginLeft: 4,
@@ -16,7 +17,37 @@ const highlight = {
   fontWeight: "bolder",
 };
 
-function Subgraph({ mainnetProvider, subgraphUri, tx, writeContracts }) {
+const CHARACTERS_QUERY = `
+  {
+    characters {
+      id
+      owner {
+        id
+        address
+      }
+      traits
+      name
+      createdAt
+      transactionHash
+    }
+    owners {
+      id
+      address
+      createdAt
+      characters {
+        id
+        traits
+      }
+      characterCount
+    }
+  }
+  `;
+
+const CHARACTERS_GQL = gql(CHARACTERS_QUERY);
+
+function Subgraph({ mainnetProvider, subgraphUri, tx, writeContracts, nftPrice }) {
+  const { loading, data } = useQuery(CHARACTERS_GQL, { pollInterval: 5000 });
+
   function graphQLFetcher(graphQLParams) {
     return fetch(subgraphUri, {
       method: "post",
@@ -25,50 +56,30 @@ function Subgraph({ mainnetProvider, subgraphUri, tx, writeContracts }) {
     }).then(response => response.json());
   }
 
-  const EXAMPLE_GRAPHQL = `
-  {
-    purposes(first: 25, orderBy: createdAt, orderDirection: desc) {
-      id
-      purpose
-      createdAt
-      sender {
-        id
-      }
-    }
-    senders {
-      id
-      address
-      purposeCount
-    }
-  }
-  `;
-  const EXAMPLE_GQL = gql(EXAMPLE_GRAPHQL);
-  const { loading, data } = useQuery(EXAMPLE_GQL, { pollInterval: 2500 });
-
-  const purposeColumns = [
+  const columns = [
     {
-      title: "Purpose",
-      dataIndex: "purpose",
-      key: "purpose",
-    },
-    {
-      title: "Sender",
+      title: "Token Id",
+      dataIndex: "id",
       key: "id",
-      render: record => <Address address={record.sender.id} ensProvider={mainnetProvider} fontSize={16} />,
     },
     {
-      title: "createdAt",
-      key: "createdAt",
-      dataIndex: "createdAt",
-      render: d => new Date(d * 1000).toISOString(),
+      title: "owner",
+      key: "owner",
+      render: ({ owner }) => <Address address={owner.id} ensProvider={mainnetProvider} fontSize={16} />,
+    },
+    {
+      title: "Traits",
+      key: "traits",
+      dataIndex: "traits",
+      render: traits => traits.split(","),
     },
   ];
 
-  const [newPurpose, setNewPurpose] = useState("loading...");
-
-  const deployWarning = (
-    <div style={{ marginTop: 8, padding: 8 }}>Warning: 🤔 Have you deployed your subgraph yet?</div>
-  );
+  const [character, setCharacter] = useState([1, 0, 0, 0, 0]);
+  const [head, setHead] = useState([0, 0, 0, 0, 0]);
+  const [clothing, setClothing] = useState([0, 0, 0, 0, 0, 0]);
+  const [accessories, setAccessories] = useState([0, 0, 0, 0, 0, 0]);
+  const [items, setItems] = useState([0, 0]);
 
   return (
     <>
@@ -155,35 +166,39 @@ function Subgraph({ mainnetProvider, subgraphUri, tx, writeContracts }) {
       </div>
 
       <div style={{ width: 780, margin: "auto", paddingBottom: 64 }}>
-        <div style={{ margin: 32, textAlign: "right" }}>
-          <Input
-            onChange={e => {
-              setNewPurpose(e.target.value);
-            }}
-          />
+        <div style={{ margin: 32, textAlign: "left" }}>
+          Character: <Input onChange={({ target: { value } }) => setCharacter(value)} />
+          Head: <Input onChange={({ target: { value } }) => setHead(value)} />
+          Clothing: <Input onChange={({ target: { value } }) => setClothing(value)} />
+          Accessories: <Input onChange={({ target: { value } }) => setAccessories(value)} />
+          Items: <Input onChange={({ target: { value } }) => setItems(value)} />
           <Button
+            style={{ marginTop: 10 }}
             onClick={() => {
-              console.log("newPurpose", newPurpose);
-              /* look how you call setPurpose on your contract: */
-              tx(writeContracts.YourContract.setPurpose(newPurpose));
+              const value = "" + parseFloat(nftPrice) * 10 ** 18;
+              tx(writeContracts[NFT_CONTRACT].purchase(character, head, clothing, accessories, items, { value }));
             }}
           >
-            Set Purpose
+            Mint Character
           </Button>
         </div>
 
         {data ? (
-          <Table dataSource={data.purposes} columns={purposeColumns} rowKey="id" />
+          <Table dataSource={data.characters} columns={columns} rowKey="id" />
         ) : (
-          <Typography>{loading ? "Loading..." : deployWarning}</Typography>
+          <Typography>
+            {loading ? (
+              "Loading..."
+            ) : (
+              <div style={{ padding: 8 }}>Warning: 🤔 Have you deployed your subgraph yet?</div>
+            )}
+          </Typography>
         )}
 
         <div style={{ margin: 32, height: 400, border: "1px solid #888888", textAlign: "left" }}>
-          <GraphiQL fetcher={graphQLFetcher} docExplorerOpen query={EXAMPLE_GRAPHQL} />
+          <GraphiQL fetcher={graphQLFetcher} docExplorerOpen query={CHARACTERS_QUERY} />
         </div>
       </div>
-
-      <div style={{ padding: 64 }}>...</div>
     </>
   );
 }

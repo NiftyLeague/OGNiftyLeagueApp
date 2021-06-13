@@ -111,8 +111,6 @@ function App({ subgraphUri }) {
   // const nftPriceBN = useContractReader(readContracts, NFT_CONTRACT, "getNFTPrice", null, 5000);
   // const nftPrice = nftPriceBN && formatEther(nftPriceBN.toString());
   const nftPrice = 0.05;
-  // 📟 Listen for broadcast events
-  // const setPurposeEvents = useEventListener(readContracts, "YourContract", "SetPurpose", localProvider, 1);
 
   //
   // ☝️ These effects will log your major set up and upcoming transferEvents- and balance changes
@@ -212,9 +210,9 @@ function App({ subgraphUri }) {
         <Switch>
           <Route exact path="/">
             <Home
+              localProvider={localProvider}
               nftPrice={nftPrice}
-              mainnetProvider={mainnetProvider}
-              subgraphUri={subgraphUri}
+              readContracts={readContracts}
               tx={tx}
               writeContracts={writeContracts}
             />
@@ -261,10 +259,11 @@ function App({ subgraphUri }) {
               </Route>
               <Route path="/subgraph">
                 <Subgraph
+                  mainnetProvider={mainnetProvider}
+                  nftPrice={nftPrice}
                   subgraphUri={subgraphUri}
                   tx={tx}
                   writeContracts={writeContracts}
-                  mainnetProvider={mainnetProvider}
                 />
               </Route>
             </>
