@@ -278,9 +278,8 @@ function App({ subgraphUri }) {
         <div
           style={{
             position: "fixed",
-            textAlign: "left",
-            left: 0,
-            bottom: 20,
+            top: 65,
+            right: 0,
             padding: 10,
           }}
         >
