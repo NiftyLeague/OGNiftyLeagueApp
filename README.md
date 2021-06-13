@@ -544,8 +544,6 @@ Paintings come to life as you "ink" new creations and trade them on Ethereum. A 
 
 [<H3>🧙‍♂️ Instant Wallet</H3>](https://instantwallet.io)
 
-An instant wallet running on xDAI insired by [xdai.io](https://xdai.io).
-
 [💾 Source Code ](https://github.com/austintgriffith/scaffold-eth/tree/instantwallet-dev-session)
 
 [<H3>🗳 Personal Token Voting</H3>](https://medium.com/@austin_48503/personal-token-voting-73b44a598d8e)

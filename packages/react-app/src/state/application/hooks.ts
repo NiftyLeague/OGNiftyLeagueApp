@@ -39,10 +39,6 @@ export function useNetworkModalToggle(): () => void {
   return useToggleModal(ApplicationModal.NETWORK);
 }
 
-export function useToggleSettingsMenu(): () => void {
-  return useToggleModal(ApplicationModal.SETTINGS);
-}
-
 export function useShowClaimPopup(): boolean {
   return useModalOpen(ApplicationModal.CLAIM_POPUP);
 }
@@ -53,18 +49,6 @@ export function useToggleShowClaimPopup(): () => void {
 
 export function useToggleSelfClaimModal(): () => void {
   return useToggleModal(ApplicationModal.SELF_CLAIM);
-}
-
-export function useToggleDelegateModal(): () => void {
-  return useToggleModal(ApplicationModal.DELEGATE);
-}
-
-export function useToggleVoteModal(): () => void {
-  return useToggleModal(ApplicationModal.VOTE);
-}
-
-export function useFaucetModalToggle(): () => void {
-  return useToggleModal(ApplicationModal.FAUCET);
 }
 
 // returns a function that allows adding a popup
@@ -88,14 +72,4 @@ export function useRemovePopup(): (key: string) => void {
     },
     [dispatch],
   );
-}
-
-// get the list of active popups
-export function useActivePopups(): AppState["application"]["popupList"] {
-  const list = useSelector((state: AppState) => state.application.popupList);
-  return useMemo(() => list.filter(item => item.show), [list]);
-}
-
-export function useKashiApprovalPending(): string {
-  return useSelector((state: AppState) => state.application.kashiApprovalPending);
 }

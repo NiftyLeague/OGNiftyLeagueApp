@@ -29,11 +29,7 @@ export default function Notifier(provider, gasPrice, etherscan) {
       if (network.name && network.chainId > 1) {
         etherscanNetwork = network.name + ".";
       }
-
-      let etherscanTxUrl = "https://" + etherscanNetwork + "etherscan.io/tx/";
-      if (network.chainId === 100) {
-        etherscanTxUrl = "https://blockscout.com/poa/xdai/tx/";
-      }
+      const etherscanTxUrl = "https://" + etherscanNetwork + "etherscan.io/tx/";
 
       try {
         let result;

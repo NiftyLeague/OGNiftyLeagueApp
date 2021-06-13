@@ -1,10 +1,4 @@
-import { ChainId, CurrencyAmount, Fraction, JSBI, Percent, TokenAmount, Trade } from "@sushiswap/sdk";
-import {
-  ALLOWED_PRICE_IMPACT_HIGH,
-  ALLOWED_PRICE_IMPACT_LOW,
-  ALLOWED_PRICE_IMPACT_MEDIUM,
-  BLOCKED_PRICE_IMPACT_NON_EXPERT,
-} from "../constants";
+import { CurrencyAmount, Fraction, JSBI, Percent, TokenAmount, Trade } from "@sushiswap/sdk";
 
 const BASE_FEE = new Percent(JSBI.BigInt(30), JSBI.BigInt(10000));
 const ONE_HUNDRED_PERCENT = new Percent(JSBI.BigInt(10000), JSBI.BigInt(10000));
@@ -42,25 +36,4 @@ export function computeTradePriceBreakdown(
       : CurrencyAmount.ether(realizedLPFee.multiply(trade.inputAmount.raw).quotient));
 
   return { priceImpactWithoutFee: priceImpactWithoutFeePercent, realizedLPFee: realizedLPFeeAmount };
-}
-
-export function warningSeverity(priceImpact: Percent | undefined): 0 | 1 | 2 | 3 | 4 {
-  if (!priceImpact?.lessThan(BLOCKED_PRICE_IMPACT_NON_EXPERT)) return 4;
-  if (!priceImpact?.lessThan(ALLOWED_PRICE_IMPACT_HIGH)) return 3;
-  if (!priceImpact?.lessThan(ALLOWED_PRICE_IMPACT_MEDIUM)) return 2;
-  if (!priceImpact?.lessThan(ALLOWED_PRICE_IMPACT_LOW)) return 1;
-  return 0;
-}
-
-export function formatExecutionPrice(trade?: Trade, inverted?: boolean, chainId?: ChainId): string {
-  if (!trade) {
-    return "";
-  }
-  return inverted
-    ? `${trade.executionPrice.invert().toSignificant(6)} ${trade.inputAmount.currency.getSymbol(
-        chainId,
-      )} / ${trade.outputAmount.currency.getSymbol(chainId)}`
-    : `${trade.executionPrice.toSignificant(6)} ${trade.outputAmount.currency.getSymbol(
-        chainId,
-      )} / ${trade.inputAmount.currency.getSymbol(chainId)}`;
 }

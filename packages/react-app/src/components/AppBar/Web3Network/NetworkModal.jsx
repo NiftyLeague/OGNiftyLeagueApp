@@ -55,39 +55,6 @@ const PARAMS = {
     ],
     blockExplorerUrls: ["https://explorer-mainnet.maticvigil.com"],
   },
-  [ChainId.HECO]: {
-    chainId: "0x80",
-    chainName: "Heco",
-    nativeCurrency: {
-      name: "Heco Token",
-      symbol: "HT",
-      decimals: 18,
-    },
-    rpcUrls: ["https://http-mainnet.hecochain.com"],
-    blockExplorerUrls: ["https://hecoinfo.com"],
-  },
-  [ChainId.XDAI]: {
-    chainId: "0x64",
-    chainName: "xDai",
-    nativeCurrency: {
-      name: "xDai Token",
-      symbol: "xDai",
-      decimals: 18,
-    },
-    rpcUrls: ["https://rpc.xdaichain.com"],
-    blockExplorerUrls: ["https://blockscout.com/poa/xdai"],
-  },
-  [ChainId.HARMONY]: {
-    chainId: "0x63564C40",
-    chainName: "Harmony One",
-    nativeCurrency: {
-      name: "One Token",
-      symbol: "ONE",
-      decimals: 18,
-    },
-    rpcUrls: ["https://api.s0.t.hmny.io"],
-    blockExplorerUrls: ["https://explorer.harmony.one/"],
-  },
   [ChainId.AVALANCHE]: {
     chainId: "0xA86A",
     chainName: "Avalanche",
@@ -98,17 +65,6 @@ const PARAMS = {
     },
     rpcUrls: ["https://api.avax.network/ext/bc/C/rpc"],
     blockExplorerUrls: ["https://explorer.avax.network"],
-  },
-  [ChainId.OKEX]: {
-    chainId: "0x42",
-    chainName: "OKEx",
-    nativeCurrency: {
-      name: "OKEx Token",
-      symbol: "OKT",
-      decimals: 18,
-    },
-    rpcUrls: ["https://exchainrpc.okex.org"],
-    blockExplorerUrls: ["https://www.oklink.com/okexchain"],
   },
 };
 
@@ -128,17 +84,7 @@ export default function NetworkModal() {
       </div>
 
       <div className="flex flex-col space-y-5 overflow-y-auto">
-        {[
-          ChainId.MAINNET,
-          ChainId.FANTOM,
-          ChainId.BSC,
-          ChainId.MATIC,
-          ChainId.HECO,
-          ChainId.XDAI,
-          ChainId.HARMONY,
-          ChainId.AVALANCHE,
-          ChainId.OKEX,
-        ].map((key, i) => {
+        {[ChainId.MAINNET, ChainId.FANTOM, ChainId.BSC, ChainId.MATIC, ChainId.AVALANCHE].map((key, i) => {
           if (chainId === key) {
             return (
               <button type="button" key={i} className="bg-gradient-to-r from-blue to-pink w-full rounded p-px">
