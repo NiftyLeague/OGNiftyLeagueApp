@@ -5,10 +5,18 @@ import ModalVideo from "react-modal-video";
 import { Progress } from "antd";
 import { NFT_CONTRACT } from "../../constants";
 import { useEventListener } from "../../hooks";
-import CharacterBGImg from "../../assets/backgrounds/character_creator.png";
-import VideoBGImg from "../../assets/images/nifty-smashers.png";
+import CharacterBGImg from "../../assets/images/backgrounds/character_creator.png";
+import VideoBGImg from "../../assets/images/games/nifty-smashers.png";
 import PlayIconImg from "../../assets/images/play-icon-red.png";
+import ApeImg from "../../assets/gifs/ape.gif";
+import AlienImg from "../../assets/gifs/alien1.gif";
+import DogeImg from "../../assets/gifs/doge.gif";
+import HumanImg from "../../assets/images/characters/human.png";
+import CatImg from "../../assets/gifs/cat1.gif";
+import FrogImg from "../../assets/images/characters/frog.png";
+import SatoshiImg from "../../assets/images/characters/satoshi.png";
 import "./home.css";
+import "./animations.css";
 
 const unityContext = new UnityContext({
   loaderUrl: "characterBuild/0.3.20.loader.js",
@@ -182,6 +190,104 @@ export default function Home({ nftPrice, localProvider, readContracts, setRoute,
           </div>
         </div>
       </section>
+      <section className="characters">
+        <div className="row left">
+          <div className="col-sm-4 text-center d-flex align-items-end">
+            <img src={CatImg} alt="Cat Character" className="img-fluid animation-element slide-in-left in-view" />
+          </div>
+          <div className="col-sm-8 text">
+            <h2 className="short-hr-left">YOKO</h2>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras et convallis lorem, sed molestie nibh. Nam
+              et accumsan ligula. Aliquam erat volutpat. Donec venenatis porta ligula ac placerat. Cras in mauris augue.
+              Nulla eu tellus arcu. Duis aliquet sit amet tortor eget vestibulum.
+            </p>
+          </div>
+        </div>
+        <div className="row right">
+          <div className="col-sm-8 text">
+            <h2 className="short-hr-right">COSMO</h2>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras et convallis lorem, sed molestie nibh. Nam
+              et accumsan ligula. Aliquam erat volutpat. Donec venenatis porta ligula ac placerat. Cras in mauris augue.
+              Nulla eu tellus arcu. Duis aliquet sit amet tortor eget vestibulum.
+            </p>
+          </div>
+          <div className="col-sm-4 text-center d-flex align-items-end">
+            <img src={AlienImg} alt="Alien Character" className="img-fluid animation-element slide-in-right in-view" />
+          </div>
+        </div>
+        <div className="row left">
+          <div className="col-sm-4 text-center d-flex align-items-end">
+            <img src={DogeImg} alt="Doge Character" className="img-fluid animation-element slide-in-left in-view" />
+          </div>
+          <div className="col-sm-8 text">
+            <h2 className="short-hr-left">DOGE</h2>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras et convallis lorem, sed molestie nibh. Nam
+              et accumsan ligula. Aliquam erat volutpat. Donec venenatis porta ligula ac placerat. Cras in mauris augue.
+              Nulla eu tellus arcu. Duis aliquet sit amet tortor eget vestibulum.
+            </p>
+          </div>
+        </div>
+        <div className="row right">
+          <div className="col-sm-8 text">
+            <h2 className="short-hr-right">MEEK</h2>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras et convallis lorem, sed molestie nibh. Nam
+              et accumsan ligula. Aliquam erat volutpat. Donec venenatis porta ligula ac placerat. Cras in mauris augue.
+              Nulla eu tellus arcu. Duis aliquet sit amet tortor eget vestibulum.
+            </p>
+          </div>
+          <div className="col-sm-4 text-center d-flex align-items-end">
+            <img src={HumanImg} alt="Human Character" className="img-fluid animation-element slide-in-right in-view" />
+          </div>
+        </div>
+        <div className="row left">
+          <div className="col-sm-4 text-center d-flex align-items-end">
+            <img src={ApeImg} alt="Ape Character" className="img-fluid animation-element slide-in-left in-view" />
+          </div>
+          <div className="col-sm-8 text">
+            <h2 className="short-hr-left">JAVA</h2>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras et convallis lorem, sed molestie nibh. Nam
+              et accumsan ligula. Aliquam erat volutpat. Donec venenatis porta ligula ac placerat. Cras in mauris augue.
+              Nulla eu tellus arcu. Duis aliquet sit amet tortor eget vestibulum.
+            </p>
+          </div>
+        </div>
+        <div className="row right">
+          <div className="col-sm-8 text">
+            <h2 className="short-hr-right">PEPE</h2>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras et convallis lorem, sed molestie nibh. Nam
+              et accumsan ligula. Aliquam erat volutpat. Donec venenatis porta ligula ac placerat. Cras in mauris augue.
+              Nulla eu tellus arcu. Duis aliquet sit amet tortor eget vestibulum.
+            </p>
+          </div>
+          <div className="col-sm-4 text-center d-flex align-items-end">
+            <img src={FrogImg} alt="Frog Character" className="img-fluid animation-element slide-in-right in-view" />
+          </div>
+        </div>
+        <div className="row left">
+          <div className="col-sm-4 text-center d-flex align-items-end">
+            <img
+              src={SatoshiImg}
+              alt="Satoshi Character"
+              className="img-fluid animation-element slide-in-left in-view"
+            />
+          </div>
+          <div className="col-sm-8 text">
+            <h2 className="short-hr-left">SATOSHI</h2>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras et convallis lorem, sed molestie nibh. Nam
+              et accumsan ligula. Aliquam erat volutpat. Donec venenatis porta ligula ac placerat. Cras in mauris augue.
+              Nulla eu tellus arcu. Duis aliquet sit amet tortor eget vestibulum.
+            </p>
+          </div>
+        </div>
+      </section>
+      <footer style={{ padding: 20 }} />
     </div>
   );
 }
