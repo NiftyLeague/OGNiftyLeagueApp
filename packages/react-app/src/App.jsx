@@ -213,6 +213,7 @@ function App({ subgraphUri }) {
               localProvider={localProvider}
               nftPrice={nftPrice}
               readContracts={readContracts}
+              setRoute={setRoute}
               tx={tx}
               writeContracts={writeContracts}
             />

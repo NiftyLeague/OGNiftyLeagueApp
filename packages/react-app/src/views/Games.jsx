@@ -88,7 +88,18 @@ export default function Games() {
 
   return (
     <Layout>
-      <Sider collapsible collapsed={collapsed} onCollapse={setCollapsed} theme={currentTheme}>
+      <Sider
+        collapsible
+        collapsed={collapsed}
+        onCollapse={setCollapsed}
+        theme={currentTheme}
+        style={{
+          overflow: "auto",
+          height: "100vh",
+          position: "fixed",
+          left: 0,
+        }}
+      >
         <Menu
           mode="inline"
           selectedKeys={[selectedGame]}
@@ -109,7 +120,7 @@ export default function Games() {
           )}
         </Menu>
       </Sider>
-      <Layout>
+      <Layout style={{ marginLeft: collapsed ? 80 : 200 }}>
         <Content
           style={{
             height: 840,
