@@ -3,8 +3,8 @@ import Unity, { UnityContext } from "react-unity-webgl";
 import { Progress, Image, Layout, Menu, Row, Col, Card } from "antd";
 import { SportsEsports, SportsMma } from "@material-ui/icons";
 import { useThemeSwitcher } from "react-css-theme-switcher";
-import CharacterBGImg from "../assets/backgrounds/character_creator.png";
-import NiftySmashers from "../assets/images/nifty-smashers.png";
+import CharacterBGImg from "../assets/images/backgrounds/character_creator.png";
+import NiftySmashers from "../assets/gifs/nifty-smashers.gif";
 import "antd/dist/antd.css";
 
 const { Content, Sider } = Layout;
