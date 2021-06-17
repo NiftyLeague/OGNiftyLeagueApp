@@ -7,11 +7,12 @@ import { MoreVert } from "@material-ui/icons";
 import Web3Modal from "web3modal";
 import { Web3Provider } from "@ethersproject/providers";
 import WalletConnectProvider from "@walletconnect/web3-provider";
-// import NiftyLeagueLogo from "../assets/images/nifty-league-logo-full.png";
-// import NiftyLeagueLogo from "../assets/images/nifty-league-logo.png";
+// import NiftyLeagueLogo from "../../assets/images/nifty-league-logo-full.png";
+// import NiftyLeagueLogo from "../../assets/images/nifty-league-logo.png";
+import "./navigation.css";
 
-import Account from "./Account";
-import { DEBUG, INFURA_ID, NETWORK } from "../constants";
+import Account from "../Account";
+import { DEBUG, INFURA_ID, NETWORK } from "../../constants";
 
 const { Title } = Typography;
 
@@ -153,42 +154,44 @@ function Navigation({
           👾 Nifty League
         </Title>
         {/* <img width={42} height={50} src={NiftyLeagueLogo} alt="Nifty League logo" /> */}
-        <Menu
-          style={{
-            textAlign: "center",
-            borderBottom: "none",
-            backgroundColor: "transparent",
-          }}
-          selectedKeys={[route]}
-          mode="horizontal"
-          defaultSelectedKeys={["/"]}
-        >
-          <Menu.Item key="/">
-            <Link onClick={() => setRoute("/")} to="/">
-              Home
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="/about">
-            <Link onClick={() => setRoute("/about")} to="/about">
-              About
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="/characters">
-            <Link onClick={() => setRoute("/characters")} to="/characters">
-              Characters
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="/games">
-            <Link onClick={() => setRoute("/games")} to="/games">
-              Games
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="/staking">
-            <Link onClick={() => setRoute("/staking")} to="/staking">
-              Staking
-            </Link>
-          </Menu.Item>
-        </Menu>
+        <nav className={darkThemed ? "navbar-polygon" : ""}>
+          <Menu
+            style={{
+              textAlign: "center",
+              borderBottom: "none",
+              backgroundColor: "transparent",
+            }}
+            selectedKeys={[route]}
+            mode="horizontal"
+            defaultSelectedKeys={["/"]}
+          >
+            <Menu.Item key="/">
+              <Link onClick={() => setRoute("/")} to="/">
+                Home
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="/about">
+              <Link onClick={() => setRoute("/about")} to="/about">
+                About
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="/characters">
+              <Link onClick={() => setRoute("/characters")} to="/characters">
+                Characters
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="/games">
+              <Link onClick={() => setRoute("/games")} to="/games">
+                Games
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="/staking">
+              <Link onClick={() => setRoute("/staking")} to="/staking">
+                Staking
+              </Link>
+            </Menu.Item>
+          </Menu>
+        </nav>
         {networkDisplay}
         <Account
           address={address}

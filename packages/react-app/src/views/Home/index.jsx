@@ -1,10 +1,14 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { Link } from "react-router-dom";
 import Unity, { UnityContext } from "react-unity-webgl";
+import ModalVideo from "react-modal-video";
 import { Progress } from "antd";
-import { NFT_CONTRACT } from "../constants";
-import { useEventListener } from "../hooks";
-import CharacterBGImg from "../assets/backgrounds/character_creator.png";
-import "antd/dist/antd.css";
+import { NFT_CONTRACT } from "../../constants";
+import { useEventListener } from "../../hooks";
+import CharacterBGImg from "../../assets/backgrounds/character_creator.png";
+import VideoBGImg from "../../assets/images/nifty-smashers.png";
+import PlayIconImg from "../../assets/images/play-icon-red.png";
+import "./home.css";
 
 const unityContext = new UnityContext({
   loaderUrl: "characterBuild/0.3.20.loader.js",
@@ -27,9 +31,10 @@ function objectify(array) {
   }, {});
 }
 
-export default function Home({ nftPrice, localProvider, readContracts, tx, writeContracts }) {
+export default function Home({ nftPrice, localProvider, readContracts, setRoute, tx, writeContracts }) {
   const [isLoaded, setLoaded] = useState(false);
   const [progression, setProgression] = useState(0);
+  const [isVideoOpen, setVideoOpen] = useState(false);
 
   // 📟 Listen for broadcast events
   const characterMintEvents = useEventListener(readContracts, NFT_CONTRACT, "CharacterGenerated", localProvider, 1);
@@ -140,7 +145,43 @@ export default function Home({ nftPrice, localProvider, readContracts, tx, write
           }}
         />
       </div>
-      <div style={{ width: 780, margin: "auto", padding: 64 }} />
+      <section className="about-page-section">
+        <div className="container">
+          <div className="row">
+            <div className="col-lg-6 d-flex align-self-center">
+              <div className="about-video">
+                <img src={VideoBGImg} alt="Nifty Smashers preview" className="video-preview" />
+                <button type="button" onClick={() => setVideoOpen(true)} className="play-video">
+                  <img src={PlayIconImg} alt="Play icon" />
+                </button>
+                <ModalVideo
+                  channel="youtube"
+                  autoplay
+                  isOpen={isVideoOpen}
+                  videoId="F8xUzipc1p8"
+                  onClose={() => setVideoOpen(false)}
+                />
+              </div>
+            </div>
+            <div className="col-lg-6">
+              <div className="section-heading">
+                <h5 className="subtitle">Welcome to the Nifty League</h5>
+                <p className="text">
+                  Our mission is to create the first ecosystem of mini-games with customizable characters and tradeable
+                  in-game assets.
+                </p>
+                <p className="text">
+                  Advance your skills to earn awards in our games packed full of nostalgia and designed for those who
+                  love to compete.
+                </p>
+                <Link onClick={() => setRoute("/about")} to="/about" className="moreBtn">
+                  Learn More
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
