@@ -3,9 +3,9 @@ import Unity, { UnityContext } from "react-unity-webgl";
 import { Progress, Image, Layout, Menu, Row, Col, Card } from "antd";
 import { SportsEsports, SportsMma } from "@material-ui/icons";
 import { useThemeSwitcher } from "react-css-theme-switcher";
-import CharacterBGImg from "../assets/images/backgrounds/character_creator.png";
-import NiftySmashers from "../assets/gifs/nifty-smashers.gif";
-import "antd/dist/antd.css";
+import NiftySmashers from "../../assets/gifs/nifty-smashers.gif";
+import NiftySmashersThumb from "../../assets/images/characters/alien-dj.png";
+import "./games.css";
 
 const { Content, Sider } = Layout;
 
@@ -87,7 +87,7 @@ export default function Games() {
   }, [selectedGame]);
 
   return (
-    <Layout>
+    <Layout className="games">
       <Sider
         collapsible
         collapsed={collapsed}
@@ -121,14 +121,7 @@ export default function Games() {
         </Menu>
       </Sider>
       <Layout style={{ marginLeft: collapsed ? 80 : 200 }}>
-        <Content
-          style={{
-            height: 840,
-            backgroundImage: `url(${CharacterBGImg})`,
-            backgroundRepeat: "repeat-x",
-            ...(selectedGame === "all" && { padding: 40 }),
-          }}
-        >
+        <Content style={{ ...(selectedGame === "all" && { padding: 40 }) }}>
           {selectedGame !== "all" ? (
             <Game unityContext={selectedGame === "nifty-smashers" && smashersContext} />
           ) : (
@@ -139,7 +132,15 @@ export default function Games() {
                   onClick={() => setSelectedGame("nifty-smashers")}
                   hoverable
                 >
-                  <Card.Meta title="Nifty Smashers" description="First of it's kind NFT brawler!" />
+                  <Card.Meta
+                    title="Nifty Smashers"
+                    description="The first and only NFT brawler!"
+                    avatar={
+                      <div className="thumb">
+                        <img src={NiftySmashersThumb} alt="game icon" />
+                      </div>
+                    }
+                  />
                 </Card>
               </Col>
             </Row>

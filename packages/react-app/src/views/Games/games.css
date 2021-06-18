@@ -1,0 +1,60 @@
+.games {
+  height: 90vh;
+}
+
+.games .ant-layout-sider-dark .ant-layout-sider-children {
+  border-right: 1px solid rgb(66, 66, 66);
+}
+
+.games .ant-card {
+  background: transparent;
+  border: none;
+  height: 325px;
+  border-radius: 10px;
+}
+
+.games .ant-card-cover {
+  border: 5px solid #620edf;
+  box-shadow: 0px 10px 199px 0px rgb(26 15 63 / 50%);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.games .ant-card-body {
+  padding: 15px;
+  background-color: #5e72eb;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: -20px 15px 0 15px;
+  position: relative;
+}
+
+.games .ant-card-meta {
+  width: 100%;
+  text-align: right;
+}
+
+.games .thumb {
+  width: 55px;
+  height: 53px;
+  box-shadow: 0px 12px 13px 0px rgb(26 15 63 / 32%);
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  -ms-border-radius: 15px;
+  -o-border-radius: 15px;
+  overflow: hidden;
+}
+.games .thumb img {
+  height: 53px;
+  object-fit: cover;
+  -o-object-fit: cover;
+  object-position: center;
+  -o-object-position: center;
+}

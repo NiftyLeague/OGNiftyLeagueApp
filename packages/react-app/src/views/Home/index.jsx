@@ -156,7 +156,7 @@ export default function Home({ nftPrice, localProvider, readContracts, setRoute,
       <section className="about-page-section">
         <div className="container">
           <div className="row">
-            <div className="col-lg-6 d-flex align-self-center">
+            <div className="col-md-6 d-flex align-self-center">
               <div className="about-video">
                 <img src={VideoBGImg} alt="Nifty Smashers preview" className="video-preview" />
                 <button type="button" onClick={() => setVideoOpen(true)} className="play-video">
@@ -171,9 +171,9 @@ export default function Home({ nftPrice, localProvider, readContracts, setRoute,
                 />
               </div>
             </div>
-            <div className="col-lg-6">
+            <div className="col-md-6">
               <div className="section-heading">
-                <h5 className="subtitle">Welcome to the Nifty League</h5>
+                <h5 className="title">Welcome to the Nifty League</h5>
                 <p className="text">
                   Our mission is to create the first ecosystem of mini-games with customizable characters and tradeable
                   in-game assets.
@@ -198,9 +198,9 @@ export default function Home({ nftPrice, localProvider, readContracts, setRoute,
           <div className="col-sm-8 text">
             <h2 className="short-hr-left">YOKO</h2>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras et convallis lorem, sed molestie nibh. Nam
-              et accumsan ligula. Aliquam erat volutpat. Donec venenatis porta ligula ac placerat. Cras in mauris augue.
-              Nulla eu tellus arcu. Duis aliquet sit amet tortor eget vestibulum.
+              Yoko lives in the fast and furious Sushi City, where degens come to thrive. Legend has it Andre Cronje has
+              been training these cats to fight for years. Don't forget to stop by sushi.com and yearn.finance while in
+              town!
             </p>
           </div>
         </div>
@@ -208,9 +208,8 @@ export default function Home({ nftPrice, localProvider, readContracts, setRoute,
           <div className="col-sm-8 text">
             <h2 className="short-hr-right">COSMO</h2>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras et convallis lorem, sed molestie nibh. Nam
-              et accumsan ligula. Aliquam erat volutpat. Donec venenatis porta ligula ac placerat. Cras in mauris augue.
-              Nulla eu tellus arcu. Duis aliquet sit amet tortor eget vestibulum.
+              Cosmo the Alien DJ has been on a universal tour for the past 300 years. He's quite the celebrity but the
+              one remaining stage to complete his tour is at The Citadel.
             </p>
           </div>
           <div className="col-sm-4 text-center d-flex align-items-end">
@@ -224,9 +223,8 @@ export default function Home({ nftPrice, localProvider, readContracts, setRoute,
           <div className="col-sm-8 text">
             <h2 className="short-hr-left">DOGE</h2>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras et convallis lorem, sed molestie nibh. Nam
-              et accumsan ligula. Aliquam erat volutpat. Donec venenatis porta ligula ac placerat. Cras in mauris augue.
-              Nulla eu tellus arcu. Duis aliquet sit amet tortor eget vestibulum.
+              Doge has finally arrived on The Moon. After getting rugged by Elon he gave up aspirations of Mars and has
+              his eyes set on the real prize now, making it to the Citadel.
             </p>
           </div>
         </div>
@@ -234,9 +232,8 @@ export default function Home({ nftPrice, localProvider, readContracts, setRoute,
           <div className="col-sm-8 text">
             <h2 className="short-hr-right">MEEK</h2>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras et convallis lorem, sed molestie nibh. Nam
-              et accumsan ligula. Aliquam erat volutpat. Donec venenatis porta ligula ac placerat. Cras in mauris augue.
-              Nulla eu tellus arcu. Duis aliquet sit amet tortor eget vestibulum.
+              Humans have finally colonized Mars, but it’s turned into a commercial nightmare up there and the sand
+              worms aren’t helping either. The Citadel looks a lot less... red.
             </p>
           </div>
           <div className="col-sm-4 text-center d-flex align-items-end">
@@ -250,9 +247,8 @@ export default function Home({ nftPrice, localProvider, readContracts, setRoute,
           <div className="col-sm-8 text">
             <h2 className="short-hr-left">JAVA</h2>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras et convallis lorem, sed molestie nibh. Nam
-              et accumsan ligula. Aliquam erat volutpat. Donec venenatis porta ligula ac placerat. Cras in mauris augue.
-              Nulla eu tellus arcu. Duis aliquet sit amet tortor eget vestibulum.
+              Since the Humans left for Mars, Apes let the world become overrun by nature once again and take great
+              pride in de-evolution and renaturing.
             </p>
           </div>
         </div>
@@ -260,9 +256,8 @@ export default function Home({ nftPrice, localProvider, readContracts, setRoute,
           <div className="col-sm-8 text">
             <h2 className="short-hr-right">PEPE</h2>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras et convallis lorem, sed molestie nibh. Nam
-              et accumsan ligula. Aliquam erat volutpat. Donec venenatis porta ligula ac placerat. Cras in mauris augue.
-              Nulla eu tellus arcu. Duis aliquet sit amet tortor eget vestibulum.
+              After destroying Earth as a result of a simple misunderstanding, Frog welcomes the invite to The Citadel
+              to try and make amends.
             </p>
           </div>
           <div className="col-sm-4 text-center d-flex align-items-end">
@@ -280,9 +275,8 @@ export default function Home({ nftPrice, localProvider, readContracts, setRoute,
           <div className="col-sm-8 text">
             <h2 className="short-hr-left">SATOSHI</h2>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras et convallis lorem, sed molestie nibh. Nam
-              et accumsan ligula. Aliquam erat volutpat. Donec venenatis porta ligula ac placerat. Cras in mauris augue.
-              Nulla eu tellus arcu. Duis aliquet sit amet tortor eget vestibulum.
+              Satoshi, the creator of Bitcoin, lives in a utopian crypto paradise castle known as The Citadel, on
+              Satoshi's Island.
             </p>
           </div>
         </div>
