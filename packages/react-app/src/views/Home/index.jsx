@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import Unity, { UnityContext } from "react-unity-webgl";
 import ModalVideo from "react-modal-video";
-import { Progress } from "antd";
+import { Progress, Typography } from "antd";
 import { NFT_CONTRACT } from "../../constants";
 import { useEventListener } from "../../hooks";
 import CharacterBGImg from "../../assets/images/backgrounds/character_creator.png";
@@ -17,6 +17,8 @@ import FrogImg from "../../assets/images/characters/frog.png";
 import SatoshiImg from "../../assets/images/characters/satoshi.png";
 import "./home.css";
 import "./animations.css";
+
+const { Title } = Typography;
 
 const unityContext = new UnityContext({
   loaderUrl: "characterBuild/0.3.20.loader.js",
@@ -173,9 +175,11 @@ export default function Home({ nftPrice, localProvider, readContracts, setRoute,
             </div>
             <div className="col-md-6">
               <div className="section-heading">
-                <h5 className="title">Welcome to the Nifty League</h5>
+                <Title level={2} className="title">
+                  Welcome to the Nifty League
+                </Title>
                 <p className="text">
-                  Our mission is to create the first ecosystem of mini-games with customizable characters and tradeable
+                  Our mission is to create the first ecosystem of mini-games with customizable characters and tradable
                   in-game assets.
                 </p>
                 <p className="text">
@@ -196,7 +200,7 @@ export default function Home({ nftPrice, localProvider, readContracts, setRoute,
             <img src={CatImg} alt="Cat Character" className="img-fluid animation-element slide-in-left in-view" />
           </div>
           <div className="col-sm-8 text">
-            <h2 className="short-hr-left">YOKO</h2>
+            <Title>YOKO</Title>
             <p>
               Yoko lives in the fast and furious Sushi City, where degens come to thrive. Legend has it Andre Cronje has
               been training these cats to fight for years. Don't forget to stop by sushi.com and yearn.finance while in
@@ -206,7 +210,7 @@ export default function Home({ nftPrice, localProvider, readContracts, setRoute,
         </div>
         <div className="row right">
           <div className="col-sm-8 text">
-            <h2 className="short-hr-right">COSMO</h2>
+            <Title>COSMO</Title>
             <p>
               Cosmo the Alien DJ has been on a universal tour for the past 300 years. He's quite the celebrity but the
               one remaining stage to complete his tour is at The Citadel.
@@ -221,7 +225,7 @@ export default function Home({ nftPrice, localProvider, readContracts, setRoute,
             <img src={DogeImg} alt="Doge Character" className="img-fluid animation-element slide-in-left in-view" />
           </div>
           <div className="col-sm-8 text">
-            <h2 className="short-hr-left">DOGE</h2>
+            <Title>DOGE</Title>
             <p>
               Doge has finally arrived on The Moon. After getting rugged by Elon he gave up aspirations of Mars and has
               his eyes set on the real prize now, making it to the Citadel.
@@ -230,7 +234,7 @@ export default function Home({ nftPrice, localProvider, readContracts, setRoute,
         </div>
         <div className="row right">
           <div className="col-sm-8 text">
-            <h2 className="short-hr-right">MEEK</h2>
+            <Title>MEEK</Title>
             <p>
               Humans have finally colonized Mars, but it’s turned into a commercial nightmare up there and the sand
               worms aren’t helping either. The Citadel looks a lot less... red.
@@ -245,7 +249,7 @@ export default function Home({ nftPrice, localProvider, readContracts, setRoute,
             <img src={ApeImg} alt="Ape Character" className="img-fluid animation-element slide-in-left in-view" />
           </div>
           <div className="col-sm-8 text">
-            <h2 className="short-hr-left">JAVA</h2>
+            <Title>JAVA</Title>
             <p>
               Since the Humans left for Mars, Apes let the world become overrun by nature once again and take great
               pride in de-evolution and renaturing.
@@ -254,7 +258,7 @@ export default function Home({ nftPrice, localProvider, readContracts, setRoute,
         </div>
         <div className="row right">
           <div className="col-sm-8 text">
-            <h2 className="short-hr-right">PEPE</h2>
+            <Title>PEPE</Title>
             <p>
               After destroying Earth as a result of a simple misunderstanding, Frog welcomes the invite to The Citadel
               to try and make amends.
@@ -273,7 +277,7 @@ export default function Home({ nftPrice, localProvider, readContracts, setRoute,
             />
           </div>
           <div className="col-sm-8 text">
-            <h2 className="short-hr-left">SATOSHI</h2>
+            <Title>SATOSHI</Title>
             <p>
               Satoshi, the creator of Bitcoin, lives in a utopian crypto paradise castle known as The Citadel, on
               Satoshi's Island.
