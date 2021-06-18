@@ -668,6 +668,8 @@ body,
 html {
   width: 100%;
   height: 100%;
+  background: linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)), url(bg-light.png);
+  background-repeat: repeat;
 }
 html {
   font-family: sans-serif;
@@ -14002,7 +14004,7 @@ tr.ant-table-expanded-row .ant-descriptions-view table {
   flex: auto;
   flex-direction: column;
   min-height: 0;
-  background: #f0f2f5;
+  background: transparent;
 }
 .ant-layout,
 .ant-layout * {
