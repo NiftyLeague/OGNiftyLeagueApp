@@ -36,7 +36,7 @@ ReactDOM.render(
       <ApolloProvider client={client}>
         <Provider store={store}>
           <LanguageProvider>
-            <ThemeSwitcherProvider themeMap={themes} defaultTheme={prevTheme || "light"}>
+            <ThemeSwitcherProvider themeMap={themes} defaultTheme={prevTheme || "dark"}>
               <Router>
                 <App subgraphUri={subgraphUri} />
               </Router>
