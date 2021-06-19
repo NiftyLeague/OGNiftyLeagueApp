@@ -15044,7 +15044,7 @@ table tr th.ant-table-selection-column .ant-radio-wrapper {
 }
 .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item,
 .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu {
-  margin: -1px 20px 0;
+  margin: -2px 20px 0;
   padding: 0;
 }
 .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-active,

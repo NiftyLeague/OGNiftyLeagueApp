@@ -25,7 +25,6 @@ import { DEBUG } from "../constants";
               (ex. "0xa870" => "user.eth")
   - Provide blockExplorer={blockExplorer}, click on address and get the link
               (ex. by default "https://etherscan.io/" or for xdai "https://blockscout.com/poa/xdai/")
-  - Provide fontSize={fontSize} to change the size of address text
 */
 
 const { Text } = Typography;
@@ -34,7 +33,7 @@ const blockExplorerLink = (address, blockExplorer) =>
   `${blockExplorer || "https://etherscan.io/"}${"address/"}${address}`;
 
 export default function Address(props) {
-  const { address, blockExplorer, ensProvider, fontSize, size } = props;
+  const { address, blockExplorer, ensProvider, size } = props;
 
   const ens = useLookupAddress(ensProvider, address);
 
@@ -73,7 +72,7 @@ export default function Address(props) {
       >
         <Blockies seed={address.toLowerCase()} size={5} className="blockies" />
       </div>
-      <span style={{ verticalAlign: "middle", paddingLeft: 5, fontSize: fontSize || 20 }}>
+      <span style={{ verticalAlign: "middle", paddingLeft: 5 }}>
         <Text copyable={DEBUG && { text: address }}>
           <a
             style={{ color: currentTheme === "light" ? "#222222" : "#ddd" }}

@@ -28,7 +28,7 @@ import { usePoller } from "eth-hooks";
   - Provide price={price} of ether and get your balance converted to dollars
 */
 
-export default function Balance({ address, balance: bal, dollarMultiplier, pollTime, price, provider, size, value }) {
+export default function Balance({ address, balance: bal, dollarMultiplier, pollTime, price, provider, value }) {
   const [dollarMode, setDollarMode] = useState(false);
   const [balance, setBalance] = useState();
 
@@ -78,9 +78,9 @@ export default function Balance({ address, balance: bal, dollarMultiplier, pollT
     <span
       style={{
         verticalAlign: "middle",
-        fontSize: size || 20,
         padding: 8,
         cursor: "pointer",
+        fontSize: 18,
       }}
       onClick={() => {
         setDollarMode(!dollarMode);

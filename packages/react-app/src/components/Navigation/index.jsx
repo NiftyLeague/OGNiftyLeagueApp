@@ -128,7 +128,9 @@ function Navigation({
         />
       </div>
     ) : (
-      <div style={{ color: targetNetwork.color, marginLeft: "auto", padding: "0 16px" }}>{targetNetwork.name}</div>
+      <div style={{ color: targetNetwork.color, marginLeft: "auto", padding: "0 16px", fontSize: 16 }}>
+        {targetNetwork.name}
+      </div>
     );
 
   return (
@@ -154,7 +156,7 @@ function Navigation({
           👾 Nifty League
         </Title>
         {/* <img width={42} height={50} src={NiftyLeagueLogo} alt="Nifty League logo" /> */}
-        <nav className={darkThemed ? "navbar-polygon" : ""}>
+        <nav className="navbar-polygon">
           <Menu
             style={{
               textAlign: "center",
