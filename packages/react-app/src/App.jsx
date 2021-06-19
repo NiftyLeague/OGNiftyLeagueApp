@@ -15,6 +15,7 @@ import {
   useContractReader,
   // useEventListener,
   useBalance,
+  ScrollToTop,
   // useExternalContractLoader,
 } from "./hooks";
 import { Contract, Faucet, Navigation, ThemeSwitch } from "./components";
@@ -207,6 +208,7 @@ function App({ subgraphUri }) {
         userProvider={userProvider}
       />
       <div className="AppBody">
+        <ScrollToTop />
         <Switch>
           <Route exact path="/">
             <Home
