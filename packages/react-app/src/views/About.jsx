@@ -11,7 +11,7 @@ const { Title } = Typography;
 export default function ({ setRoute }) {
   const { currentTheme } = useThemeSwitcher();
   return (
-    <Container style={{ textAlign: "left", padding: "50px" }}>
+    <Container style={{ textAlign: "left", padding: "40px" }}>
       <Title level={2}>About Nifty League</Title>
       <p>
         Welcome to the Nifty League! Our mission is to create the first ecosystem of mini-games with customizable
