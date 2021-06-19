@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Image, Typography } from "antd";
+import { Container } from "@material-ui/core";
 import { useThemeSwitcher } from "react-css-theme-switcher";
 import TokenDistribution from "../assets/images/token-distribution.png";
 import TokenDistributionDark from "../assets/images/token-distribution-dark.png";
@@ -10,7 +11,7 @@ const { Title } = Typography;
 export default function ({ setRoute }) {
   const { currentTheme } = useThemeSwitcher();
   return (
-    <section style={{ textAlign: "left", padding: 40 }}>
+    <Container style={{ textAlign: "left", padding: "50px" }}>
       <Title level={2}>About Nifty League</Title>
       <p>
         Welcome to the Nifty League! Our mission is to create the first ecosystem of mini-games with customizable
@@ -140,6 +141,6 @@ export default function ({ setRoute }) {
         trade them or use them in-game. Another option we are considering is awarding time-released NFTs such as
         treasure chests which you can burn to open the collectible inside.
       </p>
-    </section>
+    </Container>
   );
 }

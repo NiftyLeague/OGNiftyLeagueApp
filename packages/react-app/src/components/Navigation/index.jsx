@@ -138,7 +138,7 @@ function Navigation({
       <Layout.Header
         style={{
           position: "fixed",
-          zIndex: 2,
+          zIndex: 100,
           width: "100%",
           display: "flex",
           padding: "0 20px",

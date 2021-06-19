@@ -2,7 +2,9 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import Unity, { UnityContext } from "react-unity-webgl";
 import ModalVideo from "react-modal-video";
-import { Progress, Typography } from "antd";
+import { Typography } from "antd";
+import Preloader from "../../components/Preloader";
+
 import { NFT_CONTRACT } from "../../constants";
 import { useEventListener } from "../../hooks";
 import CharacterBGImg from "../../assets/images/backgrounds/character_creator.png";
@@ -42,7 +44,6 @@ function objectify(array) {
 
 export default function Home({ nftPrice, localProvider, readContracts, setRoute, tx, writeContracts }) {
   const [isLoaded, setLoaded] = useState(false);
-  const [progression, setProgression] = useState(0);
   const [isVideoOpen, setVideoOpen] = useState(false);
 
   // 📟 Listen for broadcast events
@@ -104,7 +105,6 @@ export default function Home({ nftPrice, localProvider, readContracts, setRoute,
   };
 
   useEffect(() => {
-    unityContext.on("progress", p => setProgression(parseInt(p * 100, 10)));
     unityContext.on("loaded", () => setLoaded(true));
     unityContext.on("error", console.error);
     unityContext.on("canvas", element => console.log("Canvas", element));
@@ -119,10 +119,9 @@ export default function Home({ nftPrice, localProvider, readContracts, setRoute,
     };
   }, [mintCharacter]);
 
-  const ready = isLoaded && progression === 100;
-
   return (
-    <div style={{ textAlign: "center" }}>
+    <div style={{ textAlign: "center", overflowX: "hidden" }}>
+      <Preloader ready={isLoaded} />
       <div
         style={{
           height: 840,
@@ -130,27 +129,13 @@ export default function Home({ nftPrice, localProvider, readContracts, setRoute,
           backgroundRepeat: "repeat-x",
         }}
       >
-        {!ready && (
-          <div style={{ position: "absolute", top: 360, width: "100%", fontSize: "50px !important" }}>
-            <div style={{ fontWeight: "bold" }}>Loading character creator...</div>
-            <Progress
-              type="circle"
-              strokeColor={{
-                "0%": "#108ee9",
-                "100%": "#87d068",
-              }}
-              percent={progression}
-              key={progression}
-            />
-          </div>
-        )}
         <Unity
           className="character-canvas"
           unityContext={unityContext}
           style={{
             width: 1120,
             height: 840,
-            visibility: ready ? "visible" : "hidden",
+            visibility: isLoaded ? "visible" : "hidden",
           }}
         />
       </div>
