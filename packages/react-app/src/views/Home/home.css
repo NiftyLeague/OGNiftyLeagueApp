@@ -2,7 +2,7 @@
 
 /* About section */
 .about-page-section {
-  padding: 112px 0px 120px;
+  padding: 100px 0px 120px;
   position: relative;
 }
 .about-page-section .section-heading {
@@ -13,6 +13,7 @@
   font-weight: 600;
   text-transform: uppercase;
   margin-bottom: 8px;
+  padding: 0;
   background: -webkit-linear-gradient(to left, #ff344d, #d2273c);
   background: -moz-linear-gradient(to left, #ff344d, #d2273c);
   background: -ms-linear-gradient(to left, #ff344d, #d2273c);
@@ -31,7 +32,6 @@
   font-weight: 300;
 }
 .about-page-section .moreBtn {
-  font-size: 16px;
   margin-top: 23px;
   text-transform: uppercase;
   font-weight: 600;
@@ -45,9 +45,11 @@
   -o-transition: all 0.3s ease-in;
   transition: all 0.3s ease-in;
   background-image: -webkit-gradient(linear, right top, left top, from(#ff344d), to(#d2273c));
-  background-image: -webkit-linear-gradient(right, #ff344d, #d2273c);
   background-image: -o-linear-gradient(right, #ff344d, #d2273c);
   background-image: linear-gradient(to left, #ff344d, #d2273c);
+  background-image: -webkit-linear-gradient(89deg, #d2273c 0%, #ff344d 100%);
+  /* background-image: -webkit-linear-gradient(89deg, #620edf 0%, #5e72eb 100%); */
+  border-color: #6f6c6c;
 }
 .about-page-section .moreBtn:hover {
   background-image: -webkit-gradient(linear, left top, right top, from(#ff344d), to(#d2273c));
@@ -101,16 +103,16 @@
   border-bottom: 2px solid #000;
   background-attachment: fixed;
   display: flex;
-  max-height: 60vh;
+  max-height: 420px;
   overflow: hidden;
 }
 .characters .row:nth-of-type(2) {
-  background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.9) 100%),
-    url(../../assets/gifs/alien-level.gif);
-}
-.characters .row:nth-of-type(3) {
   background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.4) 100%),
     url(../../assets/images/games/doge-level.png);
+}
+.characters .row:nth-of-type(3) {
+  background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.9) 100%),
+    url(../../assets/gifs/alien-level.gif);
 }
 .characters .row:nth-of-type(4) {
   background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.4) 100%),
@@ -139,15 +141,19 @@
 }
 .characters .row.left .text {
   padding: 100px 10% 100px 10px;
+  margin: auto 0;
 }
 .characters .row.right {
   text-align: right;
 }
 .characters .row.right .text {
   padding: 100px 10px 100px 10%;
+  margin: auto 0;
 }
-
 .characters p,
-.characters h2 {
-  color: #fff;
+.characters h1 {
+  color: #fff !important;
+}
+.characters p {
+  font-size: 24px;
 }

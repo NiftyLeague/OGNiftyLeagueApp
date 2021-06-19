@@ -219,7 +219,7 @@ function App({ subgraphUri }) {
             />
           </Route>
           <Route exact path="/about">
-            <About />
+            <About setRoute={setRoute} />
           </Route>
           <Route exact path="/characters">
             <Characters />

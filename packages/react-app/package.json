@@ -16,6 +16,7 @@
     ]
   },
   "dependencies": {
+    "@ant-design/icons": "^4.6.2",
     "@apollo/client": "^3.3.15",
     "@ethersproject/address": "^5.1.0",
     "@ethersproject/bignumber": "^5.1.1",

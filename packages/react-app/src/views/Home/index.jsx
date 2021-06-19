@@ -16,7 +16,6 @@ import CatImg from "../../assets/gifs/cat1.gif";
 import FrogImg from "../../assets/images/characters/frog.png";
 import SatoshiImg from "../../assets/images/characters/satoshi.png";
 import "./home.css";
-import "./animations.css";
 
 const { Title } = Typography;
 
@@ -197,87 +196,90 @@ export default function Home({ nftPrice, localProvider, readContracts, setRoute,
       <section className="characters">
         <div className="row left">
           <div className="col-sm-4 text-center d-flex align-items-end">
-            <img src={CatImg} alt="Cat Character" className="img-fluid animation-element slide-in-left in-view" />
+            <img src={CatImg} alt="Cat Character" className="img-fluid" />
           </div>
           <div className="col-sm-8 text">
-            <Title>YOKO</Title>
+            <Title>Yoko</Title>
             <p>
               Yoko lives in the fast and furious Sushi City, where degens come to thrive. Legend has it Andre Cronje has
-              been training these cats to fight for years. Don't forget to stop by sushi.com and yearn.finance while in
-              town!
+              been training these cats to fight for years. Don't forget to stop by{" "}
+              <a target="_blank" rel="noopener noreferrer" href="https://sushi.com">
+                sushi
+              </a>{" "}
+              and{" "}
+              <a target="_blank" rel="noopener noreferrer" href="https://yearn.finance">
+                yearn
+              </a>{" "}
+              HQ while in town!
             </p>
           </div>
         </div>
         <div className="row right">
           <div className="col-sm-8 text">
-            <Title>COSMO</Title>
-            <p>
-              Cosmo the Alien DJ has been on a universal tour for the past 300 years. He's quite the celebrity but the
-              one remaining stage to complete his tour is at The Citadel.
-            </p>
-          </div>
-          <div className="col-sm-4 text-center d-flex align-items-end">
-            <img src={AlienImg} alt="Alien Character" className="img-fluid animation-element slide-in-right in-view" />
-          </div>
-        </div>
-        <div className="row left">
-          <div className="col-sm-4 text-center d-flex align-items-end">
-            <img src={DogeImg} alt="Doge Character" className="img-fluid animation-element slide-in-left in-view" />
-          </div>
-          <div className="col-sm-8 text">
-            <Title>DOGE</Title>
+            <Title>Doge</Title>
             <p>
               Doge has finally arrived on The Moon. After getting rugged by Elon he gave up aspirations of Mars and has
               his eyes set on the real prize now, making it to the Citadel.
             </p>
           </div>
+          <div className="col-sm-4 text-center d-flex align-items-end">
+            <img src={DogeImg} alt="Doge Character" className="img-fluid" />
+          </div>
+        </div>
+        <div className="row left">
+          <div className="col-sm-4 text-center d-flex align-items-end">
+            <img src={AlienImg} alt="Alien Character" className="img-fluid" />
+          </div>
+          <div className="col-sm-8 text">
+            <Title>Aurora</Title>
+            <p>
+              Aurora the Alien DJ has been on a universal tour for the past 300 years. She's quite the celebrity but the
+              one remaining stage to complete her tour is at The Citadel.
+            </p>
+          </div>
         </div>
         <div className="row right">
           <div className="col-sm-8 text">
-            <Title>MEEK</Title>
+            <Title>Meek</Title>
             <p>
               Humans have finally colonized Mars, but it’s turned into a commercial nightmare up there and the sand
               worms aren’t helping either. The Citadel looks a lot less... red.
             </p>
           </div>
           <div className="col-sm-4 text-center d-flex align-items-end">
-            <img src={HumanImg} alt="Human Character" className="img-fluid animation-element slide-in-right in-view" />
+            <img src={HumanImg} alt="Human Character" className="img-fluid" />
           </div>
         </div>
         <div className="row left">
           <div className="col-sm-4 text-center d-flex align-items-end">
-            <img src={ApeImg} alt="Ape Character" className="img-fluid animation-element slide-in-left in-view" />
+            <img src={ApeImg} alt="Ape Character" className="img-fluid" />
           </div>
           <div className="col-sm-8 text">
-            <Title>JAVA</Title>
+            <Title>Java</Title>
             <p>
-              Since the Humans left for Mars, Apes let the world become overrun by nature once again and take great
-              pride in de-evolution and renaturing.
+              Since the humans left for Mars, apes let Earth become overrun by nature once again taking great pride in
+              de-evolution and renaturing.
             </p>
           </div>
         </div>
         <div className="row right">
           <div className="col-sm-8 text">
-            <Title>PEPE</Title>
+            <Title>Pepe</Title>
             <p>
               After destroying Earth as a result of a simple misunderstanding, Frog welcomes the invite to The Citadel
               to try and make amends.
             </p>
           </div>
           <div className="col-sm-4 text-center d-flex align-items-end">
-            <img src={FrogImg} alt="Frog Character" className="img-fluid animation-element slide-in-right in-view" />
+            <img src={FrogImg} alt="Frog Character" className="img-fluid" />
           </div>
         </div>
         <div className="row left">
           <div className="col-sm-4 text-center d-flex align-items-end">
-            <img
-              src={SatoshiImg}
-              alt="Satoshi Character"
-              className="img-fluid animation-element slide-in-left in-view"
-            />
+            <img src={SatoshiImg} alt="Satoshi Character" className="img-fluid" />
           </div>
           <div className="col-sm-8 text">
-            <Title>SATOSHI</Title>
+            <Title>Satoshi</Title>
             <p>
               Satoshi, the creator of Bitcoin, lives in a utopian crypto paradise castle known as The Citadel, on
               Satoshi's Island.
