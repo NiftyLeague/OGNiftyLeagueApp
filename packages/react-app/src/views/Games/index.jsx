@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Unity, { UnityContext } from "react-unity-webgl";
-import { Progress, Image, Layout, Menu, Row, Col, Card } from "antd";
+import { Image, Layout, Menu, Row, Col, Card } from "antd";
 import { SportsEsports, SportsMma } from "@material-ui/icons";
 import { useThemeSwitcher } from "react-css-theme-switcher";
+import Preloader from "../../components/Preloader";
 import NiftySmashers from "../../assets/gifs/nifty-smashers.gif";
 import NiftySmashersThumb from "../../assets/images/characters/alien-dj.png";
 import "./games.css";
@@ -22,7 +23,6 @@ const smashersContext = new UnityContext({
 
 const Game = ({ unityContext }) => {
   const [isLoaded, setLoaded] = useState(false);
-  const [progression, setProgression] = useState(0);
 
   const onMouse = () => {
     const content = document.getElementsByClassName("game-canvas")[0];
@@ -34,7 +34,6 @@ const Game = ({ unityContext }) => {
 
   useEffect(() => {
     if (unityContext) {
-      unityContext.on("progress", p => setProgression(parseInt(p * 100, 10)));
       unityContext.on("loaded", () => setLoaded(true));
       unityContext.on("error", console.error);
       unityContext.on("canvas", element => console.log("Canvas", element));
@@ -46,31 +45,16 @@ const Game = ({ unityContext }) => {
     };
   }, [unityContext]);
 
-  const ready = isLoaded && progression === 100;
-
   return (
     <>
-      {!ready && (
-        <div style={{ position: "absolute", top: 360, width: "100%", fontSize: "50px !important" }}>
-          <div style={{ fontWeight: "bold" }}>Loading Nifty Smashers...</div>
-          <Progress
-            type="circle"
-            strokeColor={{
-              "0%": "#108ee9",
-              "100%": "#87d068",
-            }}
-            percent={progression}
-            key={progression}
-          />
-        </div>
-      )}
+      <Preloader ready={isLoaded} />
       <Unity
         className="game-canvas"
         unityContext={unityContext}
         style={{
           width: 1120,
           height: 840,
-          visibility: ready ? "visible" : "hidden",
+          visibility: isLoaded ? "visible" : "hidden",
         }}
       />
     </>
