@@ -103,7 +103,7 @@
   border-bottom: 2px solid #000;
   background-attachment: fixed;
   display: flex;
-  max-height: 420px;
+  max-height: 440px;
   overflow: hidden;
 }
 .characters .row:nth-of-type(2) {
@@ -154,6 +154,24 @@
 .characters h1 {
   color: #fff !important;
 }
-.characters p {
+.characters p,
+.characters a {
   font-size: 24px;
+}
+
+.short-hr::after {
+  border-top: 2px solid;
+  border-color: #d71414;
+  content: "";
+  display: block;
+  height: 1px;
+  width: 100px;
+}
+
+.short-hr.left::after {
+  margin: 13px 0 0 0;
+}
+
+.short-hr.right::after {
+  margin: 10px 0 0 auto;
 }

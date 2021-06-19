@@ -199,7 +199,7 @@ export default function Home({ nftPrice, localProvider, readContracts, setRoute,
             <img src={CatImg} alt="Cat Character" className="img-fluid" />
           </div>
           <div className="col-sm-8 text">
-            <Title>Yoko</Title>
+            <Title className="short-hr left">Yoko</Title>
             <p>
               Yoko lives in the fast and furious Sushi City, where degens come to thrive. Legend has it Andre Cronje has
               been training these cats to fight for years. Don't forget to stop by{" "}
@@ -216,7 +216,7 @@ export default function Home({ nftPrice, localProvider, readContracts, setRoute,
         </div>
         <div className="row right">
           <div className="col-sm-8 text">
-            <Title>Doge</Title>
+            <Title className="short-hr right">Doge</Title>
             <p>
               Doge has finally arrived on The Moon. After getting rugged by Elon he gave up aspirations of Mars and has
               his eyes set on the real prize now, making it to the Citadel.
@@ -231,7 +231,7 @@ export default function Home({ nftPrice, localProvider, readContracts, setRoute,
             <img src={AlienImg} alt="Alien Character" className="img-fluid" />
           </div>
           <div className="col-sm-8 text">
-            <Title>Aurora</Title>
+            <Title className="short-hr left">Aurora</Title>
             <p>
               Aurora the Alien DJ has been on a universal tour for the past 300 years. She's quite the celebrity but the
               one remaining stage to complete her tour is at The Citadel.
@@ -240,7 +240,7 @@ export default function Home({ nftPrice, localProvider, readContracts, setRoute,
         </div>
         <div className="row right">
           <div className="col-sm-8 text">
-            <Title>Meek</Title>
+            <Title className="short-hr right">Meek</Title>
             <p>
               Humans have finally colonized Mars, but it’s turned into a commercial nightmare up there and the sand
               worms aren’t helping either. The Citadel looks a lot less... red.
@@ -255,7 +255,7 @@ export default function Home({ nftPrice, localProvider, readContracts, setRoute,
             <img src={ApeImg} alt="Ape Character" className="img-fluid" />
           </div>
           <div className="col-sm-8 text">
-            <Title>Java</Title>
+            <Title className="short-hr left">Java</Title>
             <p>
               Since the humans left for Mars, apes let Earth become overrun by nature once again taking great pride in
               de-evolution and renaturing.
@@ -264,7 +264,7 @@ export default function Home({ nftPrice, localProvider, readContracts, setRoute,
         </div>
         <div className="row right">
           <div className="col-sm-8 text">
-            <Title>Pepe</Title>
+            <Title className="short-hr right">Pepe</Title>
             <p>
               After destroying Earth as a result of a simple misunderstanding, Frog welcomes the invite to The Citadel
               to try and make amends.
@@ -279,7 +279,7 @@ export default function Home({ nftPrice, localProvider, readContracts, setRoute,
             <img src={SatoshiImg} alt="Satoshi Character" className="img-fluid" />
           </div>
           <div className="col-sm-8 text">
-            <Title>Satoshi</Title>
+            <Title className="short-hr left">Satoshi</Title>
             <p>
               Satoshi, the creator of Bitcoin, lives in a utopian crypto paradise castle known as The Citadel, on
               Satoshi's Island.

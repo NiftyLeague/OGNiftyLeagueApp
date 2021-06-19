@@ -20,7 +20,7 @@ import {
 } from "./hooks";
 import { Contract, Faucet, Navigation, ThemeSwitch } from "./components";
 import { Notifier } from "./helpers";
-import { About, Characters, Games, Hints, Home, Staking, Subgraph } from "./views";
+import { About, Characters, Games, Hints, Home, Staking, Subgraph, NotFound } from "./views";
 import { DEBUG, NETWORKS, NFT_CONTRACT, INFURA_ID } from "./constants";
 import "./App.css";
 /*
@@ -269,6 +269,7 @@ function App({ subgraphUri }) {
                   writeContracts={writeContracts}
                 />
               </Route>
+              <Route component={NotFound} />
             </>
           )}
         </Switch>
