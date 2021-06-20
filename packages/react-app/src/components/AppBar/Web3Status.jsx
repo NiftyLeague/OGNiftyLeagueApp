@@ -104,13 +104,6 @@ const NetworkIcon = styled(Activity)`
 function newTransactionsFirst(a, b) {
   return b.addedTime - a.addedTime;
 }
-
-const SOCK = (
-  <span role="img" aria-label="has socks emoji" style={{ marginTop: -4, marginBottom: -4 }}>
-    🧦
-  </span>
-);
-
 // eslint-disable-next-line react/prop-types
 function StatusIcon({ connector }) {
   if (connector === injected) {

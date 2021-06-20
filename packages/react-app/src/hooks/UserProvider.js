@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { Web3Provider } from "@ethersproject/providers";
 import BurnerProvider from "burner-provider";
-import { INFURA_ID } from "../constants";
+import { INFURA_ID, DEBUG } from "../constants";
 
 /*
   ~ What it does? ~
@@ -24,7 +24,7 @@ import { INFURA_ID } from "../constants";
 const useUserProvider = (injectedProvider, localProvider) =>
   useMemo(() => {
     if (injectedProvider) {
-      console.log("🦊 Using injected provider");
+      if (DEBUG) console.log("🦊 Using injected provider");
       return injectedProvider;
     }
     if (!localProvider) return undefined;
@@ -36,7 +36,7 @@ const useUserProvider = (injectedProvider, localProvider) =>
         const incomingPK = window.location.hash.replace("#", "");
         let rawPK;
         if (incomingPK.length === 64 || incomingPK.length === 66) {
-          console.log("🔑 Incoming Private Key...");
+          if (DEBUG) console.log("🔑 Incoming Private Key...");
           rawPK = incomingPK;
           burnerConfig.privateKey = rawPK;
           window.history.pushState({}, "", "/");
@@ -49,7 +49,7 @@ const useUserProvider = (injectedProvider, localProvider) =>
       }
     }
 
-    console.log("🔥 Using burner provider", burnerConfig);
+    if (DEBUG) console.log("🔥 Using burner provider", burnerConfig);
     if (localProvider.connection && localProvider.connection.url) {
       burnerConfig.rpcUrl = localProvider.connection.url;
       return new Web3Provider(new BurnerProvider(burnerConfig));

@@ -69,7 +69,7 @@ const CustomSearchInput = ({ clearFilters, expandFilters, filterActive, search, 
         <SearchIcon />
       </IconButton>
       <Divider className={classes.divider} orientation="vertical" />
-      <Tooltip classes={{ tooltip: classes.tooltip }} title={filterActive ? "Clear filters" : "Filter search"}>
+      <Tooltip classes={{ tooltip: classes.tooltip }} title={filterActive ? "Clear filters" : "Filter results"}>
         <IconButton
           classes={{ root: classes.iconButton, colorPrimary: classes.iconPrimary }}
           aria-label="filter"
@@ -104,14 +104,16 @@ const CharactersFilter = () => {
     setFilterState(INITIAL_FILTER_STATE);
   };
 
+  const toggleExpanded = () => setExpanded(!expanded);
+
   return (
     <form className="games-search-wrapper" noValidate autoComplete="off" onSubmit={handleSubmit}>
-      <Accordion className={classes.accRoot} expanded={expanded} onChange={() => setExpanded(!expanded)}>
-        <AccordionSummary expandIcon={<ExpandMoreIcon className={classes.accExpand} />} aria-controls="panel1a-content">
+      <Accordion className={classes.accRoot} expanded={expanded} onChange={toggleExpanded}>
+        <AccordionSummary aria-controls="panel1a-content">
           <Typography className={classes.accHeader}>FILTER BY:</Typography>
           <CustomSearchInput
             clearFilters={handleClearFilters}
-            expandFilters={() => setExpanded(true)}
+            expandFilters={toggleExpanded}
             filterActive={filterActive}
             search={search}
             setSearch={setSearch}

@@ -36,6 +36,8 @@ export function useENSRegistrarContract(withSignerIfPossible) {
       case ChainId.RINKEBY:
         address = "0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e";
         break;
+      default:
+        break;
     }
   }
   return useContract(address, ENS_ABI, withSignerIfPossible);
@@ -62,6 +64,8 @@ export function useMasterChefV2Contract(withSignerIfPossible) {
     switch (chainId) {
       case ChainId.MAINNET:
         address = "0xEF0881eC094552b2e128Cf945EF17a6752B4Ec5d";
+        break;
+      default:
         break;
     }
   }

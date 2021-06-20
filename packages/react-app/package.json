@@ -62,6 +62,7 @@
     "bnc-notify": "^1.6.0",
     "burner-provider": "^1.0.38",
     "chalk": "^4.1.1",
+    "clsx": "^1.1.1",
     "copy-to-clipboard": "^3.3.1",
     "dayjs": "^1.10.4",
     "dotenv": "^8.2.0",

@@ -67,7 +67,12 @@ export default function ({ setRoute }) {
       <Title level={3}>Frog Smashers</Title>
       <p>Battle it out amongst the community in this fun brawler available at launch! ...</p>
       <Title level={3}>Future Game Ideas</Title>
-      <p>More details to come… 😈</p>
+      <p>
+        More details to come…{" "}
+        <span role="img" aria-label="devil emoji">
+          😈
+        </span>
+      </p>
       <Title level={3}>Community Developers</Title>
       <p>
         Our goal is to expand this ecosystem with as many fun and exciting games as possible and that is only possible
