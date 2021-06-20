@@ -134,7 +134,6 @@ export default function Wallet({ address, color, ensProvider, price, provider })
       // eslint-disable-next-line no-restricted-syntax
       for (const key in localStorage) {
         if (key.indexOf("metaPrivateKey_backup") >= 0) {
-          console.log(key);
           const pastpk = localStorage.getItem(key);
           const pastwallet = new ethers.Wallet(pastpk);
           if (!extraPkDisplayAdded[pastwallet.address] /* && selectedAddress!=pastwallet.address */) {
