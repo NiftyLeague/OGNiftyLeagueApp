@@ -11,11 +11,11 @@ const noContractDisplay = (
     <div style={{ padding: 32 }}>
       You need to run{" "}
       <span className="highlight" style={{ marginLeft: 4, padding: 4, borderRadius: 4, fontWeight: "bolder" }}>
-        yarn run chain
+        yarn chain
       </span>{" "}
       and{" "}
       <span className="highlight" style={{ marginLeft: 4, padding: 4, borderRadius: 4, fontWeight: "bolder" }}>
-        yarn run deploy
+        yarn deploy
       </span>{" "}
       to see your contract here.
     </div>
@@ -25,7 +25,7 @@ const noContractDisplay = (
       </span>
       Warning: You might need to run
       <span className="highlight" style={{ marginLeft: 4, padding: 4, borderRadius: 4, fontWeight: "bolder" }}>
-        yarn run deploy
+        yarn deploy
       </span>{" "}
       <i>again</i> after the frontend comes up!
     </div>

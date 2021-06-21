@@ -37,7 +37,6 @@ export default function Ramp({ address, networks, price }) {
       allFaucets.push(
         <p key={networks[n].chainId}>
           <Button
-            style={{ color: networks[n].color }}
             type={type}
             size="large"
             shape="round"

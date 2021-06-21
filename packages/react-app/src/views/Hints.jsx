@@ -28,7 +28,7 @@ export default function Hints({ yourLocalBalance, mainnetProvider, price, addres
         <span style={{ marginRight: 8 }}>🛰</span>
         <b>compile/deploy</b> with
         <span className="highlight" style={{ marginLeft: 4, padding: 4, borderRadius: 4, fontWeight: "bolder" }}>
-          yarn run deploy
+          yarn deploy
         </span>
       </div>
 
@@ -142,22 +142,21 @@ export default function Hints({ yourLocalBalance, mainnetProvider, price, addres
         </span>
         and running
         <span className="highlight" style={{ marginLeft: 4, padding: 4, borderRadius: 4, fontWeight: "bolder" }}>
-          yarn run deploy
+          yarn deploy
         </span>
       </div>
 
       <div style={{ marginTop: 32 }}>
         <span style={{ marginRight: 8 }}>🔑</span>
         <span className="highlight" style={{ marginLeft: 4, padding: 4, borderRadius: 4, fontWeight: "bolder" }}>
-          yarn run generate
+          yarn generate
         </span>
         will create a deployer account in
         <span className="highlight" style={{ marginLeft: 4, padding: 4, borderRadius: 4, fontWeight: "bolder" }}>
           packages/hardhat
         </span>
         <div className="highlight" style={{ marginTop: 8 }}>
-          (use{" "}
-          <span style={{ marginLeft: 4, padding: 4, borderRadius: 4, fontWeight: "bolder" }}>yarn run account</span> to
+          (use <span style={{ marginLeft: 4, padding: 4, borderRadius: 4, fontWeight: "bolder" }}>yarn account</span> to
           display deployer address and balance)
         </div>
       </div>
@@ -166,7 +165,7 @@ export default function Hints({ yourLocalBalance, mainnetProvider, price, addres
         <span style={{ marginRight: 8 }}>⚙️</span>
         build your app with
         <span className="highlight" style={{ marginLeft: 4, padding: 4, borderRadius: 4, fontWeight: "bolder" }}>
-          yarn run build
+          yarn build
         </span>
       </div>
 
@@ -174,15 +173,15 @@ export default function Hints({ yourLocalBalance, mainnetProvider, price, addres
         <span style={{ marginRight: 8 }}>🚢</span>
         ship it!
         <span className="highlight" style={{ marginLeft: 4, padding: 4, borderRadius: 4, fontWeight: "bolder" }}>
-          yarn run surge
+          yarn surge
         </span>
         or
         <span className="highlight" style={{ marginLeft: 4, padding: 4, borderRadius: 4, fontWeight: "bolder" }}>
-          yarn run s3
+          yarn s3
         </span>
         or
         <span className="highlight" style={{ marginLeft: 4, padding: 4, borderRadius: 4, fontWeight: "bolder" }}>
-          yarn run ipfs
+          yarn ipfs
         </span>
       </div>
 

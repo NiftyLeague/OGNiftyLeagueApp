@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { BigNumber } from "@ethersproject/bignumber";
 import { Row, Col, Input, Divider, Tooltip, Button } from "antd";
+import { useThemeSwitcher } from "react-css-theme-switcher";
 import Blockies from "react-blockies";
 import { Notifier } from "../../helpers";
 import tryToDisplay from "./utils";
@@ -12,8 +13,9 @@ export default function FunctionForm({ contractFunction, functionInfo, provider,
   const [form, setForm] = useState({});
   const [txValue, setTxValue] = useState();
   const [returnValue, setReturnValue] = useState();
+  const { currentTheme } = useThemeSwitcher();
 
-  const tx = Notifier(provider, gasPrice);
+  const tx = Notifier(provider, gasPrice, currentTheme === "dark");
 
   let inputIndex = 0;
   const inputs = functionInfo.inputs.map(input => {

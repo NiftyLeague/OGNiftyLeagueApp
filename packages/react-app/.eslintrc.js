@@ -47,7 +47,6 @@ module.exports = {
     "no-use-before-define": "off",
     "no-unused-expressions": "off",
     "prefer-template": "off",
-    "react/jsx-filename-extension": ["warn", { extensions: [".js", ".jsx", ".ts", ".tsx"] }],
     "react/jsx-props-no-spreading": "off",
     "react/no-array-index-key": "off",
     "react/no-unescaped-entities": "off",

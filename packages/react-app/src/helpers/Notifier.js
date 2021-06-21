@@ -7,21 +7,19 @@ import { BLOCKNATIVE_DAPPID } from "../constants";
 // Wrapper around BlockNative's wonderful Notify.js
 // https://docs.blocknative.com/notify
 
-export default function Notifier(provider, gasPrice, etherscan) {
+export default function Notifier(provider, gasPrice, darkMode = false) {
+  console.log("Notifier", darkMode);
   if (typeof provider !== "undefined") {
     // eslint-disable-next-line consistent-return
     return async tx => {
       const signer = provider.getSigner();
       const network = await provider.getNetwork();
-      console.log("network", network);
       const options = {
         dappId: BLOCKNATIVE_DAPPID, // GET YOUR OWN KEY AT https://account.blocknative.com
         system: "ethereum",
         networkId: network.chainId,
-        // darkMode: Boolean, // (default: false)
-        transactionHandler: txInformation => {
-          console.log("HANDLE TX", txInformation);
-        },
+        darkMode,
+        transactionHandler: txInformation => console.log("HANDLE TX", txInformation),
       };
       const notify = Notify(options);
 
@@ -54,7 +52,7 @@ export default function Notifier(provider, gasPrice, etherscan) {
           const { emitter } = notify.hash(result.hash);
           emitter.on("all", transaction => {
             return {
-              onclick: () => window.open((etherscan || etherscanTxUrl) + transaction.hash),
+              onclick: () => window.open(etherscanTxUrl + transaction.hash),
             };
           });
         } else {

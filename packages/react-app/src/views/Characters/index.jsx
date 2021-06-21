@@ -16,7 +16,7 @@ const CharactersContainer = () => {
       <CharactersFilter />
       <Grid container spacing={2} style={{ flexGrow: 1, margin: "8px 0" }}>
         {characters.map(character => (
-          <Grid item xs={6} sm={4} md={3}>
+          <Grid item xs={6} sm={4} md={3} key={character.id}>
             <CharacterCard character={character} />
           </Grid>
         ))}

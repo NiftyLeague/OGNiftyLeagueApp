@@ -15,7 +15,7 @@ import {
   Modal,
 } from "antd";
 import { SettingOutlined, RetweetOutlined } from "@ant-design/icons";
-import { ChainId, Token, WETH, Fetcher, Trade, TokenAmount, Percent } from "@uniswap/sdk";
+import { ChainId, Token, WETH, Fetcher, Trade, TokenAmount, Percent } from "@sushiswap/sdk";
 import { parseUnits, formatUnits } from "@ethersproject/units";
 import { ethers } from "ethers";
 import { useBlockNumber, usePoller } from "eth-hooks";
@@ -233,7 +233,7 @@ function Swap({ selectedProvider, tokenListURI }) {
     }
   };
 
-  usePoller(getAccountInfo, 6000);
+  usePoller(getAccountInfo, 10000);
 
   const route = trades && trades.length > 0 ? trades[0].route.path.map(item => item.symbol) : [];
 

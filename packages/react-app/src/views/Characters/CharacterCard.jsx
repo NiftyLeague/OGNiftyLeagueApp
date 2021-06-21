@@ -61,7 +61,7 @@ export default function CharacterCard({ character }) {
         <CardContent className={classes.cardContent}>
           <List dense className={classes.traitList}>
             {Object.entries(traitList).map(([key, value]) => (
-              <ListItem>
+              <ListItem key={key}>
                 <ListItemText primary={key} secondary={value} className={classes.traitListItem} />
               </ListItem>
             ))}

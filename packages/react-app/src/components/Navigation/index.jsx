@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/accessible-emoji */
 import React, { useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { useThemeSwitcher } from "react-css-theme-switcher";
@@ -7,12 +6,11 @@ import { MoreVert } from "@material-ui/icons";
 import Web3Modal from "web3modal";
 import { Web3Provider } from "@ethersproject/providers";
 import WalletConnectProvider from "@walletconnect/web3-provider";
-// import NiftyLeagueLogo from "../../assets/images/nifty-league-logo-full.png";
-// import NiftyLeagueLogo from "../../assets/images/nifty-league-logo.png";
-import "./navigation.css";
 
-import Account from "../Account";
 import { DEBUG, INFURA_ID, NETWORK } from "../../constants";
+import Account from "../Account";
+// import NiftyLeagueLogo from "../../assets/images/nifty-league-logo-full.png";
+import "./navigation.css";
 
 const { Title } = Typography;
 
@@ -20,9 +18,12 @@ const { Title } = Typography;
   Web3 modal helps us "connect" external wallets:
 */
 const web3Modal = new Web3Modal({
-  // network: "mainnet", // optional
-  cacheProvider: true, // optional
+  cacheProvider: true,
+  theme: "dark",
   providerOptions: {
+    injected: {
+      package: null,
+    },
     walletconnect: {
       package: WalletConnectProvider, // required
       options: {
@@ -79,11 +80,34 @@ const DropdownMenu = ({ setRoute }) => {
   );
 };
 
+const WrongNetworkAlert = ({ localChainId, selectedChainId }) => (
+  <div
+    style={{
+      zIndex: 2,
+      position: "absolute",
+      right: 0,
+      top: 60,
+      padding: 16,
+    }}
+  >
+    <Alert
+      message="⚠️ Wrong Network"
+      description={
+        <div>
+          You have <b>{NETWORK(selectedChainId).name}</b> selected and you need to be on{" "}
+          <b>{NETWORK(localChainId).name}</b>.
+        </div>
+      }
+      type="error"
+      closable={false}
+    />
+  </div>
+);
+
 function Navigation({
   address,
   blockExplorer,
   localChainId,
-  localProvider,
   mainnetProvider,
   price,
   route,
@@ -95,43 +119,36 @@ function Navigation({
 }) {
   const { currentTheme } = useThemeSwitcher();
   const darkThemed = currentTheme === "dark";
+  const networkError = localChainId && selectedChainId && localChainId !== selectedChainId;
+
   const loadWeb3Modal = useCallback(async () => {
     const provider = await web3Modal.connect();
     setInjectedProvider(new Web3Provider(provider));
+    provider.on("accountsChanged", accounts => {
+      console.log(accounts);
+    });
+    provider.on("chainChanged", chainId => {
+      console.log(chainId);
+    });
+    provider.on("connect", info => {
+      console.log(info);
+    });
+    provider.on("disconnect", error => {
+      console.log(error);
+    });
   }, [setInjectedProvider]);
 
   useEffect(() => {
     if (web3Modal.cachedProvider) loadWeb3Modal();
   }, [loadWeb3Modal]);
 
-  const networkDisplay =
-    localChainId && selectedChainId && localChainId !== selectedChainId ? (
-      <div
-        style={{
-          zIndex: 2,
-          position: "absolute",
-          right: 0,
-          top: 60,
-          padding: 16,
-        }}
-      >
-        <Alert
-          message="⚠️ Wrong Network"
-          description={
-            <div>
-              You have <b>{NETWORK(selectedChainId).name}</b> selected and you need to be on{" "}
-              <b>{NETWORK(localChainId).name}</b>.
-            </div>
-          }
-          type="error"
-          closable={false}
-        />
-      </div>
-    ) : (
-      <div style={{ color: targetNetwork.color, marginLeft: "auto", padding: "0 16px", fontSize: 16 }}>
-        {targetNetwork.name}
-      </div>
-    );
+  const updateWeb3ModalTheme = useCallback(async () => {
+    await web3Modal.updateTheme(currentTheme);
+  }, [currentTheme]);
+
+  useEffect(() => {
+    updateWeb3ModalTheme();
+  }, [updateWeb3ModalTheme]);
 
   return (
     <Layout>
@@ -153,7 +170,10 @@ function Navigation({
         }}
       >
         <Title level={4} style={{ margin: "auto 30px auto 0" }}>
-          👾 Nifty League
+          <span role="img" aria-label="pixel emoji">
+            👾
+          </span>{" "}
+          Nifty League
         </Title>
         {/* <img width={42} height={50} src={NiftyLeagueLogo} alt="Nifty League logo" /> */}
         <nav className="navbar-polygon">
@@ -194,19 +214,21 @@ function Navigation({
             </Menu.Item>
           </Menu>
         </nav>
-        {networkDisplay}
+        <div style={{ color: "#666666", marginLeft: "auto", padding: "0 16px", fontSize: 16 }}>
+          {targetNetwork.name}
+        </div>
         <Account
           address={address}
-          localProvider={localProvider}
-          userProvider={userProvider}
-          mainnetProvider={mainnetProvider}
-          price={price}
-          web3Modal={web3Modal}
+          blockExplorer={blockExplorer}
           loadWeb3Modal={loadWeb3Modal}
           logoutOfWeb3Modal={logoutOfWeb3Modal}
-          blockExplorer={blockExplorer}
+          mainnetProvider={mainnetProvider}
+          price={price}
+          userProvider={userProvider}
+          web3Modal={web3Modal}
         />
         <DropdownMenu key="more" setRoute={setRoute} />
+        {networkError && <WrongNetworkAlert localChainId={localChainId} selectedChainId={selectedChainId} />}
       </Layout.Header>
     </Layout>
   );

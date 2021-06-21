@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/accessible-emoji */
 import React, { useEffect, useState } from "react";
 import { Switch, Route } from "react-router-dom";
 import { JsonRpcProvider } from "@ethersproject/providers";
@@ -6,6 +5,7 @@ import { JsonRpcProvider } from "@ethersproject/providers";
 import { BigNumber } from "ethers";
 import { useUserAddress } from "eth-hooks";
 import { formatEther } from "@ethersproject/units";
+import { useThemeSwitcher } from "react-css-theme-switcher";
 import {
   useExchangePrice,
   useGasPrice,
@@ -23,38 +23,15 @@ import { Notifier } from "./helpers";
 import { About, Characters, Games, Hints, Home, Staking, Subgraph, NotFound } from "./views";
 import { DEBUG, NETWORKS, NFT_CONTRACT, INFURA_ID } from "./constants";
 import "./App.css";
-/*
-    Welcome to 🏗 scaffold-eth !
 
-    Code:
-    https://github.com/austintgriffith/scaffold-eth
-
-    Support:
-    https://t.me/joinchat/KByvmRe5wkR-8F_zz6AjpA
-    or DM @austingriffith on twitter or telegram
-
-    You should get your own Infura.io ID and put it in `constants.js`
-    (this is your connection to the main Ethereum network for ENS etc.)
-
-
-    🌏 EXTERNAL CONTRACTS:
-    You can also bring in contract artifacts in `constants.js`
-    (and then use the `useExternalContractLoader()` hook!)
-*/
-
-// 📡 What chain are your contracts deployed to?
-// select your target frontend network (localhost, rinkeby, mainnet)
+// 📡 What chain are your contracts deployed to? (localhost, rinkeby, mainnet)
 const targetNetwork = NETWORKS[process.env.REACT_APP_NETWORK];
 
 // 🛰 providers
 if (DEBUG) console.log("📡 Connecting to Mainnet Ethereum");
-// const mainnetProvider = getDefaultProvider("mainnet", { infura: INFURA_ID, etherscan: ETHERSCAN_KEY, quorum: 1 });
-// const mainnetProvider = new InfuraProvider("mainnet",INFURA_ID);
-//
 // attempt to connect to our own scaffold eth rpc and if that fails fall back to infura...
 const scaffoldEthProvider = new JsonRpcProvider("https://rpc.scaffoldeth.io:48544");
 const mainnetInfura = new JsonRpcProvider("https://mainnet.infura.io/v3/" + INFURA_ID);
-// ( ⚠️ Getting "failed to meet quorum" errors? Check your INFURA_ID
 
 // 🏠 Your local provider is usually pointed at your local blockchain
 const localProviderUrl = targetNetwork.rpcUrl;
@@ -68,8 +45,8 @@ function App({ subgraphUri }) {
   const mainnetProvider = scaffoldEthProvider && scaffoldEthProvider._network ? scaffoldEthProvider : mainnetInfura;
 
   const [injectedProvider, setInjectedProvider] = useState();
-  /* 💵 This hook will get the price of ETH from 🦄 Uniswap: */
-  const price = useExchangePrice(targetNetwork, mainnetProvider);
+  /* 💵 This hook will get the price of ETH from Sushiswap: */
+  const price = useExchangePrice(targetNetwork, mainnetProvider, 30000);
 
   /* 🔥 This hook will get the price of Gas from ⛽️ EtherGasStation */
   const gasPrice = useGasPrice(targetNetwork, "fast");
@@ -84,7 +61,8 @@ function App({ subgraphUri }) {
   // For more hooks, check out 🔗eth-hooks at: https://www.npmjs.com/package/eth-hooks
 
   // The Notifier wraps transactions and provides notificiations
-  const tx = Notifier(userProvider, gasPrice);
+  const { currentTheme } = useThemeSwitcher();
+  const tx = Notifier(userProvider, gasPrice, currentTheme === "dark");
 
   // 🏗 scaffold-eth is full of handy hooks like this one to get your balance:
   const yourLocalBalance = useBalance(localProvider, address);
@@ -109,13 +87,11 @@ function App({ subgraphUri }) {
   // ]);
 
   // keep track of a variable from the contract in the local React state:
-  // const nftPriceBN = useContractReader(readContracts, NFT_CONTRACT, "getNFTPrice", null, 5000);
-  // const nftPrice = nftPriceBN && formatEther(nftPriceBN.toString());
-  const nftPrice = 0.05;
+  const nftPriceBN = useContractReader(readContracts, NFT_CONTRACT, "getNFTPrice", null, 10000);
+  const nftPrice = nftPriceBN && formatEther(nftPriceBN.toString());
+  // const nftPrice = 0.05;
 
-  //
   // ☝️ These effects will log your major set up and upcoming transferEvents- and balance changes
-  //
   useEffect(() => {
     if (
       DEBUG &&
@@ -148,8 +124,6 @@ function App({ subgraphUri }) {
     yourMainnetBalance,
   ]);
 
-  // const [oldMainnetBalance, setOldMainnetDAIBalance] = useState(0);
-
   // For Master Branch Example
   // const [oldPurposeEvents, setOldPurposeEvents] = useState([]);
 
@@ -160,11 +134,6 @@ function App({ subgraphUri }) {
   // Use this effect for often changing things like your balance and transfer events or contract-specific effects
   // useEffect(() => {
   //   if (DEBUG) {
-  //     if (myMainnetDAIBalance && !myMainnetDAIBalance.eq(oldMainnetBalance)) {
-  //       console.log("🥇 myMainnetDAIBalance:", myMainnetDAIBalance);
-  //       setOldMainnetDAIBalance(myMainnetDAIBalance);
-  //     }
-
   //     // For Buyer-Lazy-Mint Branch Example
   //     if(transferEvents && oldTransferEvents !== transferEvents){
   //      console.log("📟 Transfer events:", transferEvents)
@@ -181,7 +150,7 @@ function App({ subgraphUri }) {
   //       setOldPurposeEvents(setPurposeEvents);
   //     }
   //   }
-  // }, [myMainnetDAIBalance]); // For Buyer-Lazy-Mint Branch: balance, transferEvents
+  // }, []); // For Buyer-Lazy-Mint Branch: balance, transferEvents
 
   const [route, setRoute] = useState();
   useEffect(() => {
@@ -192,12 +161,10 @@ function App({ subgraphUri }) {
 
   return (
     <div className="App">
-      {/* <AppBar /> */}
       <Navigation
         address={address}
         blockExplorer={blockExplorer}
         localChainId={localChainId}
-        localProvider={localProvider}
         mainnetProvider={mainnetProvider}
         price={price}
         route={route}
@@ -269,9 +236,9 @@ function App({ subgraphUri }) {
                   writeContracts={writeContracts}
                 />
               </Route>
-              <Route component={NotFound} />
             </>
           )}
+          <Route component={NotFound} />
         </Switch>
       </div>
 

@@ -36,19 +36,19 @@ export default function TimelineDisplay({
 
       <Timeline.Item dot="⛓">
         <Text delete={chainIsUp}>
-          Start your local blockchain with: <Text strong>yarn run chain</Text> (and refresh)
+          Start your local blockchain with: <Text strong>yarn chain</Text> (and refresh)
         </Text>
       </Timeline.Item>
 
       <Timeline.Item dot="📝">
         <Text delete={hasOwner}>
-          Compile and deploy your smart contract: <Text strong>yarn run deploy</Text>
+          Compile and deploy your smart contract: <Text strong>yarn deploy</Text>
         </Text>
       </Timeline.Item>
 
       <Timeline.Item dot="🤡">
         <Text delete={isNotSmoort}>
-          Fix error in <Text code>SmartContractWallet.sol</Text> then: <Text strong>yarn run deploy</Text>
+          Fix error in <Text code>SmartContractWallet.sol</Text> then: <Text strong>yarn deploy</Text>
         </Text>
       </Timeline.Item>
 
@@ -85,7 +85,7 @@ export default function TimelineDisplay({
       <Timeline.Item dot="🔬">
         <Text>
           Test your contract with <Text code>buidler/test/myTest.js</Text> then:
-          <Text strong>yarn run test</Text>
+          <Text strong>yarn test</Text>
         </Text>
       </Timeline.Item>
 
