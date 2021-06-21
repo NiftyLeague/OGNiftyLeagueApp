@@ -3,20 +3,23 @@ import { Link } from "react-router-dom";
 import Unity, { UnityContext } from "react-unity-webgl";
 import ModalVideo from "react-modal-video";
 import { Typography } from "antd";
-import Preloader from "../../components/Preloader";
+import Container from "@material-ui/core/Container";
 
+import Preloader from "components/Preloader";
+import SaleProgress from "components/SaleProgress";
+import { useEventListener } from "hooks";
+
+import CharacterBGImg from "assets/images/backgrounds/character_creator.png";
+import VideoBGImg from "assets/images/games/nifty-smashers.png";
+import PlayIconImg from "assets/images/play-icon-red.png";
+import ApeImg from "assets/gifs/ape.gif";
+import AlienImg from "assets/gifs/alien1.gif";
+import DogeImg from "assets/gifs/doge.gif";
+import HumanImg from "assets/images/characters/human.png";
+import CatImg from "assets/gifs/cat1.gif";
+import FrogImg from "assets/images/characters/frog.png";
+import SatoshiImg from "assets/images/characters/satoshi.png";
 import { NFT_CONTRACT } from "../../constants";
-import { useEventListener } from "../../hooks";
-import CharacterBGImg from "../../assets/images/backgrounds/character_creator.png";
-import VideoBGImg from "../../assets/images/games/nifty-smashers.png";
-import PlayIconImg from "../../assets/images/play-icon-red.png";
-import ApeImg from "../../assets/gifs/ape.gif";
-import AlienImg from "../../assets/gifs/alien1.gif";
-import DogeImg from "../../assets/gifs/doge.gif";
-import HumanImg from "../../assets/images/characters/human.png";
-import CatImg from "../../assets/gifs/cat1.gif";
-import FrogImg from "../../assets/images/characters/frog.png";
-import SatoshiImg from "../../assets/images/characters/satoshi.png";
 import "./home.css";
 
 const { Title } = Typography;
@@ -140,7 +143,8 @@ export default function Home({ nftPrice, localProvider, readContracts, setRoute,
         />
       </div>
       <section className="about-page-section">
-        <div className="container">
+        <SaleProgress readContracts={readContracts} />
+        <Container style={{ paddingTop: 16 }}>
           <div className="row">
             <div className="col-md-6 d-flex align-self-center">
               <div className="about-video">
@@ -176,7 +180,7 @@ export default function Home({ nftPrice, localProvider, readContracts, setRoute,
               </div>
             </div>
           </div>
-        </div>
+        </Container>
       </section>
       <section className="characters">
         <div className="row left">

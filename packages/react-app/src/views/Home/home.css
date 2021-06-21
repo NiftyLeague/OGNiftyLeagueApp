@@ -131,8 +131,8 @@
     url(../../assets/images/games/citadel.png);
 }
 .characters .row img {
-  margin: 0vh auto 0 auto;
-  height: 135%;
+  margin: 30px auto 0 auto;
+  height: 125%;
   width: 100%;
   z-index: 1;
 }
@@ -141,14 +141,12 @@
 }
 .characters .row.left .text {
   padding: 100px 15% 100px 10px;
-  margin: auto 0;
 }
 .characters .row.right {
   text-align: right;
 }
 .characters .row.right .text {
   padding: 100px 10px 100px 15%;
-  margin: auto 0;
 }
 .characters p,
 .characters h1 {

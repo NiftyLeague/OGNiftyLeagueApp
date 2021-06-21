@@ -1,25 +1,19 @@
 /* eslint-disable no-unused-vars */
-/* eslint no-use-before-define: "warn" */
+/* eslint-disable no-use-before-define */
 const fs = require("fs");
 const chalk = require("chalk");
-// eslint-disable-next-line no-unused-vars
 const { config, ethers, tenderly, run } = require("hardhat");
 const { utils } = require("ethers");
 const R = require("ramda");
 
 const main = async () => {
   console.log("\n\n 📡 Deploying...\n");
-
-  // const nft = await deploy("NiftyERC1155", ["https://abcoathup.github.io/SampleERC1155/api/token/{id}.json"]);
-  const nftlToken = await deploy("NFTLToken", [Math.floor(Date.now() / 1000), 100000]);
+  const emissionStartTimestamp = Math.floor(Date.now() / 1000);
+  const initalSupply = 100000;
+  const nftlToken = await deploy("NFTLToken", [emissionStartTimestamp, 100000]);
   const nft = await deploy("NiftyLeagueCharacter", [nftlToken.address]);
   await nftlToken.setNFTAddress(nft.address);
   // const yourContract = await ethers.getContractAt('YourContract', "0xaAC799eC2d00C013f1F11c37E654e59B0429DF6A") //<-- if you want to instantiate a version of a contract at a specific address!
-  // const secondContract = await deploy("SecondContract")
-
-  // const exampleToken = await deploy("ExampleToken")
-  // const examplePriceOracle = await deploy("ExamplePriceOracle")
-  // const smartContractWallet = await deploy("SmartContractWallet",[exampleToken.address,examplePriceOracle.address])
 
   /*
   //If you want to send value to an address from the deployer
@@ -46,21 +40,20 @@ const main = async () => {
   */
 
   // If you want to verify your contract on tenderly.co (see setup details in the scaffold-eth README!)
-  /*
-  await tenderlyVerify(
-    {contractName: "YourContract",
-     contractAddress: yourContract.address
-  })
-  */
+  console.log(chalk.blue("verifying on tenderly"));
+  await tenderlyVerify({ contractName: "NFTLToken", contractAddress: nftlToken.address });
+  await tenderlyVerify({ contractName: "NiftyLeagueCharacter", contractAddress: nft.address });
 
   // If you want to verify your contract on etherscan
-  /*
-  console.log(chalk.blue('verifying on etherscan'))
+  console.log(chalk.blue("verifying on etherscan"));
   await run("verify:verify", {
-    address: yourContract.address,
-    // constructorArguments: args // If your contract has constructor arguments, you can pass them as an array
-  })
-  */
+    address: nftlToken.address,
+    constructorArguments: [emissionStartTimestamp, initalSupply],
+  });
+  await run("verify:verify", {
+    address: nft.address,
+    constructorArguments: [nftlToken.address],
+  });
 
   console.log(" 💾  Artifacts (address, abi, and args) saved to: ", chalk.blue("packages/hardhat/artifacts/"), "\n\n");
 };
@@ -92,7 +85,6 @@ const deploy = async (contractName, _args = [], overrides = {}, libraries = {}) 
 
   if (!encoded || encoded.length <= 2) return deployed;
   fs.writeFileSync(`artifacts/${contractName}.args`, encoded.slice(2));
-
   return deployed;
 };
 
