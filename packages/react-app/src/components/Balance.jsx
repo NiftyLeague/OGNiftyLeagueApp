@@ -45,7 +45,7 @@ export default function Balance({ address, balance: bal, dollarMultiplier, pollT
 
   usePoller(() => {
     getBalance();
-  }, pollTime || 1999);
+  }, pollTime || 4999);
 
   let floatBalance = parseFloat("0.00");
 

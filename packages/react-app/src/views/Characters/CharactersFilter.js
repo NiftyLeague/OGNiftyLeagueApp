@@ -17,7 +17,6 @@ import {
   Typography,
 } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import { INITIAL_FILTER_STATE, TRIBES, NAMES, MenuProps } from "./constants";
 import { useStyles, getMenuItemStyles } from "./styles";
@@ -57,7 +56,7 @@ const CustomSearchInput = ({ clearFilters, expandFilters, filterActive, search, 
   const classes = useStyles();
   const stopClick = e => e.stopPropagation();
   return (
-    <Paper component="form" className={classes.paper} onClick={stopClick}>
+    <Paper className={classes.paper} onClick={stopClick}>
       <InputBase
         className={classes.input}
         placeholder="NFT Name or ID"

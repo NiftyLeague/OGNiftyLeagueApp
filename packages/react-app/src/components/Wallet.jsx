@@ -269,6 +269,7 @@ export default function Wallet({ address, color, ensProvider, price, provider })
     privateKeyButton = (
       <Button
         key="hide"
+        style={{ fontSize: 16 }}
         onClick={() => {
           setPK(localStorage.getItem("metaPrivateKey"));
           setQr("");

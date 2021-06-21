@@ -1,9 +1,7 @@
 import React from "react";
 import { Button } from "antd";
-// import { useThemeSwitcher } from "react-css-theme-switcher";
 import Address from "./Address";
 import Balance from "./Balance";
-// import Wallet from "./Wallet";
 
 /*
   ~ What it does? ~
@@ -28,7 +26,7 @@ import Balance from "./Balance";
   ~ Features ~
 
   - Provide address={address} and get balance corresponding to the given address
-  - Provide localProvider={localProvider} to access balance on local network
+  - Provide userProvider={userProvider} to access balance on local network
   - Provide userProvider={userProvider} to display a wallet
   - Provide mainnetProvider={mainnetProvider} and your address will be replaced by ENS name
               (ex. "0xa870" => "user.eth")
@@ -43,11 +41,10 @@ export default function Account({
   address,
   blockExplorer,
   loadWeb3Modal,
-  localProvider,
   logoutOfWeb3Modal,
   mainnetProvider,
   price,
-  // userProvider,
+  userProvider,
   web3Modal,
 }) {
   const modalButtons = [];
@@ -55,7 +52,6 @@ export default function Account({
     const btnStyles = {
       verticalAlign: "top",
       marginLeft: 8,
-      lineHeight: 0,
       background: "-webkit-linear-gradient(89deg, #620edf 0%, #5e72eb 100%)",
       color: "#fff",
       borderColor: "#6f6c6c",
@@ -75,19 +71,10 @@ export default function Account({
     }
   }
 
-  // const { currentTheme } = useThemeSwitcher();
-
   return (
     <div style={{ display: "flex", flexWrap: "nowrap", alignItems: "center" }}>
       {address && <Address address={address} ensProvider={mainnetProvider} blockExplorer={blockExplorer} />}
-      <Balance address={address} provider={localProvider} price={price} />
-      {/* <Wallet
-        address={address}
-        provider={userProvider}
-        ensProvider={mainnetProvider}
-        price={price}
-        color={currentTheme === "light" ? "#1890ff" : "#2caad9"}
-      /> */}
+      <Balance address={address} provider={userProvider} price={price} />
       {modalButtons}
     </div>
   );

@@ -2324,7 +2324,7 @@ mark {
   margin-left: 0;
 }
 .ant-btn {
-  line-height: 1.5715;
+  line-height: 0;
   position: relative;
   display: inline-block;
   font-weight: 400;

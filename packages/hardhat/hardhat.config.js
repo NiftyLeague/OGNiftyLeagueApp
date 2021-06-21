@@ -20,7 +20,7 @@ const { isAddress, getAddress, formatUnits, parseUnits } = utils;
 */
 
 // Select the network you want to deploy to here:
-const defaultNetwork = "localhost";
+const defaultNetwork = process.env.NETWORK;
 
 function getMnemonic() {
   try {
@@ -28,7 +28,7 @@ function getMnemonic() {
   } catch (e) {
     if (defaultNetwork !== "localhost") {
       console.log(
-        "☢️ WARNING: No mnemonic file created for a deploy account. Try `yarn run generate` and then `yarn run account`.",
+        "☢️ WARNING: No mnemonic file created for a deploy account. Try `yarn generate` and then `yarn account`.",
       );
     }
   }
@@ -41,7 +41,7 @@ module.exports = {
   // don't forget to set your provider like:
   // REACT_APP_PROVIDER=https://dai.poa.network in packages/react-app/.env
   // (then your frontend will talk to your contracts on the live network!)
-  // (you will need to restart the `yarn run start` dev server after editing the .env)
+  // (you will need to restart the `yarn start` dev server after editing the .env)
 
   networks: {
     localhost: {
@@ -51,18 +51,6 @@ module.exports = {
         (you can put in a mnemonic here to set the deployer locally)
       */
     },
-    rinkeby: {
-      url: `https://rinkeby.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
-      accounts: {
-        mnemonic: getMnemonic(),
-      },
-    },
-    kovan: {
-      url: `https://kovan.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
-      accounts: {
-        mnemonic: getMnemonic(),
-      },
-    },
     mainnet: {
       url: `https://mainnet.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
       accounts: {
@@ -71,6 +59,18 @@ module.exports = {
     },
     ropsten: {
       url: `https://ropsten.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
+      accounts: {
+        mnemonic: getMnemonic(),
+      },
+    },
+    rinkeby: {
+      url: `https://rinkeby.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
+      accounts: {
+        mnemonic: getMnemonic(),
+      },
+    },
+    kovan: {
+      url: `https://kovan.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
       accounts: {
         mnemonic: getMnemonic(),
       },
@@ -197,7 +197,7 @@ task("generate", "Create a mnemonic for builder deploys", async (_, { ethers }) 
   var EthUtil = require("ethereumjs-util");
   const address = "0x" + EthUtil.privateToAddress(wallet._privKey).toString("hex");
   console.log("🔐 Account Generated as " + address + " and set as mnemonic in packages/hardhat");
-  console.log("💬 Use 'yarn run account' to get more information about the deployment account.");
+  console.log("💬 Use 'yarn account' to get more information about the deployment account.");
 
   fs.writeFileSync("./" + address + ".txt", mnemonic.toString());
   fs.writeFileSync("./mnemonic.txt", mnemonic.toString());
@@ -245,7 +245,7 @@ task("mineContractAddress", "Looks for a deployer account that will give leading
 
     console.log("⛏  Account Mined as " + address + " and set as mnemonic in packages/hardhat");
     console.log("📜 This will create the first contract: " + chalk.magenta("0x" + contractAddress));
-    console.log("💬 Use 'yarn run account' to get more information about the deployment account.");
+    console.log("💬 Use 'yarn account' to get more information about the deployment account.");
 
     fs.writeFileSync("./" + address + "_produces" + contractAddress + ".txt", mnemonic.toString());
     fs.writeFileSync("./mnemonic.txt", mnemonic.toString());

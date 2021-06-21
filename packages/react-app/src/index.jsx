@@ -4,17 +4,12 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
-import { createWeb3ReactRoot, Web3ReactProvider } from "@web3-react/core";
 import { ThemeSwitcherProvider } from "react-css-theme-switcher";
 import LanguageProvider from "./language";
-import getLibrary from "./helpers/getLibrary";
-import { NetworkContextName } from "./constants";
 import App from "./App";
 import store from "./state";
 
 dotenv.config();
-
-const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName);
 
 const themes = {
   dark: `${process.env.PUBLIC_URL}/dark-theme.css`,
@@ -23,7 +18,8 @@ const themes = {
 
 const prevTheme = window.localStorage.getItem("theme");
 
-const subgraphUri = "http://localhost:8000/subgraphs/name/scaffold-eth/your-contract";
+const subgraphUri =
+  process.env.NODE_ENV === "development" ? process.env.LOCAL_SUBGRAPH_URI : process.env.LIVE_SUBGRAPH_URI;
 
 const client = new ApolloClient({
   uri: subgraphUri,
@@ -31,20 +27,16 @@ const client = new ApolloClient({
 });
 
 ReactDOM.render(
-  <Web3ReactProvider getLibrary={getLibrary}>
-    <Web3ProviderNetwork getLibrary={getLibrary}>
-      <ApolloProvider client={client}>
-        <Provider store={store}>
-          <LanguageProvider>
-            <ThemeSwitcherProvider themeMap={themes} defaultTheme={prevTheme || "dark"}>
-              <Router>
-                <App subgraphUri={subgraphUri} />
-              </Router>
-            </ThemeSwitcherProvider>
-          </LanguageProvider>
-        </Provider>
-      </ApolloProvider>
-    </Web3ProviderNetwork>
-  </Web3ReactProvider>,
+  <ApolloProvider client={client}>
+    <Provider store={store}>
+      <LanguageProvider>
+        <ThemeSwitcherProvider themeMap={themes} defaultTheme={prevTheme || "dark"}>
+          <Router>
+            <App subgraphUri={subgraphUri} />
+          </Router>
+        </ThemeSwitcherProvider>
+      </LanguageProvider>
+    </Provider>
+  </ApolloProvider>,
   document.getElementById("root"),
 );
