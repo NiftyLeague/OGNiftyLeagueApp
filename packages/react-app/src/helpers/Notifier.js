@@ -8,7 +8,6 @@ import { BLOCKNATIVE_DAPPID } from "../constants";
 // https://docs.blocknative.com/notify
 
 export default function Notifier(provider, gasPrice, darkMode = false) {
-  console.log("Notifier", darkMode);
   if (typeof provider !== "undefined") {
     // eslint-disable-next-line consistent-return
     return async tx => {

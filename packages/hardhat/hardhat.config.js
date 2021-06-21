@@ -20,7 +20,7 @@ const { isAddress, getAddress, formatUnits, parseUnits } = utils;
 */
 
 // Select the network you want to deploy to here:
-const defaultNetwork = process.env.NETWORK;
+const defaultNetwork = process.env.HARDHAT_NETWORK;
 
 function getMnemonic() {
   try {

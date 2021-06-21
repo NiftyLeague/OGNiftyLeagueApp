@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Switch, Route } from "react-router-dom";
 import { JsonRpcProvider } from "@ethersproject/providers";
-// eslint-disable-next-line no-unused-vars
-import { BigNumber } from "ethers";
 import { useUserAddress } from "eth-hooks";
 import { formatEther } from "@ethersproject/units";
 import { useThemeSwitcher } from "react-css-theme-switcher";
@@ -11,7 +9,6 @@ import {
   useGasPrice,
   useUserProvider,
   useContractLoader,
-  // eslint-disable-next-line no-unused-vars
   useContractReader,
   // useEventListener,
   useBalance,
@@ -89,7 +86,6 @@ function App({ subgraphUri }) {
   // keep track of a variable from the contract in the local React state:
   const nftPriceBN = useContractReader(readContracts, NFT_CONTRACT, "getNFTPrice", null, 10000);
   const nftPrice = nftPriceBN && formatEther(nftPriceBN.toString());
-  // const nftPrice = 0.05;
 
   // ☝️ These effects will log your major set up and upcoming transferEvents- and balance changes
   useEffect(() => {
@@ -191,7 +187,7 @@ function App({ subgraphUri }) {
             <About setRoute={setRoute} />
           </Route>
           <Route exact path="/characters">
-            <Characters />
+            <Characters readContracts={readContracts} />
           </Route>
           <Route exact path="/games">
             <Games />
