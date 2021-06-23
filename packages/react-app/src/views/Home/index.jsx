@@ -231,8 +231,8 @@ export default function Home({ nftPrice, localProvider, readContracts, setRoute,
           <div className="col-sm-8 text">
             <Title className="short-hr right">Meek</Title>
             <p>
-              Humans have finally colonized Mars, but it’s turned into a commercial nightmare up there and the sand
-              worms aren’t helping either. The Citadel looks a lot less... red.
+              Humans have finally colonized Mars, but it's turned into an dystopian capitalist nightmare and the sand
+              worms aren’t helping either. Satoshi’s Island looks a lot less... red.
             </p>
           </div>
           <div className="col-sm-4 text-center d-flex align-items-end">
@@ -246,17 +246,17 @@ export default function Home({ nftPrice, localProvider, readContracts, setRoute,
           <div className="col-sm-8 text">
             <Title className="short-hr left">Java</Title>
             <p>
-              Since the humans left for Mars, apes let Earth become overrun by nature once again taking great pride in
-              de-evolution and renaturing.
+              Since humans left for Mars and left rising sea levels behind as a gift, the Ape has inherited Earth and
+              let nature run its course, planting banana tress everywhere.
             </p>
           </div>
         </div>
         <div className="row right">
           <div className="col-sm-8 text">
-            <Title className="short-hr right">Pepe</Title>
+            <Title className="short-hr right">Jeremiah</Title>
             <p>
-              After destroying Earth as a result of a simple misunderstanding, Frog welcomes the invite to The Citadel
-              to try and make amends.
+              After destroying his home planet as a result of a simple misunderstanding, Frog welcomes the invite to
+              Nifty League to try and redeem himself.
             </p>
           </div>
           <div className="col-sm-4 text-center d-flex align-items-end">

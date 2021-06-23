@@ -83,7 +83,7 @@ export default function Faucet({ ensProvider, localProvider, placeholder, price 
               onClick={() => {
                 tx({
                   to: address,
-                  value: parseEther("0.01"),
+                  value: parseEther("1.00"),
                 });
                 setAddress("");
               }}
