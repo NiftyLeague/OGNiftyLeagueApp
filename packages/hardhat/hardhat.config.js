@@ -5,7 +5,6 @@ const chalk = require("chalk");
 
 require("@nomiclabs/hardhat-waffle");
 require("@tenderly/hardhat-tenderly");
-
 require("@nomiclabs/hardhat-etherscan");
 
 const { isAddress, getAddress, formatUnits, parseUnits } = utils;
@@ -126,7 +125,7 @@ module.exports = {
   },
 };
 
-const { DEBUG } = process.env;
+const DEBUG = process.env.NODE_ENV === "development";
 
 function debug(text) {
   if (DEBUG) {

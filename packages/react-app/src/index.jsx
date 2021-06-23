@@ -18,8 +18,7 @@ const themes = {
 
 const prevTheme = window.localStorage.getItem("theme");
 
-const subgraphUri =
-  process.env.NODE_ENV === "development" ? process.env.LOCAL_SUBGRAPH_URI : process.env.LIVE_SUBGRAPH_URI;
+const subgraphUri = process.env.REACT_APP_SUBGRAPH_URI;
 
 const client = new ApolloClient({
   uri: subgraphUri,

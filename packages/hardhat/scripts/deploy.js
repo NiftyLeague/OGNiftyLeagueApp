@@ -38,22 +38,24 @@ const main = async () => {
    LibraryName: **LibraryAddress**
   });
   */
+  const targetNetwork = process.env.HARDHAT_NETWORK || config.defaultNetwork;
+  if (targetNetwork !== "localhost") {
+    // If you want to verify your contract on tenderly.co (see setup details in the scaffold-eth README!)
+    console.log(chalk.blue("verifying on tenderly"));
+    await tenderlyVerify({ contractName: "NFTLToken", contractAddress: nftlToken.address });
+    await tenderlyVerify({ contractName: "NiftyLeagueCharacter", contractAddress: nft.address });
 
-  // If you want to verify your contract on tenderly.co (see setup details in the scaffold-eth README!)
-  console.log(chalk.blue("verifying on tenderly"));
-  await tenderlyVerify({ contractName: "NFTLToken", contractAddress: nftlToken.address });
-  await tenderlyVerify({ contractName: "NiftyLeagueCharacter", contractAddress: nft.address });
-
-  // If you want to verify your contract on etherscan
-  console.log(chalk.blue("verifying on etherscan"));
-  await run("verify:verify", {
-    address: nftlToken.address,
-    constructorArguments: [emissionStartTimestamp, initalSupply],
-  });
-  await run("verify:verify", {
-    address: nft.address,
-    constructorArguments: [nftlToken.address],
-  });
+    // If you want to verify your contract on etherscan
+    // console.log(chalk.blue("verifying on etherscan"));
+    // await run("verify:verify", {
+    //   address: nftlToken.address,
+    //   constructorArguments: [emissionStartTimestamp, initalSupply],
+    // });
+    // await run("verify:verify", {
+    //   address: nft.address,
+    //   constructorArguments: [nftlToken.address],
+    // });
+  }
 
   console.log(" 💾  Artifacts (address, abi, and args) saved to: ", chalk.blue("packages/hardhat/artifacts/"), "\n\n");
 };

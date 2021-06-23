@@ -284,16 +284,25 @@ contract NiftyLeagueCharacter is ERC721, Ownable, Pausable {
         Character memory newChar;
         newChar.traits = traitCombo;
         _characters[newCharId] = newChar;
-
-        if (newCharId % 5 == 0) {
-            uint256 randomIndex = _rngIndex(newCharId);
-            uint256 randomTrait = uint256(uint8(traitCombo >> (randomIndex * 8)));
-            removedTraits.push(randomTrait);
-            _removedTraitsMap[randomTrait] = true;
-        }
-
+        _removeRandomTrait(newCharId, traitCombo);
         _safeMint(msg.sender, newCharId);
         emit CharacterGenerated(newCharId, traitCombo, msg.sender);
+    }
+
+    function _removeRandomTrait(uint256 newCharId, uint256 traitCombo) private {
+        if (
+            removedTraits.length < 100 ||
+            (removedTraits.length < 250 && newCharId % 2 == 0) ||
+            (removedTraits.length < 350 && newCharId % 3 == 0) ||
+            (removedTraits.length < 450 && newCharId % 4 == 0)
+        ) {
+            uint256 randomIndex = _rngIndex(newCharId);
+            uint256 randomTrait = uint256(uint8(traitCombo >> (randomIndex * 8)));
+            if (randomTrait != 0) {
+                removedTraits.push(randomTrait);
+                _removedTraitsMap[randomTrait] = true;
+            }
+        }
     }
 
     function _rngIndex(uint256 id) internal view returns (uint256) {
