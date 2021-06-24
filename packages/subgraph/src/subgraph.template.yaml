@@ -3,11 +3,11 @@ schema:
   file: ./src/schema.graphql
 dataSources:
   - kind: ethereum/contract
-    name: NiftyLeagueCharacter
+    name: NiftyDegen
     network: localhost
     source:
-      address: "{{NiftyLeagueCharacterAddress}}"
-      abi: NiftyLeagueCharacter
+      address: "{{NiftyDegenAddress}}"
+      abi: NiftyDegen
       startBlock: 1
     mapping:
       kind: ethereum/events
@@ -17,8 +17,8 @@ dataSources:
         - Character
         - Owner
       abis:
-        - name: NiftyLeagueCharacter
-          file: ./abis/NiftyLeagueCharacter.json
+        - name: NiftyDegen
+          file: ./abis/NiftyDegen.json
       eventHandlers:
         - event: CharacterGenerated(indexed uint256,uint256,address)
           handler: handleCharacterGenerated

@@ -206,7 +206,7 @@ function App({ subgraphUri }) {
                   blockExplorer={blockExplorer}
                 />
               </Route>
-              <Route path="/NFTs">
+              <Route path="/NFT">
                 <Contract
                   name={NFT_CONTRACT}
                   signer={userProvider.getSigner()}

@@ -1,9 +1,5 @@
 import { BigInt, Address, log } from "@graphprotocol/graph-ts";
-import {
-  NiftyLeagueCharacter,
-  CharacterGenerated,
-  Transfer,
-} from "../generated/NiftyLeagueCharacter/NiftyLeagueCharacter";
+import { NiftyDegen, CharacterGenerated, Transfer } from "../generated/NiftyDegen/NiftyDegen";
 import { Character, Owner } from "../generated/schema";
 
 export function handleCharacterGenerated(event: CharacterGenerated): void {
@@ -34,7 +30,7 @@ export function handleCharacterGenerated(event: CharacterGenerated): void {
 
 export function handleTransfer(event: Transfer): void {
   // Bind the contract to the address that emitted the event
-  let contract = NiftyLeagueCharacter.bind(event.address);
+  let contract = NiftyDegen.bind(event.address);
   let fromString = event.params.from.toHexString();
   let toString = event.params.to.toHexString();
 

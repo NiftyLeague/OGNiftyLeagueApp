@@ -13,7 +13,7 @@ export const ETHERSCAN_KEY = process.env.REACT_APP_ETHERSCAN_KEY;
 // BLOCKNATIVE ID FOR Notify.js:
 export const BLOCKNATIVE_DAPPID = process.env.REACT_APP_BLOCKNATIVE_DAPPID;
 
-export const NFT_CONTRACT = "NiftyLeagueCharacter";
+export const NFT_CONTRACT = "NiftyDegen";
 
 export const DEBUG = process.env.NODE_ENV === "development";
 
