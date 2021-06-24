@@ -51,9 +51,9 @@ const DropdownMenu = ({ setRoute }) => {
               NFTL Token
             </Link>
           </Menu.Item>
-          <Menu.Item key="/NFTs">
-            <Link onClick={() => setRoute("/NFTs")} to="/NFTs">
-              NFTs
+          <Menu.Item key="/NFT">
+            <Link onClick={() => setRoute("/NFT")} to="/NFT">
+              NFT
             </Link>
           </Menu.Item>
           <Menu.Item key="/hints">

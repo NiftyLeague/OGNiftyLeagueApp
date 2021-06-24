@@ -10,7 +10,7 @@ const config = {
   },
 
   // Commands that interact with the smart contract (minting, etc), will load the file to connect to the deployed contract.
-  nftContractName: "NiftyLeagueCharacter",
+  nftContractName: "NiftyDegen",
   metadata: {
     description: "",
     externalURL: "https://nifty-league.com",

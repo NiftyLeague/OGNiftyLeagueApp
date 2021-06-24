@@ -19,10 +19,10 @@ contract NFTLToken is ERC20("Nifty League", "NFTL") {
     uint256 public constant EMISSION_PER_DAY = 27.3972603e18; // 27.397 NFTL
 
     /// @notice Start timestamp from contract deployment
-    uint256 public emissionStart;
+    uint256 public immutable emissionStart;
 
     /// @notice End date for NFTL emissions to NFT holder
-    uint256 public emissionEnd;
+    uint256 public immutable emissionEnd;
 
     /// @dev A record of last claimed timestamp for NFTs
     mapping(uint256 => uint256) private _lastClaim;
