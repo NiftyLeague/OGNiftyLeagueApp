@@ -56,6 +56,11 @@ const DropdownMenu = ({ setRoute }) => {
               NFT
             </Link>
           </Menu.Item>
+          <Menu.Item key="/storage">
+            <Link onClick={() => setRoute("/storage")} to="/storage">
+              Storage
+            </Link>
+          </Menu.Item>
           <Menu.Item key="/hints">
             <Link onClick={() => setRoute("/hints")} to="/hints">
               Hints

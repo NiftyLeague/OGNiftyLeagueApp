@@ -5,14 +5,24 @@ const chalk = require("chalk");
 const { config, ethers, tenderly, run } = require("hardhat");
 const { utils } = require("ethers");
 const R = require("ramda");
+const { ALLOWED_TRAITS } = require("../constants/allowedTraits");
 
 const main = async () => {
   console.log("\n\n 📡 Deploying...\n");
+
+  const storage = await deploy("AllowedTraitsStorage");
+  // eslint-disable-next-line no-restricted-syntax
+  for (const [i, traits] of ALLOWED_TRAITS.entries()) {
+    // eslint-disable-next-line no-await-in-loop
+    await storage.setTraitsAllowedOnTribe(i + 1, traits, true);
+  }
+
   const emissionStartTimestamp = Math.floor(Date.now() / 1000);
   const initalSupply = 100000;
   const nftlToken = await deploy("NFTLToken", [emissionStartTimestamp, initalSupply]);
-  const nft = await deploy("NiftyDegen", [nftlToken.address]);
+  const nft = await deploy("NiftyDegen", [nftlToken.address, storage.address]);
   await nftlToken.setNFTAddress(nft.address);
+
   // const yourContract = await ethers.getContractAt('YourContract', "0xaAC799eC2d00C013f1F11c37E654e59B0429DF6A") //<-- if you want to instantiate a version of a contract at a specific address!
 
   /*
@@ -42,6 +52,7 @@ const main = async () => {
   if (targetNetwork !== "localhost") {
     // If you want to verify your contract on tenderly.co (see setup details in the scaffold-eth README!)
     console.log(chalk.blue("verifying on tenderly"));
+    await tenderlyVerify({ contractName: "AllowedTraitsStorage", contractAddress: storage.address });
     await tenderlyVerify({ contractName: "NFTLToken", contractAddress: nftlToken.address });
     await tenderlyVerify({ contractName: "NiftyDegen", contractAddress: nft.address });
 
