@@ -58,9 +58,6 @@ contract NiftyLeagueCharacter is ERC721, Ownable, Pausable {
     /// @dev Mapping if character trait combination exist
     mapping(uint256 => bool) internal _existMap;
 
-    /// @dev Mapping if trait is available for selected tribe
-    mapping(uint256 => mapping(uint256 => bool)) internal _tribeTraitAvailable;
-
     /// @dev Mapping if character trait has been removed
     mapping(uint256 => bool) internal _removedTraitsMap;
 

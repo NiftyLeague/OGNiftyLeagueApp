@@ -215,6 +215,15 @@ function App({ subgraphUri }) {
                   blockExplorer={blockExplorer}
                 />
               </Route>
+              <Route path="/storage">
+                <Contract
+                  name={"AllowedTraitsStorage"}
+                  signer={userProvider.getSigner()}
+                  provider={localProvider}
+                  address={address}
+                  blockExplorer={blockExplorer}
+                />
+              </Route>
               <Route path="/hints">
                 <Hints
                   address={address}

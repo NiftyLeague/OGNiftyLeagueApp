@@ -4,6 +4,7 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "./NameableCharacter.sol";
+import "./AllowedTraitsStorage.sol";
 
 import "hardhat/console.sol";
 
@@ -19,6 +20,9 @@ contract NiftyDegen is NameableCharacter {
     /// @notice Special characters reserved for future giveaways
     uint256 public constant SPECIAL_CHARACTERS = 100;
 
+    /// @dev Available traits storage address
+    address internal immutable _storageAddress;
+
     string arweaveGeneratorHash = "-eEz1VUXZE9EDaEyEe927S_TV53OGBPN4LXobDGkaWA";
     string ipfsGeneratorHash = "Qmc4sLXQPVyuGCi71Z2G7ezanhn9NjmyPwxAw2BFaCFsgT";
 
@@ -32,8 +36,11 @@ contract NiftyDegen is NameableCharacter {
     /**
      * @notice Construct the Nifty League NFTs
      * @param nftlAddress Address of verified Nifty League NFTL contract
+     * @param storageAddress Address of verified Allowed Traits Storage
      */
-    constructor(address nftlAddress) NiftyLeagueCharacter(nftlAddress, "NiftyDegen", "DEGEN") {}
+    constructor(address nftlAddress, address storageAddress) NiftyLeagueCharacter(nftlAddress, "NiftyDegen", "DEGEN") {
+        _storageAddress = storageAddress;
+    }
 
     /**
      * @dev Base URI for computing {tokenURI}. Overrides ERC721 default.
@@ -92,7 +99,8 @@ contract NiftyDegen is NameableCharacter {
         uint256[6] memory acc,
         uint256[2] memory items
     ) private view {
-        require(char[0] > 0 && (char[0] < 7 || (char[0] < 10 && msg.sender == owner())), "Tribe incorrect");
+        uint256 tribe = char[0];
+        require(tribe > 0 && (tribe < 7 || (tribe < 10 && msg.sender == owner())), "Tribe incorrect");
         require(char[1] == EMPTY_TRAIT || (char[1] >= 10 && char[1] < 75), "Skin color incorrect");
         require(char[2] == EMPTY_TRAIT || (char[2] >= 75 && char[2] < 135), "Secondary skin color incorrect");
         require(char[3] == EMPTY_TRAIT || (char[3] >= 135 && char[3] < 144), "Eye color incorrect");
@@ -117,29 +125,29 @@ contract NiftyDegen is NameableCharacter {
         require(items[0] == EMPTY_TRAIT || (items[0] >= 292 && items[0] < 294), "Left item incorrect");
         require(items[1] == EMPTY_TRAIT || (items[1] >= 294 && items[1] < 296), "Right item incorrect");
 
-        require(isAvailableTrait(char[1]), "Skin color unavailable");
-        require(isAvailableTrait(char[2]), "Secondary Skin color unavailable");
-        require(isAvailableTrait(char[3]), "Eye color unavailable");
-        require(isAvailableTrait(char[4]), "Secondary eye color unavailable");
-        require(isAvailableTrait(head[0]), "Hair unavailable");
-        require(isAvailableTrait(head[1]), "Mouth unavailable");
-        require(isAvailableTrait(head[2]), "Beard unavailable");
-        require(isAvailableTrait(head[3]), "Facemarks unavailable");
-        require(isAvailableTrait(head[4]), "Misc unavailable");
-        require(isAvailableTrait(cloth[0]), "Top unavailable");
-        require(isAvailableTrait(cloth[1]), "Outerwear unavailable");
-        require(isAvailableTrait(cloth[2]), "Print unavailable");
-        require(isAvailableTrait(cloth[3]), "Bottom unavailable");
-        require(isAvailableTrait(cloth[4]), "Footwear unavailable");
-        require(isAvailableTrait(cloth[5]), "Belt unavailable");
-        require(isAvailableTrait(acc[0]), "Hat unavailable");
-        require(isAvailableTrait(acc[1]), "Eyewear unavailable");
-        require(isAvailableTrait(acc[2]), "Piercings unavailable");
-        require(isAvailableTrait(acc[3]), "Wrist accessory unavailable");
-        require(isAvailableTrait(acc[4]), "Hand accessory unavailable");
-        require(isAvailableTrait(acc[5]), "Neckwear unavailable");
-        require(isAvailableTrait(items[0]), "Left item unavailable");
-        require(isAvailableTrait(items[1]), "Right item unavailable");
+        require(isAvailableAndAllowedTrait(tribe, char[1]), "Skin color unavailable");
+        require(isAvailableAndAllowedTrait(tribe, char[2]), "Secondary Skin color unavailable");
+        require(isAvailableAndAllowedTrait(tribe, char[3]), "Eye color unavailable");
+        require(isAvailableAndAllowedTrait(tribe, char[4]), "Secondary eye color unavailable");
+        require(isAvailableAndAllowedTrait(tribe, head[0]), "Hair unavailable");
+        require(isAvailableAndAllowedTrait(tribe, head[1]), "Mouth unavailable");
+        require(isAvailableAndAllowedTrait(tribe, head[2]), "Beard unavailable");
+        require(isAvailableAndAllowedTrait(tribe, head[3]), "Facemarks unavailable");
+        require(isAvailableAndAllowedTrait(tribe, head[4]), "Misc unavailable");
+        require(isAvailableAndAllowedTrait(tribe, cloth[0]), "Top unavailable");
+        require(isAvailableAndAllowedTrait(tribe, cloth[1]), "Outerwear unavailable");
+        require(isAvailableAndAllowedTrait(tribe, cloth[2]), "Print unavailable");
+        require(isAvailableAndAllowedTrait(tribe, cloth[3]), "Bottom unavailable");
+        require(isAvailableAndAllowedTrait(tribe, cloth[4]), "Footwear unavailable");
+        require(isAvailableAndAllowedTrait(tribe, cloth[5]), "Belt unavailable");
+        require(isAvailableAndAllowedTrait(tribe, acc[0]), "Hat unavailable");
+        require(isAvailableAndAllowedTrait(tribe, acc[1]), "Eyewear unavailable");
+        require(isAvailableAndAllowedTrait(tribe, acc[2]), "Piercings unavailable");
+        require(isAvailableAndAllowedTrait(tribe, acc[3]), "Wrist accessory unavailable");
+        require(isAvailableAndAllowedTrait(tribe, acc[4]), "Hand accessory unavailable");
+        require(isAvailableAndAllowedTrait(tribe, acc[5]), "Neckwear unavailable");
+        require(isAvailableAndAllowedTrait(tribe, items[0]), "Left item unavailable");
+        require(isAvailableAndAllowedTrait(tribe, items[1]), "Right item unavailable");
     }
 
     function _generateTraitCombo(
@@ -197,7 +205,7 @@ contract NiftyDegen is NameableCharacter {
             (removedTraits.length < 450 && newCharId % 4 == 0)
         ) {
             uint256 randomIndex = _rngIndex(newCharId);
-            uint16 randomTrait = uint16(traitCombo >> randomIndex) & 0x03FF;
+            uint16 randomTrait = _unpackUint10(traitCombo >> randomIndex);
             if (randomTrait != 0) {
                 removedTraits.push(randomTrait);
                 _removedTraitsMap[randomTrait] = true;
@@ -210,33 +218,42 @@ contract NiftyDegen is NameableCharacter {
         return ((randomHash % 23) + 1) * 10;
     }
 
+    function _unpackUint10(uint256 traits) private pure returns (uint16) {
+        return uint16(traits) & 0x03FF;
+    }
+
     function getCharacterTraits(uint256 tokenId) external view returns (CharacterTraits memory _characterTraits) {
         require(_exists(tokenId), "nonexistent token");
         Character memory character = _characters[tokenId];
-        _characterTraits.tribe = uint16(character.traits) & 0x03FF;
-        _characterTraits.skinColor = uint16(character.traits >> 10) & 0x03FF;
-        _characterTraits.secondarySkinColor = uint16(character.traits >> 20) & 0x03FF;
-        _characterTraits.eyeColor = uint16(character.traits >> 30) & 0x03FF;
-        _characterTraits.secondaryEyeColor = uint16(character.traits >> 40) & 0x03FF;
-        _characterTraits.hair = uint16(character.traits >> 50) & 0x03FF;
-        _characterTraits.mouth = uint16(character.traits >> 60) & 0x03FF;
-        _characterTraits.beard = uint16(character.traits >> 70) & 0x03FF;
-        _characterTraits.facemarks = uint16(character.traits >> 80) & 0x03FF;
-        _characterTraits.misc = uint16(character.traits >> 90) & 0x03FF;
-        _characterTraits.top = uint16(character.traits >> 100) & 0x03FF;
-        _characterTraits.outerwear = uint16(character.traits >> 110) & 0x03FF;
-        _characterTraits.topPrint = uint16(character.traits >> 120) & 0x03FF;
-        _characterTraits.bottom = uint16(character.traits >> 130) & 0x03FF;
-        _characterTraits.footwear = uint16(character.traits >> 140) & 0x03FF;
-        _characterTraits.belt = uint16(character.traits >> 150) & 0x03FF;
-        _characterTraits.hat = uint16(character.traits >> 160) & 0x03FF;
-        _characterTraits.eyewear = uint16(character.traits >> 170) & 0x03FF;
-        _characterTraits.piercings = uint16(character.traits >> 180) & 0x03FF;
-        _characterTraits.wrists = uint16(character.traits >> 190) & 0x03FF;
-        _characterTraits.hands = uint16(character.traits >> 200) & 0x03FF;
-        _characterTraits.neckwear = uint16(character.traits >> 210) & 0x03FF;
-        _characterTraits.leftItem = uint16(character.traits >> 220) & 0x03FF;
-        _characterTraits.rightItem = uint16(character.traits >> 230) & 0x03FF;
+        _characterTraits.tribe = _unpackUint10(character.traits);
+        _characterTraits.skinColor = _unpackUint10(character.traits >> 10);
+        _characterTraits.secondarySkinColor = _unpackUint10(character.traits >> 20);
+        _characterTraits.eyeColor = _unpackUint10(character.traits >> 30);
+        _characterTraits.secondaryEyeColor = _unpackUint10(character.traits >> 40);
+        _characterTraits.hair = _unpackUint10(character.traits >> 50);
+        _characterTraits.mouth = _unpackUint10(character.traits >> 60);
+        _characterTraits.beard = _unpackUint10(character.traits >> 70);
+        _characterTraits.facemarks = _unpackUint10(character.traits >> 80);
+        _characterTraits.misc = _unpackUint10(character.traits >> 90);
+        _characterTraits.top = _unpackUint10(character.traits >> 100);
+        _characterTraits.outerwear = _unpackUint10(character.traits >> 110);
+        _characterTraits.topPrint = _unpackUint10(character.traits >> 120);
+        _characterTraits.bottom = _unpackUint10(character.traits >> 130);
+        _characterTraits.footwear = _unpackUint10(character.traits >> 140);
+        _characterTraits.belt = _unpackUint10(character.traits >> 150);
+        _characterTraits.hat = _unpackUint10(character.traits >> 160);
+        _characterTraits.eyewear = _unpackUint10(character.traits >> 170);
+        _characterTraits.piercings = _unpackUint10(character.traits >> 180);
+        _characterTraits.wrists = _unpackUint10(character.traits >> 190);
+        _characterTraits.hands = _unpackUint10(character.traits >> 200);
+        _characterTraits.neckwear = _unpackUint10(character.traits >> 210);
+        _characterTraits.leftItem = _unpackUint10(character.traits >> 220);
+        _characterTraits.rightItem = _unpackUint10(character.traits >> 230);
+    }
+
+    function isAvailableAndAllowedTrait(uint256 tribe, uint256 trait) public view returns (bool) {
+        AllowedTraitsStorage traitsStorage = AllowedTraitsStorage(_storageAddress);
+        return isAvailableTrait(trait) && traitsStorage.isAllowedTrait(tribe, trait);
     }
 
     function setGeneratorHashes(string memory newArweave, string memory newIpfs) external onlyOwner {
