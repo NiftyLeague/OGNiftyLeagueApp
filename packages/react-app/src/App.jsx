@@ -2,24 +2,15 @@ import React, { useEffect, useState } from "react";
 import { Switch, Route } from "react-router-dom";
 import { JsonRpcProvider } from "@ethersproject/providers";
 import { useUserAddress } from "eth-hooks";
-import { formatEther } from "@ethersproject/units";
 import { useThemeSwitcher } from "react-css-theme-switcher";
-import {
-  useExchangePrice,
-  useGasPrice,
-  useUserProvider,
-  useContractLoader,
-  useContractReader,
-  // useEventListener,
-  useBalance,
-  ScrollToTop,
-  // useExternalContractLoader,
-} from "./hooks";
+import { ScrollToTop, useBalance, useContractLoader, useGasPrice, useUserProvider } from "./hooks";
 import { Contract, Faucet, Navigation, ThemeSwitch } from "./components";
 import { Notifier } from "./helpers";
 import { About, Characters, Games, Hints, Home, Staking, Subgraph, NotFound } from "./views";
 import { DEBUG, NETWORKS, NFT_CONTRACT, INFURA_ID } from "./constants";
 import "./App.css";
+
+// For more hooks, check out 🔗eth-hooks at: https://www.npmjs.com/package/eth-hooks
 
 // 📡 What chain are your contracts deployed to? (localhost, rinkeby, mainnet)
 const targetNetwork = NETWORKS[process.env.REACT_APP_NETWORK];
@@ -39,14 +30,10 @@ const localProvider = new JsonRpcProvider(localProviderUrl);
 const { blockExplorer } = targetNetwork;
 
 function App({ subgraphUri }) {
+  const [route, setRoute] = useState(window.location.pathname);
+  const [injectedProvider, setInjectedProvider] = useState();
   const mainnetProvider = scaffoldEthProvider && scaffoldEthProvider._network ? scaffoldEthProvider : mainnetInfura;
 
-  const [injectedProvider, setInjectedProvider] = useState();
-  /* 💵 This hook will get the price of ETH from Sushiswap: */
-  const price = useExchangePrice(targetNetwork, mainnetProvider, 30000);
-
-  /* 🔥 This hook will get the price of Gas from ⛽️ EtherGasStation */
-  const gasPrice = useGasPrice(targetNetwork, "fast");
   // Use your injected provider from 🦊 Metamask or if you don't have it then instantly generate a 🔥 burner wallet.
   const userProvider = useUserProvider(injectedProvider, localProvider);
   const address = useUserAddress(userProvider);
@@ -54,17 +41,17 @@ function App({ subgraphUri }) {
   // You can warn the user if you would like them to be on a specific network
   const localChainId = localProvider && localProvider._network && localProvider._network.chainId;
   const selectedChainId = userProvider && userProvider._network && userProvider._network.chainId;
+  const faucetAvailable = localProvider && localProvider.connection && targetNetwork.name === "localhost";
 
-  // For more hooks, check out 🔗eth-hooks at: https://www.npmjs.com/package/eth-hooks
+  /* 🔥 This hook will get the price of Gas from ⛽️ EtherGasStation */
+  const gasPrice = useGasPrice(targetNetwork, "fast");
 
   // The Notifier wraps transactions and provides notificiations
   const { currentTheme } = useThemeSwitcher();
   const tx = Notifier(userProvider, gasPrice, currentTheme === "dark");
 
-  // 🏗 scaffold-eth is full of handy hooks like this one to get your balance:
-  const yourLocalBalance = useBalance(localProvider, address);
-
   // Just plug in different 🛰 providers to get your balance on different chains:
+  const yourLocalBalance = useBalance(localProvider, address);
   const yourMainnetBalance = useBalance(mainnetProvider, address);
 
   // Load in your local 📝 contract and read a value from it:
@@ -74,7 +61,6 @@ function App({ subgraphUri }) {
   const writeContracts = useContractLoader(userProvider);
 
   // EXTERNAL CONTRACT EXAMPLE:
-  //
   // If you want to bring in the mainnet DAI contract it would look like:
   // const mainnetDAIContract = useExternalContractLoader(mainnetProvider, DAI_ADDRESS, DAI_ABI);
 
@@ -83,77 +69,44 @@ function App({ subgraphUri }) {
   //   "0x34aA3F359A9D614239015126635CE7732c18fDF3",
   // ]);
 
-  // keep track of a variable from the contract in the local React state:
-  const nftPriceBN = useContractReader(readContracts, NFT_CONTRACT, "getNFTPrice", null, 10000);
-  const nftPrice = nftPriceBN && formatEther(nftPriceBN.toString());
-
-  // ☝️ These effects will log your major set up and upcoming transferEvents- and balance changes
   useEffect(() => {
     if (
       DEBUG &&
       mainnetProvider &&
-      address &&
+      userProvider &&
+      localProvider &&
+      localChainId &&
       selectedChainId &&
+      address &&
       yourLocalBalance &&
       yourMainnetBalance &&
       readContracts &&
       writeContracts
     ) {
-      console.log("_________________ 🏗 scaffold-eth _________________");
+      console.log("_________________ 🏗 Nifty League _________________");
       console.log("🌎 mainnetProvider", mainnetProvider);
+      console.log("📡 userProvider", userProvider);
+      console.log("📡 localProvider", localProvider);
       console.log("🏠 localChainId", localChainId);
-      console.log("👩‍💼 selected address:", address);
       console.log("🕵🏻‍♂️ selectedChainId:", selectedChainId);
-      console.log("💵 yourLocalBalance", yourLocalBalance ? formatEther(yourLocalBalance) : "...");
-      console.log("💵 yourMainnetBalance", yourMainnetBalance ? formatEther(yourMainnetBalance) : "...");
+      console.log("👩‍💼 user address:", address);
+      console.log("💵 yourLocalBalance", yourLocalBalance);
+      console.log("💵 yourMainnetBalance", yourMainnetBalance);
       console.log("📝 readContracts", readContracts);
       console.log("🔐 writeContracts", writeContracts);
     }
   }, [
     address,
     localChainId,
+    localProvider,
     mainnetProvider,
     readContracts,
     selectedChainId,
+    userProvider,
     writeContracts,
     yourLocalBalance,
     yourMainnetBalance,
   ]);
-
-  // For Master Branch Example
-  // const [oldPurposeEvents, setOldPurposeEvents] = useState([]);
-
-  // For Buyer-Lazy-Mint Branch Example
-  // const [oldTransferEvents, setOldTransferEvents] = useState([])
-  // const [oldBalance, setOldBalance] = useState(0)
-
-  // Use this effect for often changing things like your balance and transfer events or contract-specific effects
-  // useEffect(() => {
-  //   if (DEBUG) {
-  //     // For Buyer-Lazy-Mint Branch Example
-  //     if(transferEvents && oldTransferEvents !== transferEvents){
-  //      console.log("📟 Transfer events:", transferEvents)
-  //      setOldTransferEvents(transferEvents)
-  //     }
-  //     if(balance && !balance.eq(oldBalance)){
-  //      console.log("🤗 balance:", balance)
-  //      setOldBalance(balance)
-  //     }
-
-  //     // For Master Branch Example
-  //     if (setPurposeEvents && setPurposeEvents !== oldPurposeEvents) {
-  //       console.log("📟 SetPurpose events:", setPurposeEvents);
-  //       setOldPurposeEvents(setPurposeEvents);
-  //     }
-  //   }
-  // }, []); // For Buyer-Lazy-Mint Branch: balance, transferEvents
-
-  const [route, setRoute] = useState();
-  useEffect(() => {
-    setRoute(window.location.pathname);
-  }, [setRoute]);
-
-  const faucetAvailable = localProvider && localProvider.connection && targetNetwork.name === "localhost";
 
   return (
     <div className="App">
@@ -162,7 +115,6 @@ function App({ subgraphUri }) {
         blockExplorer={blockExplorer}
         localChainId={localChainId}
         mainnetProvider={mainnetProvider}
-        price={price}
         route={route}
         selectedChainId={selectedChainId}
         setInjectedProvider={setInjectedProvider}
@@ -175,8 +127,8 @@ function App({ subgraphUri }) {
         <Switch>
           <Route exact path="/">
             <Home
+              address={address}
               localProvider={localProvider}
-              nftPrice={nftPrice}
               readContracts={readContracts}
               setRoute={setRoute}
               tx={tx}
@@ -225,17 +177,12 @@ function App({ subgraphUri }) {
                 />
               </Route>
               <Route path="/hints">
-                <Hints
-                  address={address}
-                  yourLocalBalance={yourLocalBalance}
-                  mainnetProvider={mainnetProvider}
-                  price={price}
-                />
+                <Hints address={address} yourLocalBalance={yourLocalBalance} mainnetProvider={mainnetProvider} />
               </Route>
               <Route path="/subgraph">
                 <Subgraph
                   mainnetProvider={mainnetProvider}
-                  nftPrice={nftPrice}
+                  readContracts={readContracts}
                   subgraphUri={subgraphUri}
                   tx={tx}
                   writeContracts={writeContracts}
@@ -259,7 +206,12 @@ function App({ subgraphUri }) {
             padding: 10,
           }}
         >
-          <Faucet localProvider={localProvider} price={price} ensProvider={mainnetProvider} />
+          <Faucet
+            localProvider={localProvider}
+            mainnetProvider={mainnetProvider}
+            targetNetwork={targetNetwork}
+            ensProvider={mainnetProvider}
+          />
         </div>
       )}
     </div>

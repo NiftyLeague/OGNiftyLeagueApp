@@ -52,7 +52,7 @@ const useUserProvider = (injectedProvider, localProvider) =>
       burnerConfig.rpcUrl = localProvider.connection.url;
       return new Web3Provider(new BurnerProvider(burnerConfig));
     }
-    const networkName = localProvider._network && localProvider._network.name;
+    const networkName = localProvider._network?.name;
     burnerConfig.rpcUrl = `https://${networkName || "mainnet"}.infura.io/v3/${INFURA_ID}`;
     return new Web3Provider(new BurnerProvider(burnerConfig));
   }, [injectedProvider, localProvider]);

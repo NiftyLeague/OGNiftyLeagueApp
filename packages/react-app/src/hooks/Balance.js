@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
+import { formatEther } from "@ethersproject/units";
 import usePoller from "./Poller";
 
 /*
@@ -17,16 +18,14 @@ import usePoller from "./Poller";
 */
 
 export default function useBalance(provider, address, pollTime) {
-  const [balance, setBalance] = useState();
-  const pollBalance = async () => {
+  const [balance, setBalance] = useState("0.0");
+  const pollBalance = useCallback(async () => {
     if (address && provider) {
-      const newBalance = await provider.getBalance(address);
-      if (newBalance !== balance) {
-        // console.log("NEW BALANCE:",newBalance,"Current balance",balance)
-        setBalance(newBalance);
-      }
+      const newBalanceBN = await provider.getBalance(address);
+      const newBalance = formatEther(newBalanceBN);
+      if (newBalance !== balance) setBalance(newBalance);
     }
-  };
+  }, [address, provider, balance]);
   usePoller(pollBalance, pollTime || 27777, address && provider);
 
   return balance;

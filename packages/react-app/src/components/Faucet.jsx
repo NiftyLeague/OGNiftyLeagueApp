@@ -4,6 +4,7 @@ import Blockies from "react-blockies";
 import { SendOutlined } from "@ant-design/icons";
 import { parseEther } from "@ethersproject/units";
 import { useLookupAddress } from "eth-hooks";
+import { useExchangePrice } from "../hooks";
 import { Notifier } from "../helpers";
 import Wallet from "./Wallet";
 
@@ -27,7 +28,6 @@ import Wallet from "./Wallet";
 
   ~ Features ~
 
-  - Provide price={price} of ether and convert between USD and ETH in a wallet
   - Provide localProvider={localProvider} to be able to send ETH to given address
   - Provide ensProvider={mainnetProvider} and your address will be replaced by ENS name
               (ex. "0xa870" => "user.eth") or you can enter directly ENS name instead of address
@@ -35,8 +35,10 @@ import Wallet from "./Wallet";
   - Provide placeholder="Send local faucet" value for the input
 */
 
-export default function Faucet({ ensProvider, localProvider, placeholder, price }) {
+export default function Faucet({ ensProvider, localProvider, mainnetProvider, placeholder, targetNetwork }) {
   const [address, setAddress] = useState();
+  /* 💵 This hook will get the price of ETH from Sushiswap: */
+  const price = useExchangePrice(targetNetwork, mainnetProvider, 30000);
 
   let blockie;
   if (address && typeof address.toLowerCase === "function") {

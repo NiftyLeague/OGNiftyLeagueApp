@@ -30,7 +30,7 @@ import Balance from "./Balance";
   - Provide userProvider={userProvider} to display a wallet
   - Provide mainnetProvider={mainnetProvider} and your address will be replaced by ENS name
               (ex. "0xa870" => "user.eth")
-  - Provide price={price} of ether and get your balance converted to dollars
+  - Provide targetNetwork={targetNetwork} ex: localhost, mainnet
   - Provide web3Modal={web3Modal}, loadWeb3Modal={loadWeb3Modal}, logoutOfWeb3Modal={logoutOfWeb3Modal}
               to be able to log in/log out to/from existing accounts
   - Provide blockExplorer={blockExplorer}, click on address and get the link
@@ -43,7 +43,7 @@ export default function Account({
   loadWeb3Modal,
   logoutOfWeb3Modal,
   mainnetProvider,
-  price,
+  targetNetwork,
   userProvider,
   web3Modal,
 }) {
@@ -74,7 +74,12 @@ export default function Account({
   return (
     <div style={{ display: "flex", flexWrap: "nowrap", alignItems: "center" }}>
       {address && <Address address={address} ensProvider={mainnetProvider} blockExplorer={blockExplorer} />}
-      <Balance address={address} provider={userProvider} price={price} />
+      <Balance
+        address={address}
+        provider={userProvider}
+        targetNetwork={targetNetwork}
+        mainnetProvider={mainnetProvider}
+      />
       {modalButtons}
     </div>
   );
