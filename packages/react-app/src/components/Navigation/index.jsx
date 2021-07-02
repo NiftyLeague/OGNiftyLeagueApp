@@ -114,7 +114,6 @@ function Navigation({
   blockExplorer,
   localChainId,
   mainnetProvider,
-  price,
   route,
   selectedChainId,
   setInjectedProvider,
@@ -228,7 +227,7 @@ function Navigation({
           loadWeb3Modal={loadWeb3Modal}
           logoutOfWeb3Modal={logoutOfWeb3Modal}
           mainnetProvider={mainnetProvider}
-          price={price}
+          targetNetwork={targetNetwork}
           userProvider={userProvider}
           web3Modal={web3Modal}
         />

@@ -1,13 +1,12 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
 import React, { useState } from "react";
-import { formatEther } from "@ethersproject/units";
 import { Select } from "antd";
 import { Address, AddressInput } from "../components";
 import { useTokenList } from "../hooks";
 
 const { Option } = Select;
 
-export default function Hints({ yourLocalBalance, mainnetProvider, price, address }) {
+export default function Hints({ yourLocalBalance, mainnetProvider, address }) {
   // Get a list of tokens from a tokenlist -> see tokenlists.org!
   const [selectedToken, setSelectedToken] = useState("Pick a token!");
   const listOfTokens = useTokenList(
@@ -75,7 +74,7 @@ export default function Hints({ yourLocalBalance, mainnetProvider, price, addres
         <span className="highlight" style={{ margin: 4, padding: 4, borderRadius: 4, fontWeight: "bolder" }}>
           useBalance()
         </span>{" "}
-        hook keeps track of your balance: <b>{formatEther(yourLocalBalance || 0)}</b>
+        hook keeps track of your balance: <b>yourLocalBalance</b>
       </div>
 
       <div style={{ margin: 8 }}>
@@ -123,7 +122,7 @@ export default function Hints({ yourLocalBalance, mainnetProvider, price, addres
         <span className="highlight" style={{ margin: 4, padding: 4, borderRadius: 4, fontWeight: "bolder" }}>
           usePrice
         </span>{" "}
-        hook with the current value: <b>${price}</b>
+        hook with the current value
       </div>
 
       <div style={{ marginTop: 32 }}>

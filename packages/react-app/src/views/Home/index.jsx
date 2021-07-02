@@ -1,13 +1,14 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import Unity, { UnityContext } from "react-unity-webgl";
+import { formatEther } from "@ethersproject/units";
 import ModalVideo from "react-modal-video";
 import { Typography } from "antd";
 import Container from "@material-ui/core/Container";
 
 import Preloader from "components/Preloader";
 import SaleProgress from "components/SaleProgress";
-import { useEventListener } from "hooks";
+import { useEventListener, useContractReader } from "hooks";
 
 import CharacterBGImg from "assets/images/backgrounds/character_creator.png";
 import VideoBGImg from "assets/images/games/nifty-smashers.png";
@@ -20,107 +21,87 @@ import CatImg from "assets/gifs/cat1.gif";
 import FrogImg from "assets/images/characters/frog.png";
 import SatoshiImg from "assets/images/characters/satoshi.png";
 import { NFT_CONTRACT } from "../../constants";
+import { getMintableTraits } from "./helpers";
 import "./home.css";
 
 const { Title } = Typography;
 
 const unityContext = new UnityContext({
-  loaderUrl: "characterBuild/0.3.20.loader.js",
-  dataUrl: "characterBuild/0.3.20.data",
-  frameworkUrl: "characterBuild/0.3.20.framework.js",
-  codeUrl: "characterBuild/0.3.20.wasm",
-  streamingAssetsUrl: "streamingassets",
+  loaderUrl: "characterBuild/0.6.8.loader.js",
+  dataUrl: "characterBuild/0.6.8.data",
+  frameworkUrl: "characterBuild/0.6.8.framework.js",
+  codeUrl: "characterBuild/0.6.8.wasm",
+  streamingAssetsUrl: "StreamingAssets",
   companyName: "NiftyLeague",
   productName: "NiftyCharacterCreator",
-  productVersion: "0.3.20",
+  productVersion: "0.6.8",
 });
 
-window.ctx = unityContext;
+window.unityInstance = unityContext;
+window.unityInstance.SendMessage = window.unityInstance.send;
 
-function objectify(array) {
-  return array.reduce((p, c) => {
-    // eslint-disable-next-line prefer-destructuring, no-param-reassign
-    p[c[0].replace(" ", "")] = c[1];
-    return p;
-  }, {});
-}
-
-export default function Home({ nftPrice, localProvider, readContracts, setRoute, tx, writeContracts }) {
+const Home = memo(({ address, localProvider, readContracts, setRoute, tx, writeContracts }) => {
   const [isLoaded, setLoaded] = useState(false);
   const [isVideoOpen, setVideoOpen] = useState(false);
+
+  const nftPriceBN = useContractReader(readContracts, NFT_CONTRACT, "getNFTPrice", null, 10000);
+  const nftPrice = useMemo(() => {
+    return nftPriceBN && formatEther(nftPriceBN.toString());
+  }, [nftPriceBN]);
 
   // 📟 Listen for broadcast events
   const characterMintEvents = useEventListener(readContracts, NFT_CONTRACT, "CharacterGenerated", localProvider, 1);
   console.log("characterMintEvents", characterMintEvents);
 
+  const startAuthentication = useCallback(
+    async e => {
+      const result = `true,${address},My awesome Username`;
+      e.detail.callback(result);
+    },
+    [address],
+  );
+
   const mintCharacter = useCallback(
     async e => {
       console.log("mintCharacter detail", e, e.detail);
-      const traits = objectify(e.detail);
-      const {
-        Tribe,
-        SkinColor,
-        FurColor,
-        EyeColor,
-        PupilColor,
-        Hair,
-        Mouth,
-        Beard,
-        Facemark,
-        Misc,
-        Top,
-        Outerwear,
-        Print,
-        Bottom,
-        Footwear,
-        Belt,
-        Hat,
-        Eyewear,
-        Piercing,
-        Wrist,
-        Hand,
-        Neckwear,
-        LeftHand,
-        RightHand,
-      } = traits;
-      const character = [Tribe, SkinColor, FurColor, EyeColor, PupilColor];
-      const head = [Hair, Mouth, Beard, Facemark, Misc];
-      const clothing = [Top, Outerwear, Print, Bottom, Footwear, Belt];
-      const accessories = [Hat, Eyewear, Piercing, Wrist, Hand, Neckwear];
-      const items = [LeftHand, RightHand];
+      const { character, head, clothing, accessories, items } = getMintableTraits(e.detail);
       const value = "" + parseFloat(nftPrice) * 10 ** 18;
       tx(writeContracts[NFT_CONTRACT].purchase(character, head, clothing, accessories, items, { value }));
+      e.detail.callback("true");
     },
     [writeContracts, tx, nftPrice],
   );
 
-  const onScroll = () => {
+  const onScroll = useCallback(() => {
     const content = document.getElementsByClassName("character-canvas")[0];
     if (content) content.style["pointer-events"] = "none";
-  };
+  }, []);
 
-  const onMouse = () => {
+  const onMouse = useCallback(() => {
     const content = document.getElementsByClassName("character-canvas")[0];
     if (content) {
       content.style["pointer-events"] = "auto";
       content.style.cursor = "pointer";
     }
-  };
+  }, []);
 
   useEffect(() => {
+    console.log("window", window.unityInstance);
     unityContext.on("loaded", () => setLoaded(true));
     unityContext.on("error", console.error);
     unityContext.on("canvas", element => console.log("Canvas", element));
-    window.addEventListener("SubmitTraitMap", mintCharacter);
+    window.addEventListener("StartAuthentication", startAuthentication);
+    window.addEventListener("SubmitTraits", mintCharacter);
     document.addEventListener("wheel", onScroll, false);
     document.addEventListener("mousemove", onMouse, false);
     return () => {
-      window.removeEventListener("SubmitTraitMap", mintCharacter);
+      unityContext.removeAllEventListeners();
+      window.removeEventListener("StartAuthentication", startAuthentication);
+      window.removeEventListener("SubmitTraits", mintCharacter);
       document.removeEventListener("wheel", onScroll, false);
       document.removeEventListener("mousemove", onMouse, false);
-      unityContext.removeAllEventListeners();
     };
-  }, [mintCharacter]);
+  }, [mintCharacter, onMouse, onScroll, startAuthentication]);
 
   return (
     <div style={{ textAlign: "center", overflowX: "hidden" }}>
@@ -279,4 +260,6 @@ export default function Home({ nftPrice, localProvider, readContracts, setRoute,
       <footer style={{ padding: 20 }} />
     </div>
   );
-}
+});
+
+export default Home;

@@ -4,8 +4,6 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-import "hardhat/console.sol";
-
 contract AllowedTraitsStorage is Ownable {
     /// @dev Mapping if trait is allowed for selected tribe
     mapping(uint256 => mapping(uint256 => bool)) private _tribeTraitAllowed;
