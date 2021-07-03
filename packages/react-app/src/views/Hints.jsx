@@ -6,7 +6,7 @@ import { useTokenList } from "../hooks";
 
 const { Option } = Select;
 
-export default function Hints({ yourLocalBalance, mainnetProvider, address }) {
+export default function Hints({ mainnetProvider, address }) {
   // Get a list of tokens from a tokenlist -> see tokenlists.org!
   const [selectedToken, setSelectedToken] = useState("Pick a token!");
   const listOfTokens = useTokenList(
@@ -74,7 +74,7 @@ export default function Hints({ yourLocalBalance, mainnetProvider, address }) {
         <span className="highlight" style={{ margin: 4, padding: 4, borderRadius: 4, fontWeight: "bolder" }}>
           useBalance()
         </span>{" "}
-        hook keeps track of your balance: <b>yourLocalBalance</b>
+        hook keeps track of your balance
       </div>
 
       <div style={{ margin: 8 }}>

@@ -7,6 +7,9 @@ export * from "./tokens";
 // MY INFURA_ID, SWAP IN YOURS FROM https://infura.io/dashboard/ethereum
 export const INFURA_ID = process.env.REACT_APP_INFURA_PROJECT_ID;
 
+// MY ALCHEMY_ID, SWAP IN YOURS FROM https://dashboard.alchemyapi.io/
+export const ALCHEMY_ID = process.env.REACT_APP_ALCHEMY_API;
+
 // MY ETHERSCAN_ID, SWAP IN YOURS FROM https://etherscan.io/myapikey
 export const ETHERSCAN_KEY = process.env.REACT_APP_ETHERSCAN_KEY;
 
@@ -16,6 +19,12 @@ export const BLOCKNATIVE_DAPPID = process.env.REACT_APP_BLOCKNATIVE_DAPPID;
 export const NFT_CONTRACT = "NiftyDegen";
 
 export const DEBUG = process.env.NODE_ENV === "development";
+
+// Request polling intervals
+
+export const REMOVED_TRAITS_INTERVAL = DEBUG ? 10000 : 1000;
+export const NFT_PRICE_INTERVAL = DEBUG ? 600000 : 1000;
+export const TOTAL_SUPPLY_INTERVAL = DEBUG ? 600000 : 10000;
 
 // TODO: specify merkle distributor for mainnet
 export const MERKLE_DISTRIBUTOR_ADDRESS: { [chainId in ChainId]?: string } = {

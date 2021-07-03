@@ -219,7 +219,7 @@ function Navigation({
           </Menu>
         </nav>
         <div style={{ color: "#666666", marginLeft: "auto", padding: "0 16px", fontSize: 16 }}>
-          {targetNetwork.name}
+          {targetNetwork.label}
         </div>
         <Account
           address={address}

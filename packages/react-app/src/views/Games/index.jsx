@@ -1,49 +1,61 @@
-import React, { useState, useEffect } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import Unity, { UnityContext } from "react-unity-webgl";
 import { Image, Layout, Menu, Row, Col, Card } from "antd";
 import { SportsEsports, SportsMma } from "@material-ui/icons";
 import { useThemeSwitcher } from "react-css-theme-switcher";
-import Preloader from "../../components/Preloader";
-import NiftySmashers from "../../assets/gifs/nifty-smashers.gif";
-import NiftySmashersThumb from "../../assets/images/characters/alien-dj.png";
+import Preloader from "components/Preloader";
+import NiftySmashers from "assets/gifs/nifty-smashers.gif";
+import NiftySmashersThumb from "assets/images/characters/alien-dj.png";
 import "./games.css";
 
 const { Content, Sider } = Layout;
 
 const smashersContext = new UnityContext({
-  loaderUrl: "niftySmashersBuild/0.3.12.loader.js",
-  dataUrl: "niftySmashersBuild/0.3.12.data",
-  frameworkUrl: "niftySmashersBuild/0.3.12.framework.js",
-  codeUrl: "niftySmashersBuild/0.3.12.wasm",
-  streamingAssetsUrl: "streamingassets",
+  loaderUrl: "niftySmashersBuild/0.6.9.loader.js",
+  dataUrl: "niftySmashersBuild/0.6.9.data",
+  frameworkUrl: "niftySmashersBuild/0.6.9.framework.js",
+  codeUrl: "niftySmashersBuild/0.6.9.wasm",
+  streamingAssetsUrl: "StreamingAssets",
   companyName: "NiftyLeague",
   productName: "NiftySmashers",
-  productVersion: "0.3.12",
+  productVersion: "0.6.9",
 });
 
-const Game = ({ unityContext }) => {
+const Game = ({ address, unityContext }) => {
   const [isLoaded, setLoaded] = useState(false);
 
-  const onMouse = () => {
+  const startAuthentication = useCallback(
+    async e => {
+      const result = `true,${address},My awesome Username`;
+      e.detail.callback(result);
+    },
+    [address],
+  );
+
+  const onMouse = useCallback(() => {
     const content = document.getElementsByClassName("game-canvas")[0];
     if (content) {
       content.style["pointer-events"] = "auto";
       content.style.cursor = "pointer";
     }
-  };
+  }, []);
 
   useEffect(() => {
     if (unityContext) {
+      window.unityInstance = unityContext;
+      window.unityInstance.SendMessage = unityContext.send;
       unityContext.on("loaded", () => setLoaded(true));
       unityContext.on("error", console.error);
       unityContext.on("canvas", element => console.log("Canvas", element));
+      window.addEventListener("StartAuthentication", startAuthentication);
       document.addEventListener("mousemove", onMouse, false);
     }
     return () => {
-      document.removeEventListener("mousemove", onMouse, false);
       unityContext.removeAllEventListeners();
+      window.removeEventListener("StartAuthentication", startAuthentication);
+      document.removeEventListener("mousemove", onMouse, false);
     };
-  }, [unityContext]);
+  }, [unityContext, onMouse]);
 
   return (
     <>
@@ -61,7 +73,7 @@ const Game = ({ unityContext }) => {
   );
 };
 
-export default function Games() {
+export default function Games({ address }) {
   const { currentTheme } = useThemeSwitcher();
   const [selectedGame, setSelectedGame] = useState("all");
   const [collapsed, setCollapsed] = useState(true);
@@ -107,7 +119,7 @@ export default function Games() {
       <Layout style={{ marginLeft: collapsed ? 80 : 200 }}>
         <Content style={{ ...(selectedGame === "all" && { padding: 40 }) }}>
           {selectedGame !== "all" ? (
-            <Game unityContext={selectedGame === "nifty-smashers" && smashersContext} />
+            <Game address={address} unityContext={selectedGame === "nifty-smashers" && smashersContext} />
           ) : (
             <Row gutter={{ xs: 16, md: 8 }}>
               <Col span={6}>
