@@ -1,13 +1,12 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
-import React, { useMemo, useState } from "react";
-import { formatEther } from "@ethersproject/units";
+import React, { useState } from "react";
 import { Button, Typography, Table, Input } from "antd";
 import { useQuery, gql } from "@apollo/client";
 import GraphiQL from "graphiql";
 import "graphiql/graphiql.min.css";
 import fetch from "isomorphic-fetch";
-import { Address } from "../components";
-import { useContractReader } from "hooks";
+import { useNFTPrice } from "hooks";
+import { Address } from "components";
 import { NFT_CONTRACT } from "../constants";
 
 const highlight = {
@@ -48,10 +47,7 @@ const CHARACTERS_GQL = gql(CHARACTERS_QUERY);
 
 function Subgraph({ mainnetProvider, readContracts, subgraphUri, tx, writeContracts }) {
   const { loading, data } = useQuery(CHARACTERS_GQL, { pollInterval: 5000 });
-  const nftPriceBN = useContractReader(readContracts, NFT_CONTRACT, "getNFTPrice", null, 10000);
-  const nftPrice = useMemo(() => {
-    return nftPriceBN && formatEther(nftPriceBN.toString());
-  }, [nftPriceBN]);
+  const nftPrice = useNFTPrice(readContracts);
 
   function graphQLFetcher(graphQLParams) {
     return fetch(subgraphUri, {

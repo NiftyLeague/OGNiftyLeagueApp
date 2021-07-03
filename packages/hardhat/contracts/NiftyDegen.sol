@@ -100,30 +100,30 @@ contract NiftyDegen is NameableCharacter {
         uint256[2] memory items
     ) private view {
         uint256 tribe = char[0];
-        require(tribe > 0 && (tribe < 7 || (tribe < 10 && msg.sender == owner())), "Tribe incorrect");
-        require(char[1] == EMPTY_TRAIT || (char[1] >= 10 && char[1] < 75), "Skin color incorrect");
-        require(char[2] == EMPTY_TRAIT || (char[2] >= 75 && char[2] < 135), "Secondary skin color incorrect");
-        require(char[3] == EMPTY_TRAIT || (char[3] >= 135 && char[3] < 144), "Eye color incorrect");
-        require(char[4] == EMPTY_TRAIT || (char[4] >= 144 && char[4] < 200), "Secondary eye color incorrect");
-        require(head[0] == EMPTY_TRAIT || (head[0] >= 200 && head[0] < 204), "Hair incorrect");
-        require(head[1] == EMPTY_TRAIT || (head[1] >= 204 && head[1] < 205), "Mouth incorrect");
-        require(head[2] == EMPTY_TRAIT || (head[2] >= 205 && head[2] < 207), "Beard incorrect");
-        require(head[3] == EMPTY_TRAIT || (head[3] >= 207 && head[3] < 208), "Facemarks incorrect");
-        require(head[4] == EMPTY_TRAIT || (head[4] >= 208 && head[4] < 210), "Misc incorrect");
-        require(cloth[0] == EMPTY_TRAIT || (cloth[0] >= 210 && cloth[0] < 218), "Top incorrect");
-        require(cloth[1] == EMPTY_TRAIT || (cloth[1] >= 218 && cloth[1] < 226), "Outerwear incorrect");
-        require(cloth[2] == EMPTY_TRAIT || (cloth[2] >= 226 && cloth[2] < 228), "Print incorrect");
-        require(cloth[3] == EMPTY_TRAIT || (cloth[3] >= 228 && cloth[3] < 239), "Bottom incorrect");
-        require(cloth[4] == EMPTY_TRAIT || (cloth[4] >= 239 && cloth[4] < 244), "Footwear incorrect");
-        require(cloth[5] == EMPTY_TRAIT || (cloth[5] >= 244 && cloth[5] < 245), "Belt incorrect");
-        require(acc[0] == EMPTY_TRAIT || (acc[0] >= 245 && acc[0] < 276), "Hat incorrect");
-        require(acc[1] == EMPTY_TRAIT || (acc[1] >= 276 && acc[1] < 285), "Eyewear incorrect");
-        require(acc[2] == EMPTY_TRAIT || (acc[2] >= 285 && acc[2] < 286), "Piercings incorrect");
-        require(acc[3] == EMPTY_TRAIT || (acc[3] >= 286 && acc[3] < 287), "Wist accessory incorrect");
-        require(acc[4] == EMPTY_TRAIT || (acc[4] >= 287 && acc[4] < 289), "Hand accessory incorrect");
-        require(acc[5] == EMPTY_TRAIT || (acc[5] >= 289 && acc[5] < 292), "Neckwear incorrect");
-        require(items[0] == EMPTY_TRAIT || (items[0] >= 292 && items[0] < 294), "Left item incorrect");
-        require(items[1] == EMPTY_TRAIT || (items[1] >= 294 && items[1] < 296), "Right item incorrect");
+        require(tribe > 0 && (tribe <= 6 || (tribe <= 9 && msg.sender == owner())), "Tribe incorrect");
+        require(isTraitInRange(char[1], 10, 74), "Skin color incorrect");
+        require(isTraitInRange(char[2], 75, 123), "Secondary skin color incorrect");
+        require(isTraitInRange(char[3], 75, 123), "Eye color incorrect");
+        require(isTraitInRange(char[4], 75, 199), "Secondary eye color incorrect");
+        require(isTraitInRange(head[0], 200, 214), "Hair incorrect");
+        require(isTraitInRange(head[1], 215, 216), "Mouth incorrect");
+        require(isTraitInRange(head[2], 217, 225), "Beard incorrect");
+        require(isTraitInRange(head[3], 226, 226), "Facemarks incorrect");
+        require(isTraitInRange(head[4], 227, 228), "Misc incorrect");
+        require(isTraitInRange(cloth[0], 229, 236), "Top incorrect");
+        require(isTraitInRange(cloth[1], 237, 244), "Outerwear incorrect");
+        require(isTraitInRange(cloth[2], 245, 246), "Print incorrect");
+        require(isTraitInRange(cloth[3], 247, 257), "Bottom incorrect");
+        require(isTraitInRange(cloth[4], 258, 262), "Footwear incorrect");
+        require(isTraitInRange(cloth[5], 263, 263), "Belt incorrect");
+        require(isTraitInRange(acc[0], 264, 280), "Hat incorrect");
+        require(isTraitInRange(acc[1], 281, 294), "Eyewear incorrect");
+        require(isTraitInRange(acc[2], 295, 295), "Piercings incorrect");
+        require(isTraitInRange(acc[3], 296, 296), "Wist accessory incorrect");
+        require(isTraitInRange(acc[4], 297, 298), "Hand accessory incorrect");
+        require(isTraitInRange(acc[5], 299, 301), "Neckwear incorrect");
+        require(isTraitInRange(items[0], 302, 303), "Left item incorrect");
+        require(isTraitInRange(items[1], 304, 305), "Right item incorrect");
 
         require(isAvailableAndAllowedTrait(tribe, char[1]), "Skin color unavailable");
         require(isAvailableAndAllowedTrait(tribe, char[2]), "Secondary Skin color unavailable");
@@ -251,7 +251,16 @@ contract NiftyDegen is NameableCharacter {
         _characterTraits.rightItem = _unpackUint10(character.traits >> 230);
     }
 
+    function isTraitInRange(
+        uint256 trait,
+        uint256 lower,
+        uint256 upper
+    ) public pure returns (bool) {
+        return trait == EMPTY_TRAIT || (trait >= lower && trait <= upper);
+    }
+
     function isAvailableAndAllowedTrait(uint256 tribe, uint256 trait) public view returns (bool) {
+        if (trait == EMPTY_TRAIT) return true;
         AllowedTraitsStorage traitsStorage = AllowedTraitsStorage(_storageAddress);
         return isAvailableTrait(trait) && traitsStorage.isAllowedTrait(tribe, trait);
     }

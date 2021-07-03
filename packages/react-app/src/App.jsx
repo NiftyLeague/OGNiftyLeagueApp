@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Switch, Route } from "react-router-dom";
-import { JsonRpcProvider } from "@ethersproject/providers";
+import { getDefaultProvider } from "@ethersproject/providers";
 import { useUserAddress } from "eth-hooks";
 import { useThemeSwitcher } from "react-css-theme-switcher";
 import { ScrollToTop, useBalance, useContractLoader, useGasPrice, useUserProvider } from "./hooks";
 import { Contract, Faucet, Navigation, ThemeSwitch } from "./components";
 import { Notifier } from "./helpers";
 import { About, Characters, Games, Hints, Home, Staking, Subgraph, NotFound } from "./views";
-import { DEBUG, NETWORKS, NFT_CONTRACT, INFURA_ID } from "./constants";
+import { ALCHEMY_ID, DEBUG, ETHERSCAN_KEY, INFURA_ID, NETWORKS, NFT_CONTRACT } from "./constants";
 import "./App.css";
 
 // For more hooks, check out 🔗eth-hooks at: https://www.npmjs.com/package/eth-hooks
@@ -17,14 +17,12 @@ const targetNetwork = NETWORKS[process.env.REACT_APP_NETWORK];
 
 // 🛰 providers
 if (DEBUG) console.log("📡 Connecting to Mainnet Ethereum");
-// attempt to connect to our own scaffold eth rpc and if that fails fall back to infura...
-const scaffoldEthProvider = new JsonRpcProvider("https://rpc.scaffoldeth.io:48544");
-const mainnetInfura = new JsonRpcProvider("https://mainnet.infura.io/v3/" + INFURA_ID);
+const providerOptions = { infura: INFURA_ID, etherscan: ETHERSCAN_KEY };
+const mainnetProvider = getDefaultProvider(NETWORKS.mainnet.name, { ...providerOptions, alchemy: ALCHEMY_ID });
 
 // 🏠 Your local provider is usually pointed at your local blockchain
-const localProviderUrl = targetNetwork.rpcUrl;
-if (DEBUG) console.log("🏠 Connecting to provider:", localProviderUrl);
-const localProvider = new JsonRpcProvider(localProviderUrl);
+if (DEBUG) console.log("🏠 Connecting to provider:", targetNetwork.rpcUrl);
+const localProvider = getDefaultProvider(targetNetwork.name, providerOptions);
 
 // 🔭 block explorer URL
 const { blockExplorer } = targetNetwork;
@@ -32,16 +30,15 @@ const { blockExplorer } = targetNetwork;
 function App({ subgraphUri }) {
   const [route, setRoute] = useState(window.location.pathname);
   const [injectedProvider, setInjectedProvider] = useState();
-  const mainnetProvider = scaffoldEthProvider && scaffoldEthProvider._network ? scaffoldEthProvider : mainnetInfura;
 
   // Use your injected provider from 🦊 Metamask or if you don't have it then instantly generate a 🔥 burner wallet.
   const userProvider = useUserProvider(injectedProvider, localProvider);
   const address = useUserAddress(userProvider);
 
   // You can warn the user if you would like them to be on a specific network
-  const localChainId = localProvider && localProvider._network && localProvider._network.chainId;
-  const selectedChainId = userProvider && userProvider._network && userProvider._network.chainId;
-  const faucetAvailable = localProvider && localProvider.connection && targetNetwork.name === "localhost";
+  const localChainId = localProvider?._network?.chainId;
+  const selectedChainId = userProvider?._network?.chainId;
+  const faucetAvailable = localProvider?.connection && targetNetwork.label === "localhost";
 
   /* 🔥 This hook will get the price of Gas from ⛽️ EtherGasStation */
   const gasPrice = useGasPrice(targetNetwork, "fast");
@@ -49,10 +46,6 @@ function App({ subgraphUri }) {
   // The Notifier wraps transactions and provides notificiations
   const { currentTheme } = useThemeSwitcher();
   const tx = Notifier(userProvider, gasPrice, currentTheme === "dark");
-
-  // Just plug in different 🛰 providers to get your balance on different chains:
-  const yourLocalBalance = useBalance(localProvider, address);
-  const yourMainnetBalance = useBalance(mainnetProvider, address);
 
   // Load in your local 📝 contract and read a value from it:
   const readContracts = useContractLoader(localProvider);
@@ -78,8 +71,6 @@ function App({ subgraphUri }) {
       localChainId &&
       selectedChainId &&
       address &&
-      yourLocalBalance &&
-      yourMainnetBalance &&
       readContracts &&
       writeContracts
     ) {
@@ -90,23 +81,10 @@ function App({ subgraphUri }) {
       console.log("🏠 localChainId", localChainId);
       console.log("🕵🏻‍♂️ selectedChainId:", selectedChainId);
       console.log("👩‍💼 user address:", address);
-      console.log("💵 yourLocalBalance", yourLocalBalance);
-      console.log("💵 yourMainnetBalance", yourMainnetBalance);
       console.log("📝 readContracts", readContracts);
       console.log("🔐 writeContracts", writeContracts);
     }
-  }, [
-    address,
-    localChainId,
-    localProvider,
-    mainnetProvider,
-    readContracts,
-    selectedChainId,
-    userProvider,
-    writeContracts,
-    yourLocalBalance,
-    yourMainnetBalance,
-  ]);
+  }, [address, localChainId, readContracts, selectedChainId, userProvider, writeContracts]);
 
   return (
     <div className="App">
@@ -142,7 +120,7 @@ function App({ subgraphUri }) {
             <Characters readContracts={readContracts} />
           </Route>
           <Route exact path="/games">
-            <Games />
+            <Games address={address} />
           </Route>
           <Route exact path="/staking">
             <Staking />
@@ -177,7 +155,7 @@ function App({ subgraphUri }) {
                 />
               </Route>
               <Route path="/hints">
-                <Hints address={address} yourLocalBalance={yourLocalBalance} mainnetProvider={mainnetProvider} />
+                <Hints address={address} mainnetProvider={mainnetProvider} />
               </Route>
               <Route path="/subgraph">
                 <Subgraph

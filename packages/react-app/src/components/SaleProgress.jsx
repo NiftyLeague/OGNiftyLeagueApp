@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { LinearProgress, Typography } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
 import { useContractReader } from "hooks";
-import { NFT_CONTRACT } from "../constants";
+import { NFT_CONTRACT, TOTAL_SUPPLY_INTERVAL } from "../constants";
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -47,7 +47,7 @@ function Alert(props) {
 
 export default function SaleProgress({ readContracts, handleClose }) {
   const classes = useStyles();
-  const progress = useContractReader(readContracts, NFT_CONTRACT, "totalSupply", null, 10000);
+  const progress = useContractReader(readContracts, NFT_CONTRACT, "totalSupply", null, TOTAL_SUPPLY_INTERVAL);
 
   return (
     <Alert
