@@ -41,3 +41,29 @@
 .navbar-polygon .ant-menu-item-selected a {
   font-weight: bold;
 }
+
+.menu-right {
+  display: flex;
+  margin-left: auto;
+}
+
+.network-label {
+  color: #666666;
+  font-size: 16px;
+}
+
+.add-token {
+  cursor: pointer;
+  border: solid 0.5px transparent;
+  overflow: hidden;
+  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+  margin: auto 0;
+}
+
+.add-token img {
+  width: inherit;
+  height: inherit;
+  display: inherit;
+}

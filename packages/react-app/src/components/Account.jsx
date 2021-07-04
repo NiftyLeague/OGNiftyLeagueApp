@@ -40,6 +40,7 @@ import Balance from "./Balance";
 export default function Account({
   address,
   blockExplorer,
+  mobileView,
   loadWeb3Modal,
   logoutOfWeb3Modal,
   mainnetProvider,
@@ -73,13 +74,22 @@ export default function Account({
 
   return (
     <div style={{ display: "flex", flexWrap: "nowrap", alignItems: "center" }}>
-      {address && <Address address={address} ensProvider={mainnetProvider} blockExplorer={blockExplorer} />}
-      <Balance
-        address={address}
-        provider={userProvider}
-        targetNetwork={targetNetwork}
-        mainnetProvider={mainnetProvider}
-      />
+      {address && (
+        <Address
+          address={address}
+          ensProvider={mainnetProvider}
+          mobileView={mobileView}
+          blockExplorer={blockExplorer}
+        />
+      )}
+      {!mobileView && (
+        <Balance
+          address={address}
+          provider={userProvider}
+          targetNetwork={targetNetwork}
+          mainnetProvider={mainnetProvider}
+        />
+      )}
       {modalButtons}
     </div>
   );
