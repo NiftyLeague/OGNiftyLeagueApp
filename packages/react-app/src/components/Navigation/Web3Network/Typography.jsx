@@ -1,5 +1,5 @@
 import React from "react";
-import { classNames } from "../../../helpers";
+import { classNames } from "helpers";
 
 const VARIANTS = {
   hero: "text-hero",

@@ -1,6 +1,6 @@
 import React from "react";
-import { Tooltip } from "@material-ui/core";
 import NFTLAddress from "contracts/NFTLToken.address.js";
+import Tooltip from "../Tooltip";
 
 const AddNFTL = ({ userProvider }) => {
   const handleAddToken = () => {
@@ -24,7 +24,7 @@ const AddNFTL = ({ userProvider }) => {
   };
 
   return userProvider?.provider?.isMetaMask && userProvider?.provider?.request ? (
-    <Tooltip title="Add NFTL to MetaMask">
+    <Tooltip text={"Add NFTL to your Metamask wallet"}>
       <div className="add-token" onClick={handleAddToken}>
         <img src={`${process.env.PUBLIC_URL}/NFTL.jpg`} alt="NFTL logo" />
       </div>

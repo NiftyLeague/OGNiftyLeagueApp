@@ -3,7 +3,8 @@ import Portal from "@reach/portal";
 import { transparentize } from "polished";
 import { usePopper } from "react-popper";
 import styled from "styled-components";
-import useInterval from "../../hooks/useInterval";
+import useInterval from "hooks/useInterval";
+import ThemeProvider from "theme";
 
 const PopoverContainer = styled.div`
   z-index: 9999;
@@ -92,7 +93,7 @@ export default function Popover({ content, show, children, placement = "auto" })
   useInterval(updateCallback, show ? 100 : null);
 
   return (
-    <>
+    <ThemeProvider>
       <ReferenceElement ref={setReferenceElement}>{children}</ReferenceElement>
       <Portal>
         <PopoverContainer show={show} ref={setPopperElement} style={styles.popper} {...attributes.popper}>
@@ -105,6 +106,6 @@ export default function Popover({ content, show, children, placement = "auto" })
           />
         </PopoverContainer>
       </Portal>
-    </>
+    </ThemeProvider>
   );
 }

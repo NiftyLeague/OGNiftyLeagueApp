@@ -2,25 +2,21 @@ import React, { useMemo } from "react";
 import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core";
 import { darken } from "polished";
 import { Activity } from "react-feather";
-import { t } from "@lingui/macro";
-import { useLingui } from "@lingui/react";
 import styled, { css } from "styled-components";
 
-import { fortmatic, injected, lattice, portis, walletconnect, walletlink } from "../../connectors";
-import useENSName from "../../hooks/useENSName";
-import { useWalletModalToggle } from "../../state/application/hooks";
-import { isTransactionRecent, useAllTransactions } from "../../state/transactions/hooks";
-import { shortenAddress } from "../../helpers";
+import { fortmatic, injected, lattice, portis, walletconnect, walletlink } from "connectors";
+import useENSName from "hooks/useENSName";
+import { isTransactionRecent, useAllTransactions } from "state/transactions/hooks";
+import { shortenAddress } from "helpers";
 import { ButtonSecondary } from "./ButtonLegacy";
 import Loader from "./Loader";
-import WalletModal from "./WalletModal";
 
-import FortmaticIcon from "../../assets/images/fortmaticIcon.png";
-import LatticeIcon from "../../assets/images/gridPlusWallet.png";
-import PortisIcon from "../../assets/images/portisIcon.png";
-import MetamaskIcon from "../../assets/images/metamask.png";
-import CoinbaseWalletIcon from "../../assets/svg/coinbaseWalletIcon.svg";
-import WalletConnectIcon from "../../assets/svg/walletConnectIcon.svg";
+import FortmaticIcon from "assets/images/fortmaticIcon.png";
+import LatticeIcon from "assets/images/gridPlusWallet.png";
+import PortisIcon from "assets/images/portisIcon.png";
+import MetamaskIcon from "assets/images/metamask.png";
+import CoinbaseWalletIcon from "assets/svg/coinbaseWalletIcon.svg";
+import WalletConnectIcon from "assets/svg/walletConnectIcon.svg";
 
 const IconWrapper = styled.div`
   ${({ theme }) => theme.flexColumnNoWrap};
@@ -148,7 +144,6 @@ function StatusIcon({ connector }) {
 }
 
 function Web3StatusInner() {
-  const { i18n } = useLingui();
   const { account, connector, error } = useWeb3React();
 
   const { ENSName } = useENSName(account ?? undefined);
@@ -164,21 +159,15 @@ function Web3StatusInner() {
 
   const hasPendingTransactions = !!pending.length;
 
-  const toggleWalletModal = useWalletModalToggle();
-
   if (account) {
     return (
       <div
         id="web3-status-connected"
         className="flex items-center rounded-lg bg-dark-1000 text-sm text-secondary py-2 px-3"
-        onClick={toggleWalletModal}
       >
         {hasPendingTransactions ? (
           <div className="flex justify-between items-center">
-            <div className="pr-2">
-              {pending?.length} {i18n._(t`Pending`)}
-            </div>{" "}
-            <Loader stroke="white" />
+            <div className="pr-2">{pending?.length} Pending</div> <Loader stroke="white" />
           </div>
         ) : (
           <div className="mr-2">{ENSName || shortenAddress(account)}</div>
@@ -188,17 +177,15 @@ function Web3StatusInner() {
     );
   } else if (error) {
     return (
-      <Web3StatusError onClick={toggleWalletModal}>
+      <Web3StatusError>
         <NetworkIcon />
-        <Text>
-          {error instanceof UnsupportedChainIdError ? i18n._(t`You are on the wrong network`) : i18n._(t`Error`)}
-        </Text>
+        <Text>{error instanceof UnsupportedChainIdError ? "You are on the wrong network" : "Error"}</Text>
       </Web3StatusError>
     );
   } else {
     return (
-      <Web3StatusConnect id="connect-wallet" onClick={toggleWalletModal} faded={!account}>
-        <Text>{i18n._(t`Connect to a wallet`)}</Text>
+      <Web3StatusConnect id="connect-wallet" faded={!account}>
+        <Text>Connect to a wallet</Text>
       </Web3StatusConnect>
     );
   }
@@ -208,26 +195,9 @@ export default function Web3Status() {
   const { active, account } = useWeb3React();
   const contextNetwork = useWeb3React("NETWORK");
 
-  const { ENSName } = useENSName(account ?? undefined);
-
-  const allTransactions = useAllTransactions();
-
-  const sortedRecentTransactions = useMemo(() => {
-    const txs = Object.values(allTransactions);
-    return txs.filter(isTransactionRecent).sort(newTransactionsFirst);
-  }, [allTransactions]);
-
-  const pending = sortedRecentTransactions.filter(tx => !tx.receipt).map(tx => tx.hash);
-  const confirmed = sortedRecentTransactions.filter(tx => tx.receipt).map(tx => tx.hash);
-
   if (!contextNetwork.active && !active) {
     return null;
   }
 
-  return (
-    <>
-      <Web3StatusInner />
-      <WalletModal ENSName={ENSName ?? undefined} pendingTransactions={pending} confirmedTransactions={confirmed} />
-    </>
-  );
+  return <Web3StatusInner />;
 }
