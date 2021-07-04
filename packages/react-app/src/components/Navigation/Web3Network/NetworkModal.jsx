@@ -1,10 +1,10 @@
 import { ChainId } from "@sushiswap/sdk";
 import React from "react";
-import { useActiveWeb3React } from "../../../hooks/useActiveWeb3React";
+import { useActiveWeb3React } from "hooks/useActiveWeb3React";
+import { useModalOpen, useNetworkModalToggle } from "state/application/hooks";
+import { ApplicationModal } from "state/application/actions";
 import { NETWORK_ICON, NETWORK_LABEL } from "../../../constants/networks";
-import { useModalOpen, useNetworkModalToggle } from "../../../state/application/hooks";
-import { ApplicationModal } from "../../../state/application/actions";
-import Modal from "../Modal";
+import Modal from "./Modal";
 import ModalHeader from "./ModalHeader";
 
 const PARAMS = {

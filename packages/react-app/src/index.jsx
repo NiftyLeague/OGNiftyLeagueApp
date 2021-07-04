@@ -5,7 +5,6 @@ import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { ThemeSwitcherProvider } from "react-css-theme-switcher";
-import LanguageProvider from "./language";
 import App from "./App";
 import store from "./state";
 
@@ -28,13 +27,11 @@ const client = new ApolloClient({
 ReactDOM.render(
   <ApolloProvider client={client}>
     <Provider store={store}>
-      <LanguageProvider>
-        <ThemeSwitcherProvider themeMap={themes} defaultTheme={prevTheme || "dark"}>
-          <Router>
-            <App subgraphUri={subgraphUri} />
-          </Router>
-        </ThemeSwitcherProvider>
-      </LanguageProvider>
+      <ThemeSwitcherProvider themeMap={themes} defaultTheme={prevTheme || "dark"}>
+        <Router>
+          <App subgraphUri={subgraphUri} />
+        </Router>
+      </ThemeSwitcherProvider>
     </Provider>
   </ApolloProvider>,
   document.getElementById("root"),

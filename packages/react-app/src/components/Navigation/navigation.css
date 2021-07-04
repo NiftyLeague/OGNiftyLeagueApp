@@ -56,7 +56,7 @@
   cursor: pointer;
   border: solid 0.5px transparent;
   overflow: hidden;
-  border-radius: 50%;
+  border-radius: 15%;
   width: 26px;
   height: 26px;
   margin: auto 0;
