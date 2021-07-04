@@ -33,7 +33,7 @@ const blockExplorerLink = (address, blockExplorer) =>
   `${blockExplorer || "https://etherscan.io/"}${"address/"}${address}`;
 
 export default function Address(props) {
-  const { address, blockExplorer, ensProvider, size } = props;
+  const { address, blockExplorer, ensProvider, mobileView, size } = props;
 
   const ens = useLookupAddress(ensProvider, address);
 
@@ -61,28 +61,34 @@ export default function Address(props) {
 
   return (
     <>
-      <div
-        style={{
-          borderRadius: "50%",
-          overflow: "hidden",
-          width: 20,
-          height: 20,
-          margin: "auto 0",
-        }}
-      >
-        <Blockies seed={address.toLowerCase()} size={5} className="blockies" />
-      </div>
+      {!mobileView && (
+        <div
+          style={{
+            borderRadius: "50%",
+            overflow: "hidden",
+            width: 20,
+            height: 20,
+            margin: "auto 0",
+          }}
+        >
+          <Blockies seed={address.toLowerCase()} size={5} className="blockies" />
+        </div>
+      )}
       <span style={{ verticalAlign: "middle", paddingLeft: 5 }}>
-        <Text copyable={DEBUG && { text: address }}>
-          <a
-            style={{ color: currentTheme === "light" ? "#222222" : "#ddd" }}
-            target="_blank"
-            href={etherscanLink}
-            rel="noopener noreferrer"
-          >
-            {displayAddress}
-          </a>
-        </Text>
+        {DEBUG ? (
+          <Text copyable={{ text: address }}>
+            <a
+              style={{ color: currentTheme === "light" ? "#222222" : "#ddd" }}
+              target="_blank"
+              href={etherscanLink}
+              rel="noopener noreferrer"
+            >
+              {displayAddress}
+            </a>
+          </Text>
+        ) : (
+          <Text style={{ color: currentTheme === "light" ? "#222222" : "#ddd" }}>{displayAddress}</Text>
+        )}
       </span>
     </>
   );

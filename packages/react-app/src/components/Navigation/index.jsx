@@ -1,13 +1,16 @@
 import React, { useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { useThemeSwitcher } from "react-css-theme-switcher";
-import { Alert, Button, Dropdown, Layout, Menu, Typography } from "antd";
-import { MoreVert } from "@material-ui/icons";
 import Web3Modal from "web3modal";
 import { Web3Provider } from "@ethersproject/providers";
 import WalletConnectProvider from "@walletconnect/web3-provider";
+import withWidth, { isWidthDown } from "@material-ui/core/withWidth";
+import { Layout, Menu, Typography } from "antd";
 
-import { DEBUG, INFURA_ID, NETWORK } from "../../constants";
+import AddNFTL from "./AddNFTL";
+import DropdownMenu from "./DropdownMenu";
+import WrongNetworkAlert from "./WrongNetworkAlert";
+import { INFURA_ID } from "../../constants";
 import Account from "../Account";
 // import NiftyLeagueLogo from "../../assets/images/nifty-league-logo-full.png";
 import "./navigation.css";
@@ -40,74 +43,33 @@ const logoutOfWeb3Modal = async () => {
   }, 1);
 };
 
-const DropdownMenu = ({ setRoute }) => {
-  const menu = (
-    <Menu>
-      {/* TODO: Add Discord, GitHub, Docs links */}
-      {DEBUG && (
-        <>
-          <Menu.Item key="/NFTL">
-            <Link onClick={() => setRoute("/NTFL")} to="/NFTL">
-              NFTL Token
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="/NFT">
-            <Link onClick={() => setRoute("/NFT")} to="/NFT">
-              NFT
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="/storage">
-            <Link onClick={() => setRoute("/storage")} to="/storage">
-              Storage
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="/hints">
-            <Link onClick={() => setRoute("/hints")} to="/hints">
-              Hints
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="/subgraph">
-            <Link onClick={() => setRoute("/subgraph")} to="/subgraph">
-              Subgraph
-            </Link>
-          </Menu.Item>
-        </>
-      )}
-    </Menu>
-  );
-
-  return (
-    <Dropdown key="more" overlay={menu}>
-      <Button style={{ border: "none", padding: 0, backgroundColor: "transparent", margin: "auto 0 auto 5px" }}>
-        <MoreVert style={{ fontSize: 20, verticalAlign: "top" }} />
-      </Button>
-    </Dropdown>
-  );
-};
-
-const WrongNetworkAlert = ({ localChainId, selectedChainId }) => (
-  <div
-    style={{
-      zIndex: 2,
-      position: "absolute",
-      right: 0,
-      top: 60,
-      padding: 16,
-    }}
-  >
-    <Alert
-      message="⚠️ Wrong Network"
-      description={
-        <div>
-          You have <b>{NETWORK(selectedChainId).name}</b> selected and you need to be on{" "}
-          <b>{NETWORK(localChainId).name}</b>.
-        </div>
-      }
-      type="error"
-      closable={false}
-    />
-  </div>
-);
+const navItems = setRoute => [
+  <Menu.Item key="/">
+    <Link onClick={() => setRoute("/")} to="/">
+      Home
+    </Link>
+  </Menu.Item>,
+  <Menu.Item key="/about">
+    <Link onClick={() => setRoute("/about")} to="/about">
+      About
+    </Link>
+  </Menu.Item>,
+  <Menu.Item key="/characters">
+    <Link onClick={() => setRoute("/characters")} to="/characters">
+      Characters
+    </Link>
+  </Menu.Item>,
+  <Menu.Item key="/games">
+    <Link onClick={() => setRoute("/games")} to="/games">
+      Games
+    </Link>
+  </Menu.Item>,
+  <Menu.Item key="/staking">
+    <Link onClick={() => setRoute("/staking")} to="/staking">
+      Staking
+    </Link>
+  </Menu.Item>,
+];
 
 function Navigation({
   address,
@@ -120,8 +82,11 @@ function Navigation({
   setRoute,
   targetNetwork,
   userProvider,
+  width,
 }) {
   const { currentTheme } = useThemeSwitcher();
+  const hideNav = isWidthDown("md", width);
+  const mobileView = isWidthDown("sm", width);
   const darkThemed = currentTheme === "dark";
   const networkError = localChainId && selectedChainId && localChainId !== selectedChainId;
 
@@ -173,69 +138,52 @@ function Navigation({
               }),
         }}
       >
-        <Title level={4} style={{ margin: "auto 30px auto 0" }}>
+        <Title level={4} style={{ margin: `auto ${mobileView ? "10px" : "30px"} auto 0` }}>
           <span role="img" aria-label="pixel emoji">
             👾
           </span>{" "}
           Nifty League
         </Title>
         {/* <img width={42} height={50} src={NiftyLeagueLogo} alt="Nifty League logo" /> */}
-        <nav className="navbar-polygon">
-          <Menu
-            style={{
-              textAlign: "center",
-              borderBottom: "none",
-              backgroundColor: "transparent",
-            }}
-            selectedKeys={[route]}
-            mode="horizontal"
-            defaultSelectedKeys={["/"]}
-          >
-            <Menu.Item key="/">
-              <Link onClick={() => setRoute("/")} to="/">
-                Home
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="/about">
-              <Link onClick={() => setRoute("/about")} to="/about">
-                About
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="/characters">
-              <Link onClick={() => setRoute("/characters")} to="/characters">
-                Characters
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="/games">
-              <Link onClick={() => setRoute("/games")} to="/games">
-                Games
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="/staking">
-              <Link onClick={() => setRoute("/staking")} to="/staking">
-                Staking
-              </Link>
-            </Menu.Item>
-          </Menu>
-        </nav>
-        <div style={{ color: "#666666", marginLeft: "auto", padding: "0 16px", fontSize: 16 }}>
-          {targetNetwork.label}
+        {!hideNav && (
+          <nav className="navbar-polygon">
+            <Menu
+              style={{
+                textAlign: "center",
+                borderBottom: "none",
+                backgroundColor: "transparent",
+              }}
+              className="menu"
+              selectedKeys={[route]}
+              mode="horizontal"
+              defaultSelectedKeys={["/"]}
+            >
+              {navItems(setRoute)}
+            </Menu>
+          </nav>
+        )}
+        <div className="menu-right">
+          {!mobileView && <AddNFTL userProvider={userProvider} />}
+          <div className="network-label" style={{ padding: mobileView ? "0 5px" : "0 16px" }}>
+            {targetNetwork.label}
+          </div>
+          <Account
+            address={address}
+            blockExplorer={blockExplorer}
+            mobileView={mobileView}
+            loadWeb3Modal={loadWeb3Modal}
+            logoutOfWeb3Modal={logoutOfWeb3Modal}
+            mainnetProvider={mainnetProvider}
+            targetNetwork={targetNetwork}
+            userProvider={userProvider}
+            web3Modal={web3Modal}
+          />
+          <DropdownMenu key="more" hideNav={hideNav} navItems={navItems} setRoute={setRoute} />
         </div>
-        <Account
-          address={address}
-          blockExplorer={blockExplorer}
-          loadWeb3Modal={loadWeb3Modal}
-          logoutOfWeb3Modal={logoutOfWeb3Modal}
-          mainnetProvider={mainnetProvider}
-          targetNetwork={targetNetwork}
-          userProvider={userProvider}
-          web3Modal={web3Modal}
-        />
-        <DropdownMenu key="more" setRoute={setRoute} />
         {networkError && <WrongNetworkAlert localChainId={localChainId} selectedChainId={selectedChainId} />}
       </Layout.Header>
     </Layout>
   );
 }
 
-export default Navigation;
+export default withWidth()(Navigation);
