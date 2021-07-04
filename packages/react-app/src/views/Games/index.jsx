@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Unity, { UnityContext } from "react-unity-webgl";
 import { Image, Layout, Menu, Row, Col, Card } from "antd";
 import { SportsEsports, SportsMma } from "@material-ui/icons";
@@ -25,7 +25,7 @@ const Game = ({ address, unityContext }) => {
   const [isLoaded, setLoaded] = useState(false);
 
   const startAuthentication = useCallback(
-    async e => {
+    e => {
       const result = `true,${address},My awesome Username`;
       e.detail.callback(result);
     },
@@ -55,7 +55,7 @@ const Game = ({ address, unityContext }) => {
       window.removeEventListener("StartAuthentication", startAuthentication);
       document.removeEventListener("mousemove", onMouse, false);
     };
-  }, [unityContext, onMouse]);
+  }, [unityContext, onMouse, startAuthentication]);
 
   return (
     <>
@@ -73,14 +73,11 @@ const Game = ({ address, unityContext }) => {
   );
 };
 
-export default function Games({ address }) {
+export default function Games({ address, userProvider }) {
   const { currentTheme } = useThemeSwitcher();
   const [selectedGame, setSelectedGame] = useState("all");
   const [collapsed, setCollapsed] = useState(true);
-
-  useEffect(() => {
-    setCollapsed(selectedGame === "all");
-  }, [selectedGame]);
+  const validAccount = userProvider?.provider?.isMetaMask;
 
   return (
     <Layout className="games">
@@ -99,14 +96,14 @@ export default function Games({ address }) {
         <Menu
           mode="inline"
           selectedKeys={[selectedGame]}
-          onClick={({ key }) => setSelectedGame(key)}
+          {...(validAccount && { onClick: ({ key }) => setSelectedGame(key) })}
           style={{ textAlign: "center" }}
         >
           <Menu.Item key="all" icon={<SportsEsports />}>
             All Games
           </Menu.Item>
           <Menu.Item key="nifty-smashers" icon={<SportsMma />}>
-            NiftySmashers
+            Nifty Smashers
           </Menu.Item>
           {!collapsed && <Image width={190} src={NiftySmashers} />}
           {!collapsed && (
@@ -118,7 +115,9 @@ export default function Games({ address }) {
       </Sider>
       <Layout style={{ marginLeft: collapsed ? 80 : 200 }}>
         <Content style={{ ...(selectedGame === "all" && { padding: 40 }) }}>
-          {selectedGame !== "all" ? (
+          {!validAccount ? (
+            <div style={{ paddingTop: 60 }}>Please connect to MetaMask</div>
+          ) : selectedGame !== "all" ? (
             <Game address={address} unityContext={selectedGame === "nifty-smashers" && smashersContext} />
           ) : (
             <Row gutter={{ xs: 16, md: 8 }}>
