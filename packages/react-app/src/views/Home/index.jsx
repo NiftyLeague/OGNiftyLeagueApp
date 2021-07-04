@@ -134,9 +134,9 @@ const Home = memo(({ address, localProvider, readContracts, setRoute, tx, writeC
         />
       </div>
       <section className="about-page-section">
-        <SaleProgress readContracts={readContracts} />
-        <Container style={{ paddingTop: 32 }}>
-          <div className="row">
+        <Container>
+          <SaleProgress readContracts={readContracts} />
+          <div className="row" style={{ paddingTop: 32 }}>
             <div className="col-md-6 d-flex align-self-center">
               <div className="about-video">
                 <img src={VideoBGImg} alt="Nifty Smashers preview" className="video-preview" />

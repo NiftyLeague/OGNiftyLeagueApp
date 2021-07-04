@@ -29,7 +29,7 @@
   top: 36.5%;
 }
 .pong-loader-left {
-  top: 36.5%;
+  top: 35.5%;
   height: 20px;
   width: 3px;
   background-color: transparent;
@@ -37,7 +37,7 @@
   box-shadow: -12.5px -5px 0 #fff;
 }
 .pong-loader-right {
-  top: 36.5%;
+  top: 35.5%;
   height: 20px;
   width: 3px;
   background-color: transparent;

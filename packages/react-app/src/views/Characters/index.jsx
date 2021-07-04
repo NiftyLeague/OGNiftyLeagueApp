@@ -1,10 +1,22 @@
 import React, { useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import { Container, Grid, Snackbar } from "@material-ui/core";
 import SaleProgress from "components/SaleProgress";
 import CharactersFilter from "./CharactersFilter";
 import CharacterCard from "./CharacterCard";
 
+const useStyles = makeStyles(theme => ({
+  snackbar: { width: "50vw" },
+  [theme.breakpoints.down("md")]: {
+    snackbar: { width: "75vw" },
+  },
+  [theme.breakpoints.down("sm")]: {
+    snackbar: { width: "90vw" },
+  },
+}));
+
 const CharactersContainer = ({ readContracts }) => {
+  const classes = useStyles();
   const [open, setOpen] = useState(true);
   const [characters, setCharcters] = useState([
     { id: 1, created: 1624111342, name: "Degen Ape", tribe: "Ape", skinColor: "Blue" },
@@ -29,7 +41,7 @@ const CharactersContainer = ({ readContracts }) => {
           </Grid>
         ))}
       </Grid>
-      <Snackbar open={open} autoHideDuration={null} onClose={handleClose}>
+      <Snackbar open={open} autoHideDuration={null} onClose={handleClose} className={classes.snackbar}>
         <SaleProgress readContracts={readContracts} handleClose={handleClose} />
       </Snackbar>
     </Container>
