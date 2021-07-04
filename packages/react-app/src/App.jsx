@@ -3,7 +3,7 @@ import { Switch, Route } from "react-router-dom";
 import { getDefaultProvider } from "@ethersproject/providers";
 import { useUserAddress } from "eth-hooks";
 import { useThemeSwitcher } from "react-css-theme-switcher";
-import { ScrollToTop, useBalance, useContractLoader, useGasPrice, useUserProvider } from "./hooks";
+import { ScrollToTop, useContractLoader, useGasPrice, useUserProvider } from "./hooks";
 import { Contract, Faucet, Navigation, ThemeSwitch } from "./components";
 import { Notifier } from "./helpers";
 import { About, Characters, Games, Hints, Home, Staking, Subgraph, NotFound } from "./views";
@@ -120,7 +120,7 @@ function App({ subgraphUri }) {
             <Characters readContracts={readContracts} />
           </Route>
           <Route exact path="/games">
-            <Games address={address} />
+            <Games address={address} userProvider={userProvider} />
           </Route>
           <Route exact path="/staking">
             <Staking />
