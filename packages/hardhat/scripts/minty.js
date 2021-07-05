@@ -55,11 +55,12 @@ class Minty {
 
     // eslint-disable-next-line global-require
     this.hardhat = require("hardhat");
+    const targetNetwork = process.env.HARDHAT_NETWORK || config.defaultNetwork;
 
     // connect to the smart contract using the address and ABI from the deploy info
     this.contract = await this.hardhat.ethers.getContractAt(
       config.nftContractName,
-      fs.readFileSync(`./artifacts/${config.nftContractName}.address`).toString(),
+      fs.readFileSync(`./artifacts/${targetNetwork}/${config.nftContractName}.address`).toString(),
     );
 
     // create a local IPFS node

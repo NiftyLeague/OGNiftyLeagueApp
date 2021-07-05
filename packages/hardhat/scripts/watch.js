@@ -1,5 +1,6 @@
 const watch = require("node-watch");
 const { exec } = require("child_process");
+const { config } = require("hardhat");
 
 const run = () => {
   console.log("🛠  Compiling & Deploying...");
@@ -11,7 +12,8 @@ const run = () => {
 };
 
 console.log("🔬 Watching Contracts...");
-watch("./contracts", { recursive: true }, function (evt, name) {
+const targetNetwork = process.env.HARDHAT_NETWORK || config.defaultNetwork;
+watch(`./contracts/${targetNetwork}`, { recursive: true }, function (evt, name) {
   console.log("%s changed.", name);
   run();
 });

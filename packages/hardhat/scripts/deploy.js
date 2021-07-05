@@ -2,6 +2,7 @@
 /* eslint-disable no-use-before-define */
 const fs = require("fs");
 const chalk = require("chalk");
+const { exec } = require("child_process");
 const { config, ethers, tenderly, run } = require("hardhat");
 const { utils } = require("ethers");
 const R = require("ramda");
@@ -68,20 +69,24 @@ const main = async () => {
     // });
   }
 
-  console.log(" 💾  Artifacts (address, abi, and args) saved to: ", chalk.blue("packages/hardhat/artifacts/"), "\n\n");
+  console.log(
+    " 💾  Artifacts (address, abi, and args) saved to: ",
+    chalk.blue(`packages/hardhat/artifacts/${targetNetwork}`),
+    "\n\n",
+  );
 };
 
 const deploy = async (contractName, _args = [], overrides = {}, libraries = {}) => {
   console.log(` 🛰  Deploying: ${contractName}`);
 
   const contractArgs = _args || [];
+  console.log("here");
   const contractArtifacts = await ethers.getContractFactory(contractName, {
     libraries,
   });
   const deployed = await contractArtifacts.deploy(...contractArgs, overrides);
   const encoded = abiEncodeArgs(deployed, contractArgs);
-  fs.writeFileSync(`artifacts/${contractName}.address`, deployed.address);
-
+  fs.writeFileSync(`${config.paths.artifacts}/${contractName}.address`, deployed.address);
   let extraGasInfo = "";
   if (deployed && deployed.deployTransaction) {
     const gasUsed = deployed.deployTransaction.gasLimit.mul(deployed.deployTransaction.gasPrice);
@@ -97,7 +102,7 @@ const deploy = async (contractName, _args = [], overrides = {}, libraries = {}) 
   });
 
   if (!encoded || encoded.length <= 2) return deployed;
-  fs.writeFileSync(`artifacts/${contractName}.args`, encoded.slice(2));
+  fs.writeFileSync(`${config.paths.artifacts}/${contractName}.args`, encoded.slice(2));
   return deployed;
 };
 
@@ -122,7 +127,8 @@ const isSolidity = fileName =>
 const readArgsFile = contractName => {
   let args = [];
   try {
-    const argsFile = `./contracts/${contractName}.args`;
+    const targetNetwork = process.env.HARDHAT_NETWORK || config.defaultNetwork;
+    const argsFile = `./contracts/${targetNetwork}/${contractName}.args`;
     if (!fs.existsSync(argsFile)) return args;
     args = JSON.parse(fs.readFileSync(argsFile));
   } catch (e) {

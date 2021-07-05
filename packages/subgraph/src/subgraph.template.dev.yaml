@@ -1,5 +1,5 @@
 specVersion: 0.0.2
-environment: ${file(env.yml):test.network}
+environment: ${file(env.yml):dev.network}
 schema:
   file: ./src/schema.graphql
 dataSources:

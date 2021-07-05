@@ -19,7 +19,7 @@ export default function Hints({ mainnetProvider, address }) {
         <span style={{ marginRight: 8 }}>👷</span>
         Edit your <b>contract</b> in
         <span className="highlight" style={{ marginLeft: 4, padding: 4, borderRadius: 4, fontWeight: "bolder" }}>
-          packages/hardhat/contracts
+          packages/hardhat/contracts/network
         </span>
       </div>
 
@@ -35,7 +35,7 @@ export default function Hints({ mainnetProvider, address }) {
         <span style={{ marginRight: 8 }}>🚀</span>
         Your <b>contract artifacts</b> are automatically injected into your frontend at
         <span className="highlight" style={{ marginLeft: 4, padding: 4, borderRadius: 4, fontWeight: "bolder" }}>
-          packages/react-app/src/contracts/
+          packages/react-app/src/contracts/network
         </span>
       </div>
 

@@ -38,9 +38,14 @@ export default function useCustomContractLoader(provider, contractName, address)
             signer = provider;
           }
 
-          const customContract = new Contract(address, require(`../contracts/${contractName}.abi.js`), signer);
+          const targetNetwork = process.env.REACT_APP_NETWORK;
+          const customContract = new Contract(
+            address,
+            require(`../contracts/${targetNetwork}/${contractName}.abi.js`),
+            signer,
+          );
           try {
-            customContract.bytecode = require(`../contracts/${contractName}.bytecode.js`);
+            customContract.bytecode = require(`../contracts/${targetNetwork}/${contractName}.bytecode.js`);
           } catch (e) {
             console.log(e);
           }

@@ -8,5 +8,6 @@ export default function useRemovedTraits(readContracts) {
   useEffect(() => {
     if (result && result.length !== removedTraits.length) setRemovedTraits(result);
   }, [result, removedTraits]);
-  return removedTraits;
+  // TODO: remove after unity input fix
+  return removedTraits.length ? removedTraits : [200];
 }
