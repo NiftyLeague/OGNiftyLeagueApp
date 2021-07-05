@@ -123,6 +123,12 @@ module.exports = {
     // Your API key for https://etherscan.io/
     apiKey: process.env.ETHERSCAN_KEY,
   },
+  paths: {
+    sources: "./contracts",
+    tests: "./test",
+    cache: `./cache/${defaultNetwork}`,
+    artifacts: `./artifacts/${defaultNetwork}`,
+  },
 };
 
 const DEBUG = process.env.NODE_ENV === "development";

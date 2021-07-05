@@ -1,5 +1,5 @@
 import { BigInt, Address, log } from "@graphprotocol/graph-ts";
-import { NiftyDegen, CharacterGenerated, Transfer } from "../generated/NiftyDegen/NiftyDegen";
+import { NiftyDegen, CharacterGenerated, Transfer } from "../generated/localhost/NiftyDegen/NiftyDegen";
 import { Character, Owner } from "../generated/schema";
 
 export function handleCharacterGenerated(event: CharacterGenerated): void {

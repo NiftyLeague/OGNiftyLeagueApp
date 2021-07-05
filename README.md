@@ -94,7 +94,7 @@ yarn deploy
 
 ```
 
-🔏 Edit your smart contract `YourContract.sol` in `packages/hardhat/contracts`
+🔏 Edit your smart contract `YourContract.sol` in `packages/hardhat/contracts/{network}`
 
 📝 Edit your frontend `App.jsx` in `packages/react-app/src`
 

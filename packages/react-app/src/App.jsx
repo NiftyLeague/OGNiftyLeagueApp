@@ -147,7 +147,7 @@ function App({ subgraphUri }) {
               </Route>
               <Route path="/storage">
                 <Contract
-                  name={"AllowedTraitsStorage"}
+                  name="AllowedTraitsStorage"
                   signer={userProvider.getSigner()}
                   provider={localProvider}
                   address={address}

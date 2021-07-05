@@ -1,6 +1,6 @@
 const fs = require("fs");
 const chalk = require("chalk");
-const bre = require("hardhat");
+const { config } = require("hardhat");
 
 const publishDir = "../react-app/src/contracts";
 const graphDir = "../subgraph";
@@ -8,12 +8,13 @@ const graphDir = "../subgraph";
 function publishContract(contractName) {
   console.log(" 💽 Publishing", chalk.cyan(contractName), "to", chalk.gray(publishDir));
   try {
+    const targetNetwork = process.env.HARDHAT_NETWORK || config.defaultNetwork;
     let contract = fs
-      .readFileSync(`${bre.config.paths.artifacts}/contracts/${contractName}.sol/${contractName}.json`)
+      .readFileSync(`${config.paths.artifacts}/contracts/${contractName}.sol/${contractName}.json`)
       .toString();
-    const address = fs.readFileSync(`${bre.config.paths.artifacts}/${contractName}.address`).toString();
+    const address = fs.readFileSync(`${config.paths.artifacts}/${contractName}.address`).toString();
     contract = JSON.parse(contract);
-    const graphConfigPath = `${graphDir}/config/config.json`;
+    const graphConfigPath = `${graphDir}/config/config${targetNetwork === "localhost" ? "dev" : ""}.json`;
     let graphConfig;
     try {
       if (fs.existsSync(graphConfigPath)) {
@@ -27,19 +28,22 @@ function publishContract(contractName) {
 
     graphConfig = JSON.parse(graphConfig);
     graphConfig[contractName + "Address"] = address;
-    fs.writeFileSync(`${publishDir}/${contractName}.address.js`, `module.exports = "${address}";`);
+    fs.writeFileSync(`${publishDir}/${targetNetwork}/${contractName}.address.js`, `module.exports = "${address}";`);
     fs.writeFileSync(
-      `${publishDir}/${contractName}.abi.js`,
+      `${publishDir}/${targetNetwork}/${contractName}.abi.js`,
       `module.exports = ${JSON.stringify(contract.abi, null, 2)};`,
     );
-    fs.writeFileSync(`${publishDir}/${contractName}.bytecode.js`, `module.exports = "${contract.bytecode}";`);
+    fs.writeFileSync(
+      `${publishDir}/${targetNetwork}/${contractName}.bytecode.js`,
+      `module.exports = "${contract.bytecode}";`,
+    );
 
-    const folderPath = graphConfigPath.replace("/config.json", "");
+    const folderPath = graphConfigPath.replace(`config${targetNetwork === "localhost" ? "dev" : ""}.json`, "");
     if (!fs.existsSync(folderPath)) {
       fs.mkdirSync(folderPath);
     }
     fs.writeFileSync(graphConfigPath, JSON.stringify(graphConfig, null, 2));
-    fs.writeFileSync(`${graphDir}/abis/${contractName}.json`, JSON.stringify(contract.abi, null, 2));
+    fs.writeFileSync(`${graphDir}/abis/${targetNetwork}/${contractName}.json`, JSON.stringify(contract.abi, null, 2));
 
     console.log(" 📠 Published " + chalk.green(contractName) + " to the frontend.");
 
@@ -55,11 +59,19 @@ function publishContract(contractName) {
 }
 
 async function main() {
-  if (!fs.existsSync(publishDir)) {
-    fs.mkdirSync(publishDir);
+  const targetNetwork = process.env.HARDHAT_NETWORK || config.defaultNetwork;
+  if (fs.existsSync(`${publishDir}/${targetNetwork}`)) {
+    fs.rmdirSync(`${publishDir}/${targetNetwork}`, { recursive: true });
   }
+  if (!fs.existsSync(`${graphDir}/abis}`)) fs.mkdirSync(`${graphDir}/abis`);
+  if (fs.existsSync(`${graphDir}/abis/${targetNetwork}`)) {
+    fs.rmdirSync(`${graphDir}/abis/${targetNetwork}`, { recursive: true });
+  }
+  fs.mkdirSync(`${publishDir}/${targetNetwork}`);
+  fs.mkdirSync(`${graphDir}/abis/${targetNetwork}`);
+
   const finalContractList = [];
-  fs.readdirSync(bre.config.paths.sources).forEach(file => {
+  fs.readdirSync(config.paths.sources).forEach(file => {
     if (file.indexOf(".sol") >= 0) {
       const contractName = file.replace(".sol", "");
       // Add contract to list if publishing is successful
@@ -68,7 +80,10 @@ async function main() {
       }
     }
   });
-  fs.writeFileSync(`${publishDir}/contracts.js`, `module.exports = ${JSON.stringify(finalContractList)};`);
+  fs.writeFileSync(
+    `${publishDir}/${targetNetwork}/contracts.js`,
+    `module.exports = ${JSON.stringify(finalContractList)};`,
+  );
 }
 main()
   .then(() => process.exit(0))

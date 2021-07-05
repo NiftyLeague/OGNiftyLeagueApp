@@ -25,14 +25,16 @@ import { useState, useEffect } from "react";
     tx( writeContracts.YourContract.setPurpose(newPurpose) )
 */
 
+const targetNetwork = process.env.REACT_APP_NETWORK;
+
 const loadContract = (contractName, signer) => {
   const newContract = new Contract(
-    require(`../contracts/${contractName}.address.js`),
-    require(`../contracts/${contractName}.abi.js`),
+    require(`../contracts/${targetNetwork}/${contractName}.address.js`),
+    require(`../contracts/${targetNetwork}/${contractName}.abi.js`),
     signer,
   );
   try {
-    newContract.bytecode = require(`../contracts/${contractName}.bytecode.js`);
+    newContract.bytecode = require(`../contracts/${targetNetwork}/${contractName}.bytecode.js`);
   } catch (e) {
     console.log(e);
   }
@@ -58,7 +60,7 @@ export default function useContractLoader(providerOrSigner) {
             signer = providerOrSigner;
           }
 
-          const contractList = require("../contracts/contracts.js");
+          const contractList = require(`../contracts/${targetNetwork}/contracts.js`);
 
           const newContracts = contractList.reduce((accumulator, contractName) => {
             accumulator[contractName] = loadContract(contractName, signer);

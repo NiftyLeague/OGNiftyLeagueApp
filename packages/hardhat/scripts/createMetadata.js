@@ -6,9 +6,10 @@ const TRAIT_TYPES = require("../constants/traitTypes");
 const TRAIT_NAME_MAP = require("../constants/traitNameMap");
 
 async function main() {
+  const targetNetwork = process.env.HARDHAT_NETWORK || config.defaultNetwork;
   const contract = await ethers.getContractAt(
     config.nftContractName,
-    fs.readFileSync(`./artifacts/${config.nftContractName}.address`).toString(),
+    fs.readFileSync(`./artifacts/${targetNetwork}/${config.nftContractName}.address`).toString(),
   );
   await contract.deployed();
   const length = await contract.totalSupply();

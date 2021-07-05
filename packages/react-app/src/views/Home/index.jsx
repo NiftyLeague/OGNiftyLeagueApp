@@ -43,17 +43,17 @@ const Home = memo(({ address, localProvider, readContracts, setRoute, tx, writeC
   const [isLoaded, setLoaded] = useState(false);
   const [isVideoOpen, setVideoOpen] = useState(false);
   const removedTraitsCallback = useRef();
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const nftPrice = useNFTPrice(readContracts);
   const removedTraits = useRemovedTraits(readContracts);
 
   useEffect(() => {
     if (removedTraitsCallback.current) {
-      const traits = removedTraits ?? [];
-      console.log("======== removedTraits ========", traits);
-      removedTraitsCallback.current(JSON.stringify(traits));
+      console.log("======== removedTraits ========", removedTraits);
+      removedTraitsCallback.current(JSON.stringify(removedTraits));
     }
-  }, [removedTraits, removedTraitsCallback.current]);
+  }, [removedTraits, refreshKey]);
 
   // 📟 Listen for broadcast events
   const characterMintEvents = useEventListener(readContracts, NFT_CONTRACT, "CharacterGenerated", localProvider, 1);
@@ -67,7 +67,11 @@ const Home = memo(({ address, localProvider, readContracts, setRoute, tx, writeC
     [address],
   );
 
-  const getRemovedTraits = useCallback(e => (removedTraitsCallback.current = e.detail.callback), []);
+  const getRemovedTraits = useCallback(e => {
+    console.log("get callback", e);
+    removedTraitsCallback.current = e.detail.callback;
+    setRefreshKey(1);
+  }, []);
 
   const mintCharacter = useCallback(
     async e => {

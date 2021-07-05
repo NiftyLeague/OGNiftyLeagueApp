@@ -1,10 +1,11 @@
 specVersion: 0.0.2
+environment: ${file(env.yml):test.network}
 schema:
   file: ./src/schema.graphql
 dataSources:
   - kind: ethereum/contract
     name: NiftyDegen
-    network: localhost
+    network: self.environment
     source:
       address: "{{NiftyDegenAddress}}"
       abi: NiftyDegen
@@ -18,7 +19,7 @@ dataSources:
         - Owner
       abis:
         - name: NiftyDegen
-          file: ./abis/NiftyDegen.json
+          file: ./abis/${self.environment}/NiftyDegen.json
       eventHandlers:
         - event: CharacterGenerated(indexed uint256,uint256,address)
           handler: handleCharacterGenerated
