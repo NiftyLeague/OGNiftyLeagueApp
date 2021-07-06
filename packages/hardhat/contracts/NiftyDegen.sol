@@ -102,13 +102,13 @@ contract NiftyDegen is NameableCharacter {
         uint256 tribe = char[0];
         require(tribe > 0 && (tribe <= 6 || (tribe <= 9 && msg.sender == owner())), "Tribe incorrect");
         require(isTraitInRange(char[1], 10, 74), "Skin color incorrect");
-        require(isTraitInRange(char[2], 75, 123), "Secondary skin color incorrect");
+        require(isTraitInRange(char[2], 75, 123), "Fur color incorrect");
         require(isTraitInRange(char[3], 75, 123), "Eye color incorrect");
-        require(isTraitInRange(char[4], 75, 199), "Secondary eye color incorrect");
+        require(isTraitInRange(char[4], 75, 199), "Pupil color incorrect");
         require(isTraitInRange(head[0], 200, 214), "Hair incorrect");
         require(isTraitInRange(head[1], 215, 216), "Mouth incorrect");
         require(isTraitInRange(head[2], 217, 225), "Beard incorrect");
-        require(isTraitInRange(head[3], 226, 226), "Facemarks incorrect");
+        require(isTraitInRange(head[3], 226, 226), "Facemark incorrect");
         require(isTraitInRange(head[4], 227, 228), "Misc incorrect");
         require(isTraitInRange(cloth[0], 229, 236), "Top incorrect");
         require(isTraitInRange(cloth[1], 237, 244), "Outerwear incorrect");
@@ -126,13 +126,13 @@ contract NiftyDegen is NameableCharacter {
         require(isTraitInRange(items[1], 304, 305), "Right item incorrect");
 
         require(isAvailableAndAllowedTrait(tribe, char[1]), "Skin color unavailable");
-        require(isAvailableAndAllowedTrait(tribe, char[2]), "Secondary Skin color unavailable");
+        require(isAvailableAndAllowedTrait(tribe, char[2]), "Fur color unavailable");
         require(isAvailableAndAllowedTrait(tribe, char[3]), "Eye color unavailable");
-        require(isAvailableAndAllowedTrait(tribe, char[4]), "Secondary eye color unavailable");
+        require(isAvailableAndAllowedTrait(tribe, char[4]), "Pupil color unavailable");
         require(isAvailableAndAllowedTrait(tribe, head[0]), "Hair unavailable");
         require(isAvailableAndAllowedTrait(tribe, head[1]), "Mouth unavailable");
         require(isAvailableAndAllowedTrait(tribe, head[2]), "Beard unavailable");
-        require(isAvailableAndAllowedTrait(tribe, head[3]), "Facemarks unavailable");
+        require(isAvailableAndAllowedTrait(tribe, head[3]), "Facemark unavailable");
         require(isAvailableAndAllowedTrait(tribe, head[4]), "Misc unavailable");
         require(isAvailableAndAllowedTrait(tribe, cloth[0]), "Top unavailable");
         require(isAvailableAndAllowedTrait(tribe, cloth[1]), "Outerwear unavailable");
@@ -194,7 +194,6 @@ contract NiftyDegen is NameableCharacter {
         _characters[newCharId] = newChar;
         _removeRandomTrait(newCharId, traitCombo);
         _safeMint(msg.sender, newCharId);
-        emit CharacterGenerated(newCharId, traitCombo, msg.sender);
     }
 
     function _removeRandomTrait(uint256 newCharId, uint256 traitCombo) private {
@@ -227,17 +226,17 @@ contract NiftyDegen is NameableCharacter {
         Character memory character = _characters[tokenId];
         _characterTraits.tribe = _unpackUint10(character.traits);
         _characterTraits.skinColor = _unpackUint10(character.traits >> 10);
-        _characterTraits.secondarySkinColor = _unpackUint10(character.traits >> 20);
+        _characterTraits.furColor = _unpackUint10(character.traits >> 20);
         _characterTraits.eyeColor = _unpackUint10(character.traits >> 30);
-        _characterTraits.secondaryEyeColor = _unpackUint10(character.traits >> 40);
+        _characterTraits.pupilColor = _unpackUint10(character.traits >> 40);
         _characterTraits.hair = _unpackUint10(character.traits >> 50);
         _characterTraits.mouth = _unpackUint10(character.traits >> 60);
         _characterTraits.beard = _unpackUint10(character.traits >> 70);
-        _characterTraits.facemarks = _unpackUint10(character.traits >> 80);
+        _characterTraits.facemark = _unpackUint10(character.traits >> 80);
         _characterTraits.misc = _unpackUint10(character.traits >> 90);
         _characterTraits.top = _unpackUint10(character.traits >> 100);
         _characterTraits.outerwear = _unpackUint10(character.traits >> 110);
-        _characterTraits.topPrint = _unpackUint10(character.traits >> 120);
+        _characterTraits.print = _unpackUint10(character.traits >> 120);
         _characterTraits.bottom = _unpackUint10(character.traits >> 130);
         _characterTraits.footwear = _unpackUint10(character.traits >> 140);
         _characterTraits.belt = _unpackUint10(character.traits >> 150);

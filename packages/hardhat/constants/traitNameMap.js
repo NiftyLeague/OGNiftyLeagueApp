@@ -73,7 +73,7 @@ module.exports = {
   72: "Sparky Blue Alien",
   73: "Cherry Soda Alien",
   74: "Begonia Alien",
-  // Secondary Skin Colors
+  // Fur colors
   // Ape
   75: "Sweet Curry Ape Fur",
   76: "Iced Tea Ape Fur",
@@ -150,7 +150,7 @@ module.exports = {
   141: "Primrose Path Eyes",
   142: "Cherry Soda Eyes",
   143: "River Styx Eyes",
-  // Secondary Eye Colors
+  // Pupil Colors
   144: "River Styx Pupils",
   145: "Cherry Soda Pupils",
   146: "Japanese Carmine Pupils",
@@ -269,10 +269,10 @@ module.exports = {
   289: "Bowtie",
   290: "Necklace Gold",
   291: "Tie",
-  // LeftHand
+  // Left Item
   292: "Hold Left Briefcase",
   293: "Hold Left Dynamite",
-  // RightHand
+  // Right Item
   294: "Hold Right Cutlass",
   295: "Hold Right Sword",
 };

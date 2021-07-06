@@ -1,10 +1,39 @@
+type Traits @entity {
+  id: ID!
+  tribe: Int!
+  skinColor: Int!
+  furColor: Int!
+  eyeColor: Int!
+  pupilColor: Int!
+  hair: Int!
+  mouth: Int!
+  beard: Int!
+  facemark: Int!
+  misc: Int!
+  top: Int!
+  outerwear: Int!
+  print: Int!
+  bottom: Int!
+  footwear: Int!
+  belt: Int!
+  hat: Int!
+  eyewear: Int!
+  piercings: Int!
+  wrists: Int!
+  hands: Int!
+  neckwear: Int!
+  leftItem: Int!
+  rightItem: Int!
+}
+
 type Character @entity {
   id: ID!
   owner: Owner!
-  traits: BigInt!
-  name: String!
+  name: String
+  nameHistory: [String!]
   createdAt: BigInt!
   transactionHash: String!
+  traits: Traits!
 }
 
 type Owner @entity {
@@ -12,5 +41,5 @@ type Owner @entity {
   address: Bytes!
   createdAt: BigInt!
   characters: [Character!] @derivedFrom(field: "owner")
-  characterCount: BigInt!
+  characterCount: Int!
 }

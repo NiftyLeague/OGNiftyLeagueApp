@@ -69,31 +69,6 @@ module.exports = [
     "anonymous": false,
     "inputs": [
       {
-        "indexed": true,
-        "internalType": "uint256",
-        "name": "tokenId",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "traits",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "sender",
-        "type": "address"
-      }
-    ],
-    "name": "CharacterGenerated",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
         "indexed": false,
         "internalType": "string",
         "name": "previousArweaveHash",
@@ -385,7 +360,7 @@ module.exports = [
           },
           {
             "internalType": "uint16",
-            "name": "secondarySkinColor",
+            "name": "furColor",
             "type": "uint16"
           },
           {
@@ -395,7 +370,7 @@ module.exports = [
           },
           {
             "internalType": "uint16",
-            "name": "secondaryEyeColor",
+            "name": "pupilColor",
             "type": "uint16"
           },
           {
@@ -415,7 +390,7 @@ module.exports = [
           },
           {
             "internalType": "uint16",
-            "name": "facemarks",
+            "name": "facemark",
             "type": "uint16"
           },
           {
@@ -435,7 +410,7 @@ module.exports = [
           },
           {
             "internalType": "uint16",
-            "name": "topPrint",
+            "name": "print",
             "type": "uint16"
           },
           {

@@ -20,19 +20,19 @@ contract NiftyLeagueCharacter is ERC721, Ownable, Pausable {
         // character
         uint16 tribe;
         uint16 skinColor;
-        uint16 secondarySkinColor;
+        uint16 furColor;
         uint16 eyeColor;
-        uint16 secondaryEyeColor;
+        uint16 pupilColor;
         //  head
         uint16 hair;
         uint16 mouth;
         uint16 beard;
-        uint16 facemarks;
+        uint16 facemark;
         uint16 misc;
         //  clothing
         uint16 top;
         uint16 outerwear;
-        uint16 topPrint;
+        uint16 print;
         uint16 bottom;
         uint16 footwear;
         uint16 belt;
@@ -64,8 +64,6 @@ contract NiftyLeagueCharacter is ERC721, Ownable, Pausable {
 
     /// @dev Nifty League NFTL token address
     address internal immutable _nftlAddress;
-
-    event CharacterGenerated(uint256 indexed tokenId, uint256 traits, address sender);
 
     /**
      * @notice Construct the Nifty League NFTs

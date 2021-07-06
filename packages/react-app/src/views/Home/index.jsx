@@ -70,7 +70,7 @@ const Home = memo(({ address, localProvider, readContracts, setRoute, tx, writeC
   const getRemovedTraits = useCallback(e => {
     console.log("get callback", e);
     removedTraitsCallback.current = e.detail.callback;
-    setRefreshKey(1);
+    setRefreshKey(Math.random());
   }, []);
 
   const mintCharacter = useCallback(
@@ -80,6 +80,7 @@ const Home = memo(({ address, localProvider, readContracts, setRoute, tx, writeC
       const value = "" + parseFloat(nftPrice) * 10 ** 18;
       tx(writeContracts[NFT_CONTRACT].purchase(character, head, clothing, accessories, items, { value }));
       e.detail.callback("true");
+      setRefreshKey(Math.random());
     },
     [writeContracts, tx, nftPrice],
   );
