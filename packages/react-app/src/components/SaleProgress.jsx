@@ -68,7 +68,7 @@ export default function SaleProgress({ readContracts, handleClose }) {
           <div className={classes.col0}>NFTs:</div>
           <div className={classes.col0}>ETH:</div>
         </div>
-        <Tooltip title={`${progress}/4900 NTFs sold`} placement="top-start" classes={{ popper: classes.popper }}>
+        <Tooltip title={`${progress ?? 0}/4900 NTFs sold`} placement="top-start" classes={{ popper: classes.popper }}>
           <div className={classes.progress}>
             <div className="row d-flex flex-nowrap">
               <div className={classes.col1}>500</div>

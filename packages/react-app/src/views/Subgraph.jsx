@@ -63,32 +63,6 @@ const CHARACTERS_QUERY = `
       characterCount
       characters {
         id
-        traits {
-          tribe
-          skinColor
-          furColor
-          eyeColor
-          pupilColor
-          hair
-          mouth
-          beard
-          facemark
-          misc
-          top
-          outerwear
-          print
-          bottom
-          footwear
-          belt
-          hat
-          eyewear
-          piercings
-          wrists
-          hands
-          neckwear
-          leftItem
-          rightItem
-        }
       }
     }
   }

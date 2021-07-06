@@ -121,8 +121,15 @@ const cardStyles = theme => ({
   },
   traitList: {
     paddingTop: 0,
+    display: "flex",
+    flexWrap: "wrap",
+    flexDirection: "row",
   },
   traitListItem: {
+    width: "33%",
+    alignItems: "baseline",
+  },
+  traitListText: {
     color: "#fff",
     fontSize: 14,
   },
@@ -133,11 +140,32 @@ export const useStyles = makeStyles(theme => ({
   ...multiSelectStyles,
   ...accordionStyles,
   ...cardStyles(theme),
+  pagination: {
+    width: "100%",
+    paddingTop: 20,
+    paddingBottom: 125,
+    "& ul": {
+      justifyContent: "center",
+    },
+  },
+  paginationDark: {
+    "& button, li > div": {
+      color: "white",
+      borderColor: "white",
+    },
+  },
+  snackbar: { width: "50vw" },
+  [theme.breakpoints.down("md")]: {
+    snackbar: { width: "75vw" },
+  },
+  [theme.breakpoints.down("sm")]: {
+    snackbar: { width: "90vw" },
+  },
 }));
 
-export const getMenuItemStyles = (name, selectedOptions) => {
+export const getMenuItemStyles = (trait, selectedOptions) => {
   return {
-    fontWeight: selectedOptions.indexOf(name) === -1 ? 300 : 500,
+    fontWeight: selectedOptions.indexOf(trait) === -1 ? 300 : 500,
     fontSize: 16,
   };
 };

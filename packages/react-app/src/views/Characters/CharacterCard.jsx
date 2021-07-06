@@ -15,6 +15,7 @@ import {
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import OpenSeaIcon from "assets/images/opensea.png";
+import { TRAIT_NAME_MAP, TRAIT_VALUE_MAP } from "./constants";
 import { useStyles } from "./styles";
 
 function formatTime(timestamp) {
@@ -23,7 +24,7 @@ function formatTime(timestamp) {
 }
 
 export default function CharacterCard({ character }) {
-  const { name, id, created, ...traitList } = character;
+  const { createdAt, id, name, traits } = character;
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
@@ -38,10 +39,10 @@ export default function CharacterCard({ character }) {
         avatar={<Avatar aria-label="Character ID">{id}</Avatar>}
         title={
           <>
-            {name} <img src={OpenSeaIcon} alt="opensea icon" style={{ width: 24, height: 24 }} />
+            {name || "No Name Degen"} <img src={OpenSeaIcon} alt="opensea icon" style={{ width: 24, height: 24 }} />
           </>
         }
-        subheader={`Created: ${formatTime(created)}`}
+        subheader={`Created: ${formatTime(createdAt)}`}
       />
       <CardMedia className={classes.media} image="/static/images/cards/paella.jpg" title="NFT image" />
       <CardActions disableSpacing>
@@ -60,11 +61,17 @@ export default function CharacterCard({ character }) {
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent className={classes.cardContent}>
           <List dense className={classes.traitList}>
-            {Object.entries(traitList).map(([key, value]) => (
-              <ListItem key={key}>
-                <ListItemText primary={key} secondary={value} className={classes.traitListItem} />
-              </ListItem>
-            ))}
+            {Object.entries(traits)
+              .filter(([key, value]) => key !== "__typename" && parseInt(value, 10) > 0)
+              .map(([key, value]) => (
+                <ListItem key={key} className={classes.traitListItem}>
+                  <ListItemText
+                    primary={TRAIT_NAME_MAP[key]}
+                    secondary={TRAIT_VALUE_MAP[value] ?? value}
+                    className={classes.traitListText}
+                  />
+                </ListItem>
+              ))}
           </List>
         </CardContent>
       </Collapse>

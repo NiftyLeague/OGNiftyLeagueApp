@@ -1,5 +1,23 @@
+type Contract @entity {
+  id: ID!
+  address: Bytes!
+  totalSupply: BigInt!
+}
+
+type Character @entity {
+  id: ID!
+  tokenId: BigInt!
+  owner: Owner!
+  name: String
+  nameHistory: [String!]
+  createdAt: BigInt!
+  transactionHash: String!
+  traits: Traits!
+}
+
 type Traits @entity {
   id: ID!
+  character: Character! @derivedFrom(field: "traits")
   tribe: Int!
   skinColor: Int!
   furColor: Int!
@@ -24,16 +42,6 @@ type Traits @entity {
   neckwear: Int!
   leftItem: Int!
   rightItem: Int!
-}
-
-type Character @entity {
-  id: ID!
-  owner: Owner!
-  name: String
-  nameHistory: [String!]
-  createdAt: BigInt!
-  transactionHash: String!
-  traits: Traits!
 }
 
 type Owner @entity {
