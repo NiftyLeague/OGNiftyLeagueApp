@@ -1,6 +1,6 @@
 import { Address, BigInt, log } from "@graphprotocol/graph-ts";
 import { NiftyDegen, Transfer, NameUpdated } from "../generated/NiftyDegen/NiftyDegen";
-import { Character, Owner, Traits } from "../generated/schema";
+import { Character, Contract, Owner, Traits } from "../generated/schema";
 
 export function handleTransfer(event: Transfer): void {
   // Bind the contract to the address that emitted the event
@@ -32,6 +32,7 @@ export function handleTransfer(event: Transfer): void {
 
   if (character === null) {
     character = new Character(tokenId);
+    character.tokenId = event.params.tokenId;
     character.name = contract.getName(event.params.tokenId);
     character.owner = toString;
     character.createdAt = event.block.timestamp;
@@ -67,9 +68,15 @@ export function handleTransfer(event: Transfer): void {
     character.owner = toString;
   }
 
+  let contractEntity = Contract.load(event.address.toHexString());
+  if (contractEntity === null) contractEntity = new Contract(event.address.toHexString());
+  contractEntity.address = event.address;
+  contractEntity.totalSupply = contract.totalSupply();
+
   newOwner.save();
   traits.save();
   character.save();
+  contractEntity.save();
 }
 
 export function handleCharacterNameChange(event: NameUpdated): void {
@@ -80,7 +87,8 @@ export function handleCharacterNameChange(event: NameUpdated): void {
 
   let character = Character.load(tokenId);
   character.name = newName;
-  character.nameHistory.push(previousName);
-  character.nameHistory = character.nameHistory;
+  let nameHistory = character.nameHistory;
+  nameHistory.push(previousName);
+  character.nameHistory = nameHistory;
   character.save();
 }

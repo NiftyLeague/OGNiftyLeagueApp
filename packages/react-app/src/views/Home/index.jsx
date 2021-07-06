@@ -26,14 +26,14 @@ import "./home.css";
 const { Title } = Typography;
 
 const unityContext = new UnityContext({
-  loaderUrl: "characterBuild/0.6.11.loader.js",
-  dataUrl: "characterBuild/0.6.11.data",
-  frameworkUrl: "characterBuild/0.6.11.framework.js",
-  codeUrl: "characterBuild/0.6.11.wasm",
+  loaderUrl: "characterBuild/0.7.1.loader.js",
+  dataUrl: "characterBuild/0.7.1.data.unityweb",
+  frameworkUrl: "characterBuild/0.7.1.framework.js.unityweb",
+  codeUrl: "characterBuild/0.7.1.wasm.unityweb",
   streamingAssetsUrl: "StreamingAssets",
   companyName: "NiftyLeague",
   productName: "NiftyCharacterCreator",
-  productVersion: "0.6.11",
+  productVersion: "0.7.1",
 });
 
 window.unityInstance = unityContext;
@@ -51,7 +51,7 @@ const Home = memo(({ address, localProvider, readContracts, setRoute, tx, writeC
   useEffect(() => {
     if (removedTraitsCallback.current) {
       console.log("======== removedTraits ========", removedTraits);
-      removedTraitsCallback.current(JSON.stringify(removedTraits));
+      removedTraitsCallback.current(JSON.stringify([removedTraits]));
     }
   }, [removedTraits, refreshKey]);
 
@@ -75,12 +75,13 @@ const Home = memo(({ address, localProvider, readContracts, setRoute, tx, writeC
 
   const mintCharacter = useCallback(
     async e => {
-      console.log("mintCharacter detail", e, e.detail);
       const { character, head, clothing, accessories, items } = getMintableTraits(e.detail);
       const value = "" + parseFloat(nftPrice) * 10 ** 18;
       tx(writeContracts[NFT_CONTRACT].purchase(character, head, clothing, accessories, items, { value }));
-      e.detail.callback("true");
-      setRefreshKey(Math.random());
+      setTimeout(() => {
+        e.detail.callback("true");
+        setRefreshKey(Math.random());
+      }, 3000);
     },
     [writeContracts, tx, nftPrice],
   );

@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState } from "react";
 import {
   Accordion,
   AccordionDetails,
@@ -18,7 +18,34 @@ import {
 } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import FilterListIcon from "@material-ui/icons/FilterList";
-import { INITIAL_FILTER_STATE, TRIBES, NAMES, MenuProps } from "./constants";
+import {
+  INITIAL_FILTER_STATE,
+  MenuProps,
+  TRIBES,
+  SKIN_COLORS,
+  FUR_COLORS,
+  EYE_COLORS,
+  PUPIL_COLORS,
+  HAIR,
+  MOUTH,
+  BEARDS,
+  FACEMARK,
+  MISC,
+  TOPS,
+  OUTERWEAR,
+  PRINTS,
+  BOTTOMS,
+  FOOTWEAR,
+  BELTS,
+  HATS,
+  EYEWEAR,
+  PIERCINGS,
+  WRIST,
+  HANDS,
+  NECKWEAR,
+  LEFT_ITEMS,
+  RIGHT_ITEMS,
+} from "./constants";
 import { useStyles, getMenuItemStyles } from "./styles";
 import "./characters.css";
 
@@ -42,9 +69,9 @@ const MultiSelect = ({ label, selectedOptions, setSelectedOptions, options }) =>
           </div>
         )}
       >
-        {options.map(name => (
-          <MenuItem key={name} value={name} style={getMenuItemStyles(name, selectedOptions)}>
-            {name}
+        {Object.entries(options).map(([key, value]) => (
+          <MenuItem key={key} value={key} style={getMenuItemStyles(key, selectedOptions)}>
+            {value}
           </MenuItem>
         ))}
       </Select>
@@ -82,12 +109,9 @@ const CustomSearchInput = ({ clearFilters, expandFilters, filterActive, search, 
   );
 };
 
-const CharactersFilter = () => {
+const CharactersFilter = ({ filterActive, filterState, search, setFilterState, setSearch }) => {
   const classes = useStyles();
-  const [search, setSearch] = useState("");
   const [expanded, setExpanded] = useState(false);
-  const [filterState, setFilterState] = useState(INITIAL_FILTER_STATE);
-  const filterActive = useMemo(() => Object.values(filterState).some(v => v.length), [filterState]);
 
   const handleFilterStateUpdate = (key, values) => {
     setFilterState(prevState => ({ ...prevState, [key]: values }));
@@ -129,139 +153,139 @@ const CharactersFilter = () => {
             label="Skin Color"
             selectedOptions={filterState.skinColor}
             setSelectedOptions={values => handleFilterStateUpdate("skinColor", values)}
-            options={NAMES}
+            options={SKIN_COLORS}
           />
           <MultiSelect
-            label="2nd Skin Color"
+            label="Fur Color"
             selectedOptions={filterState.furColor}
             setSelectedOptions={values => handleFilterStateUpdate("furColor", values)}
-            options={NAMES}
+            options={FUR_COLORS}
           />
           <MultiSelect
             label="Eye Color"
             selectedOptions={filterState.eyeColor}
             setSelectedOptions={values => handleFilterStateUpdate("eyeColor", values)}
-            options={NAMES}
+            options={EYE_COLORS}
           />
           <MultiSelect
-            label="2nd Eye Color"
+            label="Pupil Color"
             selectedOptions={filterState.pupilColor}
             setSelectedOptions={values => handleFilterStateUpdate("pupilColor", values)}
-            options={NAMES}
+            options={PUPIL_COLORS}
           />
           <MultiSelect
             label="Hair"
             selectedOptions={filterState.hair}
             setSelectedOptions={values => handleFilterStateUpdate("hair", values)}
-            options={NAMES}
+            options={HAIR}
           />
           <MultiSelect
             label="Mouth"
             selectedOptions={filterState.mouth}
             setSelectedOptions={values => handleFilterStateUpdate("mouth", values)}
-            options={NAMES}
+            options={MOUTH}
           />
           <MultiSelect
             label="Beard"
             selectedOptions={filterState.beard}
             setSelectedOptions={values => handleFilterStateUpdate("beard", values)}
-            options={NAMES}
+            options={BEARDS}
           />
           <MultiSelect
             label="Facemark"
             selectedOptions={filterState.facemark}
             setSelectedOptions={values => handleFilterStateUpdate("facemark", values)}
-            options={NAMES}
+            options={FACEMARK}
           />
           <MultiSelect
-            label="Misc"
+            label="Misc."
             selectedOptions={filterState.misc}
             setSelectedOptions={values => handleFilterStateUpdate("misc", values)}
-            options={NAMES}
+            options={MISC}
           />
           <MultiSelect
             label="Top"
             selectedOptions={filterState.top}
             setSelectedOptions={values => handleFilterStateUpdate("top", values)}
-            options={NAMES}
+            options={TOPS}
           />
           <MultiSelect
             label="Outerwear"
             selectedOptions={filterState.outerwear}
             setSelectedOptions={values => handleFilterStateUpdate("outerwear", values)}
-            options={NAMES}
+            options={OUTERWEAR}
           />
           <MultiSelect
             label="Top Print"
             selectedOptions={filterState.print}
             setSelectedOptions={values => handleFilterStateUpdate("print", values)}
-            options={NAMES}
+            options={PRINTS}
           />
           <MultiSelect
             label="Bottom"
             selectedOptions={filterState.bottom}
             setSelectedOptions={values => handleFilterStateUpdate("bottom", values)}
-            options={NAMES}
+            options={BOTTOMS}
           />
           <MultiSelect
             label="Footwear"
             selectedOptions={filterState.footwear}
             setSelectedOptions={values => handleFilterStateUpdate("footwear", values)}
-            options={NAMES}
+            options={FOOTWEAR}
           />
           <MultiSelect
             label="Belt"
             selectedOptions={filterState.belt}
             setSelectedOptions={values => handleFilterStateUpdate("belt", values)}
-            options={NAMES}
+            options={BELTS}
           />
           <MultiSelect
             label="Hat"
             selectedOptions={filterState.hat}
             setSelectedOptions={values => handleFilterStateUpdate("hat", values)}
-            options={NAMES}
+            options={HATS}
           />
           <MultiSelect
             label="Eyewear"
             selectedOptions={filterState.eyewear}
             setSelectedOptions={values => handleFilterStateUpdate("eyewear", values)}
-            options={NAMES}
+            options={EYEWEAR}
           />
           <MultiSelect
             label="Piercings"
             selectedOptions={filterState.piercings}
             setSelectedOptions={values => handleFilterStateUpdate("piercings", values)}
-            options={NAMES}
+            options={PIERCINGS}
           />
           <MultiSelect
             label="Wrists"
             selectedOptions={filterState.wrists}
             setSelectedOptions={values => handleFilterStateUpdate("wrists", values)}
-            options={NAMES}
+            options={WRIST}
           />
           <MultiSelect
             label="Hands"
             selectedOptions={filterState.hands}
             setSelectedOptions={values => handleFilterStateUpdate("hands", values)}
-            options={NAMES}
+            options={HANDS}
           />
           <MultiSelect
             label="Neckwear"
             selectedOptions={filterState.neckwear}
             setSelectedOptions={values => handleFilterStateUpdate("neckwear", values)}
-            options={NAMES}
+            options={NECKWEAR}
           />
           <MultiSelect
             label="Left Item"
             selectedOptions={filterState.leftItem}
             setSelectedOptions={values => handleFilterStateUpdate("leftItem", values)}
-            options={NAMES}
+            options={LEFT_ITEMS}
           />
           <MultiSelect
             label="Right Item"
             selectedOptions={filterState.rightItem}
             setSelectedOptions={values => handleFilterStateUpdate("rightItem", values)}
-            options={NAMES}
+            options={RIGHT_ITEMS}
           />
         </AccordionDetails>
       </Accordion>
