@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 const objectify = array => {
   return array.reduce((p, c) => {
     // eslint-disable-next-line prefer-destructuring, no-param-reassign

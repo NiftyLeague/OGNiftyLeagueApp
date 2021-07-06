@@ -1,11 +1,10 @@
 specVersion: 0.0.2
-environment: ${file(env.yml):test.network}
 schema:
   file: ./src/schema.graphql
 dataSources:
   - kind: ethereum/contract
     name: NiftyDegen
-    network: self.environment
+    network: "{{network}}"
     source:
       address: "{{NiftyDegenAddress}}"
       abi: NiftyDegen
@@ -19,10 +18,10 @@ dataSources:
         - Owner
       abis:
         - name: NiftyDegen
-          file: ./abis/${self.environment}/NiftyDegen.json
+          file: ./abis/{{network}}/NiftyDegen.json
       eventHandlers:
-        - event: CharacterGenerated(indexed uint256,uint256,address)
-          handler: handleCharacterGenerated
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
+        - event: NameUpdated(indexed uint256,string,string)
+          handler: handleCharacterNameChange
       file: ./src/mapping.ts

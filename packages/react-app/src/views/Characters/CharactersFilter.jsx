@@ -133,8 +133,8 @@ const CharactersFilter = () => {
           />
           <MultiSelect
             label="2nd Skin Color"
-            selectedOptions={filterState.secondarySkinColor}
-            setSelectedOptions={values => handleFilterStateUpdate("secondarySkinColor", values)}
+            selectedOptions={filterState.furColor}
+            setSelectedOptions={values => handleFilterStateUpdate("furColor", values)}
             options={NAMES}
           />
           <MultiSelect
@@ -145,8 +145,8 @@ const CharactersFilter = () => {
           />
           <MultiSelect
             label="2nd Eye Color"
-            selectedOptions={filterState.secondaryEyeColor}
-            setSelectedOptions={values => handleFilterStateUpdate("secondaryEyeColor", values)}
+            selectedOptions={filterState.pupilColor}
+            setSelectedOptions={values => handleFilterStateUpdate("pupilColor", values)}
             options={NAMES}
           />
           <MultiSelect
@@ -168,9 +168,9 @@ const CharactersFilter = () => {
             options={NAMES}
           />
           <MultiSelect
-            label="Facemarks"
-            selectedOptions={filterState.facemarks}
-            setSelectedOptions={values => handleFilterStateUpdate("facemarks", values)}
+            label="Facemark"
+            selectedOptions={filterState.facemark}
+            setSelectedOptions={values => handleFilterStateUpdate("facemark", values)}
             options={NAMES}
           />
           <MultiSelect
@@ -193,8 +193,8 @@ const CharactersFilter = () => {
           />
           <MultiSelect
             label="Top Print"
-            selectedOptions={filterState.topPrint}
-            setSelectedOptions={values => handleFilterStateUpdate("topPrint", values)}
+            selectedOptions={filterState.print}
+            setSelectedOptions={values => handleFilterStateUpdate("print", values)}
             options={NAMES}
           />
           <MultiSelect

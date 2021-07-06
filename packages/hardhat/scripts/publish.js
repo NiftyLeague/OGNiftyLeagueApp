@@ -14,7 +14,7 @@ function publishContract(contractName) {
       .toString();
     const address = fs.readFileSync(`${config.paths.artifacts}/${contractName}.address`).toString();
     contract = JSON.parse(contract);
-    const graphConfigPath = `${graphDir}/config/config${targetNetwork === "localhost" ? "dev" : ""}.json`;
+    const graphConfigPath = `${graphDir}/config/config${targetNetwork === "localhost" ? ".dev" : ""}.json`;
     let graphConfig;
     try {
       if (fs.existsSync(graphConfigPath)) {
@@ -28,6 +28,7 @@ function publishContract(contractName) {
 
     graphConfig = JSON.parse(graphConfig);
     graphConfig[contractName + "Address"] = address;
+    graphConfig.network = targetNetwork;
     fs.writeFileSync(`${publishDir}/${targetNetwork}/${contractName}.address.js`, `module.exports = "${address}";`);
     fs.writeFileSync(
       `${publishDir}/${targetNetwork}/${contractName}.abi.js`,
@@ -38,7 +39,7 @@ function publishContract(contractName) {
       `module.exports = "${contract.bytecode}";`,
     );
 
-    const folderPath = graphConfigPath.replace(`config${targetNetwork === "localhost" ? "dev" : ""}.json`, "");
+    const folderPath = graphConfigPath.replace(`config${targetNetwork === "localhost" ? ".dev" : ""}.json`, "");
     if (!fs.existsSync(folderPath)) {
       fs.mkdirSync(folderPath);
     }
@@ -63,7 +64,7 @@ async function main() {
   if (fs.existsSync(`${publishDir}/${targetNetwork}`)) {
     fs.rmdirSync(`${publishDir}/${targetNetwork}`, { recursive: true });
   }
-  if (!fs.existsSync(`${graphDir}/abis}`)) fs.mkdirSync(`${graphDir}/abis`);
+  if (!fs.existsSync(`${graphDir}/abis`)) fs.mkdirSync(`${graphDir}/abis`);
   if (fs.existsSync(`${graphDir}/abis/${targetNetwork}`)) {
     fs.rmdirSync(`${graphDir}/abis/${targetNetwork}`, { recursive: true });
   }

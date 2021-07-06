@@ -19,14 +19,40 @@ const highlight = {
 
 const CHARACTERS_QUERY = `
   {
-    characters {
+    characters (orderBy: createdAt) {
       id
       owner {
         id
         address
       }
-      traits
+      traits {
+        tribe
+        skinColor
+        furColor
+        eyeColor
+        pupilColor
+        hair
+        mouth
+        beard
+        facemark
+        misc
+        top
+        outerwear
+        print
+        bottom
+        footwear
+        belt
+        hat
+        eyewear
+        piercings
+        wrists
+        hands
+        neckwear
+        leftItem
+        rightItem
+      }
       name
+      nameHistory
       createdAt
       transactionHash
     }
@@ -34,11 +60,36 @@ const CHARACTERS_QUERY = `
       id
       address
       createdAt
+      characterCount
       characters {
         id
-        traits
+        traits {
+          tribe
+          skinColor
+          furColor
+          eyeColor
+          pupilColor
+          hair
+          mouth
+          beard
+          facemark
+          misc
+          top
+          outerwear
+          print
+          bottom
+          footwear
+          belt
+          hat
+          eyewear
+          piercings
+          wrists
+          hands
+          neckwear
+          leftItem
+          rightItem
+        }
       }
-      characterCount
     }
   }
   `;
@@ -72,7 +123,10 @@ function Subgraph({ mainnetProvider, readContracts, subgraphUri, tx, writeContra
       title: "Traits",
       key: "traits",
       dataIndex: "traits",
-      render: traits => traits.split(","),
+      render: traits =>
+        Object.entries(traits)
+          .map(([key, value]) => (key !== "__typename" ? `${key}: ${value} \n` : ""))
+          .toString(),
     },
   ];
 
