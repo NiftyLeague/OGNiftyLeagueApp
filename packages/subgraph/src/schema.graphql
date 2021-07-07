@@ -12,11 +12,12 @@ type Character @entity {
   nameHistory: [String!]
   createdAt: BigInt!
   transactionHash: String!
-  traits: Traits!
+  traits: TraitMap!
 }
 
-type Traits @entity {
+type TraitMap @entity {
   id: ID!
+  tokenId: BigInt!
   character: Character! @derivedFrom(field: "traits")
   tribe: Int!
   skinColor: Int!

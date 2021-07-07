@@ -7,7 +7,7 @@ import Container from "@material-ui/core/Container";
 
 import Preloader from "components/Preloader";
 import SaleProgress from "components/SaleProgress";
-import { useEventListener, useNFTPrice, useRemovedTraits } from "hooks";
+import { useNFTPrice, useRemovedTraits } from "hooks";
 
 import CharacterBGImg from "assets/images/backgrounds/character_creator.png";
 import VideoBGImg from "assets/images/games/nifty-smashers.png";
@@ -39,7 +39,7 @@ const unityContext = new UnityContext({
 window.unityInstance = unityContext;
 window.unityInstance.SendMessage = unityContext.send;
 
-const Home = memo(({ address, localProvider, readContracts, setRoute, tx, writeContracts }) => {
+const Home = memo(({ address, readContracts, setRoute, tx, writeContracts }) => {
   const [isLoaded, setLoaded] = useState(false);
   const [isVideoOpen, setVideoOpen] = useState(false);
   const removedTraitsCallback = useRef();
@@ -54,10 +54,6 @@ const Home = memo(({ address, localProvider, readContracts, setRoute, tx, writeC
       removedTraitsCallback.current(JSON.stringify([removedTraits]));
     }
   }, [removedTraits, refreshKey]);
-
-  // 📟 Listen for broadcast events
-  const characterMintEvents = useEventListener(readContracts, NFT_CONTRACT, "CharacterGenerated", localProvider, 1);
-  console.log("characterMintEvents", characterMintEvents);
 
   const startAuthentication = useCallback(
     e => {
