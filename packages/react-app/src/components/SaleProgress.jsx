@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
     margin: "0 auto",
   },
   popper: {
-    marginLeft: 5,
+    marginLeft: -15,
     marginBottom: 5,
   },
   message: { width: "95%" },
