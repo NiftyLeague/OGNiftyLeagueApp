@@ -148,7 +148,7 @@ export const FUR_COLORS = {
   77: "Blueberry Buckle Ape Fur",
   78: "Allegiance Ape Fur",
   79: "Gentle Doe Ape Fur",
-  80: "Pink Macaroon Ape Fur",
+  80: "Canary Island Ape Fur",
   81: "Signal Pink Ape Fur",
   82: "White Ape Fur",
   83: "Sparky Blue Ape Fur",
@@ -158,7 +158,7 @@ export const FUR_COLORS = {
   // Human
   // Doge
   87: "White Doge Fur",
-  88: "Pink Macaroon Doge Fur",
+  88: "Canary Island Doge Fur",
   89: "Icy Brook Doge Fur",
   90: "Blueberry Buckle Doge Fur",
   91: "Sweet Curry Doge Fur",
@@ -297,48 +297,56 @@ export const FOOTWEAR = {
   278: "Shoes Space Boots",
   279: "Shoes Work Boots",
 };
-export const BELTS = { 280: "Belt Simple" };
+export const BELTS = { 280: "Belt Simple", 281: "Striped Belt", 282: "Studded Belt" };
 export const HATS = {
-  281: "Baseball Cap",
-  282: "Beanie",
-  283: "Bowler Hat",
-  284: "Construction Helmet",
-  285: "Cowboy Hat",
-  286: "Crown",
-  287: "Fish Hat",
-  288: "Hamburger",
-  289: "Helmet Viking",
-  290: "Kid Propeller Hat",
-  291: "Party Hat",
-  292: "Pirate Hat",
-  293: "Police Hat",
-  294: "Santa Hat",
-  295: "Sombrero",
-  296: "Top Hat",
-  297: "Traffic Cone",
+  283: "Baseball Cap",
+  284: "Beanie",
+  285: "Bowler Hat",
+  286: "Construction Helmet",
+  287: "Cowboy Hat",
+  288: "Crown",
+  289: "Fish Hat",
+  290: "Hamburger",
+  291: "Helmet Viking",
+  292: "Kid Propeller Hat",
+  293: "Party Hat",
+  294: "Pirate Hat",
+  295: "Police Hat",
+  296: "Santa Hat",
+  297: "Sombrero",
+  298: "Top Hat",
+  299: "Traffic Cone",
 };
 export const EYEWEAR = {
-  298: "Broken Glasses",
-  299: "Cyborg",
-  300: "Eyepatch",
-  301: "Eyepatch Skull",
-  302: "Goggles Vr",
-  303: "Monacle",
-  304: "Party Glasses",
-  305: "Rectangular Glasses",
-  306: "Steampunk Goggles",
-  307: "Sunglasses 01",
-  308: "Sunglasses 02",
-  309: "Sunglasses 03",
-  310: "Sunglasses 04",
-  311: "Visor",
+  300: "Broken Glasses",
+  301: "Cyborg",
+  302: "Eyepatch",
+  303: "Eyepatch Skull",
+  304: "Goggles Vr",
+  305: "Monacle",
+  306: "Party Glasses",
+  307: "Rectangular Glasses",
+  308: "Steampunk Goggles",
+  309: "Sunglasses 01",
+  310: "Sunglasses 02",
+  311: "Sunglasses 03",
+  312: "Sunglasses 04",
+  313: "Visor",
 };
-export const PIERCINGS = { 312: "Earring" };
-export const WRISTS = { 313: "Watch" };
-export const HANDS = { 314: "Gloves", 315: "Gloves Cooking" };
-export const NECKWEAR = { 316: "Bowtie", 317: "Necklace Gold", 318: "Tie" };
-export const LEFT_ITEMS = { 319: "Hold Left Briefcase", 320: "Hold Left Dynamite" };
-export const RIGHT_ITEMS = { 321: "Hold Right Cutlass", 322: "Hold Right Sword" };
+export const PIERCINGS = { 314: "Earring" };
+export const WRISTS = { 315: "Sweatband", 316: "Watch" };
+export const HANDS = { 317: "Gloves", 318: "Gloves Cooking" };
+export const NECKWEAR = { 319: "Bowtie", 320: "Necklace Gold", 321: "Tie" };
+export const LEFT_ITEMS = { 322: "Hold Left Briefcase", 323: "Hold Left Dynamite" };
+export const RIGHT_ITEMS = {
+  324: "Hold Right Big Sword",
+  325: "Hold Right Cutlass",
+  326: "Hold Right Guitar",
+  327: "Hold Right Keyboard",
+  328: "Hold Right Lifesaver Ring",
+  329: "Hold Right Sword",
+  330: "Hold Right Umbrella",
+};
 
 export const TRAIT_VALUE_MAP = {
   ...TRIBES,

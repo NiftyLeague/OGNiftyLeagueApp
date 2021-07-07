@@ -19,21 +19,21 @@ import HumanImg from "assets/images/characters/human.png";
 import CatImg from "assets/gifs/cat1.gif";
 import FrogImg from "assets/images/characters/frog.png";
 import SatoshiImg from "assets/images/characters/satoshi.png";
-import { NFT_CONTRACT } from "../../constants";
+import { DEBUG, NFT_CONTRACT } from "../../constants";
 import { getMintableTraits } from "./helpers";
 import "./home.css";
 
 const { Title } = Typography;
 
 const unityContext = new UnityContext({
-  loaderUrl: "characterBuild/0.7.1.loader.js",
-  dataUrl: "characterBuild/0.7.1.data.unityweb",
-  frameworkUrl: "characterBuild/0.7.1.framework.js.unityweb",
-  codeUrl: "characterBuild/0.7.1.wasm.unityweb",
+  loaderUrl: "characterBuild/0.7.2.loader.js",
+  dataUrl: "characterBuild/0.7.2.data.unityweb",
+  frameworkUrl: "characterBuild/0.7.2.framework.js.unityweb",
+  codeUrl: "characterBuild/0.7.2.wasm.unityweb",
   streamingAssetsUrl: "StreamingAssets",
   companyName: "NiftyLeague",
   productName: "NiftyCharacterCreator",
-  productVersion: "0.7.1",
+  productVersion: "0.7.2",
 });
 
 window.unityInstance = unityContext;
@@ -50,7 +50,7 @@ const Home = memo(({ address, readContracts, setRoute, tx, writeContracts }) => 
 
   useEffect(() => {
     if (removedTraitsCallback.current) {
-      console.log("======== removedTraits ========", removedTraits);
+      if (DEBUG) console.log("======== removedTraits ========", removedTraits);
       removedTraitsCallback.current(JSON.stringify([removedTraits]));
     }
   }, [removedTraits, refreshKey]);
