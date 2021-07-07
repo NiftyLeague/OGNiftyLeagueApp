@@ -1,11 +1,6 @@
 import React, { useMemo } from "react";
 import { Text, TextProps } from "rebass";
-import styled, {
-  DefaultTheme,
-  ThemeProvider as StyledComponentsThemeProvider,
-  createGlobalStyle,
-  css,
-} from "styled-components";
+import styled, { DefaultTheme, ThemeProvider as StyledComponentsThemeProvider, css } from "styled-components";
 import { Colors } from "./styled";
 
 export * from "./components";

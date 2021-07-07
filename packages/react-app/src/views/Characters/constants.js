@@ -9,33 +9,33 @@ export const MenuProps = {
   },
 };
 
-export const PAGE_SIZE = 5;
+export const PAGE_SIZE = 50;
 
 export const INITIAL_FILTER_STATE = {
   tribes: [],
-  skinColor: [],
-  furColor: [],
-  eyeColor: [],
-  pupilColor: [],
+  skinColors: [],
+  furColors: [],
+  eyeColors: [],
+  pupilColors: [],
   hair: [],
-  mouth: [],
-  beard: [],
-  facemark: [],
+  mouths: [],
+  beards: [],
+  facemarks: [],
   misc: [],
-  top: [],
+  tops: [],
   outerwear: [],
-  print: [],
-  bottom: [],
+  prints: [],
+  bottoms: [],
   footwear: [],
-  belt: [],
-  hat: [],
+  belts: [],
+  hats: [],
   eyewear: [],
   piercings: [],
   wrists: [],
   hands: [],
   neckwear: [],
-  leftItem: [],
-  rightItem: [],
+  leftItems: [],
+  rightItems: [],
 };
 
 export const TRAIT_NAME_MAP = {
@@ -47,7 +47,7 @@ export const TRAIT_NAME_MAP = {
   hair: "Hair",
   mouth: "Mouth",
   beard: "Beard",
-  facemark: "Facmark",
+  facemark: "Facemark",
   misc: "Misc.",
   top: "Top",
   outerwear: "Outerwear",
@@ -219,7 +219,7 @@ export const HAIR = {
   213: "Hair Spiky",
   214: "Hair Straight",
 };
-export const MOUTH = {
+export const MOUTHS = {
   215: "Cigarette",
   216: "Mask",
   217: "Pipe",
@@ -235,7 +235,7 @@ export const BEARDS = {
   225: "Mutton",
   226: "Van Dyke",
 };
-export const FACEMARK = { 227: "Scar 01" };
+export const FACEMARKS = { 227: "Scar 01" };
 export const MISC = { 228: "Headband", 229: "Ninja Mask" };
 export const TOPS = {
   230: "Bra",
@@ -334,7 +334,7 @@ export const EYEWEAR = {
   311: "Visor",
 };
 export const PIERCINGS = { 312: "Earring" };
-export const WRIST = { 313: "Watch" };
+export const WRISTS = { 313: "Watch" };
 export const HANDS = { 314: "Gloves", 315: "Gloves Cooking" };
 export const NECKWEAR = { 316: "Bowtie", 317: "Necklace Gold", 318: "Tie" };
 export const LEFT_ITEMS = { 319: "Hold Left Briefcase", 320: "Hold Left Dynamite" };
@@ -347,9 +347,9 @@ export const TRAIT_VALUE_MAP = {
   ...EYE_COLORS,
   ...PUPIL_COLORS,
   ...HAIR,
-  ...MOUTH,
+  ...MOUTHS,
   ...BEARDS,
-  ...FACEMARK,
+  ...FACEMARKS,
   ...MISC,
   ...TOPS,
   ...OUTERWEAR,
@@ -360,9 +360,36 @@ export const TRAIT_VALUE_MAP = {
   ...HATS,
   ...EYEWEAR,
   ...PIERCINGS,
-  ...WRIST,
+  ...WRISTS,
   ...HANDS,
   ...NECKWEAR,
   ...LEFT_ITEMS,
   ...RIGHT_ITEMS,
+};
+
+export const FILTER_STATE_MAPPING = {
+  tribes: TRIBES,
+  skinColors: SKIN_COLORS,
+  furColors: FUR_COLORS,
+  eyeColors: EYE_COLORS,
+  pupilColors: PUPIL_COLORS,
+  hair: HAIR,
+  mouths: MOUTHS,
+  beards: BEARDS,
+  facemarks: FACEMARKS,
+  misc: MISC,
+  tops: TOPS,
+  outerwear: OUTERWEAR,
+  prints: PRINTS,
+  bottoms: BOTTOMS,
+  footwear: FOOTWEAR,
+  belts: BELTS,
+  hats: HATS,
+  eyewear: EYEWEAR,
+  piercings: PIERCINGS,
+  wrists: WRISTS,
+  hands: HANDS,
+  neckwear: NECKWEAR,
+  leftItems: LEFT_ITEMS,
+  rightItems: RIGHT_ITEMS,
 };

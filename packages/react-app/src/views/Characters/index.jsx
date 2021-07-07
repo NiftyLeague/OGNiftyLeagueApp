@@ -7,7 +7,7 @@ import Pagination from "@material-ui/lab/Pagination";
 import SaleProgress from "components/SaleProgress";
 import CharactersFilter from "./CharactersFilter";
 import CharacterCard from "./CharacterCard";
-import { INITIAL_FILTER_STATE, PAGE_SIZE } from "./constants";
+import { INITIAL_FILTER_STATE, FILTER_STATE_MAPPING, PAGE_SIZE } from "./constants";
 import { DEFAULT_QUERY, FILTER_SEARCH_QUERY, ID_SEARCH_QUERY, NAME_SEARCH_QUERY } from "./queries";
 import { useStyles } from "./styles";
 
@@ -20,15 +20,30 @@ const CharactersContainer = ({ readContracts }) => {
   const [filterState, setFilterState] = useState(INITIAL_FILTER_STATE);
   const filterActive = useMemo(() => Object.values(filterState).some(v => v.length), [filterState]);
 
-  console.log("filterState", filterState);
-
   let query = DEFAULT_QUERY;
-  if (filterActive) query = FILTER_SEARCH_QUERY;
-  else if (search) query = search.match(/^\d+$/) ? ID_SEARCH_QUERY : NAME_SEARCH_QUERY;
-
+  if (search) query = search.match(/^\d+$/) ? ID_SEARCH_QUERY : NAME_SEARCH_QUERY;
   const { loading, data } = useQuery(query, {
     pollInterval: 5000,
     variables: { size: PAGE_SIZE, lastID: (page - 1) * PAGE_SIZE, search },
+  });
+
+  const filterParams = useMemo(() => {
+    const params = {};
+    if (filterActive) {
+      Object.entries(filterState).forEach(([key, values]) => {
+        params[key] = values.length ? values : ["0", ...Object.keys(FILTER_STATE_MAPPING[key])];
+      });
+      Object.entries(params).forEach(([key, values]) => {
+        params[key] = values.map(v => parseInt(v, 10));
+      });
+    }
+    return params;
+  }, [filterActive, filterState]);
+
+  const { loading: filterDataLoading, data: filterData } = useQuery(FILTER_SEARCH_QUERY, {
+    pollInterval: 5000,
+    variables: { ...filterParams },
+    skip: !filterActive,
   });
 
   const handleClose = (event, reason) => {
@@ -36,35 +51,57 @@ const CharactersContainer = ({ readContracts }) => {
     setOpen(false);
   };
 
+  const handleSearch = value => {
+    setPage(1);
+    setSearch(value);
+  };
+
+  const handleFilter = value => {
+    setPage(1);
+    setFilterState(value);
+  };
+
+  const characters = useMemo(() => {
+    if (filterData?.traitMaps) {
+      const chars = filterData.traitMaps.map(t => t.character);
+      return search ? chars.filter(c => c.name.includes(search) || c.id === search) : chars;
+    }
+    return data?.characters || [];
+  }, [data, filterData, search]);
+
+  const unfilteredSearch = data?.contracts && !filterActive;
+
   return (
     <Container style={{ padding: "40px 0" }}>
       <CharactersFilter
         filterActive={filterActive}
         filterState={filterState}
         search={search}
-        setFilterState={setFilterState}
-        setSearch={setSearch}
+        setFilterState={handleFilter}
+        setSearch={handleSearch}
       />
-      {loading ? (
+      {loading || filterDataLoading ? (
         <CircularProgress size={100} style={{ marginTop: 100 }} />
       ) : (
         <Grid container spacing={2} style={{ flexGrow: 1, margin: "8px 0px 8px -8px" }}>
-          {data?.characters?.map(character => (
+          {(unfilteredSearch
+            ? characters
+            : characters.slice((page - 1) * PAGE_SIZE, (page - 1) * PAGE_SIZE + PAGE_SIZE)
+          ).map(character => (
             <Grid item xs={6} sm={4} md={3} key={character.id}>
               <CharacterCard character={character} />
             </Grid>
           ))}
         </Grid>
       )}
-      {(data?.contracts && data.contracts[0]?.totalSupply) ||
-      (data?.characters && data.characters.length > PAGE_SIZE) ? (
+      {(unfilteredSearch && data.contracts[0]?.totalSupply) || (characters && characters.length > PAGE_SIZE) ? (
         <Pagination
           className={clsx(classes.pagination, { [classes.paginationDark]: currentTheme === "dark" })}
           color="primary"
           count={
-            data?.contracts
+            unfilteredSearch
               ? Math.ceil(data.contracts[0]?.totalSupply / PAGE_SIZE)
-              : Math.ceil(data?.characters?.length / PAGE_SIZE)
+              : Math.ceil(characters?.length / PAGE_SIZE)
           }
           onChange={(_, value) => setPage(value)}
           page={page}

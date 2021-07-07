@@ -1,6 +1,6 @@
-import { Address, BigInt, log } from "@graphprotocol/graph-ts";
+import { log } from "@graphprotocol/graph-ts";
 import { NiftyDegen, Transfer, NameUpdated } from "../generated/NiftyDegen/NiftyDegen";
-import { Character, Contract, Owner, Traits } from "../generated/schema";
+import { Character, Contract, Owner, TraitMap } from "../generated/schema";
 
 export function handleTransfer(event: Transfer): void {
   // Bind the contract to the address that emitted the event
@@ -28,7 +28,7 @@ export function handleTransfer(event: Transfer): void {
   }
 
   let character = Character.load(tokenId);
-  let traits = Traits.load(tokenId);
+  let traits = TraitMap.load(tokenId);
 
   if (character === null) {
     character = new Character(tokenId);
@@ -37,8 +37,9 @@ export function handleTransfer(event: Transfer): void {
     character.owner = toString;
     character.createdAt = event.block.timestamp;
     character.transactionHash = event.transaction.hash.toHex();
-    traits = new Traits(tokenId);
+    traits = new TraitMap(tokenId);
     let traitList = contract.getCharacterTraits(event.params.tokenId);
+    traits.tokenId = event.params.tokenId;
     traits.tribe = traitList.tribe;
     traits.skinColor = traitList.skinColor;
     traits.furColor = traitList.furColor;

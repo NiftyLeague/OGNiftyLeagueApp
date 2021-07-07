@@ -106,7 +106,6 @@ function App({ subgraphUri }) {
           <Route exact path="/">
             <Home
               address={address}
-              localProvider={localProvider}
               readContracts={readContracts}
               setRoute={setRoute}
               tx={tx}
