@@ -115,15 +115,15 @@ contract NiftyDegen is NameableCharacter {
         require(isTraitInRange(cloth[2], 247, 262), "Print incorrect");
         require(isTraitInRange(cloth[3], 263, 274), "Bottom incorrect");
         require(isTraitInRange(cloth[4], 275, 279), "Footwear incorrect");
-        require(isTraitInRange(cloth[5], 280, 280), "Belt incorrect");
-        require(isTraitInRange(acc[0], 281, 297), "Hat incorrect");
-        require(isTraitInRange(acc[1], 298, 311), "Eyewear incorrect");
-        require(isTraitInRange(acc[2], 312, 312), "Piercings incorrect");
-        require(isTraitInRange(acc[3], 313, 313), "Wist accessory incorrect");
-        require(isTraitInRange(acc[4], 314, 315), "Hand accessory incorrect");
-        require(isTraitInRange(acc[5], 316, 318), "Neckwear incorrect");
-        require(isTraitInRange(items[0], 319, 320), "Left item incorrect");
-        require(isTraitInRange(items[1], 321, 322), "Right item incorrect");
+        require(isTraitInRange(cloth[5], 280, 282), "Belt incorrect");
+        require(isTraitInRange(acc[0], 283, 299), "Hat incorrect");
+        require(isTraitInRange(acc[1], 300, 313), "Eyewear incorrect");
+        require(isTraitInRange(acc[2], 314, 314), "Piercings incorrect");
+        require(isTraitInRange(acc[3], 315, 316), "Wist accessory incorrect");
+        require(isTraitInRange(acc[4], 317, 318), "Hand accessory incorrect");
+        require(isTraitInRange(acc[5], 319, 321), "Neckwear incorrect");
+        require(isTraitInRange(items[0], 322, 323), "Left item incorrect");
+        require(isTraitInRange(items[1], 324, 330), "Right item incorrect");
 
         require(isAvailableAndAllowedTrait(tribe, char[1]), "Skin color unavailable");
         require(isAvailableAndAllowedTrait(tribe, char[2]), "Fur color unavailable");

@@ -1,6 +1,6 @@
 {
-  "AllowedTraitsStorageAddress": "0x162A433068F51e18b7d13932F27e66a3f99E6890",
-  "NFTLTokenAddress": "0x21dF544947ba3E8b3c32561399E88B52Dc8b2823",
-  "NiftyDegenAddress": "0x2E2Ed0Cfd3AD2f1d34481277b3204d807Ca2F8c2",
+  "AllowedTraitsStorageAddress": "0x51A1ceB83B83F1985a81C295d1fF28Afef186E02",
+  "NFTLTokenAddress": "0x4EE6eCAD1c2Dae9f525404De8555724e3c35d07B",
+  "NiftyDegenAddress": "0xBEc49fA140aCaA83533fB00A2BB19bDdd0290f25",
   "network": "localhost"
 }
