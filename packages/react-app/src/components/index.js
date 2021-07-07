@@ -15,4 +15,5 @@ export { default as Swap } from "./Swap";
 export { default as ThemeSwitch } from "./ThemeSwitch";
 export { default as Timeline } from "./Timeline";
 export { default as TokenBalance } from "./TokenBalance";
+export { default as Tooltip } from "./Tooltip";
 export { default as Wallet } from "./Wallet";

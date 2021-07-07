@@ -19,6 +19,7 @@ import HumanImg from "assets/images/characters/human.png";
 import CatImg from "assets/gifs/cat1.gif";
 import FrogImg from "assets/images/characters/frog.png";
 import SatoshiImg from "assets/images/characters/satoshi.png";
+import CurrentPrice from "./CurrentPrice";
 import { DEBUG, NFT_CONTRACT } from "../../constants";
 import { getMintableTraits } from "./helpers";
 import "./home.css";
@@ -64,7 +65,6 @@ const Home = memo(({ address, readContracts, setRoute, tx, writeContracts }) => 
   );
 
   const getRemovedTraits = useCallback(e => {
-    console.log("get callback", e);
     removedTraitsCallback.current = e.detail.callback;
     setRefreshKey(Math.random());
   }, []);
@@ -269,6 +269,7 @@ const Home = memo(({ address, readContracts, setRoute, tx, writeContracts }) => 
           </div>
         </div>
       </section>
+      <CurrentPrice nftPrice={nftPrice} />
       <footer style={{ padding: 20 }} />
     </div>
   );
