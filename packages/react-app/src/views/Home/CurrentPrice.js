@@ -22,7 +22,7 @@ export const useStyles = makeStyles({
   },
 });
 
-export default function CurrentPrice({ nftPrice }) {
+export default function CurrentPrice({ nftPrice, isLoaded }) {
   const classes = useStyles();
   const { currentTheme } = useThemeSwitcher();
   const [open, setOpen] = useState(true);
@@ -43,7 +43,7 @@ export default function CurrentPrice({ nftPrice }) {
         </>
       }
       onClose={handleClose}
-      open={nftPrice && open}
+      open={nftPrice && open && isLoaded}
     />
   );
 }

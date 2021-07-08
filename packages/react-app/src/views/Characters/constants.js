@@ -299,53 +299,59 @@ export const FOOTWEAR = {
 };
 export const BELTS = { 280: "Belt Simple", 281: "Striped Belt", 282: "Studded Belt" };
 export const HATS = {
-  283: "Baseball Cap",
-  284: "Beanie",
-  285: "Bowler Hat",
-  286: "Construction Helmet",
-  287: "Cowboy Hat",
-  288: "Crown",
-  289: "Fish Hat",
-  290: "Hamburger",
-  291: "Helmet Viking",
-  292: "Kid Propeller Hat",
-  293: "Party Hat",
-  294: "Pirate Hat",
-  295: "Police Hat",
-  296: "Santa Hat",
-  297: "Sombrero",
-  298: "Top Hat",
-  299: "Traffic Cone",
+  283: "Baseball Cap 01",
+  284: "Baseball Cap 02",
+  285: "Baseball Cap 03",
+  286: "Baseball Cap 04",
+  287: "Baseball Cap 05",
+  288: "Baseball Cap 06",
+  289: "Baseball Cap 07",
+  290: "Beanie",
+  291: "Bowler Hat",
+  292: "Construction Helmet",
+  293: "Cowboy Hat",
+  294: "Crown",
+  295: "Fish Hat",
+  296: "Hamburger",
+  297: "Helmet Viking",
+  298: "Kid Propeller Hat",
+  299: "Party Hat",
+  300: "Pirate Hat",
+  301: "Police Hat",
+  302: "Santa Hat",
+  303: "Sombrero",
+  304: "Top Hat",
+  305: "Traffic Cone",
 };
 export const EYEWEAR = {
-  300: "Broken Glasses",
-  301: "Cyborg",
-  302: "Eyepatch",
-  303: "Eyepatch Skull",
-  304: "Goggles Vr",
-  305: "Monacle",
-  306: "Party Glasses",
-  307: "Rectangular Glasses",
-  308: "Steampunk Goggles",
-  309: "Sunglasses 01",
-  310: "Sunglasses 02",
-  311: "Sunglasses 03",
-  312: "Sunglasses 04",
-  313: "Visor",
+  306: "Broken Glasses",
+  307: "Cyborg",
+  308: "Eyepatch",
+  309: "Eyepatch Skull",
+  310: "Goggles Vr",
+  311: "Monacle",
+  312: "Party Glasses",
+  313: "Rectangular Glasses",
+  314: "Steampunk Goggles",
+  315: "Sunglasses 01",
+  316: "Sunglasses 02",
+  317: "Sunglasses 03",
+  318: "Sunglasses 04",
+  319: "Visor",
 };
-export const PIERCINGS = { 314: "Earring" };
-export const WRISTS = { 315: "Sweatband", 316: "Watch" };
-export const HANDS = { 317: "Gloves", 318: "Gloves Cooking" };
-export const NECKWEAR = { 319: "Bowtie", 320: "Necklace Gold", 321: "Tie" };
-export const LEFT_ITEMS = { 322: "Hold Left Briefcase", 323: "Hold Left Dynamite" };
+export const PIERCINGS = { 320: "Earring" };
+export const WRISTS = { 321: "Sweatband", 322: "Watch" };
+export const HANDS = { 323: "Gloves", 324: "Gloves Cooking" };
+export const NECKWEAR = { 325: "Bowtie", 326: "Necklace Gold", 327: "Tie" };
+export const LEFT_ITEMS = { 328: "Hold Left Briefcase", 329: "Hold Left Dynamite" };
 export const RIGHT_ITEMS = {
-  324: "Hold Right Big Sword",
-  325: "Hold Right Cutlass",
-  326: "Hold Right Guitar",
-  327: "Hold Right Keyboard",
-  328: "Hold Right Lifesaver Ring",
-  329: "Hold Right Sword",
-  330: "Hold Right Umbrella",
+  330: "Hold Right Big Sword",
+  331: "Hold Right Cutlass",
+  332: "Hold Right Guitar",
+  333: "Hold Right Keyboard",
+  334: "Hold Right Lifesaver Ring",
+  335: "Hold Right Sword",
+  336: "Hold Right Umbrella",
 };
 
 export const TRAIT_VALUE_MAP = {

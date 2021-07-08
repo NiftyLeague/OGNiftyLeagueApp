@@ -182,6 +182,9 @@
 }
 
 @media (max-width: 992px) {
+  .about-page-section {
+    padding: 50px 0px 50px;
+  }
   .about-page-section .section-heading .text,
   .characters p,
   .characters a {

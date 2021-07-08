@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Image, Typography } from "antd";
+import withWidth, { isWidthDown } from "@material-ui/core/withWidth";
 import { Container } from "@material-ui/core";
 import { useThemeSwitcher } from "react-css-theme-switcher";
 import TokenDistribution from "../assets/images/token-distribution.png";
@@ -8,7 +9,7 @@ import TokenDistributionDark from "../assets/images/token-distribution-dark.png"
 
 const { Title } = Typography;
 
-export default function ({ setRoute }) {
+const About = ({ setRoute, width }) => {
   const { currentTheme } = useThemeSwitcher();
   return (
     <Container style={{ textAlign: "left", padding: "40px" }}>
@@ -91,7 +92,10 @@ export default function ({ setRoute }) {
         distributed in full over the next <strong>5 years</strong> following the allocations set below.
       </p>
       <Title level={3}>Distribution</Title>
-      <Image width={600} src={currentTheme === "dark" ? TokenDistributionDark : TokenDistribution} />
+      <Image
+        width={isWidthDown("sm", width) ? "100%" : "75%"}
+        src={currentTheme === "dark" ? TokenDistributionDark : TokenDistribution}
+      />
       <Title level={3}>Airdrop</Title>
       <p>
         We’re excited to announce that as part of our launch we will be air-dropping a total of{" "}
@@ -152,4 +156,6 @@ export default function ({ setRoute }) {
       </p>
     </Container>
   );
-}
+};
+
+export default withWidth()(About);
