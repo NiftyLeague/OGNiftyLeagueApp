@@ -64,9 +64,6 @@ a:active {
   outline: none;
 }
 
-/**
- * 5.0 - Alignments
- */
 .alignleft {
   float: left;
 }
@@ -79,4 +76,31 @@ a:active {
   clear: both;
   display: block;
   margin: 0 auto 1.75em;
+}
+
+@media (max-width: 1200px) {
+  h1 {
+    font-size: 40px !important;
+  }
+  h2 {
+    font-size: 25px !important;
+  }
+  p,
+  a,
+  button,
+  button span {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 992px) {
+  h1 {
+    font-size: 30px !important;
+  }
+  p,
+  a,
+  button,
+  button span {
+    font-size: 14px;
+  }
 }

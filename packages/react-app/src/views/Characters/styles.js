@@ -13,9 +13,6 @@ const searchStyles = {
     flex: 1,
     fontSize: 16,
   },
-  tooltip: {
-    fontSize: 16,
-  },
   iconButton: {
     padding: 10,
     " & svg": {
@@ -154,12 +151,13 @@ export const useStyles = makeStyles(theme => ({
       borderColor: "white",
     },
   },
-  snackbar: { width: "50vw" },
+  snackbar: { width: "50vw", bottom: 12 },
   [theme.breakpoints.down("md")]: {
     snackbar: { width: "75vw" },
   },
   [theme.breakpoints.down("sm")]: {
     snackbar: { width: "90vw" },
+    paper: { width: "60%" },
   },
 }));
 

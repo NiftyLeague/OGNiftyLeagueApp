@@ -1,7 +1,8 @@
 import React from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
-import { LinearProgress, Tooltip, Typography } from "@material-ui/core";
+import { LinearProgress, Typography } from "@material-ui/core";
+import { Tooltip } from "antd";
 import MuiAlert from "@material-ui/lab/Alert";
 import { useContractReader } from "hooks";
 import { NFT_CONTRACT, TOTAL_SUPPLY_INTERVAL } from "../constants";
@@ -16,10 +17,6 @@ const useStyles = makeStyles(theme => ({
   alert: {
     width: "100%",
     margin: "0 auto",
-  },
-  popper: {
-    marginLeft: -15,
-    marginBottom: 5,
   },
   message: { width: "95%" },
   progressLabels: { width: "10%" },
@@ -68,7 +65,7 @@ export default function SaleProgress({ readContracts, handleClose }) {
           <div className={classes.col0}>NFTs:</div>
           <div className={classes.col0}>ETH:</div>
         </div>
-        <Tooltip title={`${progress ?? 0}/4900 NTFs sold`} placement="top-start" classes={{ popper: classes.popper }}>
+        <Tooltip title={`${progress ?? 0}/4900 NTFs sold`} placement="topLeft">
           <div className={classes.progress}>
             <div className="row d-flex flex-nowrap">
               <div className={classes.col1}>500</div>

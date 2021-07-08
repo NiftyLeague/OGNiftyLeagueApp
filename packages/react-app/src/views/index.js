@@ -6,3 +6,4 @@ export { default as Home } from "./Home";
 export { default as NotFound } from "./NotFound";
 export { default as Staking } from "./Staking";
 export { default as Subgraph } from "./Subgraph";
+export { default as Wallet } from "./Wallet";

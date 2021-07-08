@@ -54,14 +54,19 @@ const navItems = setRoute => [
       About
     </Link>
   </Menu.Item>,
-  <Menu.Item key="/characters">
-    <Link onClick={() => setRoute("/characters")} to="/characters">
-      Characters
-    </Link>
-  </Menu.Item>,
   <Menu.Item key="/games">
     <Link onClick={() => setRoute("/games")} to="/games">
       Games
+    </Link>
+  </Menu.Item>,
+  <Menu.Item key="/degens">
+    <Link onClick={() => setRoute("/degens")} to="/degens">
+      Degens
+    </Link>
+  </Menu.Item>,
+  <Menu.Item key="/wallet">
+    <Link onClick={() => setRoute("/wallet")} to="/wallet">
+      Wallet
     </Link>
   </Menu.Item>,
   <Menu.Item key="/staking">

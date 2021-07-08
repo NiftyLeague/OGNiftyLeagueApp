@@ -6,7 +6,7 @@ import { useThemeSwitcher } from "react-css-theme-switcher";
 import { ScrollToTop, useContractLoader, useGasPrice, useUserProvider } from "./hooks";
 import { Contract, Faucet, Navigation, ThemeSwitch } from "./components";
 import { Notifier } from "./helpers";
-import { About, Characters, Games, Hints, Home, Staking, Subgraph, NotFound } from "./views";
+import { About, Characters, Games, Hints, Home, NotFound, Staking, Subgraph, Wallet } from "./views";
 import { ALCHEMY_ID, DEBUG, ETHERSCAN_KEY, INFURA_ID, NETWORKS, NFT_CONTRACT } from "./constants";
 import "./App.css";
 
@@ -34,6 +34,7 @@ function App({ subgraphUri }) {
   // Use your injected provider from 🦊 Metamask or if you don't have it then instantly generate a 🔥 burner wallet.
   const userProvider = useUserProvider(injectedProvider, localProvider);
   const address = useUserAddress(userProvider);
+  const validAccount = userProvider?.provider?.isMetaMask;
 
   // You can warn the user if you would like them to be on a specific network
   const localChainId = localProvider?._network?.chainId;
@@ -115,14 +116,17 @@ function App({ subgraphUri }) {
           <Route exact path="/about">
             <About setRoute={setRoute} />
           </Route>
-          <Route exact path="/characters">
+          <Route exact path="/games">
+            <Games address={address} validAccount={validAccount} />
+          </Route>
+          <Route exact path="/degens">
             <Characters readContracts={readContracts} />
           </Route>
-          <Route exact path="/games">
-            <Games address={address} userProvider={userProvider} />
+          <Route exact path="/wallet">
+            <Wallet validAccount={validAccount} />
           </Route>
           <Route exact path="/staking">
-            <Staking />
+            <Staking validAccount={validAccount} />
           </Route>
           {DEBUG && (
             <>

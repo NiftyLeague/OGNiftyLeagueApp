@@ -35,9 +35,9 @@ export default function ({ setRoute }) {
         <strong>4900</strong> of which are hand-selected by members of our community based on the available traits and
         accessories. The remaining <strong>100</strong> spots are set aside for our team to mint special characters that
         will be given away for free as future community incentives! Going forward as our platform grows, we plan on
-        launching cross-chain including BSC and FTM to allow users to battle other communities. <strong>50%</strong> of
-        all proceeds from future platform character sales will be used to buy back our token and distributed to Ethereum
-        NFT holders at the time of collecting.
+        launching cross-chain including <strong>BSC</strong> and <strong>FTM</strong> to allow users to battle other
+        communities. <strong>50%</strong> of all proceeds from future platform character sales will be used to buy back
+        our token and distributed to Ethereum NFT holders at the time of collecting.
       </p>
       <Title level={3}>Character Classes</Title>
       <p>
@@ -107,9 +107,11 @@ export default function ({ setRoute }) {
         along with the purchase of each NFT. This includes the <strong>100</strong> special characters we set aside and
         will distribute along with the <strong>NFTL</strong> tokens. This brings the initial supply to around{" "}
         <strong>125M</strong> with an incentivized <strong>NFTL/ETH</strong>{" "}
-        <a target="_blank" rel="noopener noreferrer" href="https://sushi.com">
-          SushiSwap
-        </a>{" "}
+        <strong>
+          <a target="_blank" rel="noopener noreferrer" href="https://sushi.com">
+            SushiSwap
+          </a>
+        </strong>{" "}
         liquidity pool and daily emissions for all NFT owners starting shortly after the character sale.
       </p>
       <Title level={3}>Emissions</Title>
@@ -118,9 +120,11 @@ export default function ({ setRoute }) {
         <strong>"NFT NAME"</strong> owners. There is no need to stake your NFT, just sit back and watch your NFTL
         accumulate which you can claim on our website at any time. In order to bootstrap our project and create a
         tradable market, we will also emit <strong>25%</strong> of the supply to incentivize initial liquidity mining on{" "}
-        <a target="_blank" rel="noopener noreferrer" href="https://sushi.com">
-          SushiSwap
-        </a>{" "}
+        <strong>
+          <a target="_blank" rel="noopener noreferrer" href="https://sushi.com">
+            SushiSwap
+          </a>
+        </strong>{" "}
         for <strong>5 months</strong> following launch.
       </p>
       <Title level={3}>Reserves</Title>
