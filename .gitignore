@@ -14,6 +14,7 @@ packages/hardhat/examples
 docker/**/data
 
 packages/subgraph/config/config.json
+packages/subgraph/config/config.dev.json
 tenderly.yaml
 
 # dependencies

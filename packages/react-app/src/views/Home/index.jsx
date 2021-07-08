@@ -27,14 +27,14 @@ import "./home.css";
 const { Title } = Typography;
 
 const unityContext = new UnityContext({
-  loaderUrl: "characterBuild/0.7.2.loader.js",
-  dataUrl: "characterBuild/0.7.2.data.unityweb",
-  frameworkUrl: "characterBuild/0.7.2.framework.js.unityweb",
-  codeUrl: "characterBuild/0.7.2.wasm.unityweb",
+  loaderUrl: "characterBuild/0.8.1.loader.js",
+  dataUrl: "characterBuild/0.8.1.data.unityweb",
+  frameworkUrl: "characterBuild/0.8.1.framework.js.unityweb",
+  codeUrl: "characterBuild/0.8.1.wasm.unityweb",
   streamingAssetsUrl: "StreamingAssets",
   companyName: "NiftyLeague",
   productName: "NiftyCharacterCreator",
-  productVersion: "0.7.2",
+  productVersion: "0.8.1",
 });
 
 window.unityInstance = unityContext;
@@ -84,8 +84,8 @@ const Home = memo(({ address, readContracts, setRoute, tx, writeContracts }) => 
 
   useEffect(() => {
     if (removedTraitsCallback.current) {
-      if (DEBUG) console.log("======== removedTraits ========", removedTraits);
-      removedTraitsCallback.current(JSON.stringify([removedTraits]));
+      if (DEBUG) console.log("======== removedTraits ========", JSON.stringify(removedTraits));
+      removedTraitsCallback.current(JSON.stringify(removedTraits));
     }
   }, [removedTraits, refreshKey]);
 
@@ -107,10 +107,7 @@ const Home = memo(({ address, readContracts, setRoute, tx, writeContracts }) => 
       const { character, head, clothing, accessories, items } = getMintableTraits(e.detail);
       const value = "" + parseFloat(nftPrice) * 10 ** 18;
       tx(writeContracts[NFT_CONTRACT].purchase(character, head, clothing, accessories, items, { value }));
-      setTimeout(() => {
-        e.detail.callback("true");
-        setRefreshKey(Math.random());
-      }, 3000);
+      setTimeout(() => e.detail.callback("true"), 3000);
     },
     [writeContracts, tx, nftPrice],
   );
@@ -309,7 +306,7 @@ const Home = memo(({ address, readContracts, setRoute, tx, writeContracts }) => 
           </div>
         </div>
       </section>
-      <CurrentPrice nftPrice={nftPrice} />
+      <CurrentPrice nftPrice={nftPrice} isLoaded={isLoaded} />
       <footer style={{ padding: 20 }} />
     </div>
   );
