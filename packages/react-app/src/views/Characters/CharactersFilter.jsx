@@ -18,34 +18,7 @@ import {
 import { Tooltip } from "antd";
 import SearchIcon from "@material-ui/icons/Search";
 import FilterListIcon from "@material-ui/icons/FilterList";
-import {
-  INITIAL_FILTER_STATE,
-  MenuProps,
-  TRIBES,
-  SKIN_COLORS,
-  FUR_COLORS,
-  EYE_COLORS,
-  PUPIL_COLORS,
-  HAIR,
-  MOUTHS,
-  BEARDS,
-  FACEMARKS,
-  MISC,
-  TOPS,
-  OUTERWEAR,
-  PRINTS,
-  BOTTOMS,
-  FOOTWEAR,
-  BELTS,
-  HATS,
-  EYEWEAR,
-  PIERCINGS,
-  WRISTS,
-  HANDS,
-  NECKWEAR,
-  LEFT_ITEMS,
-  RIGHT_ITEMS,
-} from "./constants";
+import { INITIAL_FILTER_STATE, MenuProps, FILTER_STATE_MAPPING } from "./constants";
 import { useStyles, getMenuItemStyles } from "./styles";
 import "./characters.css";
 
@@ -144,145 +117,145 @@ const CharactersFilter = ({ filterActive, filterState, search, setFilterState, s
             label="Tribe"
             selectedOptions={filterState.tribes}
             setSelectedOptions={values => handleFilterStateUpdate("tribes", values)}
-            options={TRIBES}
+            options={FILTER_STATE_MAPPING.tribes}
           />
           <MultiSelect
             label="Skin Color"
             selectedOptions={filterState.skinColors}
             setSelectedOptions={values => handleFilterStateUpdate("skinColors", values)}
-            options={SKIN_COLORS}
+            options={FILTER_STATE_MAPPING.skinColors}
           />
           <MultiSelect
             label="Fur Color"
             selectedOptions={filterState.furColors}
             setSelectedOptions={values => handleFilterStateUpdate("furColors", values)}
-            options={FUR_COLORS}
+            options={FILTER_STATE_MAPPING.furColors}
           />
           <MultiSelect
             label="Eye Color"
             selectedOptions={filterState.eyeColors}
             setSelectedOptions={values => handleFilterStateUpdate("eyeColors", values)}
-            options={EYE_COLORS}
+            options={FILTER_STATE_MAPPING.eyeColors}
           />
           <MultiSelect
             label="Pupil Color"
             selectedOptions={filterState.pupilColors}
             setSelectedOptions={values => handleFilterStateUpdate("pupilColors", values)}
-            options={PUPIL_COLORS}
+            options={FILTER_STATE_MAPPING.pupilColors}
           />
           <MultiSelect
             label="Hair"
             selectedOptions={filterState.hair}
             setSelectedOptions={values => handleFilterStateUpdate("hair", values)}
-            options={HAIR}
+            options={FILTER_STATE_MAPPING.hair}
           />
           <MultiSelect
             label="Mouth"
             selectedOptions={filterState.mouths}
             setSelectedOptions={values => handleFilterStateUpdate("mouths", values)}
-            options={MOUTHS}
+            options={FILTER_STATE_MAPPING.mouths}
           />
           <MultiSelect
             label="Beard"
             selectedOptions={filterState.beards}
             setSelectedOptions={values => handleFilterStateUpdate("beards", values)}
-            options={BEARDS}
+            options={FILTER_STATE_MAPPING.beards}
           />
           <MultiSelect
             label="Facemark"
             selectedOptions={filterState.facemarks}
             setSelectedOptions={values => handleFilterStateUpdate("facemarks", values)}
-            options={FACEMARKS}
+            options={FILTER_STATE_MAPPING.facemarks}
           />
           <MultiSelect
             label="Misc."
             selectedOptions={filterState.misc}
             setSelectedOptions={values => handleFilterStateUpdate("misc", values)}
-            options={MISC}
+            options={FILTER_STATE_MAPPING.misc}
           />
           <MultiSelect
             label="Top"
             selectedOptions={filterState.tops}
             setSelectedOptions={values => handleFilterStateUpdate("tops", values)}
-            options={TOPS}
+            options={FILTER_STATE_MAPPING.tops}
           />
           <MultiSelect
             label="Outerwear"
             selectedOptions={filterState.outerwear}
             setSelectedOptions={values => handleFilterStateUpdate("outerwear", values)}
-            options={OUTERWEAR}
+            options={FILTER_STATE_MAPPING.outerwear}
           />
           <MultiSelect
             label="Top Print"
             selectedOptions={filterState.prints}
             setSelectedOptions={values => handleFilterStateUpdate("prints", values)}
-            options={PRINTS}
+            options={FILTER_STATE_MAPPING.prints}
           />
           <MultiSelect
             label="Bottom"
             selectedOptions={filterState.bottoms}
             setSelectedOptions={values => handleFilterStateUpdate("bottoms", values)}
-            options={BOTTOMS}
+            options={FILTER_STATE_MAPPING.bottoms}
           />
           <MultiSelect
             label="Footwear"
             selectedOptions={filterState.footwear}
             setSelectedOptions={values => handleFilterStateUpdate("footwear", values)}
-            options={FOOTWEAR}
+            options={FILTER_STATE_MAPPING.footwear}
           />
           <MultiSelect
             label="Belt"
             selectedOptions={filterState.belts}
             setSelectedOptions={values => handleFilterStateUpdate("belts", values)}
-            options={BELTS}
+            options={FILTER_STATE_MAPPING.belts}
           />
           <MultiSelect
             label="Hat"
             selectedOptions={filterState.hats}
             setSelectedOptions={values => handleFilterStateUpdate("hats", values)}
-            options={HATS}
+            options={FILTER_STATE_MAPPING.hats}
           />
           <MultiSelect
             label="Eyewear"
             selectedOptions={filterState.eyewear}
             setSelectedOptions={values => handleFilterStateUpdate("eyewear", values)}
-            options={EYEWEAR}
+            options={FILTER_STATE_MAPPING.eyewear}
           />
           <MultiSelect
             label="Piercings"
             selectedOptions={filterState.piercings}
             setSelectedOptions={values => handleFilterStateUpdate("piercings", values)}
-            options={PIERCINGS}
+            options={FILTER_STATE_MAPPING.piercings}
           />
           <MultiSelect
             label="Wrists"
             selectedOptions={filterState.wrists}
             setSelectedOptions={values => handleFilterStateUpdate("wrists", values)}
-            options={WRISTS}
+            options={FILTER_STATE_MAPPING.wrists}
           />
           <MultiSelect
             label="Hands"
             selectedOptions={filterState.hands}
             setSelectedOptions={values => handleFilterStateUpdate("hands", values)}
-            options={HANDS}
+            options={FILTER_STATE_MAPPING.hands}
           />
           <MultiSelect
             label="Neckwear"
             selectedOptions={filterState.neckwear}
             setSelectedOptions={values => handleFilterStateUpdate("neckwear", values)}
-            options={NECKWEAR}
+            options={FILTER_STATE_MAPPING.neckwear}
           />
           <MultiSelect
             label="Left Item"
             selectedOptions={filterState.leftItems}
             setSelectedOptions={values => handleFilterStateUpdate("leftItems", values)}
-            options={LEFT_ITEMS}
+            options={FILTER_STATE_MAPPING.leftItems}
           />
           <MultiSelect
             label="Right Item"
             selectedOptions={filterState.rightItems}
             setSelectedOptions={values => handleFilterStateUpdate("rightItems", values)}
-            options={RIGHT_ITEMS}
+            options={FILTER_STATE_MAPPING.rightItems}
           />
         </AccordionDetails>
       </Accordion>

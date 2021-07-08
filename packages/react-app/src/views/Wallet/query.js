@@ -1,0 +1,46 @@
+/* eslint-disable import/prefer-default-export */
+import { gql } from "@apollo/client";
+
+export const OWNER_QUERY = gql`
+  query addressCharactersSearch($address: ID!) {
+    owner(id: $address) {
+      id
+      address
+      createdAt
+      characterCount
+      characters {
+        id
+        name
+        nameHistory
+        createdAt
+        transactionHash
+        traits {
+          tribe
+          skinColor
+          furColor
+          eyeColor
+          pupilColor
+          hair
+          mouth
+          beard
+          facemark
+          misc
+          top
+          outerwear
+          print
+          bottom
+          footwear
+          belt
+          hat
+          eyewear
+          piercings
+          wrists
+          hands
+          neckwear
+          leftItem
+          rightItem
+        }
+      }
+    }
+  }
+`;
