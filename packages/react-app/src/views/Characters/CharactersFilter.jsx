@@ -12,10 +12,10 @@ import {
   InputLabel,
   MenuItem,
   Paper,
-  Tooltip,
   Select,
   Typography,
 } from "@material-ui/core";
+import { Tooltip } from "antd";
 import SearchIcon from "@material-ui/icons/Search";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import {
@@ -95,7 +95,7 @@ const CustomSearchInput = ({ clearFilters, expandFilters, filterActive, search, 
         <SearchIcon />
       </IconButton>
       <Divider className={classes.divider} orientation="vertical" />
-      <Tooltip classes={{ tooltip: classes.tooltip }} title={filterActive ? "Clear filters" : "Filter results"}>
+      <Tooltip title={filterActive ? "Clear filters" : "Filter results"} placement="bottomRight">
         <IconButton
           classes={{ root: classes.iconButton, colorPrimary: classes.iconPrimary }}
           aria-label="filter"

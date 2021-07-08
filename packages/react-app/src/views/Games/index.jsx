@@ -3,7 +3,7 @@ import Unity, { UnityContext } from "react-unity-webgl";
 import { Image, Layout, Menu, Row, Col, Card } from "antd";
 import { SportsEsports, SportsMma } from "@material-ui/icons";
 import { useThemeSwitcher } from "react-css-theme-switcher";
-import Preloader from "components/Preloader";
+import { Preloader, WalletConnectPrompt } from "components";
 import NiftySmashers from "assets/gifs/nifty-smashers.gif";
 import NiftySmashersThumb from "assets/images/characters/alien-dj.png";
 import "./games.css";
@@ -73,13 +73,12 @@ const Game = ({ address, unityContext }) => {
   );
 };
 
-export default function Games({ address, userProvider }) {
+export default function Games({ address, validAccount }) {
   const { currentTheme } = useThemeSwitcher();
   const [selectedGame, setSelectedGame] = useState("all");
   const [collapsed, setCollapsed] = useState(true);
-  const validAccount = userProvider?.provider?.isMetaMask;
 
-  return (
+  return validAccount ? (
     <Layout className="games">
       <Sider
         collapsible
@@ -115,9 +114,7 @@ export default function Games({ address, userProvider }) {
       </Sider>
       <Layout style={{ marginLeft: collapsed ? 80 : 200 }}>
         <Content style={{ ...(selectedGame === "all" && { padding: 40 }) }}>
-          {!validAccount ? (
-            <div style={{ paddingTop: 60 }}>Please connect to MetaMask</div>
-          ) : selectedGame !== "all" ? (
+          {selectedGame !== "all" ? (
             <Game address={address} unityContext={selectedGame === "nifty-smashers" && smashersContext} />
           ) : (
             <Row gutter={{ xs: 16, md: 8 }}>
@@ -143,5 +140,7 @@ export default function Games({ address, userProvider }) {
         </Content>
       </Layout>
     </Layout>
+  ) : (
+    <WalletConnectPrompt />
   );
 }

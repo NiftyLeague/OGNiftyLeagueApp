@@ -40,14 +40,47 @@ const unityContext = new UnityContext({
 window.unityInstance = unityContext;
 window.unityInstance.SendMessage = unityContext.send;
 
+const WIDTH_SCALE = 280;
+const HEIGHT_SCALE = 210;
+
+let DEFAULT_WIDTH = WIDTH_SCALE * 4;
+let DEFAULT_HEIGHT = HEIGHT_SCALE * 4;
+
+const getWindowRatio = e => {
+  const { innerWidth } = e.currentTarget;
+  let ratio = 4;
+  if (innerWidth < WIDTH_SCALE * 2) {
+    ratio = 1;
+  } else if (innerWidth < WIDTH_SCALE * 3) {
+    ratio = 2;
+  } else if (innerWidth < WIDTH_SCALE * 4) {
+    ratio = 3;
+  }
+  return ratio;
+};
+
+window.onload = e => {
+  const ratio = getWindowRatio(e);
+  DEFAULT_WIDTH = WIDTH_SCALE * ratio;
+  DEFAULT_HEIGHT = HEIGHT_SCALE * ratio;
+};
+
 const Home = memo(({ address, readContracts, setRoute, tx, writeContracts }) => {
   const [isLoaded, setLoaded] = useState(false);
   const [isVideoOpen, setVideoOpen] = useState(false);
   const removedTraitsCallback = useRef();
   const [refreshKey, setRefreshKey] = useState(0);
+  const [width, setWidth] = useState(DEFAULT_WIDTH);
+  const [height, setHeight] = useState(DEFAULT_HEIGHT);
 
   const nftPrice = useNFTPrice(readContracts);
   const removedTraits = useRemovedTraits(readContracts);
+
+  useEffect(() => {
+    setWidth(DEFAULT_WIDTH);
+    setHeight(DEFAULT_HEIGHT);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [DEFAULT_WIDTH, DEFAULT_HEIGHT]);
 
   useEffect(() => {
     if (removedTraitsCallback.current) {
@@ -95,11 +128,17 @@ const Home = memo(({ address, readContracts, setRoute, tx, writeContracts }) => 
     }
   }, []);
 
+  const reportWindowSize = useCallback(e => {
+    const ratio = getWindowRatio(e);
+    setWidth(ratio * WIDTH_SCALE);
+    setHeight(ratio * HEIGHT_SCALE);
+  }, []);
+
   useEffect(() => {
-    console.log("window", window.unityInstance);
     unityContext.on("loaded", () => setLoaded(true));
     unityContext.on("error", console.error);
     unityContext.on("canvas", element => console.log("Canvas", element));
+    window.addEventListener("resize", reportWindowSize);
     window.addEventListener("StartAuthentication", startAuthentication);
     window.addEventListener("GetRemovedTraits", getRemovedTraits);
     window.addEventListener("SubmitTraits", mintCharacter);
@@ -107,20 +146,21 @@ const Home = memo(({ address, readContracts, setRoute, tx, writeContracts }) => 
     document.addEventListener("mousemove", onMouse, false);
     return () => {
       unityContext.removeAllEventListeners();
+      window.removeEventListener("resize", reportWindowSize);
       window.removeEventListener("StartAuthentication", startAuthentication);
       window.removeEventListener("GetRemovedTraits", getRemovedTraits);
       window.removeEventListener("SubmitTraits", mintCharacter);
       document.removeEventListener("wheel", onScroll, false);
       document.removeEventListener("mousemove", onMouse, false);
     };
-  }, [mintCharacter, onMouse, onScroll, getRemovedTraits, startAuthentication]);
+  }, [mintCharacter, onMouse, onScroll, getRemovedTraits, startAuthentication, reportWindowSize]);
 
   return (
     <div style={{ textAlign: "center", overflowX: "hidden" }}>
       <Preloader ready={isLoaded} />
       <div
         style={{
-          height: 840,
+          backgroundSize: height / 21,
           backgroundImage: `url(${CharacterBGImg})`,
           backgroundRepeat: "repeat-x",
         }}
@@ -129,8 +169,8 @@ const Home = memo(({ address, readContracts, setRoute, tx, writeContracts }) => 
           className="character-canvas"
           unityContext={unityContext}
           style={{
-            width: 1120,
-            height: 840,
+            width,
+            height,
             visibility: isLoaded ? "visible" : "hidden",
           }}
         />

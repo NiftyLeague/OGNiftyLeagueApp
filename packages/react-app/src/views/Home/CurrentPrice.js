@@ -6,7 +6,7 @@ import Snackbar from "@material-ui/core/Snackbar";
 
 export const useStyles = makeStyles({
   snackbar: {
-    width: 160,
+    width: 225,
     marginBottom: -20,
     marginRight: 65,
     "& > div": {
@@ -36,7 +36,12 @@ export default function CurrentPrice({ nftPrice }) {
     <Snackbar
       anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       classes={{ root: clsx(classes.snackbar, { [classes.snackbarLight]: currentTheme === "light" }) }}
-      message={`Current Mint Price: ${nftPrice} ETH`}
+      message={
+        <>
+          <div>Current mint price: {nftPrice} ETH</div>
+          <div>*includes ~5000 NFTL tokens</div>
+        </>
+      }
       onClose={handleClose}
       open={nftPrice && open}
     />
