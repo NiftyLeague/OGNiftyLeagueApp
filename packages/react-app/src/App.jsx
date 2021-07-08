@@ -123,7 +123,7 @@ function App({ subgraphUri }) {
             <Characters readContracts={readContracts} />
           </Route>
           <Route exact path="/wallet">
-            <Wallet validAccount={validAccount} />
+            <Wallet address={address} />
           </Route>
           <Route exact path="/staking">
             <Staking validAccount={validAccount} />
