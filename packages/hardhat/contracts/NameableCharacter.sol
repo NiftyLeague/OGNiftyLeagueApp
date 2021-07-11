@@ -63,26 +63,21 @@ abstract contract NameableCharacter is NiftyLeagueCharacter {
      */
     function validateName(string memory newName) public pure returns (bool) {
         bytes memory byteName = bytes(newName);
-        if (byteName.length < 1 || byteName.length > 25) return false; // name cannot be longer than 25 characters
+        if (byteName.length < 1 || byteName.length > 32) return false; // name cannot be longer than 32 characters
         if (byteName[0] == 0x20 || byteName[byteName.length - 1] == 0x20) return false; // reject leading and trailing space
 
         bytes1 lastChar = byteName[0];
-
         for (uint256 i; i < byteName.length; i++) {
             bytes1 currentChar = byteName[i];
-
             if (currentChar == 0x20 && lastChar == 0x20) return false; // reject double spaces
-
             if (
-                !(currentChar >= 0x30 && currentChar <= 0x39) && //9-0
+                !(currentChar >= 0x30 && currentChar <= 0x39) && //0-9
                 !(currentChar >= 0x41 && currentChar <= 0x5A) && //A-Z
                 !(currentChar >= 0x61 && currentChar <= 0x7A) && //a-z
                 !(currentChar == 0x20) //space
             ) return false;
-
             lastChar = currentChar;
         }
-
         return true;
     }
 

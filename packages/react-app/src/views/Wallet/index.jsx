@@ -1,12 +1,11 @@
 import React, { useCallback, useMemo } from "react";
 import { useQuery } from "@apollo/client";
-import { MaxUint256 } from "@ethersproject/constants";
 import { Button } from "antd";
 import { makeStyles } from "@material-ui/core/styles";
 import { CircularProgress, Container, Grid, Typography } from "@material-ui/core";
 import { CharacterCard, WalletConnectPrompt } from "components";
 import { useClaimableNFTL } from "hooks";
-import { DEBUG, NFT_CONTRACT, NFTL_CONTRACT } from "../../constants";
+import { DEBUG, NFTL_CONTRACT } from "../../constants";
 import { OWNER_QUERY } from "./query";
 
 const useStyles = makeStyles(theme => ({
@@ -19,21 +18,14 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const ClaimNFTL = ({ address, tokenIndices, tx, writeContracts }) => {
+const ClaimNFTL = ({ tokenIndices, tx, writeContracts }) => {
   const classes = useStyles();
   const totalAccumulated = useClaimableNFTL(writeContracts, tokenIndices);
 
   const handleClaimNFTL = useCallback(async () => {
     if (DEBUG) console.log("claim", tokenIndices, totalAccumulated);
-    const NFTAddress = writeContracts[NFT_CONTRACT].address;
-    const allowance = await writeContracts[NFTL_CONTRACT].allowance(address, NFTAddress);
-    if (allowance < totalAccumulated) {
-      if (DEBUG) console.log("allowance", allowance);
-      await writeContracts[NFTL_CONTRACT].allowance(address, NFTAddress);
-      tx(writeContracts[NFTL_CONTRACT].approve(NFTAddress, MaxUint256));
-    }
     tx(writeContracts[NFTL_CONTRACT].claim(tokenIndices));
-  }, [address, tokenIndices, totalAccumulated, tx, writeContracts]);
+  }, [tokenIndices, totalAccumulated, tx, writeContracts]);
 
   const btnStyles = {
     verticalAlign: "top",
@@ -81,12 +73,18 @@ const Wallet = ({ address, tx, writeContracts }) => {
       ) : (
         <>
           <Typography variant="h4">Your Degens</Typography>
-          <ClaimNFTL address={address} tokenIndices={tokenIndices} tx={tx} writeContracts={writeContracts} />
+          <ClaimNFTL tokenIndices={tokenIndices} tx={tx} writeContracts={writeContracts} />
           {characters.length ? (
             <Grid container spacing={2} className={classes.grid}>
               {characters.map(character => (
                 <Grid item xs={12} sm={6} md={4} lg={3} key={character.id}>
-                  <CharacterCard character={character} ownerOwned />
+                  <CharacterCard
+                    address={address}
+                    character={character}
+                    ownerOwned
+                    tx={tx}
+                    writeContracts={writeContracts}
+                  />
                 </Grid>
               ))}
             </Grid>
