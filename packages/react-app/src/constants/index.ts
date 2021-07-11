@@ -17,14 +17,16 @@ export const ETHERSCAN_KEY = process.env.REACT_APP_ETHERSCAN_KEY;
 export const BLOCKNATIVE_DAPPID = process.env.REACT_APP_BLOCKNATIVE_DAPPID;
 
 export const NFT_CONTRACT = "NiftyDegen";
+export const NFTL_CONTRACT = "NFTLToken";
 
 export const DEBUG = process.env.NODE_ENV === "development";
 
 // Request polling intervals
 
 export const REMOVED_TRAITS_INTERVAL = DEBUG ? 10000 : 1000;
-export const NFT_PRICE_INTERVAL = DEBUG ? 600000 : 1000;
-export const TOTAL_SUPPLY_INTERVAL = DEBUG ? 600000 : 10000;
+export const NFT_PRICE_INTERVAL = DEBUG ? 60000 : 1000;
+export const TOTAL_SUPPLY_INTERVAL = DEBUG ? 60000 : 10000;
+export const NFTL_CLAIMABLE_INTERVAL = DEBUG ? 60000 : 5000;
 
 // TODO: specify merkle distributor for mainnet
 export const MERKLE_DISTRIBUTOR_ADDRESS: { [chainId in ChainId]?: string } = {

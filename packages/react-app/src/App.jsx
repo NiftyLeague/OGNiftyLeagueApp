@@ -7,7 +7,7 @@ import { ScrollToTop, useContractLoader, useGasPrice, useUserProvider } from "./
 import { Contract, Faucet, Navigation, ThemeSwitch } from "./components";
 import { Notifier } from "./helpers";
 import { About, Characters, Games, Hints, Home, NotFound, Staking, Subgraph, Wallet } from "./views";
-import { ALCHEMY_ID, DEBUG, ETHERSCAN_KEY, INFURA_ID, NETWORKS, NFT_CONTRACT } from "./constants";
+import { ALCHEMY_ID, DEBUG, ETHERSCAN_KEY, INFURA_ID, NETWORKS, NFT_CONTRACT, NFTL_CONTRACT } from "./constants";
 import "./App.css";
 
 // For more hooks, check out 🔗eth-hooks at: https://www.npmjs.com/package/eth-hooks
@@ -123,7 +123,7 @@ function App({ subgraphUri }) {
             <Characters readContracts={readContracts} />
           </Route>
           <Route exact path="/wallet">
-            <Wallet address={address} />
+            <Wallet address={address} readContracts={readContracts} />
           </Route>
           <Route exact path="/staking">
             <Staking validAccount={validAccount} />
@@ -132,7 +132,7 @@ function App({ subgraphUri }) {
             <>
               <Route path="/NFTL">
                 <Contract
-                  name="NFTLToken"
+                  name={NFTL_CONTRACT}
                   signer={userProvider.getSigner()}
                   provider={localProvider}
                   address={address}

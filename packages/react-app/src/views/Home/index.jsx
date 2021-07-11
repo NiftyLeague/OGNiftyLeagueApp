@@ -61,8 +61,14 @@ const getWindowRatio = e => {
 
 window.onload = e => {
   const ratio = getWindowRatio(e);
-  DEFAULT_WIDTH = WIDTH_SCALE * ratio;
-  DEFAULT_HEIGHT = HEIGHT_SCALE * ratio;
+  if (ratio >= 3) {
+    DEFAULT_WIDTH = WIDTH_SCALE * ratio;
+    DEFAULT_HEIGHT = HEIGHT_SCALE * ratio;
+  } else {
+    const { innerWidth } = e.currentTarget;
+    DEFAULT_WIDTH = innerWidth * 0.95;
+    DEFAULT_HEIGHT = innerWidth * 0.7125;
+  }
 };
 
 const Home = memo(({ address, readContracts, setRoute, tx, writeContracts }) => {
@@ -75,12 +81,6 @@ const Home = memo(({ address, readContracts, setRoute, tx, writeContracts }) => 
 
   const nftPrice = useNFTPrice(readContracts);
   const removedTraits = useRemovedTraits(readContracts);
-
-  useEffect(() => {
-    setWidth(DEFAULT_WIDTH);
-    setHeight(DEFAULT_HEIGHT);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [DEFAULT_WIDTH, DEFAULT_HEIGHT]);
 
   useEffect(() => {
     if (removedTraitsCallback.current) {
@@ -127,14 +127,23 @@ const Home = memo(({ address, readContracts, setRoute, tx, writeContracts }) => 
 
   const reportWindowSize = useCallback(e => {
     const ratio = getWindowRatio(e);
-    setWidth(ratio * WIDTH_SCALE);
-    setHeight(ratio * HEIGHT_SCALE);
+    if (ratio >= 3) {
+      setWidth(ratio * WIDTH_SCALE);
+      setHeight(ratio * HEIGHT_SCALE);
+    } else {
+      const { innerWidth } = e.currentTarget;
+      setWidth(innerWidth * 0.95);
+      setHeight(innerWidth * 0.7125);
+    }
   }, []);
 
   useEffect(() => {
+    unityContext.on("canvas", () => {
+      setWidth(DEFAULT_WIDTH);
+      setHeight(DEFAULT_HEIGHT);
+    });
     unityContext.on("loaded", () => setLoaded(true));
     unityContext.on("error", console.error);
-    unityContext.on("canvas", element => console.log("Canvas", element));
     window.addEventListener("resize", reportWindowSize);
     window.addEventListener("StartAuthentication", startAuthentication);
     window.addEventListener("GetRemovedTraits", getRemovedTraits);
