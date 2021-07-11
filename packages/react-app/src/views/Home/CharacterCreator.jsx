@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useEffect, useState, useRef } from "react";
 import Unity, { UnityContext } from "react-unity-webgl";
 import { isMobileOnly, withOrientationChange } from "react-device-detect";
-
+import { parseEther } from "@ethersproject/units";
 import { useNFTPrice, useRemovedTraits } from "hooks";
 import CharacterBGImg from "assets/images/backgrounds/character_creator.png";
 import CurrentPrice from "./CurrentPrice";
@@ -128,7 +128,7 @@ const CharacterCreator = memo(({ address, isLoaded, isPortrait, readContracts, s
   const mintCharacter = useCallback(
     async e => {
       const { character, head, clothing, accessories, items } = getMintableTraits(e.detail);
-      const value = "" + parseFloat(nftPrice) * 10 ** 18;
+      const value = parseEther(nftPrice);
       tx(writeContracts[NFT_CONTRACT].purchase(character, head, clothing, accessories, items, { value }));
       setTimeout(() => e.detail.callback("true"), 3000);
     },

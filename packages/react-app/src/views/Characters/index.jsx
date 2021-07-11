@@ -87,7 +87,7 @@ const CharactersContainer = ({ readContracts }) => {
             ? characters
             : characters.slice((page - 1) * PAGE_SIZE, (page - 1) * PAGE_SIZE + PAGE_SIZE)
           ).map(character => (
-            <Grid item xs={6} sm={4} md={3} key={character.id}>
+            <Grid item xs={12} sm={6} md={4} lg={3} key={character.id}>
               <CharacterCard character={character} />
             </Grid>
           ))}
