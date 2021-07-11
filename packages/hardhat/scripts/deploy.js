@@ -2,7 +2,6 @@
 /* eslint-disable no-use-before-define */
 const fs = require("fs");
 const chalk = require("chalk");
-const { exec } = require("child_process");
 const { config, ethers, tenderly, run } = require("hardhat");
 const { utils } = require("ethers");
 const R = require("ramda");
@@ -19,7 +18,7 @@ const main = async () => {
   }
 
   const emissionStartTimestamp = Math.floor(Date.now() / 1000);
-  const initalSupply = 100000;
+  const initalSupply = ethers.utils.parseEther("100000");
   const nftlToken = await deploy("NFTLToken", [emissionStartTimestamp, initalSupply]);
   const nft = await deploy("NiftyDegen", [nftlToken.address, storage.address]);
   await nftlToken.setNFTAddress(nft.address);

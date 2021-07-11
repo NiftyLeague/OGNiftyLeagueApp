@@ -1,6 +1,7 @@
 module.exports = {
   env: {
     mocha: true,
+    es2020: true,
   },
   extends: ["airbnb-base", "plugin:prettier/recommended"],
   plugins: ["babel"],

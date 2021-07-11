@@ -1,7 +1,8 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
 import React, { useState } from "react";
-import { Button, Typography, Table, Input } from "antd";
 import { useQuery, gql } from "@apollo/client";
+import { parseEther } from "@ethersproject/units";
+import { Button, Input, Table, Typography } from "antd";
 import GraphiQL from "graphiql";
 import "graphiql/graphiql.min.css";
 import fetch from "isomorphic-fetch";
@@ -204,7 +205,7 @@ function Subgraph({ mainnetProvider, readContracts, subgraphUri, tx, writeContra
           <Button
             style={{ marginTop: 10 }}
             onClick={() => {
-              const value = "" + parseFloat(nftPrice) * 10 ** 18;
+              const value = parseEther(nftPrice);
               tx(writeContracts[NFT_CONTRACT].purchase(character, head, clothing, accessories, items, { value }));
             }}
           >

@@ -23,7 +23,6 @@ import { TRAIT_NAME_MAP, TRAIT_VALUE_MAP } from "../constants/characters";
 
 export const useStyles = makeStyles(theme => ({
   cardRoot: {
-    maxWidth: 345,
     borderRadius: 30,
     background: "-webkit-linear-gradient(89deg, #620edf 0%, #5e72eb 100%)",
   },
