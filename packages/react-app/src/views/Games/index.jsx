@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import Unity, { UnityContext } from "react-unity-webgl";
-import { Image, Layout, Menu, Row, Col, Card } from "antd";
+import { Button, Card, Col, Image, Layout, Menu, Row } from "antd";
 import { SportsEsports, SportsMma } from "@material-ui/icons";
 import { useThemeSwitcher } from "react-css-theme-switcher";
 import { Preloader, WalletConnectPrompt } from "components";
@@ -57,6 +57,19 @@ const Game = ({ address, unityContext }) => {
     };
   }, [unityContext, onMouse, startAuthentication]);
 
+  const handleOnClickFullscreen = () => {
+    window.unityInstance.setFullscreen(true);
+  };
+
+  const btnStyles = {
+    verticalAlign: "top",
+    marginLeft: 8,
+    marginTop: 16,
+    background: "-webkit-linear-gradient(89deg, #620edf 0%, #5e72eb 100%)",
+    color: "#fff",
+    borderColor: "#6f6c6c",
+  };
+
   return (
     <>
       <Preloader ready={isLoaded} />
@@ -69,6 +82,9 @@ const Game = ({ address, unityContext }) => {
           visibility: isLoaded ? "visible" : "hidden",
         }}
       />
+      <Button style={btnStyles} shape="round" size="large" onClick={handleOnClickFullscreen}>
+        Fullscreen
+      </Button>
     </>
   );
 };

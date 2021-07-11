@@ -23,8 +23,8 @@ export const DEBUG = process.env.NODE_ENV === "development";
 
 // Request polling intervals
 
-export const REMOVED_TRAITS_INTERVAL = DEBUG ? 10000 : 1000;
-export const NFT_PRICE_INTERVAL = DEBUG ? 60000 : 1000;
+export const REMOVED_TRAITS_INTERVAL = DEBUG ? 20000 : 2000;
+export const NFT_PRICE_INTERVAL = DEBUG ? 60000 : 2000;
 export const TOTAL_SUPPLY_INTERVAL = DEBUG ? 60000 : 10000;
 export const NFTL_CLAIMABLE_INTERVAL = DEBUG ? 60000 : 5000;
 
