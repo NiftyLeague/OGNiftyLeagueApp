@@ -26,7 +26,7 @@ export default function useBalance(provider, address, pollTime) {
       if (newBalance !== balance) setBalance(newBalance);
     }
   }, [address, provider, balance]);
-  usePoller(pollBalance, pollTime || 27777, address && provider);
+  usePoller(pollBalance, pollTime || 27777, [address && provider]);
 
   return balance;
 }

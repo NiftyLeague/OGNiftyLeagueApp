@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import usePoller from "./Poller";
 
 const DEBUG = process.env.NODE_ENV === "development";
@@ -35,6 +35,9 @@ export default function useContractReader(contracts, contractName, functionName,
     }
   }, [value, onChange]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const argsMemoized = useMemo(() => args, [JSON.stringify(args)]);
+
   usePoller(
     async () => {
       if (contracts && contracts[contractName]) {
@@ -60,17 +63,14 @@ export default function useContractReader(contracts, contractName, functionName,
           if (formatter && typeof formatter === "function") {
             newValue = formatter(newValue);
           }
-          // console.log("GOT VALUE",newValue)
-          if (newValue !== value) {
-            setValue(newValue);
-          }
+          if (newValue !== value) setValue(newValue);
         } catch (e) {
           console.log(e);
         }
       }
     },
     adjustPollTime,
-    contracts && contracts[contractName],
+    [contracts && contracts[contractName], argsMemoized],
   );
 
   return value;

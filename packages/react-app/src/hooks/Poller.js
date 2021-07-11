@@ -23,5 +23,5 @@ export default function usePoller(fn, delay, extraWatch) {
   useEffect(() => {
     fn();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [extraWatch]);
+  }, extraWatch);
 }

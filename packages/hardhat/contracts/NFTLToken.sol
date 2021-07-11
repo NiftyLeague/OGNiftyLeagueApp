@@ -75,7 +75,7 @@ contract NFTLToken is ERC20("Nifty League", "NFTL") {
 
     /**
      * @notice Check accumulated NFTL tokens for an NFT
-     * @param tokenIndex Index of NFT to check
+     * @param tokenIndex Index of NFT to check balance
      * @return Total NFTL accumulated and ready to claim
      */
     function accumulated(uint256 tokenIndex) public view returns (uint256) {
@@ -96,7 +96,25 @@ contract NFTLToken is ERC20("Nifty League", "NFTL") {
     }
 
     /**
-     * @notice Mint and claim available NFTL for each NFT and
+     * @notice Check total accumulated NFTL tokens for all NFTs
+     * @param tokenIndices Indexes of NFTs to check balance
+     * @return Total NFTL accumulated and ready to claim
+     */
+    function accumulatedMultiCheck(uint256[] memory tokenIndices) public view returns (uint256) {
+        require(block.timestamp > emissionStart, "Emission has not started yet");
+        uint256 totalClaimableQty = 0;
+        for (uint256 i = 0; i < tokenIndices.length; i++) {
+            uint256 tokenIndex = tokenIndices[i];
+            // Sanity check for non-minted index
+            require(tokenIndex <= ERC721Enumerable(_nftAddress).totalSupply(), "NFT at index not been minted");
+            uint256 claimableQty = accumulated(tokenIndex);
+            totalClaimableQty = totalClaimableQty + claimableQty;
+        }
+        return totalClaimableQty;
+    }
+
+    /**
+     * @notice Mint and claim available NFTL for each NFT
      * @param tokenIndices Indexes of NFTs to claim for
      * @return Total NFTL claimed
      */
