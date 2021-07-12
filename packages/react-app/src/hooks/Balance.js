@@ -17,7 +17,7 @@ import usePoller from "./Poller";
   - Change provider to access balance on different chains (ex. mainnetProvider)
 */
 
-export default function useBalance(provider, address, pollTime) {
+export default function useBalance(provider, address, pollTime = 0) {
   const [balance, setBalance] = useState("0.0");
   const pollBalance = useCallback(async () => {
     if (address && provider) {

@@ -10,7 +10,7 @@ require("@nomiclabs/hardhat-etherscan");
 const { isAddress, getAddress, formatUnits, parseUnits } = utils;
 
 /*
-      📡 This is where you configure your deploy configuration for 🏗 scaffold-eth
+      📡 This is where you configure your deploy configuration
 
       check out `packages/scripts/deploy.js` to customize your deployment
 
@@ -91,7 +91,7 @@ module.exports = {
   solidity: {
     compilers: [
       {
-        version: "0.8.0",
+        version: "0.8.4",
         settings: {
           optimizer: {
             enabled: true,

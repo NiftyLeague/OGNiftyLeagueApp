@@ -50,7 +50,7 @@ const main = async () => {
   */
   const targetNetwork = process.env.HARDHAT_NETWORK || config.defaultNetwork;
   if (targetNetwork !== "localhost") {
-    // If you want to verify your contract on tenderly.co (see setup details in the scaffold-eth README!)
+    // If you want to verify your contract on tenderly.co
     console.log(chalk.blue("verifying on tenderly"));
     await tenderlyVerify({ contractName: "AllowedTraitsStorage", contractAddress: storage.address });
     await tenderlyVerify({ contractName: "NFTLToken", contractAddress: nftlToken.address });

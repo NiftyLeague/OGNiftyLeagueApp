@@ -1,14 +1,14 @@
 {
-  "name": "@scaffold-eth/subgraph",
+  "name": "@nifty-league/subgraph",
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ niftyLeague/your-contract",
-    "create-local": "graph create --node http://localhost:8020/ scaffold-eth/your-contract",
-    "remove-local": "graph remove --node http://localhost:8020/ scaffold-eth/your-contract",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 scaffold-eth/your-contract"
+    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ niftyLeague/nifty-degen",
+    "create-local": "graph create --node http://localhost:8020/ nifty-league/nifty-degen",
+    "remove-local": "graph remove --node http://localhost:8020/ nifty-league/nifty-degen",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 nifty-league/nifty-degen"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "^0.20.0",

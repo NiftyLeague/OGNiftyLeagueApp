@@ -21,14 +21,14 @@ const unityContext = new UnityContext({
 });
 
 const mobileUnityContext = new UnityContext({
-  loaderUrl: "characterBuild/0.1.1.loader.js",
-  dataUrl: "characterBuild/0.1.1.data.unityweb",
-  frameworkUrl: "characterBuild/0.1.1.framework.js.unityweb",
-  codeUrl: "characterBuild/0.1.1.wasm.unityweb",
+  loaderUrl: "characterBuild/0.1.2.loader.js",
+  dataUrl: "characterBuild/0.1.2.data.unityweb",
+  frameworkUrl: "characterBuild/0.1.2.framework.js.unityweb",
+  codeUrl: "characterBuild/0.1.2.wasm.unityweb",
   streamingAssetsUrl: "StreamingAssets",
   companyName: "NiftyLeague",
   productName: "NiftyCharacterCreator",
-  productVersion: "0.1.1",
+  productVersion: "0.1.2",
 });
 
 window.unityInstance = isMobileOnly ? mobileUnityContext : unityContext;
