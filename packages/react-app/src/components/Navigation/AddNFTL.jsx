@@ -2,9 +2,8 @@ import React from "react";
 import Tooltip from "../Tooltip";
 import { NFTL_CONTRACT } from "../../constants";
 
-const AddNFTL = ({ userProvider }) => {
-  // eslint-disable-next-line import/no-dynamic-require, global-require
-  const NFTLAddress = require(`contracts/${process.env.REACT_APP_NETWORK}/${NFTL_CONTRACT}.address.js`);
+const AddNFTL = ({ userProvider, writeContracts }) => {
+  const NFTLAddress = writeContracts[NFTL_CONTRACT].address;
   const handleAddToken = () => {
     const params = {
       type: "ERC20",
