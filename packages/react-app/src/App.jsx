@@ -102,6 +102,7 @@ function App({ subgraphUri }) {
         setRoute={setRoute}
         targetNetwork={targetNetwork}
         userProvider={userProvider}
+        writeContracts={writeContracts}
       />
       <div className="AppBody">
         <ScrollToTop />

@@ -88,6 +88,7 @@ function Navigation({
   targetNetwork,
   userProvider,
   width,
+  writeContracts,
 }) {
   const { currentTheme } = useThemeSwitcher();
   const hideNav = isWidthDown("md", width);
@@ -168,7 +169,7 @@ function Navigation({
           </nav>
         )}
         <div className="menu-right">
-          {!mobileView && <AddNFTL userProvider={userProvider} />}
+          {!mobileView && writeContracts && <AddNFTL userProvider={userProvider} writeContracts={writeContracts} />}
           <div className="network-label" style={{ padding: mobileView ? "0 5px" : "0 16px" }}>
             {targetNetwork.label}
           </div>
