@@ -1,5 +1,7 @@
+/* eslint-disable no-nested-ternary */
 import React, { useCallback, useEffect, useState } from "react";
 import Unity, { UnityContext } from "react-unity-webgl";
+import { isMobileOnly } from "react-device-detect";
 import { Button, Card, Col, Image, Layout, Menu, Row } from "antd";
 import { SportsEsports, SportsMma } from "@material-ui/icons";
 import { useThemeSwitcher } from "react-css-theme-switcher";
@@ -94,7 +96,7 @@ export default function Games({ address, validAccount }) {
   const [selectedGame, setSelectedGame] = useState("all");
   const [collapsed, setCollapsed] = useState(true);
 
-  return validAccount ? (
+  return validAccount && !isMobileOnly ? (
     <Layout className="games">
       <Sider
         collapsible
@@ -156,6 +158,8 @@ export default function Games({ address, validAccount }) {
         </Content>
       </Layout>
     </Layout>
+  ) : isMobileOnly ? (
+    <div style={{ paddingTop: 60 }}>Gaming is not supported on mobile devices at the moment</div>
   ) : (
     <WalletConnectPrompt />
   );

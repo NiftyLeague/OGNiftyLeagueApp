@@ -7,7 +7,7 @@ export default function useGasPrice(targetNetwork, speed, pollTime) {
   const loadGasPrice = async () => {
     if (targetNetwork.gasPrice) {
       gasPriceRef.current = targetNetwork.gasPrice;
-    } else {
+    } else if (navigator.onLine) {
       axios
         .get("https://ethgasstation.info/json/ethgasAPI.json")
         .then(response => {

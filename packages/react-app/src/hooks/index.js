@@ -17,5 +17,4 @@ export { default as useNonce } from "./Nonce";
 export { default as usePoller } from "./Poller";
 export { default as useRemovedTraits } from "./useRemovedTraits";
 export { default as useResolveName } from "./ResolveName";
-export { default as useTokenList } from "./TokenList";
 export { default as useUserProvider } from "./UserProvider";

@@ -1,6 +1,6 @@
 packages/subgraph/subgraph.yaml
 packages/subgraph/generated
-packages/subgraph/abis
+packages/subgraph/abis/*
 packages/hardhat/*.txt
 **/aws.json
 
@@ -11,7 +11,7 @@ packages/hardhat/deployments
 packages/hardhat/cache
 packages/hardhat/examples
 
-docker/**/data
+packages/**/data
 
 packages/subgraph/config/config.json
 packages/subgraph/config/config.dev.json

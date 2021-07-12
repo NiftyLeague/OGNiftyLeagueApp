@@ -18,7 +18,9 @@ const targetNetwork = NETWORKS[process.env.REACT_APP_NETWORK];
 // 🛰 providers
 if (DEBUG) console.log("📡 Connecting to Mainnet Ethereum");
 const providerOptions = { infura: INFURA_ID, etherscan: ETHERSCAN_KEY };
-const mainnetProvider = getDefaultProvider(NETWORKS.mainnet.name, { ...providerOptions, alchemy: ALCHEMY_ID });
+const mainnetProvider = navigator.onLine
+  ? getDefaultProvider(NETWORKS.mainnet.name, { ...providerOptions, alchemy: ALCHEMY_ID })
+  : null;
 
 // 🏠 Your local provider is usually pointed at your local blockchain
 if (DEBUG) console.log("🏠 Connecting to provider:", targetNetwork.rpcUrl);

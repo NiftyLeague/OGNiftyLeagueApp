@@ -5,7 +5,7 @@ import { Brightness3, Brightness5 } from "@material-ui/icons";
 
 export default function ThemeSwitcher() {
   const theme = window.localStorage.getItem("theme");
-  const [isDarkMode, setIsDarkMode] = useState(theme && theme !== "light");
+  const [isDarkMode, setIsDarkMode] = useState(!theme || theme !== "light");
   const { switcher, currentTheme, themes } = useThemeSwitcher();
   const iconStyle = { marginBottom: -6, fontSize: 20 };
 
