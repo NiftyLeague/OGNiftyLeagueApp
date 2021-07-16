@@ -1,11 +1,11 @@
 const fs = require("fs");
 const chalk = require("chalk");
-const { config } = require("hardhat");
+const { config, ethers } = require("hardhat");
 
 const publishDir = "../react-app/src/contracts";
 const graphDir = "../subgraph";
 
-function publishContract(contractName) {
+function publishContract(contractName, startBlock) {
   console.log(" 💽 Publishing", chalk.cyan(contractName), "to", chalk.gray(publishDir));
   try {
     const targetNetwork = process.env.HARDHAT_NETWORK || config.defaultNetwork;
@@ -29,6 +29,7 @@ function publishContract(contractName) {
     graphConfig = JSON.parse(graphConfig);
     graphConfig[contractName + "Address"] = address;
     graphConfig.network = targetNetwork;
+    graphConfig.startBlock = startBlock;
     fs.writeFileSync(`${publishDir}/${targetNetwork}/${contractName}.address.js`, `module.exports = "${address}";`);
     fs.writeFileSync(
       `${publishDir}/${targetNetwork}/${contractName}.abi.js`,
@@ -72,11 +73,12 @@ async function main() {
   fs.mkdirSync(`${graphDir}/abis/${targetNetwork}`);
 
   const finalContractList = [];
+  const startBlock = await ethers.provider.getBlockNumber();
   fs.readdirSync(config.paths.sources).forEach(file => {
     if (file.indexOf(".sol") >= 0) {
       const contractName = file.replace(".sol", "");
       // Add contract to list if publishing is successful
-      if (publishContract(contractName)) {
+      if (publishContract(contractName, startBlock)) {
         finalContractList.push(contractName);
       }
     }

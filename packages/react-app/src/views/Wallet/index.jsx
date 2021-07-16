@@ -43,9 +43,11 @@ const ClaimNFTL = ({ tokenIndices, tx, writeContracts }) => {
         maximumFractionDigits: 2,
       })}{" "}
       NFTL Claimable
-      <Button style={btnStyles} shape="round" size="large" onClick={handleClaimNFTL}>
-        Claim
-      </Button>
+      {totalAccumulated > 0.0 && (
+        <Button style={btnStyles} shape="round" size="large" onClick={handleClaimNFTL}>
+          Claim
+        </Button>
+      )}
     </div>
   ) : null;
 };

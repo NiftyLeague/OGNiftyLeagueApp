@@ -129,8 +129,13 @@ const CharacterCreator = memo(({ address, isLoaded, isPortrait, readContracts, s
     async e => {
       const { character, head, clothing, accessories, items } = getMintableTraits(e.detail);
       const value = parseEther(nftPrice);
-      tx(writeContracts[NFT_CONTRACT].purchase(character, head, clothing, accessories, items, { value }));
-      setTimeout(() => e.detail.callback("true"), 3000);
+      tx(
+        writeContracts[NFT_CONTRACT].purchase(character, head, clothing, accessories, items, {
+          value,
+          gasLimit: 250000,
+        }),
+      );
+      setTimeout(() => e.detail.callback("true"), 4000);
     },
     [writeContracts, tx, nftPrice],
   );

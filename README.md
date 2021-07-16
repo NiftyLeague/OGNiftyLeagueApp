@@ -1,16 +1,12 @@
 # 🏗 NiftyLeagueApp by Scaffold-ETH
 
-> everything you need to build on Ethereum! 🚀
-
-🧪 Quickly experiment with Solidity using a frontend that adapts to your smart contract:
-
-![image](https://user-images.githubusercontent.com/2653167/124158108-c14ca380-da56-11eb-967e-69cde37ca8eb.png)
-
-# 🏄‍♂️ Quick Start
+## 🏄‍♂️ Quick Start
 
 Prerequisites: [Node lts/fermium](https://nodejs.org/download/release/latest-fermium/) plus [Yarn](https://classic.yarnpkg.com/en/docs/install/) and [Git](https://git-scm.com/downloads)
 
-> define your target network and api keys in your env files. Check `packages/hardhat/.sample.env` and `packages/react-app/.sample.env`
+> define your target network and api keys in your env files:
+
+Check `packages/hardhat/.sample.env` and `packages/react-app/.sample.env`
 
 > install and start your 👷‍ Hardhat chain:
 
@@ -38,6 +34,8 @@ yarn graph-create-local
 yarn deploy-and-graph-local
 ```
 
+---
+
 🔏 Edit your smart contracts in `packages/hardhat/contracts`
 
 📝 Edit your frontend in `packages/react-app/src`
@@ -48,13 +46,42 @@ yarn deploy-and-graph-local
 
 📱 Open http://localhost:3000 to see the app
 
-📡 Open http://localhost:8000/subgraphs/name/nifty-league/nifty-degen/graphql to run queries
+📡 Open http://localhost:8000/subgraphs/name/nifty-league/graphql to run queries
 
-# 📚 Documentation
+👾 Debug contract transactions on tenderly https://dashboard.tenderly.co/contract/rinkeby/<CONTRACT_ADDRESS>
+
+---
+
+## 📡 Deploying Subgraph
+
+_make sure .env files point to your target network_
+
+> deploy contracts to update subgraph configs if needed:
+
+```bash
+yarn deploy
+```
+
+> authorize deploy key if not done already:
+
+```bash
+cd packages/subgraph/
+graph auth
+```
+
+You will be prompted to select a product and enter a deploy key which you can get here: https://thegraph.com/studio/subgraph. Make sure the `subgraph-studio` option is selected.
+
+> generate, build, and deploy the subgraph:
+
+```bash
+yarn graph-ship
+```
+
+## 📚 Documentation
 
 Documentation, tutorials, challenges, and many more resources, visit: [docs.scaffoldeth.io](https://docs.scaffoldeth.io)
 
-# 🔭 Learning Solidity
+## 🔭 Learning Solidity
 
 📕 Read the docs: https://docs.soliditylang.org
 
@@ -71,11 +98,7 @@ Documentation, tutorials, challenges, and many more resources, visit: [docs.scaf
 
 📧 Learn the [Solidity globals and units](https://solidity.readthedocs.io/en/v0.6.6/units-and-global-variables.html)
 
-# 🛠 Buidl
-
-Check out all the [active branches](https://github.com/austintgriffith/scaffold-eth/branches/active), [open issues](https://github.com/austintgriffith/scaffold-eth/issues), and join/fund the 🏰 [BuidlGuidl](https://BuidlGuidl.com)!
-
-# 💬 Support Chat
+## 💬 Support Chat
 
 Join the telegram [support chat 💬](https://t.me/joinchat/KByvmRe5wkR-8F_zz6AjpA) to ask questions and find others building with 🏗 scaffold-eth!
 
@@ -91,5 +114,3 @@ Join the telegram [support chat 💬](https://t.me/joinchat/KByvmRe5wkR-8F_zz6Aj
 - Support for L2 / Sidechains like Optimism and Arbitrum.
 
 ---
-
-🙏 Please check out our [Gitcoin grant](https://gitcoin.co/grants/2851/scaffold-eth) too!

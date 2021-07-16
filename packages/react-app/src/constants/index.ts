@@ -23,10 +23,10 @@ export const DEBUG = process.env.NODE_ENV === "development";
 
 // Request polling intervals
 
-export const REMOVED_TRAITS_INTERVAL = DEBUG ? 20000 : 2000;
-export const NFT_PRICE_INTERVAL = DEBUG ? 60000 : 2000;
-export const TOTAL_SUPPLY_INTERVAL = DEBUG ? 60000 : 10000;
-export const NFTL_CLAIMABLE_INTERVAL = DEBUG ? 60000 : 2000;
+export const REMOVED_TRAITS_INTERVAL = DEBUG ? 20000 : 10000;
+export const NFT_PRICE_INTERVAL = DEBUG ? 60000 : 20000;
+export const TOTAL_SUPPLY_INTERVAL = DEBUG ? 60000 : 30000;
+export const NFTL_CLAIMABLE_INTERVAL = DEBUG ? 60000 : 10000;
 
 // TODO: specify merkle distributor for mainnet
 export const MERKLE_DISTRIBUTOR_ADDRESS: { [chainId in ChainId]?: string } = {
