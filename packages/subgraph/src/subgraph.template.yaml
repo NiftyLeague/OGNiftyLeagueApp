@@ -1,4 +1,6 @@
 specVersion: 0.0.2
+description: NiftyDegen NFTs from NiftyLeague
+repository: https://github.com/NiftyLeague/NiftyLeagueApp
 schema:
   file: ./src/schema.graphql
 dataSources:
@@ -8,7 +10,7 @@ dataSources:
     source:
       address: "{{NiftyDegenAddress}}"
       abi: NiftyDegen
-      startBlock: 1
+      startBlock: {{startBlock}}
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4

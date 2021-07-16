@@ -97,10 +97,4 @@ a:active {
   h1 {
     font-size: 30px !important;
   }
-  p,
-  a,
-  button,
-  button span {
-    font-size: 14px;
-  }
 }
