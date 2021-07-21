@@ -25,6 +25,7 @@
     "deploy": "yarn workspace @nifty-league/hardhat deploy",
     "verify": "yarn workspace @nifty-league/hardhat etherscan-verify",
     "create-metadata": "yarn workspace @nifty-league/hardhat create-metadata",
+    "nft-task-runner": "yarn workspace @nifty-league/hardhat nft-task-runner",
     "watch": "yarn workspace @nifty-league/hardhat watch",
     "accounts": "yarn workspace @nifty-league/hardhat accounts",
     "balance": "yarn workspace @nifty-league/hardhat balance",

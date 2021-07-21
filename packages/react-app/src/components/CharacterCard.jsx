@@ -160,7 +160,9 @@ export default function CharacterCard({ address, character, ownerOwned, tx, writ
       const allowance = await writeContracts[NFTL_CONTRACT].allowance(address, NFTAddress);
       if (allowance < 1000) {
         if (DEBUG) console.log("Allowance:", allowance);
-        tx(writeContracts[NFTL_CONTRACT].approve(NFTAddress, MaxUint256));
+        const result = tx(writeContracts[NFTL_CONTRACT].approve(NFTAddress, MaxUint256));
+        if (DEBUG) console.log("awaiting metamask/web3 confirm result...", result);
+        await result;
       }
       tx(writeContracts[NFT_CONTRACT].changeName(parseInt(id, 10), input));
     }

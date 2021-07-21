@@ -1,7 +1,8 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-use-before-define */
 /* eslint-disable spaced-comment */
-const fs = require("fs/promises");
+const fs = require("fs");
+const request = require("request");
 const path = require("path");
 
 const CID = require("cids");
@@ -16,8 +17,7 @@ const { BigNumber } = require("ethers");
 // different environments (e.g. testnet, mainnet, staging, production, etc).
 const config = require("getconfig");
 
-const TRAIT_TYPES = require("../constants/traitTypes");
-const TRAIT_NAME_MAP = require("../constants/traitNameMap");
+const { CHARACTER_TRAIT_TYPES, TRAIT_VALUE_MAP } = require("../constants/characterTraits");
 
 // ipfs.add parameters for more deterministic CIDs
 const ipfsAddOptions = {
@@ -36,9 +36,76 @@ async function MakeMinty() {
 }
 
 /**
+ * Generates NFT image url from character traits.
+ * @param {} traits - list of character traits from contract
+ */
+function generateImageURL(traits) {
+  const baseURL = "http://3.95.18.98:56429/";
+  const secret = "nABQA3ax2hQD9LRpozq9BAY8v2Ima2kv";
+  const traitArray = [
+    ["Tribe", traits[0]],
+    ["Skin Color", traits[1]],
+    ["Fur Color", traits[2]],
+    ["Eye Color", traits[3]],
+    ["Pupil Color", traits[4]],
+    ["Hair", traits[5]],
+    ["Mouth", traits[6]],
+    ["Beard", traits[7]],
+    ["Facemark", traits[8]],
+    ["Misc", traits[9]],
+    ["Top", traits[10]],
+    ["Outerwear", traits[11]],
+    ["Print", traits[12]],
+    ["Bottom", traits[13]],
+    ["Footwear", traits[14]],
+    ["Belt", traits[15]],
+    ["Hat", traits[16]],
+    ["Eyewear", traits[17]],
+    ["Piercing", traits[18]],
+    ["Wrist", traits[19]],
+    ["Hand", traits[20]],
+    ["Neckwear", traits[21]],
+    ["Left Hand", traits[22]],
+    ["Right Hand", traits[23]],
+  ];
+  const params = new URLSearchParams({
+    traits: JSON.stringify(traitArray),
+    version: 83,
+    secret,
+  });
+  return `${baseURL}?${params.toString()}`;
+}
+
+/**
+ * Download NFT image from webserver.
+ */
+async function downloadImage(url, dest) {
+  /* Create an empty file where we can save data */
+  const file = fs.createWriteStream(dest);
+
+  /* Using Promises so that we can use the ASYNC AWAIT syntax */
+  await new Promise((resolve, reject) => {
+    request({
+      /* Here you should specify the exact link to the file you are trying to download */
+      uri: url,
+      gzip: true,
+    })
+      .pipe(file)
+      .on("finish", async () => {
+        console.log(`The file is finished downloading.`);
+        resolve();
+      })
+      .on("error", error => {
+        reject(error);
+      });
+  }).catch(error => {
+    console.log(`Something happened: ${error}`);
+  });
+}
+
+/**
  * Minty is the main object responsible for storing NFT data and interacting with the smart contract.
- * Before constructing, make sure that the contract has been deployed and a deployment
- * info file exists (the default location is `minty-deployment.json`)
+ * Before constructing, make sure that the contract has been deployed
  *
  * Minty requires async initialization, so the Minty class (and its constructor) are not exported.
  * To make one, use the async {@link MakeMinty} function.
@@ -64,18 +131,21 @@ class Minty {
     );
 
     // create a local IPFS node
-    this.ipfs = ipfsClient(config.ipfsApiUrl);
+    this.ipfs = ipfsClient.create(config.ipfsApiUrl);
 
     this._initialized = true;
   }
 
   //////////////////////////////////////////////
-  // ------ NFT Creation
+  // ------ NFT Generation
   //////////////////////////////////////////////
 
   /**
-   * Create a new NFT from the given asset data.
+   * Generate a new NFT from the given asset data.
    *
+   * @param {number} tokenId - the unique ID of the new token
+   * @param {[]} traits - list of character traits from contract
+   * @param {string} filepath - token image filepath
    * @param {Buffer|Uint8Array} content - a Buffer or UInt8Array of data (e.g. for an image)
    * @param {object} options
    * @param {?string} path - optional file path to set when storing the data on IPFS
@@ -94,7 +164,7 @@ class Minty {
    *
    * @returns {Promise<CreateNFTResult>}
    */
-  async createNFTFromAssetData(tokenId, filePath, content) {
+  async generateNFTFromAssetData(tokenId, traits, filePath, content) {
     // add the asset to IPFS
     const basename = path.basename(filePath);
 
@@ -108,7 +178,7 @@ class Minty {
 
     // make the NFT metadata JSON
     const assetURI = ensureIpfsUriPrefix(assetCid) + "/" + basename;
-    const metadata = await this.makeNFTMetadata(tokenId, assetURI);
+    const metadata = await this.makeNFTMetadata(tokenId, traits, assetURI);
 
     // add the metadata to IPFS
     const { cid: metadataCid } = await this.ipfs.add(
@@ -141,32 +211,40 @@ class Minty {
    */
   async createNFT(options) {
     const tokenId = await this.mintToken(options);
-    const filePath = await this.generateImage(tokenId, options);
-    const content = await fs.readFile(filePath);
-    return this.createNFTFromAssetData(tokenId, filePath, content);
+    return this.generateNFT(tokenId);
+  }
+
+  /**
+   * Generate NFT from tokenId
+   *
+   * @param {number} tokenId - the unique ID of the new token
+   *
+   * @returns {Promise<CreateNFTResult>}
+   */
+  async generateNFT(tokenId) {
+    const traits = await this.getCharacterTraits(tokenId);
+    const filePath = await this.generateImage(tokenId, traits);
+    const content = await fs.promises.readFile(filePath);
+    return this.generateNFTFromAssetData(tokenId, traits, filePath, content);
   }
 
   /**
    * Helper to generate image from character options
    *
    * @param {number} tokenId - the unique ID of the new token
-   * @param {object} options
-   * @param {?[]} character - Character base traits
-   * @param {?[]} head - Character head traits
-   * @param {?[]} clothing - Character clothing options
-   * @param {?[]} accessories - Character accessories
-   * @param {?[]} items - Character items
+   * @param {[]} traits - list of character traits from contract
    *
    * @returns {string} - NFT image filepath
    */
   // eslint-disable-next-line class-methods-use-this
-  async generateImage(tokenId, options) {
-    const filePath = `images/${tokenId}.jpeg`;
+  async generateImage(tokenId, traits) {
+    const filePath = `images/${tokenId}.png`;
     if (fs.existsSync(filePath)) {
       console.log(`File already exists`);
     } else {
-      // TODO: generate image from Unity using options
-      console.log("image options", options);
+      const url = generateImageURL(traits);
+      console.log("Unity image url:", url);
+      await downloadImage(url, filePath);
     }
     return filePath;
   }
@@ -175,6 +253,7 @@ class Minty {
    * Helper to construct metadata JSON for character NFTs
    *
    * @param {number} tokenId - the unique ID of the new token
+   * @param {[]} traits - list of character traits from contract
    * @param {string} assetURI - IPFS URI for the NFT asset
    *
    * @typedef {object} CreateMetadataResult
@@ -182,22 +261,24 @@ class Minty {
    * @property {object} image - an ipfs:// URI for the NFT asset
    * @property {string} description - optional description to store in NFT metadata
    * @property {string} external_url - an HTTP gateway URL for the NFT asset
+   * @property {string} background_color - optional image background color to store in NFT metadata
    * @property {string} attributes - optional attributes to store in NFT metadata
    *
    * @returns {Promise<CreateMetadataResult>}
    */
-  async makeNFTMetadata(tokenId, assetURI) {
-    const characterTraits = await this.contract.getCharacterTraits(tokenId);
-    const attributes = characterTraits
-      .filter(trait => trait !== 0)
-      .map((trait, i) => {
-        return { trait_type: TRAIT_TYPES[i], value: TRAIT_NAME_MAP[trait] };
-      });
+  async makeNFTMetadata(tokenId, traits, assetURI) {
+    const attributes = [];
+    traits.forEach((trait, i) => {
+      if (trait !== 0) {
+        attributes.push({ trait_type: CHARACTER_TRAIT_TYPES[i], value: TRAIT_VALUE_MAP[trait] });
+      }
+    });
     return {
-      name: (await this.contract.getName(tokenId)) || `${TRAIT_NAME_MAP[characterTraits[0]]} #${tokenId}`,
+      name: (await this.contract.getName(tokenId)) || `${TRAIT_VALUE_MAP[traits[0]]} Degen #${tokenId}`,
       image: ensureIpfsUriPrefix(assetURI),
       description: config.metadata.description,
       external_url: `${config.metadata.externalURL}/${tokenId}`,
+      // background_color: ,
       attributes,
     };
   }
@@ -332,6 +413,16 @@ class Minty {
    */
   async getTokenOwner(tokenId) {
     return this.contract.ownerOf(tokenId);
+  }
+
+  /**
+   * Get the traits for a specific token.
+   *
+   * @param {string} tokenId - the id of an existing token
+   * @returns {Promise<[number]>} - list of character traits
+   */
+  async getCharacterTraits(tokenId) {
+    return this.contract.getCharacterTraits(tokenId);
   }
 
   /**

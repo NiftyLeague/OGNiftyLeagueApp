@@ -46,7 +46,7 @@ contract NiftyDegen is NameableCharacter {
      * @dev Base URI for computing {tokenURI}. Overrides ERC721 default.
      */
     function _baseURI() internal view virtual override returns (string memory) {
-        return "https://niftydudes.com/metadata/";
+        return "https://nifty-league.com/degens/metadata/";
     }
 
     /**
@@ -101,29 +101,29 @@ contract NiftyDegen is NameableCharacter {
     ) private view {
         uint256 tribe = char[0];
         require(tribe > 0 && (tribe <= 6 || (tribe <= 9 && msg.sender == owner())), "Tribe incorrect");
-        require(isTraitInRange(char[1], 15, 74), "Skin color incorrect");
-        require(isTraitInRange(char[2], 75, 105), "Fur color incorrect");
-        require(isTraitInRange(char[3], 106, 114), "Eye color incorrect");
-        require(isTraitInRange(char[4], 115, 123), "Pupil color incorrect");
-        require(isTraitInRange(head[0], 200, 214), "Hair incorrect");
-        require(isTraitInRange(head[1], 215, 217), "Mouth incorrect");
-        require(isTraitInRange(head[2], 218, 226), "Beard incorrect");
-        require(isTraitInRange(head[3], 227, 227), "Facemark incorrect");
-        require(isTraitInRange(head[4], 228, 229), "Misc incorrect");
-        require(isTraitInRange(cloth[0], 230, 238), "Top incorrect");
-        require(isTraitInRange(cloth[1], 239, 246), "Outerwear incorrect");
-        require(isTraitInRange(cloth[2], 247, 262), "Print incorrect");
-        require(isTraitInRange(cloth[3], 263, 274), "Bottom incorrect");
-        require(isTraitInRange(cloth[4], 275, 279), "Footwear incorrect");
-        require(isTraitInRange(cloth[5], 280, 282), "Belt incorrect");
-        require(isTraitInRange(acc[0], 283, 305), "Hat incorrect");
-        require(isTraitInRange(acc[1], 306, 319), "Eyewear incorrect");
-        require(isTraitInRange(acc[2], 320, 320), "Piercings incorrect");
-        require(isTraitInRange(acc[3], 321, 322), "Wist accessory incorrect");
-        require(isTraitInRange(acc[4], 323, 324), "Hand accessory incorrect");
-        require(isTraitInRange(acc[5], 325, 327), "Neckwear incorrect");
-        require(isTraitInRange(items[0], 328, 329), "Left item incorrect");
-        require(isTraitInRange(items[1], 330, 336), "Right item incorrect");
+        require(_isTraitInRange(char[1], 15, 74), "Skin color incorrect");
+        require(_isTraitInRange(char[2], 75, 105), "Fur color incorrect");
+        require(_isTraitInRange(char[3], 106, 114), "Eye color incorrect");
+        require(_isTraitInRange(char[4], 115, 123), "Pupil color incorrect");
+        require(_isTraitInRange(head[0], 200, 214), "Hair incorrect");
+        require(_isTraitInRange(head[1], 215, 217), "Mouth incorrect");
+        require(_isTraitInRange(head[2], 218, 226), "Beard incorrect");
+        require(_isTraitInRange(head[3], 227, 227), "Facemark incorrect");
+        require(_isTraitInRange(head[4], 228, 229), "Misc incorrect");
+        require(_isTraitInRange(cloth[0], 230, 238), "Top incorrect");
+        require(_isTraitInRange(cloth[1], 239, 246), "Outerwear incorrect");
+        require(_isTraitInRange(cloth[2], 247, 262), "Print incorrect");
+        require(_isTraitInRange(cloth[3], 263, 274), "Bottom incorrect");
+        require(_isTraitInRange(cloth[4], 275, 279), "Footwear incorrect");
+        require(_isTraitInRange(cloth[5], 280, 282), "Belt incorrect");
+        require(_isTraitInRange(acc[0], 283, 305), "Hat incorrect");
+        require(_isTraitInRange(acc[1], 306, 319), "Eyewear incorrect");
+        require(_isTraitInRange(acc[2], 320, 320), "Piercings incorrect");
+        require(_isTraitInRange(acc[3], 321, 322), "Wist accessory incorrect");
+        require(_isTraitInRange(acc[4], 323, 324), "Hand accessory incorrect");
+        require(_isTraitInRange(acc[5], 325, 327), "Neckwear incorrect");
+        require(_isTraitInRange(items[0], 328, 329), "Left item incorrect");
+        require(_isTraitInRange(items[1], 330, 336), "Right item incorrect");
 
         require(isAvailableAndAllowedTrait(tribe, char[1]), "Skin color unavailable");
         require(isAvailableAndAllowedTrait(tribe, char[2]), "Fur color unavailable");
@@ -250,11 +250,11 @@ contract NiftyDegen is NameableCharacter {
         _characterTraits.rightItem = _unpackUint10(character.traits >> 230);
     }
 
-    function isTraitInRange(
+    function _isTraitInRange(
         uint256 trait,
         uint256 lower,
         uint256 upper
-    ) public pure returns (bool) {
+    ) private pure returns (bool) {
         return trait == EMPTY_TRAIT || (trait >= lower && trait <= upper);
     }
 
