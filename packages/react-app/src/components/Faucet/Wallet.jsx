@@ -5,10 +5,10 @@ import QR from "qrcode.react";
 import { parseEther } from "@ethersproject/units";
 import { useUserAddress } from "eth-hooks";
 import { ethers } from "ethers";
-import { Notifier } from "../helpers";
-import Address from "./Address";
-import Balance from "./Balance";
-import AddressInput from "./AddressInput";
+import { Notifier } from "helpers";
+import Address from "../Address";
+import Balance from "../Balance";
+import AddressInput from "../AddressInput";
 import EtherInput from "./EtherInput";
 
 const { Text, Paragraph } = Typography;

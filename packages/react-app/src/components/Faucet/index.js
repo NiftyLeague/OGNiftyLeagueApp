@@ -4,8 +4,8 @@ import Blockies from "react-blockies";
 import { SendOutlined } from "@ant-design/icons";
 import { parseEther } from "@ethersproject/units";
 import { useLookupAddress } from "eth-hooks";
-import { useExchangePrice } from "../hooks";
-import { Notifier } from "../helpers";
+import { useExchangePrice } from "hooks";
+import { Notifier } from "helpers";
 import Wallet from "./Wallet";
 
 // improved a bit by converting address to ens if it exists
