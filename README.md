@@ -1,4 +1,4 @@
-# 🏗 Nifty League by Scaffold-ETH
+# 🏗 Nifty League
 
 ## 🏄‍♂️ Quick Start
 
