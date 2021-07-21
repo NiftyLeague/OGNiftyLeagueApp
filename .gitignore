@@ -9,6 +9,8 @@ packages/hardhat/artifacts
 packages/hardhat/deployments
 packages/hardhat/cache
 packages/hardhat/examples
+packages/hardhat/metadata
+packages/hardhat/images
 
 packages/**/data
 

@@ -12,8 +12,8 @@ const config = {
   // Commands that interact with the smart contract (minting, etc), will load the file to connect to the deployed contract.
   nftContractName: "NiftyDegen",
   metadata: {
-    description: "",
-    externalURL: "https://nifty-league.com",
+    description: "Collection of 5000 self-composable Nifty League characters on the Ethereum blockchain",
+    externalURL: "https://nifty-league.com/degens",
   },
 
   // If you're running IPFS on a non-default port, update this URL. If you're using the IPFS defaults, you should be all set.

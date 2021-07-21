@@ -638,35 +638,6 @@ module.exports = [
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "trait",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "lower",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "upper",
-        "type": "uint256"
-      }
-    ],
-    "name": "isTraitInRange",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "pure",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
         "name": "traitCombo",
         "type": "uint256"
       }

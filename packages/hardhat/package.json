@@ -24,6 +24,7 @@
     "node-watch": "^0.7.1",
     "qrcode-terminal": "^0.12.0",
     "ramda": "^0.27.1",
+    "request": "^2.88.2",
     "uint8arrays": "^2.1.5"
   },
   "devDependencies": {
@@ -44,6 +45,7 @@
     "deploy": "hardhat run scripts/deploy.js",
     "postdeploy": "hardhat run scripts/publish.js",
     "create-metadata": "hardhat run scripts/createMetadata.js",
+    "nft-task-runner": "hardhat run scripts/nftTaskRunner.js",
     "watch": "node scripts/watch.js",
     "accounts": "hardhat accounts",
     "balance": "hardhat balance",

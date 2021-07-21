@@ -1,4 +1,4 @@
-# 🏗 NiftyLeagueApp by Scaffold-ETH
+# 🏗 Nifty League by Scaffold-ETH
 
 ## 🏄‍♂️ Quick Start
 
@@ -20,6 +20,10 @@ yarn && yarn chain
 yarn start
 ```
 
+---
+
+If you wish to turn on [Subgraph](https://thegraph.com/) for our characters and wallet pages:
+
 > in a third terminal window, spin up a local graph node:
 
 ```bash
@@ -32,6 +36,28 @@ yarn graph-run-node
 ```bash
 yarn graph-create-local
 yarn deploy-and-graph-local
+```
+
+---
+
+If you wish to turn on the image and metadata generator:
+
+> if there's no local ipfs repo at `$HOME/.ipfs`, initialize one:
+
+```bash
+npx go-ipfs init
+```
+
+> run local ipfs daemon
+
+```bash
+npx go-ipfs daemon
+```
+
+> in a fifth terminal window, run our NFT task runner
+
+```bash
+yarn nft-task-runner
 ```
 
 ---

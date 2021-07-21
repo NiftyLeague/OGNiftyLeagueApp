@@ -2,8 +2,8 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint no-use-before-define: "warn" */
 const fs = require("fs");
-const { config, ethers } = require("hardhat");
-const { utils } = require("ethers");
+const hardhat = require("hardhat");
+// const { utils } = require("ethers");
 const R = require("ramda");
 const config = require("getconfig");
 const ipfsAPI = require("ipfs-http-client");
@@ -15,9 +15,9 @@ const main = async () => {
   const toAddress = "0xD75b0609ed51307E13bae0F9394b5f63A7f8b6A1";
 
   console.log("\n\n 🎫 Minting to " + toAddress + "...\n");
-  const targetNetwork = process.env.HARDHAT_NETWORK || config.defaultNetwork;
+  const targetNetwork = process.env.HARDHAT_NETWORK || hardhat.config.defaultNetwork;
 
-  const yourCollectible = await ethers.getContractAt(
+  const yourCollectible = await hardhat.ethers.getContractAt(
     config.nftContractName,
     fs.readFileSync(`./artifacts/${targetNetwork}/${config.nftContractName}.address`).toString(),
   );

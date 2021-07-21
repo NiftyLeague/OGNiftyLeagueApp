@@ -1,12 +1,39 @@
-module.exports = {
-  // Tribes
+const CHARACTER_TRAIT_TYPES = [
+  "Tribe",
+  "Skin Color",
+  "Fur Color",
+  "Eye Color",
+  "Pupil Color",
+  "Hair",
+  "Mouth",
+  "Beard",
+  "Facemark",
+  "Misc",
+  "Top",
+  "Outerwear",
+  "Print",
+  "Bottom",
+  "Footwear",
+  "Belt",
+  "Hat",
+  "Eyewear",
+  "Piercings",
+  "Wrists",
+  "Hands",
+  "Neckwear",
+  "Left Item",
+  "Right Item",
+];
+
+const TRIBES = {
   1: "Ape",
   2: "Human",
   3: "Doge",
   4: "Frog",
   5: "Cat",
   6: "Alien",
-  // Skin Colors
+};
+const SKIN_COLORS = {
   // Ape
   15: "Single Origin Ape",
   16: "Toledo Ape",
@@ -73,14 +100,15 @@ module.exports = {
   72: "Sparky Blue Alien",
   73: "Cherry Soda Alien",
   74: "Begonia Alien",
-  // Secondary Skin Colors
+};
+const FUR_COLORS = {
   // Ape
   75: "Sweet Curry Ape Fur",
   76: "Iced Tea Ape Fur",
   77: "Blueberry Buckle Ape Fur",
   78: "Allegiance Ape Fur",
   79: "Gentle Doe Ape Fur",
-  80: "Pink Macaroon Ape Fur",
+  80: "Canary Island Ape Fur",
   81: "Signal Pink Ape Fur",
   82: "White Ape Fur",
   83: "Sparky Blue Ape Fur",
@@ -90,7 +118,7 @@ module.exports = {
   // Human
   // Doge
   87: "White Doge Fur",
-  88: "Pink Macaroon Doge Fur",
+  88: "Canary Island Doge Fur",
   89: "Icy Brook Doge Fur",
   90: "Blueberry Buckle Doge Fur",
   91: "Sweet Curry Doge Fur",
@@ -111,7 +139,8 @@ module.exports = {
   104: "Primrose Path Cat Fur",
   105: "Sparky Blue Cat Fur",
   // Alien
-  // Eye Colors
+};
+const EYE_COLORS = {
   106: "White Eyes",
   107: "River Styx Eyes",
   108: "Sparky Blue Eyes",
@@ -121,7 +150,8 @@ module.exports = {
   112: "Primrose Path Eyes",
   113: "Cherry Soda Eyes",
   114: "Icy Brook Eyes",
-  // Secondary Eye Colors
+};
+const PUPIL_COLORS = {
   115: "River Styx Pupils",
   116: "Cherry Soda Pupils",
   117: "Japanese Carmine Pupils",
@@ -131,7 +161,8 @@ module.exports = {
   121: "Sparky Blue Pupils",
   122: "Primrose Path Pupils",
   123: "White Pupils",
-  // Hair
+};
+const HAIR = {
   200: "Hair Afro",
   201: "Hair Bangs",
   202: "Hair Bun",
@@ -147,11 +178,13 @@ module.exports = {
   212: "Hair Simple",
   213: "Hair Spiky",
   214: "Hair Straight",
-  // Mouth
+};
+const MOUTHS = {
   215: "Cigarette",
   216: "Mask",
   217: "Pipe",
-  // Beard
+};
+const BEARDS = {
   218: "Circle Beard",
   219: "Curtain",
   220: "Goatee",
@@ -161,12 +194,10 @@ module.exports = {
   224: "Mustache",
   225: "Mutton",
   226: "Van Dyke",
-  // Facemark
-  227: "Scar 01",
-  // Misc
-  228: "Headband",
-  229: "Ninja Mask",
-  // Top
+};
+const FACEMARKS = { 227: "Scar 01" };
+const MISC = { 228: "Headband", 229: "Ninja Mask" };
+const TOPS = {
   230: "Bra",
   231: "Crop Top",
   232: "Longsleeve",
@@ -176,7 +207,8 @@ module.exports = {
   236: "Tshirt Collared",
   237: "Vest",
   238: "Vest Torn",
-  // Outerwear
+};
+const OUTERWEAR = {
   239: "Dinner Jacket Open",
   240: "Hoodie",
   241: "Jacket Closed",
@@ -185,7 +217,8 @@ module.exports = {
   244: "Overalls",
   245: "Prisoners Robe",
   246: "Waistcoat",
-  // Print
+};
+const PRINTS = {
   247: "Banana",
   248: "Beer",
   249: "Bomb",
@@ -202,7 +235,8 @@ module.exports = {
   260: "Skull",
   261: "Smile",
   262: "Sun",
-  // Bottom
+};
+const BOTTOMS = {
   263: "Boxers",
   264: "Boxers Dotty",
   265: "Boxers Striped",
@@ -215,62 +249,96 @@ module.exports = {
   272: "Jorts Frayed",
   273: "Skirt",
   274: "Vertical Stripe Pants",
-  // Footwear
+};
+const FOOTWEAR = {
   275: "Shoes",
   276: "Shoes Basic",
   277: "Shoes Duck Faces",
   278: "Shoes Space Boots",
   279: "Shoes Work Boots",
-  // Belt
-  280: "Belt Simple",
-  // Hat
-  281: "Baseball Cap",
-  282: "Beanie",
-  283: "Bowler Hat",
-  284: "Construction Helmet",
-  285: "Cowboy Hat",
-  286: "Crown",
-  287: "Fish Hat",
-  288: "Hamburger",
-  289: "Helmet Viking",
-  290: "Kid Propeller Hat",
-  291: "Party Hat",
-  292: "Pirate Hat",
-  293: "Police Hat",
-  294: "Santa Hat",
-  295: "Sombrero",
-  296: "Top Hat",
-  297: "Traffic Cone",
-  // Eyewear
-  298: "Broken Glasses",
-  299: "Cyborg",
-  300: "Eyepatch",
-  301: "Eyepatch Skull",
-  302: "Goggles Vr",
-  303: "Monacle",
-  304: "Party Glasses",
-  305: "Rectangular Glasses",
-  306: "Steampunk Goggles",
-  307: "Sunglasses 01",
-  308: "Sunglasses 02",
-  309: "Sunglasses 03",
-  310: "Sunglasses 04",
-  311: "Visor",
-  // Piercing
-  312: "Earring",
-  // Wrist
-  313: "Watch",
-  // Hand
-  314: "Gloves",
-  315: "Gloves Cooking",
-  // Neckwear
-  316: "Bowtie",
-  317: "Necklace Gold",
-  318: "Tie",
-  // LeftHand
-  319: "Hold Left Briefcase",
-  320: "Hold Left Dynamite",
-  // RightHand
-  321: "Hold Right Cutlass",
-  322: "Hold Right Sword",
 };
+const BELTS = { 280: "Belt Simple", 281: "Striped Belt", 282: "Studded Belt" };
+const HATS = {
+  283: "Baseball Cap 01",
+  284: "Baseball Cap 02",
+  285: "Baseball Cap 03",
+  286: "Baseball Cap 04",
+  287: "Baseball Cap 05",
+  288: "Baseball Cap 06",
+  289: "Baseball Cap 07",
+  290: "Beanie",
+  291: "Bowler Hat",
+  292: "Construction Helmet",
+  293: "Cowboy Hat",
+  294: "Crown",
+  295: "Fish Hat",
+  296: "Hamburger",
+  297: "Helmet Viking",
+  298: "Kid Propeller Hat",
+  299: "Party Hat",
+  300: "Pirate Hat",
+  301: "Police Hat",
+  302: "Santa Hat",
+  303: "Sombrero",
+  304: "Top Hat",
+  305: "Traffic Cone",
+};
+const EYEWEAR = {
+  306: "Broken Glasses",
+  307: "Cyborg",
+  308: "Eyepatch",
+  309: "Eyepatch Skull",
+  310: "Goggles Vr",
+  311: "Monacle",
+  312: "Party Glasses",
+  313: "Rectangular Glasses",
+  314: "Steampunk Goggles",
+  315: "Sunglasses 01",
+  316: "Sunglasses 02",
+  317: "Sunglasses 03",
+  318: "Sunglasses 04",
+  319: "Visor",
+};
+const PIERCINGS = { 320: "Earring" };
+const WRISTS = { 321: "Sweatband", 322: "Watch" };
+const HANDS = { 323: "Gloves", 324: "Gloves Cooking" };
+const NECKWEAR = { 325: "Bowtie", 326: "Necklace Gold", 327: "Tie" };
+const LEFT_ITEMS = { 328: "Hold Left Briefcase", 329: "Hold Left Dynamite" };
+const RIGHT_ITEMS = {
+  330: "Hold Right Big Sword",
+  331: "Hold Right Cutlass",
+  332: "Hold Right Guitar",
+  333: "Hold Right Keyboard",
+  334: "Hold Right Lifesaver Ring",
+  335: "Hold Right Sword",
+  336: "Hold Right Umbrella",
+};
+
+const TRAIT_VALUE_MAP = {
+  ...TRIBES,
+  ...SKIN_COLORS,
+  ...FUR_COLORS,
+  ...EYE_COLORS,
+  ...PUPIL_COLORS,
+  ...HAIR,
+  ...MOUTHS,
+  ...BEARDS,
+  ...FACEMARKS,
+  ...MISC,
+  ...TOPS,
+  ...OUTERWEAR,
+  ...PRINTS,
+  ...BOTTOMS,
+  ...FOOTWEAR,
+  ...BELTS,
+  ...HATS,
+  ...EYEWEAR,
+  ...PIERCINGS,
+  ...WRISTS,
+  ...HANDS,
+  ...NECKWEAR,
+  ...LEFT_ITEMS,
+  ...RIGHT_ITEMS,
+};
+
+module.exports = { CHARACTER_TRAIT_TYPES, TRAIT_VALUE_MAP };
