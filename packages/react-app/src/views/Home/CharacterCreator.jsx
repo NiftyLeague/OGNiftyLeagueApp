@@ -129,10 +129,11 @@ const CharacterCreator = memo(({ address, isLoaded, isPortrait, readContracts, s
     async e => {
       const { character, head, clothing, accessories, items } = getMintableTraits(e.detail);
       const value = parseEther(nftPrice);
+      const targetNetwork = process.env.REACT_APP_NETWORK;
       tx(
         writeContracts[NFT_CONTRACT].purchase(character, head, clothing, accessories, items, {
           value,
-          gasLimit: 250000,
+          ...(targetNetwork !== "localhost" && { gasLimit: 250000 }),
         }),
       );
       setTimeout(() => e.detail.callback("true"), 4000);

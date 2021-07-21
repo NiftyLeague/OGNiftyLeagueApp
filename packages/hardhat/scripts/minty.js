@@ -2,7 +2,6 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable spaced-comment */
 const fs = require("fs");
-const request = require("request");
 const path = require("path");
 
 const CID = require("cids");
@@ -17,6 +16,7 @@ const { BigNumber } = require("ethers");
 // different environments (e.g. testnet, mainnet, staging, production, etc).
 const config = require("getconfig");
 
+const { generateImageURL, downloadImage } = require("./imageGenerator");
 const { CHARACTER_TRAIT_TYPES, TRAIT_VALUE_MAP } = require("../constants/characterTraits");
 
 // ipfs.add parameters for more deterministic CIDs
@@ -33,74 +33,6 @@ async function MakeMinty() {
   const m = new Minty();
   await m.init();
   return m;
-}
-
-/**
- * Generates NFT image url from character traits.
- * @param {} traits - list of character traits from contract
- */
-function generateImageURL(traits) {
-  const baseURL = "http://3.95.18.98:56429/";
-  const secret = "nABQA3ax2hQD9LRpozq9BAY8v2Ima2kv";
-  const traitArray = [
-    ["Tribe", traits[0]],
-    ["Skin Color", traits[1]],
-    ["Fur Color", traits[2]],
-    ["Eye Color", traits[3]],
-    ["Pupil Color", traits[4]],
-    ["Hair", traits[5]],
-    ["Mouth", traits[6]],
-    ["Beard", traits[7]],
-    ["Facemark", traits[8]],
-    ["Misc", traits[9]],
-    ["Top", traits[10]],
-    ["Outerwear", traits[11]],
-    ["Print", traits[12]],
-    ["Bottom", traits[13]],
-    ["Footwear", traits[14]],
-    ["Belt", traits[15]],
-    ["Hat", traits[16]],
-    ["Eyewear", traits[17]],
-    ["Piercing", traits[18]],
-    ["Wrist", traits[19]],
-    ["Hand", traits[20]],
-    ["Neckwear", traits[21]],
-    ["Left Hand", traits[22]],
-    ["Right Hand", traits[23]],
-  ];
-  const params = new URLSearchParams({
-    traits: JSON.stringify(traitArray),
-    version: 83,
-    secret,
-  });
-  return `${baseURL}?${params.toString()}`;
-}
-
-/**
- * Download NFT image from webserver.
- */
-async function downloadImage(url, dest) {
-  /* Create an empty file where we can save data */
-  const file = fs.createWriteStream(dest);
-
-  /* Using Promises so that we can use the ASYNC AWAIT syntax */
-  await new Promise((resolve, reject) => {
-    request({
-      /* Here you should specify the exact link to the file you are trying to download */
-      uri: url,
-      gzip: true,
-    })
-      .pipe(file)
-      .on("finish", async () => {
-        console.log(`The file is finished downloading.`);
-        resolve();
-      })
-      .on("error", error => {
-        reject(error);
-      });
-  }).catch(error => {
-    console.log(`Something happened: ${error}`);
-  });
 }
 
 /**
@@ -344,7 +276,6 @@ class Minty {
   async getNFTMetadata(tokenId) {
     const metadataURI = await this.contract.tokenURI(tokenId);
     const metadata = await this.getIPFSJSON(metadataURI);
-
     return { metadata, metadataURI };
   }
 
@@ -377,32 +308,11 @@ class Minty {
     for (const event of receipt.events) {
       if (event.event !== "Transfer") {
         console.log("ignoring unknown event type ", event.event);
-        continue;
+      } else {
+        return event.args.tokenId.toString();
       }
-      return event.args.tokenId.toString();
     }
-
     throw new Error("unable to get token id");
-  }
-
-  async transferToken(tokenId, toAddress) {
-    const fromAddress = await this.getTokenOwner(tokenId);
-
-    // because the base ERC721 contract has two overloaded versions of the safeTranferFrom function,
-    // we need to refer to it by its fully qualified name.
-    const tranferFn = this.contract["safeTransferFrom(address,address,uint256)"];
-    const tx = await tranferFn(fromAddress, toAddress, tokenId);
-
-    // wait for the transaction to be finalized
-    await tx.wait();
-  }
-
-  /**
-   * @returns {Promise<string>} - the default signing address that should own new tokens, if no owner was specified.
-   */
-  async defaultOwnerAddress() {
-    const signers = await this.hardhat.ethers.getSigners();
-    return signers[0].address;
   }
 
   /**
