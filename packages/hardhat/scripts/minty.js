@@ -16,11 +16,18 @@ const { BigNumber } = require("ethers");
 // different environments (e.g. testnet, mainnet, staging, production, etc).
 const config = require("getconfig");
 
+const {
+  stripIpfsUriPrefix,
+  ensureIpfsUriPrefix,
+  makeGatewayURL,
+  makeIPNSGatewayURL,
+  extractCID,
+} = require("./uriHelpers");
 const { generateImageURL, downloadImage } = require("./imageGenerator");
 const { CHARACTER_TRAIT_TYPES, TRAIT_VALUE_MAP } = require("../constants/characterTraits");
 
-// ipfs.add parameters for more deterministic CIDs
-const ipfsAddOptions = {
+// ipfs parameters for more deterministic CIDs
+const ipfsOptions = {
   cidVersion: 1,
   hashAlg: "sha2-256",
   wrapWithDirectory: true,
@@ -50,6 +57,7 @@ class Minty {
     this.ipfs = null;
     this.dir = null;
     this.metadataDir = null;
+    this.ipnsKey = null;
   }
 
   async init() {
@@ -69,7 +77,12 @@ class Minty {
     this.ipfs = ipfsClient.create(config.ipfsApiUrl);
     this.dir = `${config.ipfsBaseDirName}/${targetNetwork}`;
     this.metadataDir = `/${this.dir}/metadata`;
-    await this.ipfs.files.mkdir(this.metadataDir, { ...ipfsAddOptions, parents: true });
+    await this.ipfs.files.mkdir(this.metadataDir, { ...ipfsOptions, parents: true });
+
+    // set or generate IPNS key
+    const ipnsKeys = await this.ipfs.key.list();
+    this.ipnsKey = ipnsKeys.find(k => k.name === config.ipfsBaseDirName);
+    if (!this.ipnsKey) this.ipnsKey = await this.ipfs.key.gen(config.ipfsBaseDirName);
 
     this._initialized = true;
   }
@@ -105,7 +118,7 @@ class Minty {
     // 'ipfs://QmaNZ2FCgvBPqnxtkbToVVbK2Nes6xk5K4Ns6BsmkPucAM/cat-pic.png' instead of
     // 'ipfs://QmaNZ2FCgvBPqnxtkbToVVbK2Nes6xk5K4Ns6BsmkPucAM'
     const imgPath = `/${config.ipfsBaseDirName}/${basename}`;
-    const { cid: assetCid } = await this.ipfs.add({ path: imgPath, content }, ipfsAddOptions);
+    const { cid: assetCid } = await this.ipfs.add({ path: imgPath, content }, ipfsOptions);
 
     // make the NFT metadata JSON
     const assetURI = ensureIpfsUriPrefix(assetCid) + imgPath;
@@ -119,7 +132,7 @@ class Minty {
     // the CID hash of the directory will change with every file modified
     const metadataPath = `${this.metadataDir}/${tokenId}.json`;
     await this.ipfs.files.write(metadataPath, JSON.stringify(metadata), {
-      ...ipfsAddOptions,
+      ...ipfsOptions,
       create: true,
       parents: true,
     });
@@ -425,17 +438,17 @@ class Minty {
    * @param {string} tokenId - the ID of an NFT that was previously minted.
    * @param {object} metadata - the JSON metadata stored in IPFS and referenced by the token's metadata URI
    * @param {string} metadataURI - an ipfs:// URI for the NFT metadata
-   * @returns {Promise<{assetURI: string, metadataURI: string}>} - the IPFS asset and metadata uris that were pinned.
-   * Fails if no token with the given id exists, or if pinning fails.
+   * @returns {Promise<{pinnedAssetCID: CID, pinnedMetadataCID: CID}>} - the IPFS asset and metadata CIDs that were pinned.
+   * Fails if URI unavailable or pinning fails.
    */
   async pinTokenData(tokenId, metadata, metadataURI) {
     const { image: assetURI } = metadata;
-
     console.log(`Pinning asset data (${assetURI}) for token id ${tokenId}....`);
     await this.pin(assetURI);
 
     console.log(`Pinning metadata (${metadataURI}) for token id ${tokenId}...`);
     await this.pin(metadataURI);
+    return { pinnedAssetCID: extractCID(assetURI), pinnedMetadataCID: extractCID(metadataURI) };
   }
 
   /**
@@ -464,7 +477,7 @@ class Minty {
   /**
    * Request that the remote pinning service unpin the given CID or ipfs URI.
    *
-   * @param {string} cid - a CID or ipfs:// URI
+   * @param {CID} cid - a CID
    * @returns {Promise<void>}
    */
   async unpin(cid) {
@@ -488,14 +501,11 @@ class Minty {
    * @returns {Promise<boolean>} - true if the pinning service has already pinned the given cid
    */
   async isPinned(cid) {
-    if (typeof cid === "string") {
-      cid = new CID(cid);
-    }
-
     const opts = {
       service: config.pinningService.name,
-      cid: [cid], // ls expects an array of cids
+      cid: [typeof cid === "string" ? new CID(cid) : cid], // ls expects an array of cids
     };
+    // eslint-disable-next-line no-unused-vars
     for await (const result of this.ipfs.pin.remote.ls(opts)) {
       return true;
     }
@@ -537,58 +547,24 @@ class Minty {
     }
     await this.ipfs.pin.remote.service.add(name, { endpoint, key });
   }
-}
 
-//////////////////////////////////////////////
-// -------- URI helpers
-//////////////////////////////////////////////
+  //////////////////////////////////////////////
+  // -------- IPNS configuration
+  //////////////////////////////////////////////
 
-/**
- * @param {string} cidOrURI either a CID string, or a URI string of the form `ipfs://${cid}`
- * @returns the input string with the `ipfs://` prefix stripped off
- */
-function stripIpfsUriPrefix(cidOrURI) {
-  if (cidOrURI.startsWith("ipfs://")) {
-    return cidOrURI.slice("ipfs://".length);
+  /**
+   * Check if a cid is already pinned.
+   *
+   * @param {CID} cid - Pinned metadata IPFS CID
+   * @returns {Promise<CID>} - true if the pinning service has already pinned the given cid
+   */
+  async publishToIPNS(cid) {
+    console.log(`Publishing ${cid} to IPNS...`);
+    console.log("IPNS config:", this.ipnsKey);
+    const { name, value } = await this.ipfs.name.publish(cid, { key: this.ipnsKey.name });
+    return { name, value, gatewayURL: makeIPNSGatewayURL(name) };
   }
-  return cidOrURI;
 }
-
-function ensureIpfsUriPrefix(cidOrURI) {
-  let uri = cidOrURI.toString();
-  if (!uri.startsWith("ipfs://")) {
-    uri = "ipfs://" + cidOrURI;
-  }
-  // Avoid the Nyan Cat bug (https://github.com/ipfs/go-ipfs/pull/7930)
-  if (uri.startsWith("ipfs://ipfs/")) {
-    uri = uri.replace("ipfs://ipfs/", "ipfs://");
-  }
-  return uri;
-}
-
-/**
- * Return an HTTP gateway URL for the given IPFS object.
- * @param {string} ipfsURI - an ipfs:// uri or CID string
- * @returns - an HTTP url to view the IPFS object on the configured gateway.
- */
-function makeGatewayURL(ipfsURI) {
-  return config.ipfsGatewayUrl + "/" + stripIpfsUriPrefix(ipfsURI);
-}
-
-/**
- *
- * @param {string} cidOrURI - an ipfs:// URI or CID string
- * @returns {CID} a CID for the root of the IPFS path
- */
-function extractCID(cidOrURI) {
-  // remove the ipfs:// prefix, split on '/' and return first path component (root CID)
-  const cidString = stripIpfsUriPrefix(cidOrURI).split("/")[0];
-  return new CID(cidString);
-}
-
-//////////////////////////////////////////////
-// -------- Exports
-//////////////////////////////////////////////
 
 module.exports = {
   MakeMinty,

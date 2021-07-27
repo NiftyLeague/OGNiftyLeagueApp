@@ -1,4 +1,4 @@
-/* eslint-disable no-use-before-define */
+/* eslint-disable no-use-before-define, no-await-in-loop */
 const fs = require("fs");
 const hardhat = require("hardhat");
 const config = require("getconfig");
@@ -27,10 +27,15 @@ async function main() {
   if (!fs.existsSync(`${baseDir}/metadata`)) fs.mkdirSync(`${baseDir}/metadata`);
 
   const minty = await MakeMinty();
-  const tokenId = 4;
-  // await getNFT(minty, tokenId);
-  const { metadata, metadataURI } = await generateNFT(minty, tokenId);
-  await pinNFTData(minty, tokenId, metadata, metadataURI);
+  const tokenIds = [2, 5];
+  let lastestMetadataCID;
+  // eslint-disable-next-line no-restricted-syntax
+  for (const tokenId of tokenIds) {
+    // await getNFT(minty, tokenId);
+    const { metadata, metadataURI } = await generateNFT(minty, tokenId);
+    lastestMetadataCID = await pinNFTData(minty, tokenId, metadata, metadataURI);
+  }
+  await updateIPNS(minty, lastestMetadataCID);
 }
 
 async function generateNFT(minty, tokenId) {
@@ -49,6 +54,7 @@ async function generateNFT(minty, tokenId) {
   return { metadata: nft.metadata, metadataURI: nft.metadataURI };
 }
 
+// eslint-disable-next-line no-unused-vars
 async function getNFT(minty, tokenId, options = {}) {
   const nft = await minty.getNFT(tokenId, options);
 
@@ -71,12 +77,21 @@ async function getNFT(minty, tokenId, options = {}) {
 }
 
 async function pinNFTData(minty, tokenId, metadata, metadataURI) {
-  await minty.pinTokenData(tokenId, metadata, metadataURI);
+  console.log("");
+  const { pinnedMetadataCID } = await minty.pinTokenData(tokenId, metadata, metadataURI);
   console.log(`🌿 Pinned all data for token id ${chalk.green(tokenId)}`);
+  return pinnedMetadataCID;
+}
+
+async function updateIPNS(minty, pinnedMetadataCID) {
+  console.log("");
+  const { name, value, gatewayURL } = await minty.publishToIPNS(pinnedMetadataCID);
+  console.log(`Updated IPNS (${name}) to point to ${value}`);
+  console.log(`Viewable at ${gatewayURL}`);
 }
 
 function alignOutput(labelValuePairs) {
-  const maxLabelLength = labelValuePairs.map(([l, _]) => l.length).reduce((len, max) => (len > max ? len : max));
+  const maxLabelLength = labelValuePairs.map(([l]) => l.length).reduce((len, max) => (len > max ? len : max));
   // eslint-disable-next-line no-restricted-syntax
   for (const [label, value] of labelValuePairs) {
     console.log(label.padEnd(maxLabelLength + 1), value);

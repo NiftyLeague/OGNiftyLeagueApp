@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useThemeSwitcher } from "react-css-theme-switcher";
 import { MaxUint256 } from "@ethersproject/constants";
 import clsx from "clsx";
@@ -28,6 +28,8 @@ import EditIcon from "@material-ui/icons/Edit";
 import ShareIcon from "@material-ui/icons/Share";
 import { makeStyles } from "@material-ui/core/styles";
 import OpenSeaIcon from "assets/images/opensea.png";
+import { formatDateTime } from "helpers/dateTime";
+import { ResolveImageURL } from "helpers/ipfs";
 import { DEBUG, NFT_CONTRACT, NFTL_CONTRACT } from "../constants";
 import { TRAIT_NAME_MAP, TRAIT_VALUE_MAP } from "../constants/characters";
 
@@ -37,7 +39,7 @@ export const useStyles = makeStyles(theme => ({
     background: "-webkit-linear-gradient(89deg, #620edf 0%, #5e72eb 100%)",
   },
   media: {
-    height: 0,
+    height: 280,
     paddingTop: "56.25%", // 16:9
   },
   actionButtons: {
@@ -105,28 +107,14 @@ export const useStyles = makeStyles(theme => ({
   },
 }));
 
-function formatTime(timestamp) {
-  const date = new Date(timestamp * 1e3);
-  return `${date.toLocaleDateString("en-US")} ${date.toLocaleTimeString("en-US", { timeStyle: "short" })}`;
-}
-
-export default function CharacterCard({ address, character, ownerOwned, tx, writeContracts }) {
-  const { createdAt, id, name, traits } = character;
+const RenameDialog = ({ address, displayName, open, setOpen, tokenId, tx, writeContracts }) => {
   const { currentTheme } = useThemeSwitcher();
   const classes = useStyles();
-  const [expanded, setExpanded] = useState(false);
-  const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
   const [error, setError] = useState(false);
   const [helperText, setHelperText] = useState("");
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
-
-  const handleClickOpen = () => setOpen(true);
-
-  const handleClose = () => setOpen(false);
+  const handleClose = useCallback(() => setOpen(false), [setOpen]);
 
   const validateName = value => {
     setInput(value);
@@ -164,9 +152,66 @@ export default function CharacterCard({ address, character, ownerOwned, tx, writ
         if (DEBUG) console.log("awaiting metamask/web3 confirm result...", result);
         await result;
       }
-      tx(writeContracts[NFT_CONTRACT].changeName(parseInt(id, 10), input));
+      tx(writeContracts[NFT_CONTRACT].changeName(parseInt(tokenId, 10), input));
     }
-  }, [address, id, input, tx, writeContracts]);
+  }, [address, handleClose, input, tokenId, tx, writeContracts]);
+
+  return (
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="rename-form-dialog"
+      classes={{ paper: clsx({ [classes.dialogDark]: currentTheme === "dark" }) }}
+    >
+      <DialogTitle>
+        Rename {displayName} #{tokenId}
+      </DialogTitle>
+      <DialogContent>
+        <DialogContentText>
+          Renaming costs <strong>1000 NFTL</strong>. Each name must be unique (case insensitive) with a max character
+          length of 32 and may only include numbers, letters, or spaces.
+        </DialogContentText>
+        <TextField
+          autoFocus
+          error={error}
+          helperText={helperText}
+          fullWidth
+          label="New Name"
+          margin="dense"
+          onChange={({ target: { value } }) => validateName(value)}
+          value={input}
+        />
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose} color="primary">
+          Cancel
+        </Button>
+        <Button onClick={handleRename} color="primary" disabled={error}>
+          Rename
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+};
+
+export default function CharacterCard({ address, character, ownerOwned, tx, writeContracts }) {
+  const { createdAt, id: tokenId, name, traits } = character;
+  const classes = useStyles();
+  const [expanded, setExpanded] = useState(false);
+  const [image, setImage] = useState("https://eagle-sensors.com/wp-content/uploads/unavailable-image.jpg");
+  const [open, setOpen] = useState(false);
+
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
+
+  useEffect(() => {
+    async function setImageURL() {
+      const ipfsImageURL = await ResolveImageURL(tokenId);
+      if (ipfsImageURL) setImage(ipfsImageURL);
+    }
+    setImageURL();
+  }, [tokenId]);
 
   const displayName = name || "No Name Degen";
 
@@ -175,19 +220,19 @@ export default function CharacterCard({ address, character, ownerOwned, tx, writ
       <Card className={classes.cardRoot}>
         <CardHeader
           classes={{ title: classes.cardTitle, subheader: classes.cardSubheader, avatar: classes.avatar }}
-          avatar={<Avatar aria-label="Character ID">{id}</Avatar>}
+          avatar={<Avatar aria-label="Character ID">{tokenId}</Avatar>}
           title={
             <>
               {displayName} <img src={OpenSeaIcon} alt="opensea icon" style={{ width: 24, height: 24 }} />
             </>
           }
-          subheader={`Created: ${formatTime(createdAt)}`}
+          subheader={`Created: ${formatDateTime(createdAt)}`}
         />
-        <CardMedia className={classes.media} image="/static/images/cards/paella.jpg" title="NFT image" />
+        <CardMedia className={classes.media} image={image} title="NFT image" />
         <CardActions disableSpacing>
           {ownerOwned && (
             <Tooltip title="Rename">
-              <IconButton aria-label="rename" className={classes.actionButtons} onClick={handleClickOpen}>
+              <IconButton aria-label="rename" className={classes.actionButtons} onClick={() => setOpen(true)}>
                 <EditIcon />
               </IconButton>
             </Tooltip>
@@ -227,42 +272,18 @@ export default function CharacterCard({ address, character, ownerOwned, tx, writ
           </CardContent>
         </Collapse>
       </Card>
-      {ownerOwned && (
-        <Dialog
+      {ownerOwned ? (
+        <RenameDialog
+          address={address}
+          character={character}
+          displayName={displayName}
+          tokenId={tokenId}
+          tx={tx}
+          writeContracts={writeContracts}
           open={open}
-          onClose={handleClose}
-          aria-labelledby="rename-form-dialog"
-          classes={{ paper: clsx({ [classes.dialogDark]: currentTheme === "dark" }) }}
-        >
-          <DialogTitle>
-            Rename {displayName} #{id}
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              Renaming costs <strong>1000 NFTL</strong>. Each name must be unique (case insensitive) with a max
-              character length of 32 and may only include numbers, letters, or spaces.
-            </DialogContentText>
-            <TextField
-              autoFocus
-              error={error}
-              helperText={helperText}
-              fullWidth
-              label="New Name"
-              margin="dense"
-              onChange={({ target: { value } }) => validateName(value)}
-              value={input}
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose} color="primary">
-              Cancel
-            </Button>
-            <Button onClick={handleRename} color="primary" disabled={error}>
-              Rename
-            </Button>
-          </DialogActions>
-        </Dialog>
-      )}
+          setOpen={setOpen}
+        />
+      ) : null}
     </>
   );
 }

@@ -16,6 +16,8 @@ export const ETHERSCAN_KEY = process.env.REACT_APP_ETHERSCAN_KEY;
 // BLOCKNATIVE ID FOR Notify.js:
 export const BLOCKNATIVE_DAPPID = process.env.REACT_APP_BLOCKNATIVE_DAPPID;
 
+export const IPNS_URL = `${process.env.REACT_APP_IPFS_GATEWAY}/ipns/${process.env.REACT_APP_IPNS_ID}`;
+
 export const NFT_CONTRACT = "NiftyDegen";
 export const NFTL_CONTRACT = "NFTLToken";
 

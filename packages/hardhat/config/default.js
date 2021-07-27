@@ -1,4 +1,6 @@
+/* eslint-disable no-template-curly-in-string */
 const config = {
+  defaultNetwork: "$$HARDHAT_NETWORK",
   // The pinningService config tells minty what remote pinning service to use for pinning the IPFS data for a token.
   // The values are read in from environment variables, to discourage checking credentials into source control.
   // You can make things easy by creating a .env file with your environment variable definitions. See the example files
@@ -21,7 +23,9 @@ const config = {
   ipfsApiUrl: "http://localhost:5001",
 
   // If you're running the local IPFS gateway on a non-default port, or if you want to use a public gatway when displaying IPFS gateway urls, edit this.
-  ipfsGatewayUrl: "http://localhost:8080/ipfs",
+  host: "$$IPFS_HOST",
+  ipfsGatewayUrl: "https://${self.host}/ipfs",
+  ipnsGatewayUrl: "https://${self.host}/ipns",
 };
 
 module.exports = config;
