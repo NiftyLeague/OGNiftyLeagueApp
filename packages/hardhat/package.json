@@ -44,7 +44,6 @@
     "compile": "hardhat compile",
     "deploy": "hardhat run scripts/deploy.js",
     "postdeploy": "hardhat run scripts/publish.js",
-    "create-metadata": "hardhat run scripts/createMetadata.js",
     "nft-task-runner": "hardhat run scripts/nftTaskRunner.js",
     "watch": "node scripts/watch.js",
     "accounts": "hardhat accounts",
