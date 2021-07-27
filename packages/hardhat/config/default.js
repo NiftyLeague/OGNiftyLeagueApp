@@ -15,6 +15,7 @@ const config = {
     description: "Collection of 5000 self-composable Nifty League characters on the Ethereum blockchain",
     externalURL: "https://nifty-league.com/degens",
   },
+  ipfsBaseDirName: "nifty-degens",
 
   // If you're running IPFS on a non-default port, update this URL. If you're using the IPFS defaults, you should be all set.
   ipfsApiUrl: "http://localhost:5001",

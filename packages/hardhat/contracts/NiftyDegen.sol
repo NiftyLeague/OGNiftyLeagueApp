@@ -46,7 +46,7 @@ contract NiftyDegen is NameableCharacter {
      * @dev Base URI for computing {tokenURI}. Overrides ERC721 default.
      */
     function _baseURI() internal view virtual override returns (string memory) {
-        return "https://nifty-league.com/degens/metadata/";
+        return "https://nifty-league.com/ipfs/metadata/";
     }
 
     /**

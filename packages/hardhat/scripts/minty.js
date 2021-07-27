@@ -23,6 +23,7 @@ const { CHARACTER_TRAIT_TYPES, TRAIT_VALUE_MAP } = require("../constants/charact
 const ipfsAddOptions = {
   cidVersion: 1,
   hashAlg: "sha2-256",
+  wrapWithDirectory: true,
 };
 
 /**
@@ -44,9 +45,11 @@ async function MakeMinty() {
  */
 class Minty {
   constructor() {
-    this.ipfs = null;
-    this.contract = null;
     this._initialized = false;
+    this.contract = null;
+    this.ipfs = null;
+    this.dir = null;
+    this.metadataDir = null;
   }
 
   async init() {
@@ -64,6 +67,9 @@ class Minty {
 
     // create a local IPFS node
     this.ipfs = ipfsClient.create(config.ipfsApiUrl);
+    this.dir = `${config.ipfsBaseDirName}/${targetNetwork}`;
+    this.metadataDir = `/${this.dir}/metadata`;
+    await this.ipfs.files.mkdir(this.metadataDir, { ...ipfsAddOptions, parents: true });
 
     this._initialized = true;
   }
@@ -73,18 +79,12 @@ class Minty {
   //////////////////////////////////////////////
 
   /**
-   * Generate a new NFT from the given asset data.
+   * Adds NFT metadata and image to IPFS given asset data.
    *
    * @param {number} tokenId - the unique ID of the new token
    * @param {[]} traits - list of character traits from contract
    * @param {string} filepath - token image filepath
    * @param {Buffer|Uint8Array} content - a Buffer or UInt8Array of data (e.g. for an image)
-   * @param {object} options
-   * @param {?string} path - optional file path to set when storing the data on IPFS
-   * @param {?string} name - optional name to set in NFT metadata
-   * @param {?string} description - optional description to store in NFT metadata
-   * @param {?string} owner - optional ethereum address that should own the new NFT.
-   * If missing, the default signing address will be used.
    *
    * @typedef {object} CreateNFTResult
    * @property {string} tokenId - the unique ID of the new token
@@ -96,8 +96,7 @@ class Minty {
    *
    * @returns {Promise<CreateNFTResult>}
    */
-  async generateNFTFromAssetData(tokenId, traits, filePath, content) {
-    // add the asset to IPFS
+  async uploadNFTFromAssetData(tokenId, traits, filePath, content) {
     const basename = path.basename(filePath);
 
     // When you add an object to IPFS with a directory prefix in its path,
@@ -105,19 +104,27 @@ class Minty {
     // it gives us URIs with descriptive filenames in them e.g.
     // 'ipfs://QmaNZ2FCgvBPqnxtkbToVVbK2Nes6xk5K4Ns6BsmkPucAM/cat-pic.png' instead of
     // 'ipfs://QmaNZ2FCgvBPqnxtkbToVVbK2Nes6xk5K4Ns6BsmkPucAM'
-    const ipfsPath = "/nft/" + basename;
-    const { cid: assetCid } = await this.ipfs.add({ path: ipfsPath, content }, ipfsAddOptions);
+    const imgPath = `/${config.ipfsBaseDirName}/${basename}`;
+    const { cid: assetCid } = await this.ipfs.add({ path: imgPath, content }, ipfsAddOptions);
 
     // make the NFT metadata JSON
-    const assetURI = ensureIpfsUriPrefix(assetCid) + "/" + basename;
+    const assetURI = ensureIpfsUriPrefix(assetCid) + imgPath;
     const metadata = await this.makeNFTMetadata(tokenId, traits, assetURI);
 
-    // add the metadata to IPFS
-    const { cid: metadataCid } = await this.ipfs.add(
-      { path: "/nft/metadata.json", content: JSON.stringify(metadata) },
-      ipfsAddOptions,
-    );
-    const metadataURI = ensureIpfsUriPrefix(metadataCid) + "/metadata.json";
+    // unpin old metadata directory hash
+    const { cid: oldMetadataCid } = await this.ipfs.files.stat(this.metadataDir);
+    await this.unpin(oldMetadataCid);
+
+    // add the metadata to IPFS Mutable File System (MFS)
+    // the CID hash of the directory will change with every file modified
+    const metadataPath = `${this.metadataDir}/${tokenId}.json`;
+    await this.ipfs.files.write(metadataPath, JSON.stringify(metadata), {
+      ...ipfsAddOptions,
+      create: true,
+      parents: true,
+    });
+    const { cid: metadataCid } = await this.ipfs.files.stat(this.metadataDir);
+    const metadataURI = ensureIpfsUriPrefix(metadataCid) + `/${tokenId}.json`;
 
     return {
       tokenId,
@@ -147,7 +154,7 @@ class Minty {
   }
 
   /**
-   * Generate NFT from tokenId
+   * Generate NFT from tokenId, uploading to local IPFS
    *
    * @param {number} tokenId - the unique ID of the new token
    *
@@ -157,7 +164,7 @@ class Minty {
     const traits = await this.getCharacterTraits(tokenId);
     const filePath = await this.generateImage(tokenId, traits);
     const content = await fs.promises.readFile(filePath);
-    return this.generateNFTFromAssetData(tokenId, traits, filePath, content);
+    return this.uploadNFTFromAssetData(tokenId, traits, filePath, content);
   }
 
   /**
@@ -170,9 +177,9 @@ class Minty {
    */
   // eslint-disable-next-line class-methods-use-this
   async generateImage(tokenId, traits) {
-    const filePath = `images/${tokenId}.png`;
+    const filePath = `${this.dir}/images/${tokenId}.png`;
     if (fs.existsSync(filePath)) {
-      console.log(`File already exists`);
+      console.log(`Image already exists at ${filePath}`);
     } else {
       const url = generateImageURL(traits);
       console.log("Unity image url:", url);
@@ -205,7 +212,7 @@ class Minty {
         attributes.push({ trait_type: CHARACTER_TRAIT_TYPES[i], value: TRAIT_VALUE_MAP[trait] });
       }
     });
-    return {
+    const metadata = {
       name: (await this.contract.getName(tokenId)) || `${TRAIT_VALUE_MAP[traits[0]]} Degen #${tokenId}`,
       image: ensureIpfsUriPrefix(assetURI),
       description: config.metadata.description,
@@ -213,6 +220,8 @@ class Minty {
       // background_color: ,
       attributes,
     };
+    fs.writeFileSync(`${this.dir}/metadata/${tokenId}.json`, JSON.stringify(metadata));
+    return metadata;
   }
 
   //////////////////////////////////////////////
@@ -414,11 +423,12 @@ class Minty {
    * Pins all IPFS data associated with the given tokend id to the remote pinning service.
    *
    * @param {string} tokenId - the ID of an NFT that was previously minted.
+   * @param {object} metadata - the JSON metadata stored in IPFS and referenced by the token's metadata URI
+   * @param {string} metadataURI - an ipfs:// URI for the NFT metadata
    * @returns {Promise<{assetURI: string, metadataURI: string}>} - the IPFS asset and metadata uris that were pinned.
    * Fails if no token with the given id exists, or if pinning fails.
    */
-  async pinTokenData(tokenId) {
-    const { metadata, metadataURI } = await this.getNFTMetadata(tokenId);
+  async pinTokenData(tokenId, metadata, metadataURI) {
     const { image: assetURI } = metadata;
 
     console.log(`Pinning asset data (${assetURI}) for token id ${tokenId}....`);
@@ -426,8 +436,6 @@ class Minty {
 
     console.log(`Pinning metadata (${metadataURI}) for token id ${tokenId}...`);
     await this.pin(metadataURI);
-
-    return { assetURI, metadataURI };
   }
 
   /**
@@ -438,20 +446,39 @@ class Minty {
    */
   async pin(cidOrURI) {
     const cid = extractCID(cidOrURI);
-
     // Make sure IPFS is set up to use our preferred pinning service.
     await this._configurePinningService();
 
     // Check if we've already pinned this CID to avoid a "duplicate pin" error.
     const pinned = await this.isPinned(cid);
     if (pinned) {
+      console.log(`CID (${cid}) already pinned`);
       return;
     }
-
     // Ask the remote service to pin the content.
     // Behind the scenes, this will cause the pinning service to connect to our local IPFS node
     // and fetch the data using Bitswap, IPFS's transfer protocol.
     await this.ipfs.pin.remote.add(cid, { service: config.pinningService.name });
+  }
+
+  /**
+   * Request that the remote pinning service unpin the given CID or ipfs URI.
+   *
+   * @param {string} cid - a CID or ipfs:// URI
+   * @returns {Promise<void>}
+   */
+  async unpin(cid) {
+    // Make sure IPFS is set up to use our preferred pinning service.
+    await this._configurePinningService();
+
+    // Check if we've actually pinned this CID to be removed.
+    const pinned = await this.isPinned(cid);
+    if (pinned) {
+      // Ask the remote service to unpin the content.
+      // Removes pin object matching query allowing it to be garbage collected
+      console.log(`Unpinning CID (${cid}) from ${config.pinningService.name}`);
+      await this.ipfs.pin.remote.rmAll({ cid: [cid], service: config.pinningService.name });
+    }
   }
 
   /**

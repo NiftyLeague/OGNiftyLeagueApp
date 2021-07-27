@@ -24,7 +24,7 @@ yarn start
 
 If you wish to turn on [Subgraph](https://thegraph.com/) for our characters and wallet pages:
 
-> in a third terminal window, spin up a local graph node:
+> in a third terminal window, make sure Docker is open and spin up a local graph node:
 
 ```bash
 yarn clean-graph-node # if you need to clean up previous data
