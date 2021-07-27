@@ -41,25 +41,19 @@ contract NFTLToken is ERC20("Nifty League", "NFTL") {
         _mint(msg.sender, initialSupply);
     }
 
+    // External functions
+
     /**
      * @notice Sets the contract address to Nifty League ____ NFTs upon deployment
      * @param nftAddress Address of verified NFT contract
-     * @dev Permissioning not added because it is only callable once.
+     * @dev Permissioning not added because it is only callable once
      */
     function setNFTAddress(address nftAddress) external {
         require(_nftAddress == address(0), "Already set");
         _nftAddress = nftAddress;
     }
 
-    /**
-     * @notice Burns a quantity of tokens held by the caller, reducing total supply
-     * @param burnQuantity Amount of tokens to burn
-     * @dev Emits an {Transfer} event to 0 address
-     */
-    function burn(uint256 burnQuantity) public virtual returns (bool) {
-        _burn(msg.sender, burnQuantity);
-        return true;
-    }
+    // Public functions
 
     /**
      * @notice Check last claim timestamp of accumulated NFTL for given NFT
@@ -143,5 +137,15 @@ contract NFTLToken is ERC20("Nifty League", "NFTL") {
         require(totalClaimQty != 0, "No accumulated NFTL");
         _mint(msg.sender, totalClaimQty);
         return totalClaimQty;
+    }
+
+    /**
+     * @notice Burns a quantity of tokens held by the caller, reducing total supply
+     * @param burnQuantity Amount of tokens to burn
+     * @dev Emits an {Transfer} event to 0 address
+     */
+    function burn(uint256 burnQuantity) public virtual returns (bool) {
+        _burn(msg.sender, burnQuantity);
+        return true;
     }
 }

@@ -11,6 +11,10 @@ interface INFTL is IERC20 {
     function burn(uint256 burnQuantity) external returns (bool);
 }
 
+/**
+ * @title NameableCharacter (Extendable to allow name changes on NFTs)
+ * @dev Extends NiftyLeagueCharacter (ERC721)
+ */
 abstract contract NameableCharacter is NiftyLeagueCharacter {
     /// @notice Cost to change character name in NFTL
     uint256 public constant NAME_CHANGE_PRICE = 1000e18; // 1000 NFTL
@@ -20,11 +24,24 @@ abstract contract NameableCharacter is NiftyLeagueCharacter {
 
     event NameUpdated(uint256 indexed tokenId, string previousName, string newName);
 
+    // External functions
+
+    /**
+     * @notice Retrieve name of token
+     * @param tokenId ID of NFT
+     * @return NFT name
+     */
     function getName(uint256 tokenId) external view returns (string memory) {
         require(_exists(tokenId), "nonexistent token");
         return _characters[tokenId].name;
     }
 
+    /**
+     * @notice Change name of NFT payable with {NAME_CHANGE_PRICE} NFTL
+     * @param tokenId ID of NFT
+     * @param newName New name to validate and set on NFT
+     * @return New NFT name
+     */
     function changeName(uint256 tokenId, string memory newName) external returns (string memory) {
         require(_exists(tokenId), "nonexistent token");
         require(_isApprovedOrOwner(_msgSender(), tokenId), "Caller is not owner nor approved");
@@ -44,22 +61,21 @@ abstract contract NameableCharacter is NiftyLeagueCharacter {
         return newName;
     }
 
-    /**
-     * @dev Reserves the name if isReserve is set to true, de-reserves if set to false
-     */
-    function _toggleReserveName(string memory str, bool isReserve) private {
-        _nameReserved[_toLower(str)] = isReserve;
-    }
+    // Public functions
 
     /**
-     * @dev Check if name is already reserved
+     * @notice Check if name is already reserved
+     * @param nameString Name to validate
+     * @return True if name is unique
      */
     function isNameReserved(string memory nameString) public view returns (bool) {
         return _nameReserved[_toLower(nameString)];
     }
 
     /**
-     * @dev Check for valid name string (Alphanumeric and spaces without leading or trailing space)
+     * @notice Check for valid name string (Alphanumeric and spaces without leading or trailing space)
+     * @param newName Name to validate
+     * @return True if name input is valid
      */
     function validateName(string memory newName) public pure returns (bool) {
         bytes memory byteName = bytes(newName);
@@ -81,8 +97,21 @@ abstract contract NameableCharacter is NiftyLeagueCharacter {
         return true;
     }
 
+    // Private functions
+
     /**
-     * @dev Converts strings to lowercase
+     * @notice Reserves the name if isReserve is set to true, de-reserves if set to false
+     * @param str NFT name string
+     * @param isReserved Bool if name should be reserved or not
+     */
+    function _toggleReserveName(string memory str, bool isReserved) private {
+        _nameReserved[_toLower(str)] = isReserved;
+    }
+
+    /**
+     * @notice Converts strings to lowercase
+     * @param str Any string
+     * @return String to lower case
      */
     function _toLower(string memory str) private pure returns (string memory) {
         bytes memory bStr = bytes(str);

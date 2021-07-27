@@ -9,6 +9,10 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
+/**
+ * @title NiftyLeagueCharacter (Base NFT for Nifty League characters)
+ * @dev Extends standard ERC721 contract from OpenZeppelin
+ */
 contract NiftyLeagueCharacter is ERC721, Ownable, Pausable {
     using Strings for string;
 
@@ -77,38 +81,56 @@ contract NiftyLeagueCharacter is ERC721, Ownable, Pausable {
         _nftlAddress = nftlAddress;
     }
 
+    // External functions
+
     /**
-     * @dev Triggers stopped state.
-     * Requirements: The contract must not be paused.
+     * @notice Triggers stopped state
+     * @dev Requirements: The contract must not be paused
      */
     function pauseMinting() external onlyOwner {
         _pause();
     }
 
     /**
-     * @dev Returns to normal state.
-     * Requirements: The contract must be paused.
+     * @notice Returns to normal state
+     * @dev Requirements: The contract must be paused
      */
     function unpauseMinting() external onlyOwner {
         _unpause();
     }
 
     /**
-     * @dev Withdraw ether from this contract (Callable by owner)
+     * @notice Withdraw ether from this contract (Callable by owner)
      */
     function withdraw() external onlyOwner {
         uint256 balance = address(this).balance;
         payable(msg.sender).transfer(balance);
     }
 
-    function isUnique(uint256 traitCombo) public view returns (bool) {
-        return !_existMap[traitCombo];
-    }
-
+    /**
+     * @notice Retrieve a list of removed character traits
+     * @return removedTraits - list of unavailable character traits
+     */
     function getRemovedTraits() external view returns (uint16[] memory) {
         return removedTraits;
     }
 
+    // Public functions
+
+    /**
+     * @notice Check whether trait combo is unique
+     * @param traitCombo Generated trait combo packed into uint256
+     * @return True if combo is unique and available
+     */
+    function isUnique(uint256 traitCombo) public view returns (bool) {
+        return !_existMap[traitCombo];
+    }
+
+    /**
+     * @notice Check whether trait is still available
+     * @param trait ID of trait
+     * @return True if trait has not been removed
+     */
     function isAvailableTrait(uint256 trait) public view returns (bool) {
         return !_removedTraitsMap[trait];
     }

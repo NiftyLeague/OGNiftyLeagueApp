@@ -4,6 +4,10 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 
+/**
+ * @title AllowedTraitsStorage
+ * @dev Trait indexes need to be restricted per tribe prior to NFT deploy
+ */
 contract AllowedTraitsStorage is Ownable {
     /// @dev Mapping if trait is allowed for selected tribe
     mapping(uint256 => mapping(uint256 => bool)) private _tribeTraitAllowed;
@@ -12,10 +16,9 @@ contract AllowedTraitsStorage is Ownable {
 
     /**
      * @notice Set allowed on a given a list of traits
-     * @param tribe Tribe ID
+     * @param tribe Tribe ID 1-10
      * @param traits List of traits to set for tribe
      * @param allowed Bool if the trait list should be made allowed or not
-     * @dev Limited to list length of 16 due to stack size limitations
      */
     function setTraitsAllowedOnTribe(
         uint256 tribe,
@@ -47,6 +50,7 @@ contract AllowedTraitsStorage is Ownable {
      * @notice Check if trait is allowed for a tribe
      * @param tribe Tribe ID
      * @param trait Trait ID
+     * @return True if trait is allowed for tribe
      */
     function isAllowedTrait(uint256 tribe, uint256 trait) public view returns (bool) {
         return _tribeTraitAllowed[tribe][trait];

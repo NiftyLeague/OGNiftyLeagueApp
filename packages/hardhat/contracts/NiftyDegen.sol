@@ -8,6 +8,10 @@ import "./AllowedTraitsStorage.sol";
 
 import "hardhat/console.sol";
 
+/**
+ * @title NiftyDegen NFT (The OG NFTs of Nifty League on Ethereum)
+ * @dev Extends NameableCharacter and NiftyLeagueCharacter (ERC721)
+ */
 contract NiftyDegen is NameableCharacter {
     using Counters for Counters.Counter;
 
@@ -23,16 +27,6 @@ contract NiftyDegen is NameableCharacter {
     /// @dev Available traits storage address
     address internal immutable _storageAddress;
 
-    string arweaveGeneratorHash = "-eEz1VUXZE9EDaEyEe927S_TV53OGBPN4LXobDGkaWA";
-    string ipfsGeneratorHash = "Qmc4sLXQPVyuGCi71Z2G7ezanhn9NjmyPwxAw2BFaCFsgT";
-
-    event GeneratorUpdated(
-        string previousArweaveHash,
-        string newArweaveHash,
-        string previousIpfsHash,
-        string newIpfsHash
-    );
-
     /**
      * @notice Construct the Nifty League NFTs
      * @param nftlAddress Address of verified Nifty League NFTL contract
@@ -42,15 +36,71 @@ contract NiftyDegen is NameableCharacter {
         _storageAddress = storageAddress;
     }
 
+    // External functions
+
     /**
-     * @dev Base URI for computing {tokenURI}. Overrides ERC721 default.
+     * @notice Validate character traits and purchase a Nifty Degen NFT
+     * @param character Indexed list of character traits
+     * @param head Indexed list of head traits
+     * @param clothing Indexed list of clothing options
+     * @param accessories Indexed list of accessories
+     * @param items Indexed list of items
+     * @dev Order is based on character selector indexes
      */
-    function _baseURI() internal view virtual override returns (string memory) {
-        return "https://nifty-league.com/ipfs/metadata/";
+    function purchase(
+        uint256[5] memory character,
+        uint256[5] memory head,
+        uint256[6] memory clothing,
+        uint256[6] memory accessories,
+        uint256[2] memory items
+    ) external payable {
+        require(!paused() || msg.sender == owner(), "Purchases are paused.");
+        require(msg.value == getNFTPrice() || msg.sender == owner(), "Ether value incorrect");
+        _validateTraits(character, head, clothing, accessories, items);
+        uint256 traitCombo = _generateTraitCombo(character, head, clothing, accessories, items);
+        _storeNewCharacter(traitCombo);
     }
 
     /**
-     * @dev Gets current NFT Price
+     * @notice Retrieve a list of character traits for a token
+     * @param tokenId ID of NFT
+     * @dev Permissioning not added because it is only callable once.
+     * @return _characterTraits - indexed list of character traits
+     */
+    function getCharacterTraits(uint256 tokenId) external view returns (CharacterTraits memory _characterTraits) {
+        require(_exists(tokenId), "nonexistent token");
+        Character memory character = _characters[tokenId];
+        _characterTraits.tribe = _unpackUint10(character.traits);
+        _characterTraits.skinColor = _unpackUint10(character.traits >> 10);
+        _characterTraits.furColor = _unpackUint10(character.traits >> 20);
+        _characterTraits.eyeColor = _unpackUint10(character.traits >> 30);
+        _characterTraits.pupilColor = _unpackUint10(character.traits >> 40);
+        _characterTraits.hair = _unpackUint10(character.traits >> 50);
+        _characterTraits.mouth = _unpackUint10(character.traits >> 60);
+        _characterTraits.beard = _unpackUint10(character.traits >> 70);
+        _characterTraits.facemark = _unpackUint10(character.traits >> 80);
+        _characterTraits.misc = _unpackUint10(character.traits >> 90);
+        _characterTraits.top = _unpackUint10(character.traits >> 100);
+        _characterTraits.outerwear = _unpackUint10(character.traits >> 110);
+        _characterTraits.print = _unpackUint10(character.traits >> 120);
+        _characterTraits.bottom = _unpackUint10(character.traits >> 130);
+        _characterTraits.footwear = _unpackUint10(character.traits >> 140);
+        _characterTraits.belt = _unpackUint10(character.traits >> 150);
+        _characterTraits.hat = _unpackUint10(character.traits >> 160);
+        _characterTraits.eyewear = _unpackUint10(character.traits >> 170);
+        _characterTraits.piercings = _unpackUint10(character.traits >> 180);
+        _characterTraits.wrists = _unpackUint10(character.traits >> 190);
+        _characterTraits.hands = _unpackUint10(character.traits >> 200);
+        _characterTraits.neckwear = _unpackUint10(character.traits >> 210);
+        _characterTraits.leftItem = _unpackUint10(character.traits >> 220);
+        _characterTraits.rightItem = _unpackUint10(character.traits >> 230);
+    }
+
+    // Public functions
+
+    /**
+     * @notice Gets current NFT Price based on current supply
+     * @return Current price to mint 1 NFT
      */
     function getNFTPrice() public view returns (uint256) {
         uint256 currentSupply = totalSupply.current();
@@ -78,20 +128,39 @@ contract NiftyDegen is NameableCharacter {
         }
     }
 
-    function purchase(
-        uint256[5] memory character,
-        uint256[5] memory head,
-        uint256[6] memory clothing,
-        uint256[6] memory accessories,
-        uint256[2] memory items
-    ) external payable {
-        require(!paused() || msg.sender == owner(), "Purchases are paused.");
-        require(msg.value == getNFTPrice() || msg.sender == owner(), "Ether value incorrect");
-        _validateTraits(character, head, clothing, accessories, items);
-        uint256 traitCombo = _generateTraitCombo(character, head, clothing, accessories, items);
-        _storeNewCharacter(traitCombo);
+    /**
+     * @notice Check if traits is allowed for tribe and hasn't been removed yet
+     * @param tribe Tribe ID
+     * @param trait Trait ID
+     * @dev Trait types are restricted per tribe before deploy in AllowedTraitsStorage
+     * @return True if trait is available and allowed for tribe
+     */
+    function isAvailableAndAllowedTrait(uint256 tribe, uint256 trait) public view returns (bool) {
+        if (trait == EMPTY_TRAIT) return true;
+        AllowedTraitsStorage traitsStorage = AllowedTraitsStorage(_storageAddress);
+        return isAvailableTrait(trait) && traitsStorage.isAllowedTrait(tribe, trait);
     }
 
+    // Internal functions
+
+    /**
+     * @notice Base URI for computing {tokenURI}. Overrides ERC721 default
+     * @return Base token URI linked to IPFS metadata
+     */
+    function _baseURI() internal view virtual override returns (string memory) {
+        return "https://nifty-league.com/ipfs/metadata/";
+    }
+
+    // Private functions
+
+    /**
+     * @notice Validate character traits
+     * @param char Indexed list of character traits
+     * @param head Indexed list of head traits
+     * @param cloth Indexed list of clothing options
+     * @param acc Indexed list of accessories
+     * @param items Indexed list of items
+     */
     function _validateTraits(
         uint256[5] memory char,
         uint256[5] memory head,
@@ -150,6 +219,16 @@ contract NiftyDegen is NameableCharacter {
         require(isAvailableAndAllowedTrait(tribe, items[1]), "Right item unavailable");
     }
 
+    /**
+     * @notice Generates uint256 bitwise trait combo
+     * @param character Indexed list of character traits
+     * @param head Indexed list of head traits
+     * @param clothing Indexed list of clothing options
+     * @param accessories Indexed list of accessories
+     * @param items Indexed list of items
+     * @dev Each trait is stored in 10 bits
+     * @return Trait combo packed into uint256
+     */
     function _generateTraitCombo(
         uint256[5] memory character,
         uint256[5] memory head,
@@ -184,6 +263,10 @@ contract NiftyDegen is NameableCharacter {
         return traits;
     }
 
+    /**
+     * @notice Mints NFT if unique and attempts to remove a random trait
+     * @param traitCombo Trait combo provided from _generateTraitCombo
+     */
     function _storeNewCharacter(uint256 traitCombo) private {
         require(isUnique(traitCombo), "NFT trait combo already exists");
         _existMap[traitCombo] = true;
@@ -196,6 +279,12 @@ contract NiftyDegen is NameableCharacter {
         _safeMint(msg.sender, newCharId);
     }
 
+    /**
+     * @notice Attempts to remove a random trait from availability
+     * @param newCharId ID of newly generated NFT
+     * @param traitCombo Trait combo provided from _generateTraitCombo
+     * @dev Any trait id besides 0 or tribe ids can be removed
+     */
     function _removeRandomTrait(uint256 newCharId, uint256 traitCombo) private {
         if (
             removedTraits.length < 100 ||
@@ -212,81 +301,37 @@ contract NiftyDegen is NameableCharacter {
         }
     }
 
-    function _rngIndex(uint256 id) private view returns (uint256) {
-        uint256 randomHash = uint256(keccak256(abi.encodePacked(id, block.timestamp, block.difficulty)));
+    /**
+     * @notice Simulate randomness
+     * @param tokenId ID of newly generated NFT
+     * @dev Randomness can be anticipated and exploited but is not crucial to NFT sale
+     * @return Number from 1-23
+     */
+    function _rngIndex(uint256 tokenId) private view returns (uint256) {
+        uint256 randomHash = uint256(keccak256(abi.encodePacked(tokenId, block.timestamp, block.difficulty)));
         return ((randomHash % 23) + 1) * 10;
     }
 
+    /**
+     * @notice Unpack trait id from trait list
+     * @param traits Section within trait combo
+     * @return Trait ID
+     */
     function _unpackUint10(uint256 traits) private pure returns (uint16) {
         return uint16(traits) & 0x03FF;
     }
 
-    function getCharacterTraits(uint256 tokenId) external view returns (CharacterTraits memory _characterTraits) {
-        require(_exists(tokenId), "nonexistent token");
-        Character memory character = _characters[tokenId];
-        _characterTraits.tribe = _unpackUint10(character.traits);
-        _characterTraits.skinColor = _unpackUint10(character.traits >> 10);
-        _characterTraits.furColor = _unpackUint10(character.traits >> 20);
-        _characterTraits.eyeColor = _unpackUint10(character.traits >> 30);
-        _characterTraits.pupilColor = _unpackUint10(character.traits >> 40);
-        _characterTraits.hair = _unpackUint10(character.traits >> 50);
-        _characterTraits.mouth = _unpackUint10(character.traits >> 60);
-        _characterTraits.beard = _unpackUint10(character.traits >> 70);
-        _characterTraits.facemark = _unpackUint10(character.traits >> 80);
-        _characterTraits.misc = _unpackUint10(character.traits >> 90);
-        _characterTraits.top = _unpackUint10(character.traits >> 100);
-        _characterTraits.outerwear = _unpackUint10(character.traits >> 110);
-        _characterTraits.print = _unpackUint10(character.traits >> 120);
-        _characterTraits.bottom = _unpackUint10(character.traits >> 130);
-        _characterTraits.footwear = _unpackUint10(character.traits >> 140);
-        _characterTraits.belt = _unpackUint10(character.traits >> 150);
-        _characterTraits.hat = _unpackUint10(character.traits >> 160);
-        _characterTraits.eyewear = _unpackUint10(character.traits >> 170);
-        _characterTraits.piercings = _unpackUint10(character.traits >> 180);
-        _characterTraits.wrists = _unpackUint10(character.traits >> 190);
-        _characterTraits.hands = _unpackUint10(character.traits >> 200);
-        _characterTraits.neckwear = _unpackUint10(character.traits >> 210);
-        _characterTraits.leftItem = _unpackUint10(character.traits >> 220);
-        _characterTraits.rightItem = _unpackUint10(character.traits >> 230);
-    }
-
+    /**
+     * @notice Checks whether trait id is in range of lower/upper bounds
+     * @param lower lower range-bound
+     * @param upper upper range-bound
+     * @return True if in range
+     */
     function _isTraitInRange(
         uint256 trait,
         uint256 lower,
         uint256 upper
     ) private pure returns (bool) {
         return trait == EMPTY_TRAIT || (trait >= lower && trait <= upper);
-    }
-
-    function isAvailableAndAllowedTrait(uint256 tribe, uint256 trait) public view returns (bool) {
-        if (trait == EMPTY_TRAIT) return true;
-        AllowedTraitsStorage traitsStorage = AllowedTraitsStorage(_storageAddress);
-        return isAvailableTrait(trait) && traitsStorage.isAllowedTrait(tribe, trait);
-    }
-
-    function setGeneratorHashes(string memory newArweave, string memory newIpfs) external onlyOwner {
-        string memory prevArweave = arweaveGeneratorHash;
-        string memory prevIpfs = ipfsGeneratorHash;
-
-        arweaveGeneratorHash = newArweave;
-        ipfsGeneratorHash = newIpfs;
-
-        emit GeneratorUpdated(prevArweave, newArweave, prevIpfs, newIpfs);
-    }
-
-    function getArweaveImgHash() external pure returns (string memory) {
-        return "QRz8SYEKUXPl6b13pIKizKb7jji1v95RKmlUGqspuMQ";
-    }
-
-    function getIpfsImgHash() external pure returns (string memory) {
-        return "QmNWdHPzZ2qcd1JJXuZZGUzeqExzLfSSMrgJMoNWf1fQgs";
-    }
-
-    function getArweaveGeneratorHash() external view returns (string memory) {
-        return arweaveGeneratorHash;
-    }
-
-    function getIpfsGeneratorHash() external view returns (string memory) {
-        return ipfsGeneratorHash;
     }
 }
