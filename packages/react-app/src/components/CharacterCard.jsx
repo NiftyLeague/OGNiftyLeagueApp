@@ -20,10 +20,12 @@ import EditIcon from "@material-ui/icons/Edit";
 import ShareIcon from "@material-ui/icons/Share";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { RenameDialog, OpenSeaLink } from "components";
 import UnavailableImg from "assets/images/unavailable-image.jpeg";
 import { formatDateTime } from "helpers/dateTime";
 import { ResolveImageURL } from "helpers/ipfs";
+import RenameDialog from "./RenameDialog";
+import OpenSeaLink from "./OpenSeaLink";
+import ShareCharacter from "./ShareCharacter";
 import { TRAIT_NAME_MAP, TRAIT_VALUE_MAP } from "../constants/characters";
 
 export const useStyles = makeStyles(theme => ({
@@ -107,11 +109,7 @@ export default function CharacterCard({ character, ownerOwned }) {
               </IconButton>
             </Tooltip>
           )}
-          <Tooltip title="Share link">
-            <IconButton aria-label="share" className={classes.actionButtons}>
-              <ShareIcon />
-            </IconButton>
-          </Tooltip>
+          <ShareCharacter tokenId={tokenId} />
           <span className={classes.traitsHeader}>Traits:</span>
           <IconButton
             className={clsx(classes.actionButtons, classes.expand, {

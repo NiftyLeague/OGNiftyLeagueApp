@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Button, Dropdown, Menu } from "antd";
 import { createFromIconfontCN, TwitterOutlined } from "@ant-design/icons";
-import { MoreVert } from "@material-ui/icons";
+import { Menu as MenuIcon, MoreVert } from "@material-ui/icons";
 import { DEBUG } from "../../constants";
 
 const IconFont = createFromIconfontCN({
@@ -57,10 +57,12 @@ const DropdownMenu = ({ hideNav, navItems, setRoute }) => {
     </Menu>
   );
 
+  const btnStyle = { fontSize: 20, verticalAlign: "top", marginLeft: 4 };
+
   return (
     <Dropdown key="more" overlay={menu} overlayStyle={{ minWidth: 200, top: 66 }} placement="bottomRight">
       <Button style={{ border: "none", padding: 0, backgroundColor: "transparent", margin: "auto 0 auto 5px" }}>
-        <MoreVert style={{ fontSize: 20, verticalAlign: "top" }} />
+        {hideNav ? <MenuIcon style={{ ...btnStyle, marginLeft: 8 }} /> : <MoreVert style={btnStyle} />}
       </Button>
     </Dropdown>
   );
