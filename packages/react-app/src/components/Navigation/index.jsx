@@ -70,6 +70,7 @@ function Navigation({ route, setRoute, width }) {
     <Layout>
       <Layout.Header
         style={{
+          top: 0,
           position: "fixed",
           zIndex: 100,
           width: "100%",
@@ -85,13 +86,14 @@ function Navigation({ route, setRoute, width }) {
               }),
         }}
       >
-        <Title level={4} style={{ margin: `auto ${mobileView ? "10px" : "30px"} auto 0` }}>
-          <span role="img" aria-label="pixel emoji">
-            👾
-          </span>{" "}
-          Nifty League
-        </Title>
-        {/* <img width={42} height={50} src={NiftyLeagueLogo} alt="Nifty League logo" /> */}
+        <Link onClick={() => setRoute("/")} to="/" style={{ margin: `auto ${mobileView ? "10px" : "30px"} auto 0` }}>
+          <Title level={4} style={{ marginBottom: 0 }}>
+            <span role="img" aria-label="pixel emoji">
+              👾
+            </span>{" "}
+            Nifty League
+          </Title>
+        </Link>
         {!hideNav && (
           <nav className="navbar-polygon">
             <Menu

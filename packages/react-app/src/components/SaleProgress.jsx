@@ -48,7 +48,7 @@ function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-export default function SaleProgress({ handleClose }) {
+export default function SaleProgress({ className, handleClose }) {
   const classes = useStyles();
   const { readContracts } = useContext(NetworkContext);
   const progress = useContractReader(readContracts, NFT_CONTRACT, "totalSupply", null, TOTAL_SUPPLY_INTERVAL);
@@ -56,7 +56,7 @@ export default function SaleProgress({ handleClose }) {
   return (
     <Alert
       severity="info"
-      classes={{ root: classes.alert, message: classes.message, icon: classes.icon }}
+      classes={{ root: clsx(classes.alert, className), message: classes.message, icon: classes.icon }}
       {...(handleClose && { onClose: handleClose })}
     >
       <Typography variant="h6" gutterBottom style={{ color: "#fff" }}>
