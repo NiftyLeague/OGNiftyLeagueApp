@@ -14,12 +14,12 @@ import {
 } from "@material-ui/core";
 import { Image, Tooltip } from "antd";
 import EditIcon from "@material-ui/icons/Edit";
-import ShareIcon from "@material-ui/icons/Share";
+
 import { makeStyles } from "@material-ui/core/styles";
 import withWidth, { isWidthDown } from "@material-ui/core/withWidth";
 
 import { NetworkContext } from "NetworkProvider";
-import { Address, RenameDialog } from "components";
+import { Address, RenameDialog, ShareCharacter } from "components";
 import OpenSeaIcon from "assets/images/opensea.png";
 import UnavailableImg from "assets/images/unavailable-image.jpeg";
 import { ResolveImageURL } from "helpers/ipfs";
@@ -128,11 +128,7 @@ const Character = ({ width }) => {
               </IconButton>
             </Tooltip>
           )}
-          <Tooltip title="Share link">
-            <IconButton aria-label="share" className={classes.actionButtons}>
-              <ShareIcon />
-            </IconButton>
-          </Tooltip>
+          <ShareCharacter tokenId={tokenId} />
           <span className={classes.owner}>
             Owner:
             <Address

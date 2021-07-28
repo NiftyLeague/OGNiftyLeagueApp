@@ -13,6 +13,7 @@ export { default as Preloader } from "./Preloader";
 export { default as Provider } from "./Provider";
 export { default as RenameDialog } from "./RenameDialog";
 export { default as SaleProgress } from "./SaleProgress";
+export { default as ShareCharacter } from "./ShareCharacter";
 export { default as ThemeSwitch } from "./ThemeSwitch";
 export { default as TokenBalance } from "./TokenBalance";
 export { default as Tooltip } from "./Tooltip";
