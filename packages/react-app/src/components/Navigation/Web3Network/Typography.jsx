@@ -1,5 +1,5 @@
 import React from "react";
-import { classNames } from "helpers";
+import clsx from "clsx";
 
 const VARIANTS = {
   hero: "text-hero",
@@ -13,8 +13,8 @@ const VARIANTS = {
   caption2: "text-caption-2",
 };
 
-function Typography({ variant = "body", weight = 400, component = "div", className = "text-primary", children = [] }) {
-  return React.createElement(component, { className: classNames(VARIANTS[variant], className) }, children);
+function Typography({ variant = "body", component = "div", className = "text-primary", children = [] }) {
+  return React.createElement(component, { className: clsx(VARIANTS[variant], className) }, children);
 }
 
 export default Typography;

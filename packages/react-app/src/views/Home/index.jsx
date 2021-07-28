@@ -21,26 +21,17 @@ import "./home.css";
 
 const { Title } = Typography;
 
-const Home = memo(({ address, readContracts, setRoute, tx, writeContracts }) => {
+const Home = memo(({ setRoute }) => {
   const [isLoaded, setLoaded] = useState(false);
   const [isVideoOpen, setVideoOpen] = useState(false);
-
-  console.log("isLoaded", isLoaded);
 
   return (
     <div style={{ textAlign: "center", overflowX: "hidden" }}>
       <Preloader ready={isLoaded} />
-      <CharacterCreator
-        address={address}
-        isLoaded={isLoaded}
-        readContracts={readContracts}
-        setLoaded={setLoaded}
-        tx={tx}
-        writeContracts={writeContracts}
-      />
+      <CharacterCreator isLoaded={isLoaded} setLoaded={setLoaded} />
       <section className="about-page-section">
         <Container>
-          <SaleProgress readContracts={readContracts} />
+          <SaleProgress />
           <div className="row" style={{ paddingTop: 32 }}>
             <div className="col-md-6 d-flex align-self-center">
               <div className="about-video">

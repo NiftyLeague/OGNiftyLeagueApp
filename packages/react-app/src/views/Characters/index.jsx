@@ -10,7 +10,7 @@ import { INITIAL_FILTER_STATE, FILTER_STATE_MAPPING, PAGE_SIZE } from "./constan
 import { DEFAULT_QUERY, FILTER_SEARCH_QUERY, ID_SEARCH_QUERY, NAME_SEARCH_QUERY } from "./queries";
 import { useStyles } from "./styles";
 
-const CharactersContainer = ({ readContracts }) => {
+const CharactersContainer = () => {
   const classes = useStyles();
   const { currentTheme } = useThemeSwitcher();
   const [open, setOpen] = useState(true);
@@ -109,7 +109,7 @@ const CharactersContainer = ({ readContracts }) => {
         />
       ) : null}
       <Snackbar open={open} autoHideDuration={null} onClose={handleClose} className={classes.snackbar}>
-        <SaleProgress readContracts={readContracts} handleClose={handleClose} />
+        <SaleProgress handleClose={handleClose} />
       </Snackbar>
     </Container>
   );

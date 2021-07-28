@@ -1,10 +1,12 @@
 /* eslint-disable no-nested-ternary */
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import Unity, { UnityContext } from "react-unity-webgl";
 import { isMobileOnly } from "react-device-detect";
 import { Button, Card, Col, Image, Layout, Menu, Row } from "antd";
 import { SportsEsports, SportsMma } from "@material-ui/icons";
 import { useThemeSwitcher } from "react-css-theme-switcher";
+
+import { NetworkContext } from "NetworkProvider";
 import { Preloader, WalletConnectPrompt } from "components";
 import NiftySmashers from "assets/gifs/nifty-smashers.gif";
 import NiftySmashersThumb from "assets/images/characters/alien-dj.png";
@@ -23,7 +25,8 @@ const smashersContext = new UnityContext({
   productVersion: "0.6.9",
 });
 
-const Game = ({ address, unityContext }) => {
+const Game = ({ unityContext }) => {
+  const { address } = useContext(NetworkContext);
   const [isLoaded, setLoaded] = useState(false);
 
   const startAuthentication = useCallback(
@@ -91,7 +94,8 @@ const Game = ({ address, unityContext }) => {
   );
 };
 
-export default function Games({ address, validAccount }) {
+export default function Games() {
+  const { validAccount } = useContext(NetworkContext);
   const { currentTheme } = useThemeSwitcher();
   const [selectedGame, setSelectedGame] = useState("all");
   const [collapsed, setCollapsed] = useState(true);
@@ -133,7 +137,7 @@ export default function Games({ address, validAccount }) {
       <Layout style={{ marginLeft: collapsed ? 80 : 200 }}>
         <Content style={{ ...(selectedGame === "all" && { padding: 40 }) }}>
           {selectedGame !== "all" ? (
-            <Game address={address} unityContext={selectedGame === "nifty-smashers" && smashersContext} />
+            <Game unityContext={selectedGame === "nifty-smashers" && smashersContext} />
           ) : (
             <Row gutter={{ xs: 16, md: 8 }}>
               <Col span={6}>

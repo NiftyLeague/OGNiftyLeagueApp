@@ -1,6 +1,7 @@
-import React, { useMemo, useState } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import { Card } from "antd";
 import { useContractLoader, useContractExistsAtAddress } from "hooks";
+import { NetworkContext } from "NetworkProvider";
 import Account from "../Account";
 import DisplayVariable from "./DisplayVariable";
 import FunctionForm from "./FunctionForm";
@@ -34,27 +35,13 @@ const noContractDisplay = (
 
 const isQueryable = fn => (fn.stateMutability === "view" || fn.stateMutability === "pure") && fn.inputs.length === 0;
 
-export default function Contract({
-  customContract,
-  account,
-  gasPrice,
-  signer,
-  provider,
-  name,
-  show,
-  price,
-  blockExplorer,
-}) {
-  const contracts = useContractLoader(provider);
-  let contract;
-  if (!customContract) {
-    contract = contracts ? contracts[name] : "";
-  } else {
-    contract = customContract;
-  }
+export default function Contract({ name, show }) {
+  const { localProvider, signer, targetNetwork } = useContext(NetworkContext);
+  const contracts = useContractLoader(localProvider);
+  const contract = contracts ? contracts[name] : "";
 
   const address = contract ? contract.address : "";
-  const contractIsDeployed = useContractExistsAtAddress(provider, address);
+  const contractIsDeployed = useContractExistsAtAddress(localProvider, address);
 
   const displayedContractFunctions = useMemo(
     () =>
@@ -90,8 +77,8 @@ export default function Contract({
             : contract.connect(signer)[fn.name]
         }
         functionInfo={fn}
-        provider={provider}
-        gasPrice={gasPrice}
+        provider={localProvider}
+        targetNetwork={targetNetwork}
         triggerRefresh={triggerRefresh}
       />
     );
@@ -106,13 +93,11 @@ export default function Contract({
             <div style={{ float: "right" }}>
               <Account
                 address={address}
-                localProvider={provider}
-                injectedProvider={provider}
-                mainnetProvider={provider}
-                price={price}
-                blockExplorer={blockExplorer}
+                localProvider={localProvider}
+                injectedProvider={localProvider}
+                mainnetProvider={localProvider}
+                blockExplorer={targetNetwork.blockExplorer}
               />
-              {account}
             </div>
           </div>
         }

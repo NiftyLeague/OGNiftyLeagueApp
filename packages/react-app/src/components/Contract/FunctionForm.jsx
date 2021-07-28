@@ -10,13 +10,13 @@ import tryToDisplay from "./utils";
 
 const { utils } = require("ethers");
 
-export default function FunctionForm({ contractFunction, functionInfo, provider, gasPrice, triggerRefresh }) {
+export default function FunctionForm({ contractFunction, functionInfo, provider, targetNetwork, triggerRefresh }) {
   const [form, setForm] = useState({});
   const [txValue, setTxValue] = useState();
   const [returnValue, setReturnValue] = useState();
   const { currentTheme } = useThemeSwitcher();
 
-  const tx = Notifier(provider, gasPrice, currentTheme === "dark");
+  const tx = Notifier(provider, targetNetwork, currentTheme === "dark");
 
   let inputIndex = 0;
   const inputs = functionInfo.inputs.map(input => {
