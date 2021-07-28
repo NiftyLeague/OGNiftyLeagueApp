@@ -83,13 +83,7 @@ a:active {
     font-size: 40px !important;
   }
   h2 {
-    font-size: 25px !important;
-  }
-  p,
-  a,
-  button,
-  button span {
-    font-size: 16px;
+    font-size: 30px !important;
   }
 }
 

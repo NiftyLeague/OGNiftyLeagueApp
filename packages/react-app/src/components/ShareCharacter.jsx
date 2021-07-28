@@ -28,8 +28,6 @@ const ShareCharacter = ({ tokenId }) => {
     setOpen(false);
   };
 
-  console.log("currentTheme", currentTheme);
-
   return (
     <>
       <Tooltip title="Share link">

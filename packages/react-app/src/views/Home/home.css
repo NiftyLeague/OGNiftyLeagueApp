@@ -5,6 +5,17 @@
   padding: 100px 0px 120px;
   position: relative;
 }
+
+.about-page-section .alert {
+  background: -moz-linear-gradient(89deg, #620edf 0%, #5e72eb 100%);
+  background: -ms-linear-gradient(89deg, #620edf 0%, #5e72eb 100%);
+  background: -o-linear-gradient(89deg, #620edf 0%, #5e72eb 100%);
+  background: -webkit-linear-gradient(right, #5e72eb, #620edf);
+  background: -o-linear-gradient(right, #5e72eb, #620edf);
+  background: linear-gradient(89deg, #620edf 0%, #5e72eb 100%);
+  background: -webkit-linear-gradient(89deg, #620edf 0%, #5e72eb 100%);
+}
+
 .about-page-section .section-heading {
   text-align: left;
 }
@@ -185,9 +196,16 @@
   .about-page-section {
     padding: 50px 0px 50px;
   }
+  .about-page-section .about-video {
+    margin-bottom: 32px;
+  }
+  .about-page-section .moreBtn {
+    width: 100%;
+    margin-top: 8px;
+  }
   .about-page-section .section-heading .text,
   .characters p,
   .characters a {
-    font-size: 16px;
+    font-size: 18px;
   }
 }

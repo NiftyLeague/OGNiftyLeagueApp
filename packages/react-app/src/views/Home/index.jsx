@@ -31,7 +31,7 @@ const Home = memo(({ setRoute }) => {
       <CharacterCreator isLoaded={isLoaded} setLoaded={setLoaded} />
       <section className="about-page-section">
         <Container>
-          <SaleProgress />
+          <SaleProgress className="alert" />
           <div className="row" style={{ paddingTop: 32 }}>
             <div className="col-md-6 d-flex align-self-center">
               <div className="about-video">

@@ -17,7 +17,6 @@ import {
 import { Tooltip } from "antd";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import EditIcon from "@material-ui/icons/Edit";
-import ShareIcon from "@material-ui/icons/Share";
 import { makeStyles } from "@material-ui/core/styles";
 
 import UnavailableImg from "assets/images/unavailable-image.jpeg";
@@ -73,7 +72,7 @@ export default function CharacterCard({ character, ownerOwned }) {
       const ipfsImageURL = await ResolveImageURL(tokenId);
       if (ipfsImageURL) setImage(ipfsImageURL);
     }
-    setImageURL();
+    if (tokenId) setImageURL();
   }, [tokenId]);
 
   const displayName = name || "No Name Degen";
