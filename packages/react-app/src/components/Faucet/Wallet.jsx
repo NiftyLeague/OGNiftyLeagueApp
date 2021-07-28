@@ -5,7 +5,6 @@ import QR from "qrcode.react";
 import { parseEther } from "@ethersproject/units";
 import { useUserAddress } from "eth-hooks";
 import { ethers } from "ethers";
-import { Notifier } from "helpers";
 import Address from "../Address";
 import Balance from "../Balance";
 import AddressInput from "../AddressInput";
@@ -41,7 +40,7 @@ const { Text, Paragraph } = Typography;
   - Provide color to specify the color of wallet icon
 */
 
-export default function Wallet({ address, color, ensProvider, price, provider }) {
+export default function Wallet({ address, color, ensProvider, price, provider, tx }) {
   const signerAddress = useUserAddress(provider);
   const selectedAddress = address || signerAddress;
 
@@ -312,8 +311,6 @@ export default function Wallet({ address, color, ensProvider, price, provider })
             disabled={!amount || !toAddress || qr}
             loading={false}
             onClick={() => {
-              const tx = Notifier(provider);
-
               let value;
               try {
                 value = parseEther("" + amount);
@@ -321,11 +318,7 @@ export default function Wallet({ address, color, ensProvider, price, provider })
                 // failed to parseEther, try something else
                 value = parseEther("" + parseFloat(amount).toFixed(8));
               }
-
-              tx({
-                to: toAddress,
-                value,
-              });
+              tx({ to: toAddress, value });
               setOpen(!open);
               setQr();
             }}

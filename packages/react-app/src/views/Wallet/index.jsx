@@ -1,10 +1,11 @@
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useContext, useMemo } from "react";
 import { useQuery } from "@apollo/client";
 import { Button } from "antd";
 import { makeStyles } from "@material-ui/core/styles";
 import { CircularProgress, Container, Grid, Typography } from "@material-ui/core";
 import { CharacterCard, WalletConnectPrompt } from "components";
 import { useClaimableNFTL } from "hooks";
+import { NetworkContext } from "NetworkProvider";
 import { DEBUG, NFTL_CONTRACT } from "../../constants";
 import { OWNER_QUERY } from "./query";
 
@@ -18,7 +19,8 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const ClaimNFTL = ({ tokenIndices, tx, writeContracts }) => {
+const ClaimNFTL = ({ tokenIndices }) => {
+  const { tx, writeContracts } = useContext(NetworkContext);
   const classes = useStyles();
   const totalAccumulated = useClaimableNFTL(writeContracts, tokenIndices);
 
@@ -43,7 +45,7 @@ const ClaimNFTL = ({ tokenIndices, tx, writeContracts }) => {
         maximumFractionDigits: 2,
       })}{" "}
       NFTL Claimable
-      {totalAccumulated > 0.0 && (
+      {totalAccumulated > 0.0 && writeContracts && (
         <Button style={btnStyles} shape="round" size="large" onClick={handleClaimNFTL}>
           Claim
         </Button>
@@ -52,8 +54,9 @@ const ClaimNFTL = ({ tokenIndices, tx, writeContracts }) => {
   ) : null;
 };
 
-const Wallet = ({ address, tx, writeContracts }) => {
+const Wallet = () => {
   const classes = useStyles();
+  const { address } = useContext(NetworkContext);
   const { loading, data } = useQuery(OWNER_QUERY, {
     pollInterval: 5000,
     variables: { address: address?.toLowerCase() },
@@ -75,18 +78,12 @@ const Wallet = ({ address, tx, writeContracts }) => {
       ) : (
         <>
           <Typography variant="h4">Your Degens</Typography>
-          <ClaimNFTL tokenIndices={tokenIndices} tx={tx} writeContracts={writeContracts} />
+          <ClaimNFTL tokenIndices={tokenIndices} />
           {characters.length ? (
             <Grid container spacing={2} className={classes.grid}>
               {characters.map(character => (
                 <Grid item xs={12} sm={6} md={4} lg={3} key={character.id}>
-                  <CharacterCard
-                    address={address}
-                    character={character}
-                    ownerOwned
-                    tx={tx}
-                    writeContracts={writeContracts}
-                  />
+                  <CharacterCard character={character} ownerOwned />
                 </Grid>
               ))}
             </Grid>

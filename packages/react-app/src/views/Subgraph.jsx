@@ -1,11 +1,13 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useQuery, gql } from "@apollo/client";
 import { parseEther } from "@ethersproject/units";
 import { Button, Input, Table, Typography } from "antd";
 import GraphiQL from "graphiql";
 import "graphiql/graphiql.min.css";
 import fetch from "isomorphic-fetch";
+
+import { NetworkContext } from "NetworkProvider";
 import { useNFTPrice } from "hooks";
 import { Address } from "components";
 import { NFT_CONTRACT } from "../constants";
@@ -71,7 +73,8 @@ const CHARACTERS_QUERY = `
 
 const CHARACTERS_GQL = gql(CHARACTERS_QUERY);
 
-function Subgraph({ mainnetProvider, readContracts, subgraphUri, tx, writeContracts }) {
+function Subgraph({ subgraphUri }) {
+  const { mainnetProvider, readContracts, tx, writeContracts } = useContext(NetworkContext);
   const { loading, data } = useQuery(CHARACTERS_GQL, { pollInterval: 5000 });
   const nftPrice = useNFTPrice(readContracts);
 

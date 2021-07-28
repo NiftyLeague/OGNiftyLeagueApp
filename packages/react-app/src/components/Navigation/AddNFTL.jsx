@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
+import { NetworkContext } from "NetworkProvider";
 import Tooltip from "../Tooltip";
 import { NFTL_CONTRACT } from "../../constants";
 
-const AddNFTL = ({ userProvider, writeContracts }) => {
-  const NFTLAddress = writeContracts[NFTL_CONTRACT].address;
+const AddNFTL = () => {
+  const { userProvider, writeContracts } = useContext(NetworkContext);
+  const NFTLAddress = writeContracts && writeContracts[NFTL_CONTRACT].address;
   const handleAddToken = () => {
     const params = {
       type: "ERC20",

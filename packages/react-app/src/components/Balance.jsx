@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { formatEther } from "@ethersproject/units";
 import { usePoller } from "eth-hooks";
+import { NetworkContext } from "NetworkProvider";
 import { useExchangePrice } from "../hooks";
 
 /*
@@ -24,22 +25,13 @@ import { useExchangePrice } from "../hooks";
 
   - Provide address={address} and get balance corresponding to given address
   - Provide provider={userProvider} to access balance on mainnet or any other network (ex. localProvider)
-  - Provide targetNetwork={targetNetwork} ex: localhost, mainnet
 */
 
-export default function Balance({
-  address,
-  balance: bal,
-  dollarMultiplier,
-  mainnetProvider,
-  pollTime,
-  provider,
-  targetNetwork,
-  value,
-}) {
+export default function Balance({ address, balance: bal, dollarMultiplier, pollTime, provider, value }) {
   const [dollarMode, setDollarMode] = useState(false);
   const [balance, setBalance] = useState();
   /* 💵 This hook will get the price of ETH from Sushiswap: */
+  const { mainnetProvider, targetNetwork } = useContext(NetworkContext);
   const price = useExchangePrice(targetNetwork, mainnetProvider, 30000);
 
   const getBalance = async () => {

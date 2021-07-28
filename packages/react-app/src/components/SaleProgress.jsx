@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import { LinearProgress, Typography } from "@material-ui/core";
 import { Tooltip } from "antd";
 import MuiAlert from "@material-ui/lab/Alert";
+import { NetworkContext } from "NetworkProvider";
 import { useContractReader } from "hooks";
 import { NFT_CONTRACT, TOTAL_SUPPLY_INTERVAL } from "../constants";
 
@@ -47,8 +48,9 @@ function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-export default function SaleProgress({ readContracts, handleClose }) {
+export default function SaleProgress({ handleClose }) {
   const classes = useStyles();
+  const { readContracts } = useContext(NetworkContext);
   const progress = useContractReader(readContracts, NFT_CONTRACT, "totalSupply", null, TOTAL_SUPPLY_INTERVAL);
 
   return (

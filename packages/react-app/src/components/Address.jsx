@@ -33,7 +33,7 @@ const blockExplorerLink = (address, blockExplorer) =>
   `${blockExplorer || "https://etherscan.io/"}${"address/"}${address}`;
 
 export default function Address(props) {
-  const { address, blockExplorer, ensProvider, mobileView, size } = props;
+  const { address, blockExplorer, copyable, ensProvider, mobileView, size } = props;
 
   const ens = useLookupAddress(ensProvider, address);
 
@@ -75,7 +75,7 @@ export default function Address(props) {
         </div>
       )}
       <span style={{ verticalAlign: "middle", paddingLeft: 5 }}>
-        {DEBUG ? (
+        {DEBUG || copyable ? (
           <Text copyable={{ text: address }}>
             <a
               style={{ color: currentTheme === "light" ? "#222222" : "#ddd" }}

@@ -1,8 +1,9 @@
-import React, { memo, useCallback, useEffect, useState, useRef } from "react";
+import React, { memo, useCallback, useContext, useEffect, useState, useRef } from "react";
 import Unity, { UnityContext } from "react-unity-webgl";
 import { isMobileOnly, withOrientationChange } from "react-device-detect";
 import { parseEther } from "@ethersproject/units";
 import { useNFTPrice, useRemovedTraits } from "hooks";
+import { NetworkContext } from "NetworkProvider";
 import CharacterBGImg from "assets/images/backgrounds/character_creator.png";
 import CurrentPrice from "./CurrentPrice";
 import { DEBUG, NFT_CONTRACT } from "../../constants";
@@ -71,7 +72,8 @@ window.onload = e => {
   }
 };
 
-const CharacterCreator = memo(({ address, isLoaded, isPortrait, readContracts, setLoaded, tx, writeContracts }) => {
+const CharacterCreator = memo(({ isLoaded, isPortrait, setLoaded }) => {
+  const { address, readContracts, tx, writeContracts } = useContext(NetworkContext);
   const removedTraitsCallback = useRef();
   const [refreshKey, setRefreshKey] = useState(0);
   const [width, setWidth] = useState(DEFAULT_WIDTH);

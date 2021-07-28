@@ -2,6 +2,7 @@
 import { notification } from "antd";
 import Notify from "bnc-notify";
 import { ethers } from "ethers";
+import axios from "axios";
 import { BLOCKNATIVE_DAPPID, DEBUG } from "../constants";
 
 // Wrapper around BlockNative's wonderful Notify.js
@@ -9,7 +10,22 @@ import { BLOCKNATIVE_DAPPID, DEBUG } from "../constants";
 
 const callbacks = {};
 
-export default function Notifier(providerOrSigner, gasPrice, etherscan, darkMode = false) {
+const loadGasPrice = async (targetNetwork, speed = "fast") => {
+  let gasPrice = ethers.utils.parseUnits("4.1", "gwei");
+  if (targetNetwork.gasPrice) {
+    gasPrice = targetNetwork.gasPrice;
+  } else if (navigator.onLine) {
+    axios
+      .get("https://ethgasstation.info/json/ethgasAPI.json")
+      .then(response => {
+        gasPrice = response.data[speed] * 100000000;
+      })
+      .catch(error => console.log(error));
+  }
+  return gasPrice;
+};
+
+export default function Notifier(providerOrSigner, targetNetwork, darkMode = false) {
   if (typeof providerOrSigner !== "undefined") {
     // eslint-disable-next-line consistent-return
     return async (tx, callback) => {
@@ -58,7 +74,7 @@ export default function Notifier(providerOrSigner, gasPrice, etherscan, darkMode
           result = await tx;
         } else {
           if (!tx.gasPrice) {
-            tx.gasPrice = gasPrice || ethers.utils.parseUnits("4.1", "gwei");
+            tx.gasPrice = await loadGasPrice(targetNetwork);
           }
           if (!tx.gasLimit) {
             tx.gasLimit = ethers.utils.hexlify(120000);
@@ -78,7 +94,7 @@ export default function Notifier(providerOrSigner, gasPrice, etherscan, darkMode
           const { emitter } = notify.hash(result.hash);
           emitter.on("all", transaction => {
             return {
-              onclick: () => window.open((etherscan || etherscanTxUrl) + transaction.hash),
+              onclick: () => window.open(etherscanTxUrl + transaction.hash),
             };
           });
         } else {

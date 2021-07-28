@@ -6,7 +6,6 @@ import { ethers } from "ethers";
 import { getAddress } from "@ethersproject/address";
 
 export { default as Notifier } from "./Notifier";
-export { default as classNames } from "./classNames";
 
 /**
  * Returns true if the string value is zero in hex

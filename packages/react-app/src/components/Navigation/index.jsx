@@ -1,47 +1,17 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { useThemeSwitcher } from "react-css-theme-switcher";
-import Web3Modal from "web3modal";
-import { Web3Provider } from "@ethersproject/providers";
-import WalletConnectProvider from "@walletconnect/web3-provider";
 import withWidth, { isWidthDown } from "@material-ui/core/withWidth";
 import { Layout, Menu, Typography } from "antd";
 
+import { NetworkContext } from "NetworkProvider";
 import AddNFTL from "./AddNFTL";
 import DropdownMenu from "./DropdownMenu";
 import WrongNetworkAlert from "./WrongNetworkAlert";
-import { INFURA_ID } from "../../constants";
 import Account from "../Account";
-// import NiftyLeagueLogo from "../../assets/images/nifty-league-logo-full.png";
 import "./navigation.css";
 
 const { Title } = Typography;
-
-/*
-  Web3 modal helps us "connect" external wallets:
-*/
-const web3Modal = new Web3Modal({
-  cacheProvider: true,
-  theme: "dark",
-  providerOptions: {
-    injected: {
-      package: null,
-    },
-    walletconnect: {
-      package: WalletConnectProvider, // required
-      options: {
-        infuraId: INFURA_ID,
-      },
-    },
-  },
-});
-
-const logoutOfWeb3Modal = async () => {
-  await web3Modal.clearCachedProvider();
-  setTimeout(() => {
-    window.location.reload();
-  }, 1);
-};
 
 const navItems = setRoute => [
   <Menu.Item key="/">
@@ -76,54 +46,25 @@ const navItems = setRoute => [
   </Menu.Item>,
 ];
 
-function Navigation({
-  address,
-  blockExplorer,
-  localChainId,
-  mainnetProvider,
-  route,
-  selectedChainId,
-  setInjectedProvider,
-  setRoute,
-  targetNetwork,
-  userProvider,
-  width,
-  writeContracts,
-}) {
+function Navigation({ route, setRoute, width }) {
   const { currentTheme } = useThemeSwitcher();
   const hideNav = isWidthDown("md", width);
   const mobileView = isWidthDown("sm", width);
   const darkThemed = currentTheme === "dark";
+
+  const {
+    address,
+    loadWeb3Modal,
+    localChainId,
+    logoutOfWeb3Modal,
+    mainnetProvider,
+    selectedChainId,
+    targetNetwork,
+    userProvider,
+    web3Modal,
+  } = useContext(NetworkContext);
+
   const networkError = localChainId && selectedChainId && localChainId !== selectedChainId;
-
-  const loadWeb3Modal = useCallback(async () => {
-    const provider = await web3Modal.connect();
-    setInjectedProvider(new Web3Provider(provider));
-    provider.on("accountsChanged", accounts => {
-      console.log(accounts);
-    });
-    provider.on("chainChanged", chainId => {
-      console.log(chainId);
-    });
-    provider.on("connect", info => {
-      console.log(info);
-    });
-    provider.on("disconnect", error => {
-      console.log(error);
-    });
-  }, [setInjectedProvider]);
-
-  useEffect(() => {
-    if (web3Modal.cachedProvider) loadWeb3Modal();
-  }, [loadWeb3Modal]);
-
-  const updateWeb3ModalTheme = useCallback(async () => {
-    await web3Modal.updateTheme(currentTheme);
-  }, [currentTheme]);
-
-  useEffect(() => {
-    updateWeb3ModalTheme();
-  }, [updateWeb3ModalTheme]);
 
   return (
     <Layout>
@@ -169,18 +110,17 @@ function Navigation({
           </nav>
         )}
         <div className="menu-right">
-          {!mobileView && writeContracts && <AddNFTL userProvider={userProvider} writeContracts={writeContracts} />}
+          {!mobileView && <AddNFTL />}
           <div className="network-label" style={{ padding: mobileView ? "0 5px" : "0 16px" }}>
             {targetNetwork.label}
           </div>
           <Account
             address={address}
-            blockExplorer={blockExplorer}
-            mobileView={mobileView}
+            blockExplorer={targetNetwork.blockExplorer}
             loadWeb3Modal={loadWeb3Modal}
             logoutOfWeb3Modal={logoutOfWeb3Modal}
             mainnetProvider={mainnetProvider}
-            targetNetwork={targetNetwork}
+            mobileView={mobileView}
             userProvider={userProvider}
             web3Modal={web3Modal}
           />

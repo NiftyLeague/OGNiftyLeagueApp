@@ -44,7 +44,6 @@ export default function Account({
   loadWeb3Modal,
   logoutOfWeb3Modal,
   mainnetProvider,
-  targetNetwork,
   userProvider,
   web3Modal,
 }) {
@@ -82,14 +81,7 @@ export default function Account({
           blockExplorer={blockExplorer}
         />
       )}
-      {!mobileView && (
-        <Balance
-          address={address}
-          provider={userProvider}
-          targetNetwork={targetNetwork}
-          mainnetProvider={mainnetProvider}
-        />
-      )}
+      {!mobileView && <Balance address={address} provider={userProvider} />}
       {modalButtons}
     </div>
   );

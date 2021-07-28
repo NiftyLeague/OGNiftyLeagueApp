@@ -1,8 +1,10 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
-import React from "react";
+import React, { useContext } from "react";
+import { NetworkContext } from "NetworkProvider";
 import { Address, AddressInput } from "../components";
 
-export default function Hints({ mainnetProvider, address }) {
+export default function Hints() {
+  const { address, mainnetProvider } = useContext(NetworkContext);
   return (
     <div>
       <div style={{ margin: 32 }}>

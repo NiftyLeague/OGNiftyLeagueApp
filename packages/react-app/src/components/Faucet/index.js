@@ -1,10 +1,11 @@
-import React, { useState, useCallback } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import { Input, Button, Tooltip } from "antd";
 import Blockies from "react-blockies";
 import { SendOutlined } from "@ant-design/icons";
 import { parseEther } from "@ethersproject/units";
 import { useLookupAddress } from "eth-hooks";
 import { useExchangePrice } from "hooks";
+import { NetworkContext } from "NetworkProvider";
 import { Notifier } from "helpers";
 import Wallet from "./Wallet";
 
@@ -35,7 +36,8 @@ import Wallet from "./Wallet";
   - Provide placeholder="Send local faucet" value for the input
 */
 
-export default function Faucet({ ensProvider, localProvider, mainnetProvider, placeholder, targetNetwork }) {
+export default function Faucet({ placeholder }) {
+  const { localProvider, mainnetProvider, targetNetwork } = useContext(NetworkContext);
   const [address, setAddress] = useState();
   /* 💵 This hook will get the price of ETH from Sushiswap: */
   const price = useExchangePrice(targetNetwork, mainnetProvider, 30000);
@@ -47,7 +49,7 @@ export default function Faucet({ ensProvider, localProvider, mainnetProvider, pl
     blockie = <div />;
   }
 
-  const ens = useLookupAddress(ensProvider, address);
+  const ens = useLookupAddress(mainnetProvider, address);
 
   const updateAddress = useCallback(
     async newValue => {
@@ -55,7 +57,7 @@ export default function Faucet({ ensProvider, localProvider, mainnetProvider, pl
         let thisAddress = newValue;
         if (thisAddress.indexOf(".eth") > 0 || thisAddress.indexOf(".xyz") > 0) {
           try {
-            const possibleAddress = await ensProvider.resolveName(thisAddress);
+            const possibleAddress = await mainnetProvider.resolveName(thisAddress);
             if (possibleAddress) {
               thisAddress = possibleAddress;
             }
@@ -65,18 +67,24 @@ export default function Faucet({ ensProvider, localProvider, mainnetProvider, pl
         setAddress(thisAddress);
       }
     },
-    [ensProvider],
+    [mainnetProvider],
   );
 
-  const tx = Notifier(localProvider);
+  const tx = Notifier(localProvider, targetNetwork);
 
   return (
-    <span>
+    <div
+      style={{
+        position: "fixed",
+        top: 65,
+        right: 0,
+        padding: 10,
+      }}
+    >
       <Input
         size="large"
         placeholder={placeholder || "local faucet"}
         prefix={blockie}
-        // value={address}
         value={ens || address}
         onChange={e => updateAddress(e.target.value)}
         suffix={
@@ -92,10 +100,10 @@ export default function Faucet({ ensProvider, localProvider, mainnetProvider, pl
               shape="circle"
               icon={<SendOutlined />}
             />
-            <Wallet color="#888888" provider={localProvider} ensProvider={ensProvider} price={price} />
+            <Wallet color="#888888" ensProvider={mainnetProvider} price={price} provider={localProvider} tx={tx} />
           </Tooltip>
         }
       />
-    </span>
+    </div>
   );
 }

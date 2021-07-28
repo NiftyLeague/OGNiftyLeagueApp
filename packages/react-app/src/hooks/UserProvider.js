@@ -18,7 +18,7 @@ import { INFURA_ID, DEBUG } from "../constants";
   - Specify the local provider
   - Usage examples:
     const address = useUserAddress(userProvider);
-    const tx = Notifier(userProvider, gasPrice)
+    const tx = Notifier(userProvider, targetNetwork)
 */
 
 const useUserProvider = (injectedProvider, localProvider) =>
