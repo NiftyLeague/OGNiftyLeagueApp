@@ -4,7 +4,16 @@ import { useThemeSwitcher } from "react-css-theme-switcher";
 import { Image, Typography } from "antd";
 import withWidth, { isWidthDown } from "@material-ui/core/withWidth";
 import { Container } from "@material-ui/core";
+
 import NiftySmashersVideo from "components/NiftySmashersVideo";
+import FrogInvite from "assets/images/games/frog-invite.png";
+import Baseball from "assets/images/games/baseball.png";
+import AlienSketch from "assets/gifs/alien-sketch.gif";
+import DogeSketch from "assets/gifs/doge-sketch.gif";
+import CatSketch from "assets/gifs/cat-sketch.gif";
+import GamesSketch from "assets/images/games/games-sketch.png";
+import TennisSketch from "assets/images/games/tennis-sketch.png";
+import SmashSketch from "assets/images/games/smash-sketch.png";
 import TokenDistribution from "assets/images/token-distribution.png";
 import TokenDistributionDark from "assets/images/token-distribution-dark.png";
 
@@ -18,11 +27,19 @@ const About = ({ setRoute, width }) => {
       <Title level={2}>About Nifty League</Title>
       <p>
         Welcome to the Nifty League! Our mission is to create the top multi-chain gaming platform with customizable
-        characters and tradable in-game assets. Users can mint and play as their personal character(s) to compete and
-        earn awards within our community including our ecosystem's token, <strong>NFTL</strong>. Purchasing an Ethereum
-        character not only provides you with <strong>NFTL</strong> tokens, but unlocks multiplayer modes amongst our
-        games and gives you admission to public tournaments. We strive to make our games highly competitive and packed
-        full of nostalgia from retro interactive games. Upon launch we’ll release our first game{" "}
+        characters and tradable in-game assets.
+      </p>
+      <div className="d-flex justify-content-around align-items-center">
+        <Image width="40%" src={FrogInvite} />
+        <Image width="42%" src={Baseball} />
+      </div>
+      <br />
+      <p>
+        Users design, mint, and play as their personal character(s) to compete and earn awards within our community
+        including our ecosystem's token, <strong>NFTL</strong>. Purchasing an Ethereum character not only provides you
+        with <strong>NFTL</strong> tokens, but unlocks multiplayer modes amongst our games and gives you admission to
+        public tournaments. We strive to make our games highly competitive and packed full of nostalgia from retro
+        interactive games. Upon launch we’ll release our first game{" "}
         <strong>
           <Link onClick={() => setRoute("/games")} to="/games">
             Nifty Smashers
@@ -58,6 +75,12 @@ const About = ({ setRoute, width }) => {
         moves may be quite different between them for certain games. You’ll be able to select which of your characters
         to play with before each game so no harm in having one of each class!
       </p>
+      <div className="d-flex justify-content-around align-items-center">
+        <Image width="30%" src={CatSketch} />
+        <Image width="29%" src={AlienSketch} />
+        <Image width="30%" src={DogeSketch} />
+      </div>
+      <br />
       <Title level={3}>Character Traits/Accessories</Title>
       <p>
         Put on your creative hat to design the perfect <strong>DEGEN</strong>. There are a total of <strong>___</strong>{" "}
@@ -92,6 +115,12 @@ const About = ({ setRoute, width }) => {
           😈
         </span>
       </p>
+      <div className="d-flex justify-content-around align-items-center">
+        <Image width="30%" src={TennisSketch} />
+        <Image width="30%" src={GamesSketch} />
+        <Image width="30%" src={SmashSketch} />
+      </div>
+      <br />
       <Title level={3}>Community Developers</Title>
       <p>
         Our goal is to expand this platform with as many fun and exciting games as possible and that is only possible
