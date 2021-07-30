@@ -101,7 +101,7 @@ export default function Notifier(providerOrSigner, targetNetwork, darkMode = fal
           notification.info({
             message: "Local Transaction Sent",
             description: result.hash,
-            placement: "bottomRight",
+            placement: "topRight",
           });
           // on most networks BlockNative will update a transaction handler,
           // but locally we will set an interval to listen...
