@@ -57,12 +57,19 @@ const DropdownMenu = ({ hideNav, navItems, setRoute }) => {
     </Menu>
   );
 
-  const btnStyle = { fontSize: 20, verticalAlign: "top", marginLeft: 4 };
+  const btnStyle = { fontSize: 20, verticalAlign: "top", margin: "auto 4px" };
 
   return (
     <Dropdown key="more" overlay={menu} overlayStyle={{ minWidth: 200, top: 66 }} placement="bottomRight">
-      <Button style={{ border: "none", padding: 0, backgroundColor: "transparent", margin: "auto 0 auto 5px" }}>
-        {hideNav ? <MenuIcon style={{ ...btnStyle, marginLeft: 8 }} /> : <MoreVert style={btnStyle} />}
+      <Button
+        style={{
+          border: "none",
+          padding: 0,
+          backgroundColor: "transparent",
+          margin: hideNav ? "auto 4px auto 20px" : "auto 0 auto 4px",
+        }}
+      >
+        {hideNav ? <MenuIcon style={btnStyle} /> : <MoreVert style={btnStyle} />}
       </Button>
     </Dropdown>
   );

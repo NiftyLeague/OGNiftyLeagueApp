@@ -145,7 +145,7 @@ const Home = memo(({ setRoute }) => {
           </div>
         </div>
       </section>
-      <footer style={{ padding: 20 }} />
+      <footer style={{ padding: 30 }} />
     </div>
   );
 });
