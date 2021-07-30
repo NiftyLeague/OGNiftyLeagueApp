@@ -15,13 +15,13 @@ contract NFTLToken is ERC20("Nifty League", "NFTL") {
     /// @notice Initial supply given upon minting an NFT
     uint256 public constant INITIAL_ALLOTMENT = 5000e18; // 5000 NFTL
 
-    /// @notice NFTL tokens calaimable per day for NFT holders
-    uint256 public constant EMISSION_PER_DAY = 27.3972603e18; // 27.397 NFTL
+    /// @notice NFTL tokens calaimable per day for each NFT holder
+    uint256 public constant EMISSION_PER_DAY = 68.49315e18; // ~68.5 NFTL
 
     /// @notice Start timestamp from contract deployment
     uint256 public immutable emissionStart;
 
-    /// @notice End date for NFTL emissions to NFT holder
+    /// @notice End date for NFTL emissions to NFT holders
     uint256 public immutable emissionEnd;
 
     /// @dev A record of last claimed timestamp for NFTs
@@ -37,7 +37,7 @@ contract NFTLToken is ERC20("Nifty League", "NFTL") {
      */
     constructor(uint256 emissionStartTimestamp, uint256 initialSupply) {
         emissionStart = emissionStartTimestamp;
-        emissionEnd = emissionStartTimestamp + (1 days * 365 * 5);
+        emissionEnd = emissionStartTimestamp + (1 days * 365);
         _mint(msg.sender, initialSupply);
     }
 

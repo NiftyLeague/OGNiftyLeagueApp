@@ -19,8 +19,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import withWidth, { isWidthDown } from "@material-ui/core/withWidth";
 
 import { NetworkContext } from "NetworkProvider";
-import { Address, RenameDialog, ShareCharacter } from "components";
-import OpenSeaIcon from "assets/images/opensea.png";
+import { Address, OpenSeaLink, RenameDialog, ShareCharacter } from "components";
 import UnavailableImg from "assets/images/unavailable-image.jpeg";
 import { ResolveImageURL } from "helpers/ipfs";
 import { TRAIT_INDEXES, TRAIT_NAME_MAP, TRAIT_VALUE_MAP } from "../constants/characters";
@@ -36,12 +35,18 @@ export const useStyles = makeStyles({
   },
   avatar: { "& div": { backgroundColor: "transparent", border: "solid #ffffff4d 0.5px" } },
   cardTitle: { fontSize: 22, color: "#fff", textAlign: "left" },
-  owner: { display: "flex", marginLeft: 36, "& div": { marginLeft: "8px !important" } },
+  owner: {
+    display: "flex",
+    marginLeft: 36,
+    "& div": { marginLeft: "8px !important", color: "#fff" },
+    "& a": { color: "#fff !important" },
+  },
   traitsHeader: { color: "#fff", paddingLeft: 8 },
   cardContent: { padding: 0, paddingBottom: 0, color: "#fff" },
   traitList: { padding: 20, display: "flex", flexWrap: "wrap", flexDirection: "row" },
   traitListItem: { width: "25%", alignItems: "baseline" },
   traitListText: { color: "#fff", fontSize: 14, textAlign: "center" },
+  traitListTextSecondary: { color: "#aaa0a0", fontSize: 14, textAlign: "center" },
   cardActions: { marginTop: "auto", color: "#fff" },
   actionButtons: { color: "#fff", borderRadius: "50%", "&:focus": { outline: "none" } },
 });
@@ -99,7 +104,7 @@ const Character = ({ width }) => {
           avatar={<Avatar aria-label="Character ID">{tokenId}</Avatar>}
           title={
             <>
-              {displayName} <img src={OpenSeaIcon} alt="opensea icon" style={{ width: 24, height: 24 }} />
+              {displayName} <OpenSeaLink tokenId={tokenId} />
             </>
           }
         />
@@ -114,7 +119,7 @@ const Character = ({ width }) => {
                   <ListItemText
                     primary={TRAIT_NAME_MAP[key]}
                     secondary={TRAIT_VALUE_MAP[value] ?? value}
-                    className={classes.traitListText}
+                    classes={{ primary: classes.traitListText, secondary: classes.traitListTextSecondary }}
                   />
                 </ListItem>
               ))}

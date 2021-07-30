@@ -1,9 +1,11 @@
 import React, { useContext } from "react";
+import { useThemeSwitcher } from "react-css-theme-switcher";
 import { NetworkContext } from "NetworkProvider";
 import Tooltip from "../Tooltip";
 import { NFTL_CONTRACT } from "../../constants";
 
 const AddNFTL = () => {
+  const { currentTheme } = useThemeSwitcher();
   const { userProvider, writeContracts } = useContext(NetworkContext);
   const NFTLAddress = writeContracts && writeContracts[NFTL_CONTRACT].address;
   const handleAddToken = () => {
@@ -13,8 +15,7 @@ const AddNFTL = () => {
         address: NFTLAddress,
         symbol: "NFTL",
         decimals: 18,
-        image:
-          "https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x8798249c2E607446EfB7Ad49eC89dD1865Ff4272/logo.png",
+        image: "https://raw.githubusercontent.com/NiftyLeague/Nifty-League-Images/main/NFTL.png",
       },
     };
     userProvider.provider
@@ -29,7 +30,10 @@ const AddNFTL = () => {
   return userProvider?.provider?.isMetaMask && userProvider?.provider?.request ? (
     <Tooltip text="Add NFTL to your Metamask wallet">
       <div className="add-token" onClick={handleAddToken}>
-        <img src={`${process.env.PUBLIC_URL}/NFTL.jpg`} alt="NFTL logo" />
+        <img
+          src={`${process.env.PUBLIC_URL}/${currentTheme === "dark" ? "logo192-white.png" : "logo192.png"}`}
+          alt="NFTL logo"
+        />
       </div>
     </Tooltip>
   ) : null;
