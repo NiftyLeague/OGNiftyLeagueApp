@@ -70,55 +70,55 @@ export default function SaleProgress({ className, handleClose }) {
         <Tooltip title={`${progress ?? 0}/4900 NTFs sold`} placement="topLeft">
           <div className={classes.progress}>
             <div className="row d-flex flex-nowrap">
-              <div className={classes.col1}>500</div>
-              <div className={classes.col2}>750</div>
-              <div className={classes.col3}>1000</div>
-              <div className={classes.col4}>1000</div>
-              <div className={classes.col5}>1000</div>
-              <div className={classes.col6}>500</div>
-              <div className={classes.col7}>250</div>
+              <div className={classes.col1}>1000</div>
+              <div className={classes.col2}>1500</div>
+              <div className={classes.col3}>2000</div>
+              <div className={classes.col4}>2000</div>
+              <div className={classes.col5}>2000</div>
+              <div className={classes.col6}>1000</div>
+              <div className={classes.col7}>400</div>
             </div>
             <div className={clsx(classes.progressBar, "row d-flex flex-nowrap")}>
               <LinearProgress
                 className={clsx(classes.col1, classes.borderRight)}
                 variant="determinate"
-                value={normalise(progress, 0, 500)}
+                value={normalise(progress, 0, 1000)}
               />
               <LinearProgress
                 className={clsx(classes.col2, classes.borderRight)}
                 variant="determinate"
-                value={normalise(progress, 500, 1250)}
+                value={normalise(progress, 1000, 2500)}
               />
               <LinearProgress
                 className={clsx(classes.col3, classes.borderRight)}
                 variant="determinate"
-                value={normalise(progress, 1250, 2250)}
+                value={normalise(progress, 2500, 4500)}
               />
               <LinearProgress
                 className={clsx(classes.col4, classes.borderRight)}
                 variant="determinate"
-                value={normalise(progress, 2250, 3250)}
+                value={normalise(progress, 4500, 6500)}
               />
               <LinearProgress
                 className={clsx(classes.col5, classes.borderRight)}
                 variant="determinate"
-                value={normalise(progress, 3250, 4250)}
+                value={normalise(progress, 6500, 8500)}
               />
               <LinearProgress
                 className={clsx(classes.col6, classes.borderRight)}
                 variant="determinate"
-                value={normalise(progress, 4250, 4750)}
+                value={normalise(progress, 8500, 9500)}
               />
-              <LinearProgress className={classes.col7} variant="determinate" value={normalise(progress, 4750, 4900)} />
+              <LinearProgress className={classes.col7} variant="determinate" value={normalise(progress, 9500, 9900)} />
             </div>
             <div className="row d-flex flex-nowrap">
-              <div className={classes.col1}>0.05</div>
-              <div className={classes.col2}>0.1</div>
-              <div className={classes.col3}>0.25</div>
-              <div className={classes.col4}>0.5</div>
-              <div className={classes.col5}>0.75</div>
-              <div className={classes.col6}>1.0</div>
-              <div className={classes.col7}>1.25</div>
+              <div className={classes.col1}>0.025</div>
+              <div className={classes.col2}>0.05</div>
+              <div className={classes.col3}>0.1</div>
+              <div className={classes.col4}>0.25</div>
+              <div className={classes.col5}>0.5</div>
+              <div className={classes.col6}>0.75</div>
+              <div className={classes.col7}>1.0</div>
             </div>
           </div>
         </Tooltip>

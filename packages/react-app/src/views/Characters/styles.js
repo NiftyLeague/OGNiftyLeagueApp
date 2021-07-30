@@ -91,7 +91,7 @@ export const useStyles = makeStyles(theme => ({
     snackbar: { width: "75vw" },
   },
   [theme.breakpoints.down("sm")]: {
-    snackbar: { width: "90vw" },
+    snackbar: { width: "90vw", marginBottom: 40 },
     paper: { width: "60%" },
   },
 }));

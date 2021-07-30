@@ -7,8 +7,8 @@ import Snackbar from "@material-ui/core/Snackbar";
 export const useStyles = makeStyles({
   snackbar: {
     width: 225,
-    marginBottom: -20,
-    marginRight: 65,
+    marginBottom: -10,
+    marginRight: 75,
     "& > div": {
       width: "inherit",
       minWidth: 160,
