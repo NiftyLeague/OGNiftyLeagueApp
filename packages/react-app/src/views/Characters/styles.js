@@ -86,7 +86,7 @@ export const useStyles = makeStyles(theme => ({
       borderColor: "white",
     },
   },
-  snackbar: { width: "50vw", bottom: 12 },
+  snackbar: { width: "50vw", bottom: 18 },
   [theme.breakpoints.down("md")]: {
     snackbar: { width: "75vw" },
   },

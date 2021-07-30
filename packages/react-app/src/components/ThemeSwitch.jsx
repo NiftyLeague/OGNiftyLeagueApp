@@ -19,7 +19,7 @@ export default function ThemeSwitcher() {
   };
 
   return (
-    <div className="main fade-in" style={{ position: "fixed", right: 20, bottom: 20, zIndex: 1500 }}>
+    <div className="main fade-in" style={{ position: "fixed", right: 25, bottom: 15, zIndex: 1500 }}>
       <span style={{ padding: 8 }}>
         {currentTheme === "light" ? <Brightness5 style={iconStyle} /> : <Brightness3 style={iconStyle} />}
       </span>

@@ -74,16 +74,18 @@
 .characters .row {
   background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.4) 100%),
     url(../../assets/gifs/sushi-level.gif);
-  background-size: cover;
+  background-size: 100% 95%;
+  background-repeat: no-repeat;
+  background-position-y: bottom;
   border-bottom: 2px solid #000;
   background-attachment: fixed;
   display: flex;
-  max-height: 440px;
+  max-height: 460px;
   overflow: hidden;
 }
 .characters .row:nth-of-type(2) {
   background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.4) 100%),
-    url(../../assets/images/games/doge-level.png);
+    url(../../assets/gifs/doge-level.gif);
 }
 .characters .row:nth-of-type(3) {
   background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.9) 100%),
@@ -91,7 +93,7 @@
 }
 .characters .row:nth-of-type(4) {
   background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.4) 100%),
-    url(../../assets/images/games/mars-level.png);
+    url(../../assets/gifs/mars-level.gif);
 }
 .characters .row:nth-of-type(5) {
   background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.4) 100%),
@@ -103,7 +105,7 @@
 }
 .characters .row:nth-of-type(7) {
   background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.4) 100%),
-    url(../../assets/images/games/citadel.png);
+    url(../../assets/gifs/satoshi-level.gif);
 }
 .characters .row img {
   margin: 30px auto 0 auto;
@@ -115,13 +117,13 @@
   text-align: left;
 }
 .characters .row.left .text {
-  padding: 100px 15% 100px 10px;
+  padding: 112px 15% 112px 10px;
 }
 .characters .row.right {
   text-align: right;
 }
 .characters .row.right .text {
-  padding: 100px 10px 100px 15%;
+  padding: 112px 10px 112px 15%;
 }
 .characters p,
 .characters h1 {
