@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { useThemeSwitcher } from "react-css-theme-switcher";
 import withWidth, { isWidthDown } from "@material-ui/core/withWidth";
-import { Layout, Menu, Typography } from "antd";
+import { Layout, Menu } from "antd";
 
 import { NetworkContext } from "NetworkProvider";
 import AddNFTL from "./AddNFTL";
@@ -10,8 +10,6 @@ import DropdownMenu from "./DropdownMenu";
 import WrongNetworkAlert from "./WrongNetworkAlert";
 import Account from "../Account";
 import "./navigation.css";
-
-const { Title } = Typography;
 
 const navItems = setRoute => [
   <Menu.Item key="/">
@@ -77,22 +75,16 @@ function Navigation({ route, setRoute, width }) {
           display: "flex",
           padding: "0 20px",
           ...(darkThemed
-            ? {
-                borderBottom: "1px solid rgb(66, 66, 66)",
-                background: "#212121",
-              }
-            : {
-                background: "#c1ccdd",
-              }),
+            ? { borderBottom: "1px solid rgb(66, 66, 66)", background: "#212121" }
+            : { background: "#c1ccdd" }),
         }}
       >
-        <Link onClick={() => setRoute("/")} to="/" style={{ margin: `auto ${mobileView ? "10px" : "30px"} auto 0` }}>
-          <Title level={4} style={{ marginBottom: 0 }}>
-            <span role="img" aria-label="pixel emoji">
-              👾
-            </span>{" "}
-            Nifty League
-          </Title>
+        <Link onClick={() => setRoute("/")} to="/" style={{ margin: `auto ${mobileView ? "10px" : "20px"} auto 0` }}>
+          <img
+            src={`${process.env.PUBLIC_URL}/${darkThemed ? "logo192-white.png" : "logo192.png"}`}
+            alt="Nifty League logo"
+            style={{ width: 50, marginBottom: 3 }}
+          />
         </Link>
         {!hideNav && (
           <nav className="navbar-polygon">

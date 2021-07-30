@@ -55,7 +55,6 @@
 .add-token {
   cursor: pointer;
   border: solid 0.5px transparent;
-  overflow: hidden;
   border-radius: 15%;
   width: 26px;
   height: 26px;

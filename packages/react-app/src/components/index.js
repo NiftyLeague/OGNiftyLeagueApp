@@ -8,6 +8,7 @@ export { default as CharacterCard } from "./CharacterCard";
 export { default as Contract } from "./Contract";
 export { default as Faucet } from "./Faucet";
 export { default as Navigation } from "./Navigation";
+export { default as NiftySmashersVideo } from "./NiftySmashersVideo";
 export { default as OpenSeaLink } from "./OpenSeaLink";
 export { default as Preloader } from "./Preloader";
 export { default as Provider } from "./Provider";

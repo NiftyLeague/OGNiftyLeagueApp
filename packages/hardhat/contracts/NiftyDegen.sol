@@ -19,7 +19,7 @@ contract NiftyDegen is NameableCharacter {
     Counters.Counter public totalSupply;
 
     /// @notice Max number of mintable characters
-    uint256 public constant MAX_SUPPLY = 5000;
+    uint256 public constant MAX_SUPPLY = 10000;
 
     /// @notice Special characters reserved for future giveaways
     uint256 public constant SPECIAL_CHARACTERS = 100;
@@ -109,22 +109,22 @@ contract NiftyDegen is NameableCharacter {
             "Sale has already ended"
         );
 
-        if (currentSupply >= 4900) {
-            return 0; // 4900 - 5000 free special giveaway characters
-        } else if (currentSupply >= 4750) {
-            return 1250000000000000000; // 4750 - 4900 1.25 ETH
-        } else if (currentSupply >= 4250) {
-            return 1000000000000000000; // 4250 - 4750 1.0 ETH
-        } else if (currentSupply >= 3250) {
-            return 750000000000000000; // 3250 - 4250 0.75 ETH
-        } else if (currentSupply >= 2250) {
-            return 500000000000000000; // 2250 - 3250 0.5 ETH
-        } else if (currentSupply >= 1250) {
-            return 250000000000000000; // 1250 - 2250 0.25 ETH
-        } else if (currentSupply >= 500) {
-            return 100000000000000000; // 500 - 1250 0.1 ETH
+        if (currentSupply >= 9900) {
+            return 0; // 9900 - 10000 free special giveaway characters
+        } else if (currentSupply >= 9500) {
+            return 1000000000000000000; // 9500 - 9900 1 ETH
+        } else if (currentSupply >= 8500) {
+            return 750000000000000000; // 8500 - 9500 0.75 ETH
+        } else if (currentSupply >= 6500) {
+            return 500000000000000000; // 6500 - 8500 0.5 ETH
+        } else if (currentSupply >= 4500) {
+            return 250000000000000000; // 4500 - 6500 0.25 ETH
+        } else if (currentSupply >= 2500) {
+            return 100000000000000000; // 2500 - 4500 0.1 ETH
+        } else if (currentSupply >= 1000) {
+            return 50000000000000000; // 1000 - 2500 0.05 ETH
         } else {
-            return 50000000000000000; // 0 - 500 0.05 ETH
+            return 25000000000000000; // 0 - 1000 0.025 ETH
         }
     }
 

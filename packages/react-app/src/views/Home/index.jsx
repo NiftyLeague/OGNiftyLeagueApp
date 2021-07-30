@@ -1,14 +1,9 @@
 import React, { memo, useState } from "react";
 import { Link } from "react-router-dom";
-import ModalVideo from "react-modal-video";
-
 import { Typography } from "antd";
 import Container from "@material-ui/core/Container";
-import Preloader from "components/Preloader";
-import SaleProgress from "components/SaleProgress";
+import { NiftySmashersVideo, Preloader, SaleProgress } from "components";
 
-import VideoBGImg from "assets/images/games/nifty-smashers.png";
-import PlayIconImg from "assets/images/play-icon-red.png";
 import ApeImg from "assets/gifs/ape.gif";
 import AlienImg from "assets/gifs/alien1.gif";
 import DogeImg from "assets/gifs/doge.gif";
@@ -23,7 +18,6 @@ const { Title } = Typography;
 
 const Home = memo(({ setRoute }) => {
   const [isLoaded, setLoaded] = useState(false);
-  const [isVideoOpen, setVideoOpen] = useState(false);
 
   return (
     <div style={{ textAlign: "center", overflowX: "hidden" }}>
@@ -34,19 +28,7 @@ const Home = memo(({ setRoute }) => {
           <SaleProgress className="alert" />
           <div className="row" style={{ paddingTop: 32 }}>
             <div className="col-md-6 d-flex align-self-center">
-              <div className="about-video">
-                <img src={VideoBGImg} alt="Nifty Smashers preview" className="video-preview" />
-                <button type="button" onClick={() => setVideoOpen(true)} className="play-video">
-                  <img src={PlayIconImg} alt="Play icon" />
-                </button>
-                <ModalVideo
-                  channel="youtube"
-                  autoplay
-                  isOpen={isVideoOpen}
-                  videoId="F8xUzipc1p8"
-                  onClose={() => setVideoOpen(false)}
-                />
-              </div>
+              <NiftySmashersVideo />
             </div>
             <div className="col-md-6">
               <div className="section-heading">
@@ -54,7 +36,7 @@ const Home = memo(({ setRoute }) => {
                   Welcome to the Nifty League
                 </Title>
                 <p className="text">
-                  Our mission is to create the first ecosystem of mini-games with customizable characters and tradable
+                  Our mission is to create the top multi-chain gaming platform with customizable characters and tradable
                   in-game assets.
                 </p>
                 <p className="text">
