@@ -34,8 +34,8 @@ const Home = memo(({ setRoute }) => {
   const [isLoaded, setLoaded] = useState(false);
   return (
     <div style={{ textAlign: "center", overflowX: "hidden" }}>
-      {/* <Preloader ready={isLoaded} />
-      <CharacterCreator isLoaded={isLoaded} setLoaded={setLoaded} /> */}
+      <Preloader ready={isLoaded} />
+      <CharacterCreator isLoaded={isLoaded} setLoaded={setLoaded} />
       <section className="about-page-section">
         <Container>
           <SaleProgress className="alert" />
