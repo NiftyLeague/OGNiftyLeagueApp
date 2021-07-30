@@ -16,13 +16,26 @@ import "./home.css";
 
 const { Title } = Typography;
 
+const ParallaxCharacter = ({ direction, title, image, text }) => (
+  <div className="parallax-row">
+    <Container className={`parallax-child-section ${direction}`}>
+      <div className="col-sm-8 text-container">
+        <Title className="title-hr">{title}</Title>
+        <p>{text}</p>
+      </div>
+      <div className="col-sm-4 image-container">
+        <img src={image} alt={`${title} Character`} />
+      </div>
+    </Container>
+  </div>
+);
+
 const Home = memo(({ setRoute }) => {
   const [isLoaded, setLoaded] = useState(false);
-
   return (
     <div style={{ textAlign: "center", overflowX: "hidden" }}>
-      <Preloader ready={isLoaded} />
-      <CharacterCreator isLoaded={isLoaded} setLoaded={setLoaded} />
+      {/* <Preloader ready={isLoaded} />
+      <CharacterCreator isLoaded={isLoaded} setLoaded={setLoaded} /> */}
       <section className="about-page-section">
         <Container>
           <SaleProgress className="alert" />
@@ -52,13 +65,12 @@ const Home = memo(({ setRoute }) => {
         </Container>
       </section>
       <section className="characters">
-        <div className="row left">
-          <div className="col-sm-4 text-center d-flex align-items-end">
-            <img src={CatImg} alt="Cat Character" className="img-fluid" />
-          </div>
-          <div className="col-sm-8 text">
-            <Title className="short-hr left">Yoko</Title>
-            <p>
+        <ParallaxCharacter
+          direction="left"
+          title="Yoko"
+          image={CatImg}
+          text={
+            <>
               Yoko lives in the fast and furious Sushi City, where degens come to thrive. Legend has it Andre Cronje has
               been training these cats to fight for years. Don't forget to stop by{" "}
               <a target="_blank" rel="noopener noreferrer" href="https://sushi.com">
@@ -69,81 +81,51 @@ const Home = memo(({ setRoute }) => {
                 yearn
               </a>{" "}
               HQ while in town!
-            </p>
-          </div>
-        </div>
-        <div className="row right">
-          <div className="col-sm-8 text">
-            <Title className="short-hr right">Doge</Title>
-            <p>
-              Doge has finally arrived on The Moon. After getting rugged by Elon he gave up aspirations of Mars and has
-              his eyes set on the real prize now, making it to the Citadel.
-            </p>
-          </div>
-          <div className="col-sm-4 text-center d-flex align-items-end">
-            <img src={DogeImg} alt="Doge Character" className="img-fluid" />
-          </div>
-        </div>
-        <div className="row left">
-          <div className="col-sm-4 text-center d-flex align-items-end">
-            <img src={AlienImg} alt="Alien Character" className="img-fluid" />
-          </div>
-          <div className="col-sm-8 text">
-            <Title className="short-hr left">Aurora</Title>
-            <p>
-              Aurora the Alien DJ has been on a universal tour for the past 300 years. She's quite the celebrity but the
-              one remaining stage to complete her tour is at The Citadel.
-            </p>
-          </div>
-        </div>
-        <div className="row right">
-          <div className="col-sm-8 text">
-            <Title className="short-hr right">Meek</Title>
-            <p>
-              Humans have finally colonized Mars, but it's turned into an dystopian capitalist nightmare and the sand
-              worms aren’t helping either. Satoshi’s Island looks a lot less... red.
-            </p>
-          </div>
-          <div className="col-sm-4 text-center d-flex align-items-end">
-            <img src={HumanImg} alt="Human Character" className="img-fluid" />
-          </div>
-        </div>
-        <div className="row left">
-          <div className="col-sm-4 text-center d-flex align-items-end">
-            <img src={ApeImg} alt="Ape Character" className="img-fluid" />
-          </div>
-          <div className="col-sm-8 text">
-            <Title className="short-hr left">Java</Title>
-            <p>
-              Since humans left for Mars and left rising sea levels behind as a gift, the Ape has inherited Earth and
-              let nature run its course, planting banana tress everywhere.
-            </p>
-          </div>
-        </div>
-        <div className="row right">
-          <div className="col-sm-8 text">
-            <Title className="short-hr right">Jeremiah</Title>
-            <p>
-              After destroying his home planet as a result of a simple misunderstanding, Frog welcomes the invite to
-              Nifty League to try and redeem himself.
-            </p>
-          </div>
-          <div className="col-sm-4 text-center d-flex align-items-end">
-            <img src={FrogImg} alt="Frog Character" className="img-fluid" />
-          </div>
-        </div>
-        <div className="row left">
-          <div className="col-sm-4 text-center d-flex align-items-end">
-            <img src={SatoshiImg} alt="Satoshi Character" className="img-fluid" />
-          </div>
-          <div className="col-sm-8 text">
-            <Title className="short-hr left">Satoshi</Title>
-            <p>
-              Satoshi, the creator of Bitcoin, lives in a utopian crypto paradise castle known as The Citadel, on
-              Satoshi's Island.
-            </p>
-          </div>
-        </div>
+            </>
+          }
+        />
+        <ParallaxCharacter
+          direction="right"
+          title="Doge"
+          image={DogeImg}
+          text="Doge has finally landed on The Moon! After getting rugged by Elon, Doge gave up aspirations of Mars and has his
+          eyes set on the real prize now... making it to the Citadel."
+        />
+        <ParallaxCharacter
+          direction="left"
+          title="Aurora"
+          image={AlienImg}
+          text="Aurora has been on a universal DJ tour for the past 300 years. She's quite the celebrity but has
+          yet to perform on Satoshi's Island. Only problem is she need a key to the Citadel first..."
+        />
+        <ParallaxCharacter
+          direction="right"
+          title="Finney"
+          image={HumanImg}
+          text="Humans have finally colonized Mars, but it's turned into an dystopian capitalist nightmare and the sand
+          worms aren’t helping either. Satoshi’s Island looks a lot less... red."
+        />
+        <ParallaxCharacter
+          direction="left"
+          title="Java"
+          image={ApeImg}
+          text="Since humans escaped for Mars and left rising sea levels behind as a gift, the Apes have inherited Earth and
+          let nature run its course, planting banana tress everywhere."
+        />
+        <ParallaxCharacter
+          direction="right"
+          title="Cribbit"
+          image={FrogImg}
+          text="After destroying his home planet as a result of a widespread nuclear-powered crypto mining, Cribbit welcomes 
+          the Nifty League invite to try and redeem himself."
+        />
+        <ParallaxCharacter
+          direction="left"
+          title="Satoshi"
+          image={SatoshiImg}
+          text="Satoshi, the creator of Bitcoin, lives in a utopian crypto paradise castle known as The Citadel on
+          Satoshi's Island. Who knew Satoshi collected NFTs as well?"
+        />
       </section>
       <footer style={{ padding: 30 }} />
     </div>

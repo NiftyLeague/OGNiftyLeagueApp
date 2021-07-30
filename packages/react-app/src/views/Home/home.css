@@ -71,60 +71,6 @@
 }
 
 /* Characters section */
-.characters .row {
-  background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.4) 100%),
-    url(../../assets/gifs/sushi-level.gif);
-  background-size: 100% 95%;
-  background-repeat: no-repeat;
-  background-position-y: bottom;
-  border-bottom: 2px solid #000;
-  background-attachment: fixed;
-  display: flex;
-  max-height: 460px;
-  overflow: hidden;
-}
-.characters .row:nth-of-type(2) {
-  background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.4) 100%),
-    url(../../assets/gifs/doge-level.gif);
-}
-.characters .row:nth-of-type(3) {
-  background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.9) 100%),
-    url(../../assets/gifs/alien-level.gif);
-}
-.characters .row:nth-of-type(4) {
-  background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.4) 100%),
-    url(../../assets/gifs/mars-level.gif);
-}
-.characters .row:nth-of-type(5) {
-  background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.4) 100%),
-    url(../../assets/gifs/ape-level.gif);
-}
-.characters .row:nth-of-type(6) {
-  background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.4) 100%),
-    url(../../assets/gifs/frog-level.gif);
-}
-.characters .row:nth-of-type(7) {
-  background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.4) 100%),
-    url(../../assets/gifs/satoshi-level.gif);
-}
-.characters .row img {
-  margin: 30px auto 0 auto;
-  height: 125%;
-  width: 100%;
-  z-index: 1;
-}
-.characters .row.left {
-  text-align: left;
-}
-.characters .row.left .text {
-  padding: 112px 15% 112px 10px;
-}
-.characters .row.right {
-  text-align: right;
-}
-.characters .row.right .text {
-  padding: 112px 10px 112px 15%;
-}
 .characters p,
 .characters h1 {
   color: #fff !important;
@@ -132,9 +78,76 @@
 .characters p,
 .characters a {
   font-size: 24px;
+  margin-bottom: 0;
 }
 
-.short-hr::after {
+.parallax-row {
+  height: 475px;
+  border-bottom: 2px solid #000;
+  background-attachment: fixed;
+  transform: translateZ(0);
+  will-change: transform;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+.parallax-row:nth-of-type(1) {
+  background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.4) 100%),
+    url(../../assets/gifs/sushi-level.gif);
+}
+.parallax-row:nth-of-type(2) {
+  background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.4) 100%),
+    url(../../assets/gifs/doge-level.gif);
+}
+.parallax-row:nth-of-type(3) {
+  background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.9) 100%),
+    url(../../assets/gifs/alien-level.gif);
+}
+.parallax-row:nth-of-type(4) {
+  background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.4) 100%),
+    url(../../assets/gifs/mars-level.gif);
+}
+.parallax-row:nth-of-type(5) {
+  background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.4) 100%),
+    url(../../assets/gifs/ape-level.gif);
+}
+.parallax-row:nth-of-type(6) {
+  background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.4) 100%),
+    url(../../assets/gifs/frog-level.gif);
+}
+.parallax-row:nth-of-type(7) {
+  background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.4) 100%),
+    url(../../assets/gifs/satoshi-level.gif);
+}
+
+.parallax-child-section {
+  height: inherit;
+  display: flex !important;
+  flex-wrap: nowrap;
+  overflow-y: hidden;
+}
+.parallax-child-section.left {
+  flex-direction: row-reverse;
+}
+.parallax-child-section.right {
+  flex-direction: row;
+}
+
+.parallax-child-section .text-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.parallax-child-section.left .text-container {
+  text-align: left;
+  padding: 110px 15% 110px 10px;
+}
+.parallax-child-section.right .text-container {
+  text-align: right;
+  padding: 110px 10px 110px 15%;
+}
+
+.title-hr::after {
   border-top: 2px solid;
   border-color: #d71414;
   content: "";
@@ -142,13 +155,20 @@
   height: 1px;
   width: 100px;
 }
-
-.short-hr.left::after {
+.parallax-child-section.left .title-hr::after {
   margin: 13px 0 0 0;
 }
-
-.short-hr.right::after {
+.parallax-child-section.right .title-hr::after {
   margin: 10px 0 0 auto;
+}
+
+.parallax-child-section .image-container {
+  margin: auto auto 0 auto;
+}
+.parallax-child-section .image-container img {
+  height: 420px;
+  max-width: 100%;
+  z-index: 1;
 }
 
 @media (max-width: 1200px) {
@@ -176,5 +196,21 @@
   .characters p,
   .characters a {
     font-size: 18px;
+  }
+  .parallax-row {
+    background-size: cover;
+  }
+  .parallax-child-section.left .text-container,
+  .parallax-child-section.right .text-container {
+    padding: 110px 0 110px 0;
+  }
+  .parallax-child-section .image-container img {
+    height: 400px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .parallax-child-section {
+    max-width: 100% !important;
   }
 }
