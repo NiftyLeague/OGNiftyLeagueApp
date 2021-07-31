@@ -140,7 +140,7 @@ export default function Games() {
             <Game unityContext={selectedGame === "nifty-smashers" && smashersContext} />
           ) : (
             <Row gutter={{ xs: 16, md: 8 }}>
-              <Col span={6}>
+              <Col xs={24} md={12} xl={8} xxl={6}>
                 <Card
                   cover={<img alt="NiftySmashers" src={NiftySmashers} />}
                   onClick={() => setSelectedGame("nifty-smashers")}
