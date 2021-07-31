@@ -54,9 +54,7 @@
     "graph-ship": "yarn graph-prepare && yarn graph-codegen && yarn graph-build && yarn graph-deploy",
     "graph-ship-local": "yarn graph-prepare-local && yarn graph-codegen && yarn graph-deploy-local",
     "deploy-and-graph": "yarn deploy && yarn graph-ship",
-    "deploy-and-graph-local": "yarn deploy && yarn graph-ship-local",
-    "theme": "yarn workspace @nifty-league/react-app theme",
-    "watch-theme": "yarn workspace @nifty-league/react-app watch"
+    "deploy-and-graph-local": "yarn deploy && yarn graph-ship-local"
   },
   "workspaces": {
     "packages": [

@@ -17,10 +17,24 @@
   width: 300px !important;
 }
 
+.ant-btn {
+  line-height: 0;
+}
+
+.ant-layout {
+  background: transparent;
+}
+
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu {
+  margin: -2px 20px 0;
+}
+
 /* Typography */
 
 body {
   font-family: "Ubuntu", sans-serif !important;
+  font-size: 18px;
 }
 
 h1 {

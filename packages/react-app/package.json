@@ -105,11 +105,6 @@
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-react": "^7.23.2",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "gulp": "^4.0.2",
-    "gulp-csso": "^4.0.1",
-    "gulp-debug": "^4.0.0",
-    "gulp-less": "^4.0.1",
-    "gulp-postcss": "^9.0.0",
     "less-plugin-npm-import": "^2.1.0",
     "prettier": "^2.2.1",
     "prop-types": "^15.7.2",
@@ -128,8 +123,6 @@
     "ipfs": "node ./scripts/ipfs.js",
     "surge": "cp build/index.html build/200.html && surge ./build",
     "s3": "node ./scripts/s3.js",
-    "ship": "yarn build && yarn surge",
-    "theme": "npx gulp less",
-    "watch": "node ./scripts/watch.js"
+    "ship": "yarn build && yarn surge"
   }
 }

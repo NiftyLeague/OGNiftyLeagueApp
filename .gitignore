@@ -10,6 +10,7 @@ packages/hardhat/deployments
 packages/hardhat/cache
 packages/hardhat/examples
 packages/hardhat/nifty-degens
+packages/react-app/public/light-theme-old.css
 
 packages/**/data
 
