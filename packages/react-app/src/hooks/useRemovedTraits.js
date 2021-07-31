@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import useContractReader from "./ContractReader";
+import useContractReader from "./useContractReader";
 import { NFT_CONTRACT, REMOVED_TRAITS_INTERVAL } from "../constants";
 
 export default function useRemovedTraits(readContracts) {

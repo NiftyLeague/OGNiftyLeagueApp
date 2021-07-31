@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import { formatEther } from "@ethersproject/units";
-import usePoller from "./Poller";
+import usePoller from "./usePoller";
 
 /*
   ~ What it does? ~

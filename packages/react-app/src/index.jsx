@@ -1,13 +1,11 @@
 import dotenv from "dotenv";
 import React from "react";
 import ReactDOM from "react-dom";
-import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { ThemeSwitcherProvider } from "react-css-theme-switcher";
 import NetworkProvider from "./NetworkProvider";
 import App from "./App";
-import store from "./state";
 
 dotenv.config();
 
@@ -27,15 +25,13 @@ const client = new ApolloClient({
 
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <Provider store={store}>
-      <ThemeSwitcherProvider themeMap={themes} defaultTheme={prevTheme ?? "dark"}>
-        <NetworkProvider>
-          <Router>
-            <App subgraphUri={subgraphUri} />
-          </Router>
-        </NetworkProvider>
-      </ThemeSwitcherProvider>
-    </Provider>
+    <ThemeSwitcherProvider themeMap={themes} defaultTheme={prevTheme ?? "dark"}>
+      <NetworkProvider>
+        <Router>
+          <App subgraphUri={subgraphUri} />
+        </Router>
+      </NetworkProvider>
+    </ThemeSwitcherProvider>
   </ApolloProvider>,
   document.getElementById("root"),
 );

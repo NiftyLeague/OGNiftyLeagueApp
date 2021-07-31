@@ -1,13 +1,11 @@
 import React from "react";
-import { useActiveWeb3React } from "hooks/useActiveWeb3React";
-import { useNetworkModalToggle } from "state/application/hooks";
 import { NETWORK_ICON, NETWORK_LABEL } from "../../../constants/networks";
 import NetworkModel from "./NetworkModal";
 
 function Web3Network() {
-  const { chainId } = useActiveWeb3React();
+  const chainId = 1;
 
-  const toggleNetworkModal = useNetworkModalToggle();
+  const toggleNetworkModal = () => {};
 
   if (!chainId) return null;
 
