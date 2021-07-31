@@ -1,8 +1,5 @@
 import { ChainId } from "@sushiswap/sdk";
-import React from "react";
-import { useActiveWeb3React } from "hooks/useActiveWeb3React";
-import { useModalOpen, useNetworkModalToggle } from "state/application/hooks";
-import { ApplicationModal } from "state/application/actions";
+import React, { useState } from "react";
 import { NETWORK_ICON, NETWORK_LABEL } from "../../../constants/networks";
 import Modal from "./Modal";
 import ModalHeader from "./ModalHeader";
@@ -69,9 +66,8 @@ const PARAMS = {
 };
 
 export default function NetworkModal() {
-  const { chainId, library, account } = useActiveWeb3React();
-  const networkModalOpen = useModalOpen(ApplicationModal.NETWORK);
-  const toggleNetworkModal = useNetworkModalToggle();
+  const { chainId, library, account } = {};
+  const [networkModalOpen, toggleNetworkModal] = useState(false);
 
   if (!chainId) return null;
 

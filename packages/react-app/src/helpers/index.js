@@ -1,4 +1,3 @@
-import { ChainId } from "@sushiswap/sdk";
 import { AddressZero } from "@ethersproject/constants";
 import { BigNumber } from "@ethersproject/bignumber";
 import { Contract } from "@ethersproject/contracts";
@@ -6,6 +5,8 @@ import { ethers } from "ethers";
 import { getAddress } from "@ethersproject/address";
 
 export { default as Notifier } from "./Notifier";
+export * from "./dateTime";
+export * from "./ipfs";
 
 /**
  * Returns true if the string value is zero in hex
@@ -42,133 +43,6 @@ export function isAddress(value) {
   } catch {
     return false;
   }
-}
-
-// Multichain Explorer
-const builders = {
-  etherscan: (chainName, data, type) => {
-    const prefix = `https://${chainName ? `${chainName}.` : ""}etherscan.io`;
-    switch (type) {
-      case "transaction":
-        return `${prefix}/tx/${data}`;
-      default:
-        return `${prefix}/${type}/${data}`;
-    }
-  },
-  fantom: (chainName, data, type) => {
-    const prefix = "https://ftmscan.com";
-    switch (type) {
-      case "transaction":
-        return `${prefix}/tx/${data}`;
-      default:
-        return `${prefix}/${type}/${data}`;
-    }
-  },
-  bscscan: (chainName, data, type) => {
-    const prefix = `https://${chainName ? `${chainName}.` : ""}bscscan.com`;
-    switch (type) {
-      case "transaction":
-        return `${prefix}/tx/${data}`;
-      default:
-        return `${prefix}/${type}/${data}`;
-    }
-  },
-  matic: (chainName, data, type) => {
-    const prefix = `https://explorer-${chainName}.maticvigil.com`;
-    switch (type) {
-      case "transaction":
-        return `${prefix}/tx/${data}`;
-      case "token":
-        return `${prefix}/tokens/${data}`;
-      default:
-        return `${prefix}/${type}/${data}`;
-    }
-  },
-  // token is not yet supported for arbitrum
-  arbitrum: (chainName, data, type) => {
-    const prefix = `https://explorer.offchainlabs.com/#`;
-    switch (type) {
-      case "transaction":
-        return `${prefix}/tx/${data}`;
-      case "token":
-        return prefix;
-      default:
-        return `${prefix}/${type}/${data}`;
-    }
-  },
-  avalanche: (chainName, data, type) => {
-    const prefix = `https://cchain.explorer.avax${chainName ? `-${chainName}` : ""}.network`;
-    switch (type) {
-      case "transaction":
-        return `${prefix}/tx/${data}`;
-      default:
-        return `${prefix}/${type}/${data}`;
-    }
-  },
-};
-
-const chains = {
-  [ChainId.MAINNET]: {
-    chainName: "",
-    builder: builders.etherscan,
-  },
-  [ChainId.ROPSTEN]: {
-    chainName: "ropsten",
-    builder: builders.etherscan,
-  },
-  [ChainId.RINKEBY]: {
-    chainName: "rinkeby",
-    builder: builders.etherscan,
-  },
-  [ChainId.GÖRLI]: {
-    chainName: "goerli",
-    builder: builders.etherscan,
-  },
-  [ChainId.KOVAN]: {
-    chainName: "kovan",
-    builder: builders.etherscan,
-  },
-  [ChainId.MATIC]: {
-    chainName: "mainnet",
-    builder: builders.matic,
-  },
-  [ChainId.MATIC_TESTNET]: {
-    chainName: "mumbai",
-    builder: builders.matic,
-  },
-  [ChainId.FANTOM]: {
-    chainName: "",
-    builder: builders.fantom,
-  },
-  [ChainId.FANTOM_TESTNET]: {
-    chainName: "testnet",
-    builder: builders.fantom,
-  },
-  [ChainId.BSC]: {
-    chainName: "",
-    builder: builders.bscscan,
-  },
-  [ChainId.BSC_TESTNET]: {
-    chainName: "testnet",
-    builder: builders.bscscan,
-  },
-  [ChainId.ARBITRUM]: {
-    chainName: "arbitrum",
-    builder: builders.arbitrum,
-  },
-  [ChainId.AVALANCHE]: {
-    chainName: "",
-    builder: builders.avalanche,
-  },
-  [ChainId.FUJI]: {
-    chainName: "test",
-    builder: builders.avalanche,
-  },
-};
-
-export function getExplorerLink(chainId, data, type) {
-  const chain = chains[chainId];
-  return chain.builder(chain.chainName, data, type);
 }
 
 // shorten the checksummed version of the input address to have 0x + 4 characters at start and end

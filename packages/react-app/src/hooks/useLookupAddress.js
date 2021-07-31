@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { getAddress } from "@ethersproject/address";
-import useLocalStorage from "./LocalStorage";
+import useLocalStorage from "./useLocalStorage";
 
 // resolved if(name){} to not save "" into cache
 

@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import usePoller from "./Poller";
+import usePoller from "./usePoller";
 
 const DEBUG = process.env.NODE_ENV === "development";
 

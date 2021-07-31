@@ -4,7 +4,7 @@ import { transparentize } from "polished";
 import { usePopper } from "react-popper";
 import styled from "styled-components";
 import useInterval from "hooks/useInterval";
-import ThemeProvider from "theme";
+import ThemeProvider from "themes";
 
 const PopoverContainer = styled.div`
   z-index: 9999;

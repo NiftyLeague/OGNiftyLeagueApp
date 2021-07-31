@@ -1,5 +1,5 @@
 import { formatEther } from "@ethersproject/units";
-import useContractReader from "./ContractReader";
+import useContractReader from "./useContractReader";
 import { NFT_CONTRACT, NFT_PRICE_INTERVAL } from "../constants";
 
 export default function useNFTPrice(readContracts) {
