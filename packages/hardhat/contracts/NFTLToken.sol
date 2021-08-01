@@ -33,12 +33,20 @@ contract NFTLToken is ERC20("Nifty League", "NFTL") {
     /**
      * @notice Construct the NFTL token
      * @param emissionStartTimestamp Timestamp of deployment
-     * @param initialSupply The initial supply minted and transferred to appropriate accounts
+     * @param ownerSupply The initial supply minted and transferred to contract owner
+     * @param treasurySupply The initial supply minted and transferred to community treasury
+     * @param treasuryAddress Community Treasury wallet address
      */
-    constructor(uint256 emissionStartTimestamp, uint256 initialSupply) {
+    constructor(
+        uint256 emissionStartTimestamp,
+        uint256 ownerSupply,
+        uint256 treasurySupply,
+        address treasuryAddress
+    ) {
         emissionStart = emissionStartTimestamp;
         emissionEnd = emissionStartTimestamp + (1 days * 365);
-        _mint(msg.sender, initialSupply);
+        _mint(msg.sender, ownerSupply);
+        _mint(treasuryAddress, treasurySupply);
     }
 
     // External functions

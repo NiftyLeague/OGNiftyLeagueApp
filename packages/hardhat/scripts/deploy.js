@@ -6,9 +6,11 @@ const { config, ethers, tenderly, run } = require("hardhat");
 const { utils } = require("ethers");
 const R = require("ramda");
 const { ALLOWED_TRAITS } = require("../constants/allowedTraits");
+const { COMMUNITY_TREASURY } = require("../constants/addresses");
 
 const main = async () => {
-  console.log("\n\n 📡 Deploying...\n");
+  const targetNetwork = process.env.HARDHAT_NETWORK || config.defaultNetwork;
+  console.log(`\n\n 📡 Deploying to ${targetNetwork}...\n`);
 
   const storage = await deploy("AllowedTraitsStorage");
   // eslint-disable-next-line no-restricted-syntax
@@ -18,37 +20,60 @@ const main = async () => {
   }
 
   const emissionStartTimestamp = Math.floor(Date.now() / 1000);
-  const initalSupply = ethers.utils.parseEther("100000");
-  const nftlToken = await deploy("NFTLToken", [emissionStartTimestamp, initalSupply]);
+  const ownerSupply = ethers.utils.parseEther("110000000");
+  const treasurySupply = ethers.utils.parseEther("180000000");
+  const nftlToken = await deploy("NFTLToken", [
+    emissionStartTimestamp,
+    ownerSupply,
+    treasurySupply,
+    COMMUNITY_TREASURY,
+  ]);
   const nft = await deploy("NiftyDegen", [nftlToken.address, storage.address]);
   await nftlToken.setNFTAddress(nft.address);
 
   // const yourContract = await ethers.getContractAt('YourContract', "0xaAC799eC2d00C013f1F11c37E654e59B0429DF6A") //<-- if you want to instantiate a version of a contract at a specific address!
 
+  // If you want to send ether to an address
   /*
-  //If you want to send value to an address from the deployer
-  const deployerWallet = ethers.provider.getSigner()
+  const deployerWallet = ethers.provider.getSigner();
+  const deployerAddress = await deployerWallet.getAddress();
+  const nonce = await deployerWallet.getTransactionCount();
   await deployerWallet.sendTransaction({
-    to: "0x34aA3F359A9D614239015126635CE7732c18fDF3",
-    value: ethers.utils.parseEther("0.001")
-  })
+    to: COMMUNITY_TREASURY_ADDRESS[targetNetwork],
+    value: ethers.utils.parseEther("1"),
+  });
   */
 
+  // If you want to send an ERC-20 token to an address
   /*
-  //If you want to send some ETH to a contract on deploy (make your constructor payable!)
+  const treasuryTx = await nftlToken.methods.transfer(toAddress, amount);
+  const treasuryTxRequest = {
+    from: deployerAddress,
+    to: COMMUNITY_TREASURY_ADDRESS[targetNetwork],
+    data: treasuryTx.encodeABI(),
+    nonce,
+  gasPrice: parseUnits(taskArgs.gasPrice ? taskArgs.gasPrice : "1.001", "gwei").toHexString(),
+  gasLimit: taskArgs.gasLimit ? taskArgs.gasLimit : 24000,
+  chainId: network.config.chainId,
+  };
+  send(treasuryTxRequest);
+  */
+
+  // If you want to send some ETH to a contract on deploy (make your constructor payable!)
+  /*
   const yourContract = await deploy("YourContract", [], {
   value: ethers.utils.parseEther("0.05")
   });
   */
 
-  /*
-  //If you want to link a library into your contract:
+  // If you want to link a library into your contract:
   // reference: https://github.com/austintgriffith/scaffold-eth/blob/using-libraries-example/packages/hardhat/scripts/deploy.js#L19
+  /*
   const yourContract = await deploy("YourContract", [], {}, {
    LibraryName: **LibraryAddress**
   });
   */
-  const targetNetwork = process.env.HARDHAT_NETWORK || config.defaultNetwork;
+
   if (targetNetwork !== "localhost") {
     // If you want to verify your contract on tenderly.co
     console.log(chalk.blue("verifying on tenderly"));
@@ -79,7 +104,6 @@ const deploy = async (contractName, _args = [], overrides = {}, libraries = {}) 
   console.log(` 🛰  Deploying: ${contractName}`);
 
   const contractArgs = _args || [];
-  console.log("here");
   const contractArtifacts = await ethers.getContractFactory(contractName, {
     libraries,
   });
@@ -106,6 +130,15 @@ const deploy = async (contractName, _args = [], overrides = {}, libraries = {}) 
 };
 
 // ------ utils -------
+
+function send(signer, txparams) {
+  return signer.sendTransaction(txparams, (error, transactionHash) => {
+    if (error) {
+      console.log(`Error: ${error}`);
+    }
+    console.log(`sendTransactionHash: ${transactionHash}`);
+  });
+}
 
 // abi encodes contract arguments
 // useful when you want to manually verify the contracts

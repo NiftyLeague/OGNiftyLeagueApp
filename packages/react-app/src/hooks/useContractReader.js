@@ -1,7 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import usePoller from "./usePoller";
-
-const DEBUG = process.env.NODE_ENV === "development";
+import { DEBUG } from "../constants";
 
 /*
   ~ What it does? ~

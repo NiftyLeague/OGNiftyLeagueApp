@@ -134,9 +134,7 @@ module.exports = {
 const DEBUG = process.env.NODE_ENV === "development";
 
 function debug(text) {
-  if (DEBUG) {
-    console.log(text);
-  }
+  if (DEBUG) console.log(text);
 }
 
 task("wallet", "Create a wallet (pk) link", async (_, { ethers }) => {

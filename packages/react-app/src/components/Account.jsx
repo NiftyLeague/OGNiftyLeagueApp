@@ -1,4 +1,5 @@
 import React from "react";
+import { useThemeSwitcher } from "react-css-theme-switcher";
 import { Button } from "antd";
 import Address from "./Address";
 import Balance from "./Balance";
@@ -47,24 +48,35 @@ export default function Account({
   userProvider,
   web3Modal,
 }) {
+  const { currentTheme } = useThemeSwitcher();
   const modalButtons = [];
   if (web3Modal) {
     const btnStyles = {
-      verticalAlign: "top",
       marginLeft: 8,
-      background: "-webkit-linear-gradient(89deg, #620edf 0%, #5e72eb 100%)",
-      color: "#fff",
+      color: currentTheme === "dark" ? "#fff" : "black",
       borderColor: "#6f6c6c",
     };
     if (web3Modal.cachedProvider) {
       modalButtons.push(
-        <Button key="logoutbutton" style={btnStyles} shape="round" size="large" onClick={logoutOfWeb3Modal}>
+        <Button
+          key="logoutbutton"
+          style={{ ...btnStyles, background: currentTheme === "dark" ? null : "rgb(193, 204, 221)" }}
+          shape="round"
+          size="large"
+          onClick={logoutOfWeb3Modal}
+        >
           logout
         </Button>,
       );
     } else {
       modalButtons.push(
-        <Button key="loginbutton" style={btnStyles} shape="round" size="large" onClick={loadWeb3Modal}>
+        <Button
+          key="loginbutton"
+          style={{ ...btnStyles, background: "-webkit-linear-gradient(89deg, #620edf 0%, #5e72eb 100%)" }}
+          shape="round"
+          size="large"
+          onClick={loadWeb3Modal}
+        >
           connect
         </Button>,
       );

@@ -5,7 +5,7 @@ import WalletConnectProvider from "@walletconnect/web3-provider";
 import { useUserAddress } from "eth-hooks";
 import Web3Modal from "web3modal";
 
-import { useContractLoader, useUserProvider } from "./hooks";
+import { useContractLoader, useUserProvider, useNetworkInfo } from "./hooks";
 import { Notifier } from "./helpers";
 import { ALCHEMY_ID, DEBUG, ETHERSCAN_KEY, INFURA_ID, NETWORKS } from "./constants";
 
@@ -87,8 +87,8 @@ const NetworkProvider = ({ children }) => {
   const signer = userProvider?.getSigner();
 
   // You can warn the user if you would like them to be on a specific network
-  const localChainId = localProvider?._network?.chainId;
-  const selectedChainId = userProvider?._network?.chainId;
+  const { chainId: localChainId } = useNetworkInfo(localProvider);
+  const { chainId: selectedChainId } = useNetworkInfo(userProvider);
 
   // The Notifier wraps transactions and provides notificiations
   const { currentTheme } = useThemeSwitcher();
@@ -169,7 +169,7 @@ const NetworkProvider = ({ children }) => {
     targetNetwork,
     tx,
     userProvider,
-    validAccount: userProvider?.provider?.isMetaMask,
+    validAccount: web3Modal.cachedProvider,
     web3Modal,
     writeContracts,
   };

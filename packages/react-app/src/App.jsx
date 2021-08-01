@@ -60,6 +60,9 @@ export default function App({ subgraphUri }) {
               <Route path="/storage">
                 <Contract name="AllowedTraitsStorage" />
               </Route>
+              <Route path="/merkle-distributor">
+                <Contract name="MerkleDistributor" />
+              </Route>
               <Route path="/hints">
                 <Hints />
               </Route>

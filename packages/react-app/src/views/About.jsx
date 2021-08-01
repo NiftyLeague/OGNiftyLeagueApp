@@ -129,6 +129,7 @@ const About = ({ setRoute, width }) => {
         creative and send us your ideas! If the game is up to our standards we’d love to share it with the rest of the
         community.
       </p>
+      <span id="nftl" />
       <Title level={2}>NFTL Token</Title>
       <Title level={3}>Overview</Title>
       <p>
@@ -152,11 +153,11 @@ const About = ({ setRoute, width }) => {
       <Title level={3}>Airdrop</Title>
       <p>
         We’re excited to announce that as part of our launch we will be air-dropping a total of{" "}
-        <strong>60M NFTL</strong> to all <strong>AXS</strong> token holders from our snapshot taken on{" "}
-        <strong>August 1st, 2021</strong>. Each address holding <strong>AXS</strong> at the time of the snapshot will be
-        eligible to claim <strong>NFTL</strong> from our website as soon as we go live. Eligible recipients can check
-        their balance on the top-right corner of our website and claim. Any tokens unclaimed after{" "}
-        <strong>1 month</strong> will be sent to our reserve for the community to decide what to do with the funds.
+        <strong>80M NFTL</strong> to all <strong>AXS</strong> token holders from our snapshot taken on{" "}
+        <strong>July 31st, 2021 at 9:50 PM GMT</strong>. Each address holding <strong>AXS</strong> at the time of the
+        snapshot will be eligible to claim <strong>5000 NFTL</strong> from our website as soon as we go live. Eligible
+        recipients can check their balance on the top-right corner of our website and claim. Any tokens unclaimed after{" "}
+        <strong>1 month</strong> will be sent to our community reserve.
       </p>
       <Title level={3}>Meme Contest</Title>
       <p>
@@ -180,7 +181,7 @@ const About = ({ setRoute, width }) => {
             SushiSwap
           </a>
         </strong>{" "}
-        liquidity pool for <strong>6 months</strong> following launch. <strong>200M NFTL</strong> will be minted and
+        liquidity pool for <strong>6 months</strong> following launch. <strong>180M NFTL</strong> will be minted and
         transferred to our community-controlled treasury for future incentives such as tournament rewards or giveaways.
         This brings the initial supply to around <strong>420M</strong> with an incentivized <strong>NFTL/ETH</strong>{" "}
         <strong>

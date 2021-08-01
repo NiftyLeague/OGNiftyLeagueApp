@@ -1,8 +1,8 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { formatEther } from "@ethersproject/units";
 import { usePoller } from "eth-hooks";
-import { NetworkContext } from "NetworkProvider";
-import { useExchangePrice } from "../hooks";
+import { useExchangePrice } from "hooks";
+import { ETH_EXCHANGE_PRICE_INTERVAL } from "../constants";
 
 /*
   ~ What it does? ~
@@ -31,8 +31,7 @@ export default function Balance({ address, balance: bal, dollarMultiplier, pollT
   const [dollarMode, setDollarMode] = useState(false);
   const [balance, setBalance] = useState();
   /* 💵 This hook will get the price of ETH from Sushiswap: */
-  const { mainnetProvider, targetNetwork } = useContext(NetworkContext);
-  const price = useExchangePrice(targetNetwork, mainnetProvider, 30000);
+  const price = useExchangePrice(ETH_EXCHANGE_PRICE_INTERVAL);
 
   const getBalance = async () => {
     if (address && provider) {
