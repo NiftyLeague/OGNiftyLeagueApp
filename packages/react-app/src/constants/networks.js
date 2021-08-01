@@ -14,6 +14,8 @@ import Arbitrum from "../assets/images/networks/arbitrum-network.jpg";
 
 export const NetworkContextName = "NETWORK";
 
+export const LOCAL_CHAIN_ID = 31337;
+
 export const NETWORK_ICON = {
   [ChainId.MAINNET]: Mainnet,
   [ChainId.ROPSTEN]: Ropsten,
@@ -49,7 +51,8 @@ export const NETWORK_LABEL = {
 };
 
 export const PROVIDER_NAME = {
-  [ChainId.MAINNET]: "homestead",
+  [LOCAL_CHAIN_ID]: "localhost",
+  [ChainId.MAINNET]: "mainnet",
   [ChainId.ROPSTEN]: "ropsten",
   [ChainId.RINKEBY]: "rinkeby",
   [ChainId.GÖRLI]: "goerli",
@@ -77,7 +80,7 @@ export const LOCAL_RPC = "http://" + window.location.hostname + ":8545";
 export const NETWORKS = {
   localhost: {
     blockExplorer: "",
-    chainId: 31337,
+    chainId: LOCAL_CHAIN_ID,
     label: "localhost",
     name: LOCAL_RPC,
     rpcUrl: LOCAL_RPC,
@@ -190,12 +193,12 @@ export const NETWORK = chainId => {
 };
 
 export const SUPPORTED_CHAIN_IDS = [
-  31337,
+  LOCAL_CHAIN_ID,
   ChainId.MAINNET,
   ChainId.RINKEBY,
   ChainId.ROPSTEN,
-  ChainId.GÖRLI,
-  ChainId.KOVAN,
+  // ChainId.GÖRLI,
+  // ChainId.KOVAN,
   // ChainId.FANTOM,
   // ChainId.FANTOM_TESTNET,
   // ChainId.BSC,

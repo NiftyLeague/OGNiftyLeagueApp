@@ -60,20 +60,18 @@ export function calculateGasMargin(value) {
 }
 
 // account is not optional
-export function getSigner(library, account) {
-  return library.getSigner(account).connectUnchecked();
+export function getSigner(provider, account) {
+  return provider.getSigner(account).connectUnchecked();
 }
 
 // account is optional
-export function getProviderOrSigner(library, account) {
-  return account ? getSigner(library, account) : library;
+export function getProviderOrSigner(provider, account) {
+  return account ? getSigner(provider, account) : provider;
 }
 
-// account is optional
-export function getContract(address, ABI, library, account) {
+export function getContract(address, ABI, provider, account) {
   if (!isAddress(address) || address === AddressZero) {
     throw Error(`Invalid 'address' parameter '${address}'.`);
   }
-
-  return new Contract(address, ABI, getProviderOrSigner(library, account));
+  return new Contract(address, ABI, getProviderOrSigner(provider, account));
 }

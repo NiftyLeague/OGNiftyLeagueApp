@@ -5,10 +5,11 @@ import withWidth, { isWidthDown } from "@material-ui/core/withWidth";
 import { Layout, Menu } from "antd";
 
 import { NetworkContext } from "NetworkProvider";
+import Account from "../Account";
 import AddNFTL from "./AddNFTL";
+import Airdrop from "./Airdrop";
 import DropdownMenu from "./DropdownMenu";
 import WrongNetworkAlert from "./WrongNetworkAlert";
-import Account from "../Account";
 import "./navigation.css";
 
 const navItems = setRoute => [
@@ -53,16 +54,12 @@ function Navigation({ route, setRoute, width }) {
   const {
     address,
     loadWeb3Modal,
-    localChainId,
     logoutOfWeb3Modal,
     mainnetProvider,
-    selectedChainId,
     targetNetwork,
     userProvider,
     web3Modal,
   } = useContext(NetworkContext);
-
-  const networkError = localChainId && selectedChainId && localChainId !== selectedChainId;
 
   return (
     <Layout>
@@ -104,6 +101,7 @@ function Navigation({ route, setRoute, width }) {
           </nav>
         )}
         <div className="menu-right">
+          <Airdrop setRoute={setRoute} />
           {!mobileView && <AddNFTL />}
           <div className="network-label" style={{ padding: mobileView ? "0 5px" : "0 16px" }}>
             {targetNetwork.label}
@@ -120,7 +118,7 @@ function Navigation({ route, setRoute, width }) {
           />
           <DropdownMenu key="more" hideNav={hideNav} navItems={navItems} setRoute={setRoute} />
         </div>
-        {networkError && <WrongNetworkAlert localChainId={localChainId} selectedChainId={selectedChainId} />}
+        <WrongNetworkAlert />
       </Layout.Header>
     </Layout>
   );

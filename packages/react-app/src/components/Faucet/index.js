@@ -7,6 +7,7 @@ import { useLookupAddress } from "eth-hooks";
 import { useExchangePrice } from "hooks";
 import { NetworkContext } from "NetworkProvider";
 import { Notifier } from "helpers";
+import { ETH_EXCHANGE_PRICE_INTERVAL } from "../../constants";
 import Wallet from "./Wallet";
 
 // improved a bit by converting address to ens if it exists
@@ -40,7 +41,7 @@ export default function Faucet({ placeholder }) {
   const { localProvider, mainnetProvider, targetNetwork } = useContext(NetworkContext);
   const [address, setAddress] = useState();
   /* 💵 This hook will get the price of ETH from Sushiswap: */
-  const price = useExchangePrice(targetNetwork, mainnetProvider, 30000);
+  const price = useExchangePrice(ETH_EXCHANGE_PRICE_INTERVAL);
 
   let blockie;
   if (address && typeof address.toLowerCase === "function") {

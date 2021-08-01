@@ -42,6 +42,11 @@ const DropdownMenu = ({ hideNav, navItems, setRoute }) => {
               Storage
             </Link>
           </Menu.Item>
+          <Menu.Item key="/merkle-distributor">
+            <Link onClick={() => setRoute("/merkle-distributor")} to="/merkle-distributor">
+              Merkle Distributor
+            </Link>
+          </Menu.Item>
           <Menu.Item key="/hints">
             <Link onClick={() => setRoute("/hints")} to="/hints">
               Hints

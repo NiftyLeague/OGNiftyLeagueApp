@@ -1,7 +1,5 @@
 import React, { useCallback, useContext, useState } from "react";
-import { useThemeSwitcher } from "react-css-theme-switcher";
 import { MaxUint256 } from "@ethersproject/constants";
-import clsx from "clsx";
 import {
   Button,
   Dialog,
@@ -11,22 +9,11 @@ import {
   DialogTitle,
   TextField,
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import { NetworkContext } from "NetworkProvider";
 import { DEBUG, NFT_CONTRACT, NFTL_CONTRACT } from "../constants";
 
-export const useStyles = makeStyles({
-  dialogDark: {
-    backgroundColor: "rgb(49, 49, 49)",
-    "& p, input": { color: "#fff" },
-    "& label": { color: "#3f51b5" },
-  },
-});
-
 const RenameDialog = ({ displayName, open, setOpen, tokenId }) => {
   const { address, tx, writeContracts } = useContext(NetworkContext);
-  const { currentTheme } = useThemeSwitcher();
-  const classes = useStyles();
   const [input, setInput] = useState("");
   const [error, setError] = useState(false);
   const [helperText, setHelperText] = useState("");
@@ -74,12 +61,7 @@ const RenameDialog = ({ displayName, open, setOpen, tokenId }) => {
   }, [address, handleClose, input, tokenId, tx, writeContracts]);
 
   return (
-    <Dialog
-      open={open}
-      onClose={handleClose}
-      aria-labelledby="rename-form-dialog"
-      classes={{ paper: clsx({ [classes.dialogDark]: currentTheme === "dark" }) }}
-    >
+    <Dialog open={open} onClose={handleClose} aria-labelledby="rename-form-dialog">
       <DialogTitle>
         Rename {displayName} #{tokenId}
       </DialogTitle>

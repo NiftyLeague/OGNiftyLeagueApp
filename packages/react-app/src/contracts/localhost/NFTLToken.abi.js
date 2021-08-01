@@ -8,8 +8,18 @@ module.exports = [
       },
       {
         "internalType": "uint256",
-        "name": "initialSupply",
+        "name": "ownerSupply",
         "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "treasurySupply",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "treasuryAddress",
+        "type": "address"
       }
     ],
     "stateMutability": "nonpayable",
