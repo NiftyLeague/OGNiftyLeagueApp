@@ -32,11 +32,11 @@ module.exports = [
       },
       {
         "internalType": "uint256",
-        "name": "trait",
+        "name": "color",
         "type": "uint256"
       }
     ],
-    "name": "isAllowedTrait",
+    "name": "isAllowedColor",
     "outputs": [
       {
         "internalType": "bool",
@@ -76,7 +76,7 @@ module.exports = [
       },
       {
         "internalType": "uint256[]",
-        "name": "traits",
+        "name": "colors",
         "type": "uint256[]"
       },
       {
@@ -85,7 +85,7 @@ module.exports = [
         "type": "bool"
       }
     ],
-    "name": "setTraitsAllowedOnTribe",
+    "name": "setAllowedColorsOnTribe",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

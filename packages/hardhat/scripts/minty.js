@@ -23,8 +23,8 @@ const {
   makeIPNSGatewayURL,
   extractCID,
 } = require("./uriHelpers");
-const { generateImageURL, downloadImage } = require("./imageGenerator");
-const { CHARACTER_TRAIT_TYPES, TRAIT_VALUE_MAP } = require("../constants/characterTraits");
+const { raritySelector, generateImageURL, downloadImage } = require("./imageGenerator");
+const { CHARACTER_BACKGROUNDS, CHARACTER_TRAIT_TYPES, TRAIT_VALUE_MAP } = require("../constants/characterTraits");
 
 // ipfs parameters for more deterministic CIDs
 const ipfsOptions = {
@@ -98,6 +98,7 @@ class Minty {
    * @param {[]} traits - list of character traits from contract
    * @param {string} filepath - token image filepath
    * @param {Buffer|Uint8Array} content - a Buffer or UInt8Array of data (e.g. for an image)
+   * @param {number} rarity - number of background rarity 0-3
    *
    * @typedef {object} CreateNFTResult
    * @property {string} tokenId - the unique ID of the new token
@@ -109,7 +110,7 @@ class Minty {
    *
    * @returns {Promise<CreateNFTResult>}
    */
-  async uploadNFTFromAssetData(tokenId, traits, filePath, content) {
+  async uploadNFTFromAssetData(tokenId, traits, filePath, content, rarity) {
     const basename = path.basename(filePath);
 
     // When you add an object to IPFS with a directory prefix in its path,
@@ -122,7 +123,7 @@ class Minty {
 
     // make the NFT metadata JSON
     const assetURI = ensureIpfsUriPrefix(assetCid) + imgPath;
-    const metadata = await this.makeNFTMetadata(tokenId, traits, assetURI);
+    const metadata = await this.makeNFTMetadata(tokenId, traits, rarity, assetURI);
 
     // unpin old metadata directory hash
     const { cid: oldMetadataCid } = await this.ipfs.files.stat(this.metadataDir);
@@ -175,9 +176,10 @@ class Minty {
    */
   async generateNFT(tokenId) {
     const traits = await this.getCharacterTraits(tokenId);
-    const filePath = await this.generateImage(tokenId, traits);
+    const rarity = raritySelector();
+    const filePath = await this.generateImage(tokenId, traits, rarity);
     const content = await fs.promises.readFile(filePath);
-    return this.uploadNFTFromAssetData(tokenId, traits, filePath, content);
+    return this.uploadNFTFromAssetData(tokenId, traits, filePath, content, rarity);
   }
 
   /**
@@ -185,16 +187,17 @@ class Minty {
    *
    * @param {number} tokenId - the unique ID of the new token
    * @param {[]} traits - list of character traits from contract
+   * @param {number} rarity - number of background rarity 0-3
    *
    * @returns {string} - NFT image filepath
    */
   // eslint-disable-next-line class-methods-use-this
-  async generateImage(tokenId, traits) {
+  async generateImage(tokenId, traits, rarity) {
     const filePath = `${this.dir}/images/${tokenId}.png`;
-    if (fs.existsSync(filePath)) {
+    if (config.avoidImageOverride === "true" && fs.existsSync(filePath)) {
       console.log(`Image already exists at ${filePath}`);
     } else {
-      const url = generateImageURL(traits);
+      const url = generateImageURL(traits, rarity);
       console.log("Unity image url:", url);
       await downloadImage(url, filePath);
     }
@@ -206,6 +209,7 @@ class Minty {
    *
    * @param {number} tokenId - the unique ID of the new token
    * @param {[]} traits - list of character traits from contract
+   * @param {number} rarity - number of background rarity 0-3
    * @param {string} assetURI - IPFS URI for the NFT asset
    *
    * @typedef {object} CreateMetadataResult
@@ -218,8 +222,11 @@ class Minty {
    *
    * @returns {Promise<CreateMetadataResult>}
    */
-  async makeNFTMetadata(tokenId, traits, assetURI) {
-    const attributes = [];
+  async makeNFTMetadata(tokenId, traits, rarity, assetURI) {
+    const attributes = [
+      { display_type: "number", trait_type: "Generation", value: 1 },
+      { trait_type: "Tier", value: CHARACTER_BACKGROUNDS[rarity] },
+    ];
     traits.forEach((trait, i) => {
       if (trait !== 0) {
         attributes.push({ trait_type: CHARACTER_TRAIT_TYPES[i], value: TRAIT_VALUE_MAP[trait] });
@@ -230,7 +237,6 @@ class Minty {
       image: ensureIpfsUriPrefix(assetURI),
       description: config.metadata.description,
       external_url: `${config.metadata.externalURL}/${tokenId}`,
-      // background_color: ,
       attributes,
     };
     fs.writeFileSync(`${this.dir}/metadata/${tokenId}.json`, JSON.stringify(metadata));

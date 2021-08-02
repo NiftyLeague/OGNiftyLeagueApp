@@ -69,37 +69,6 @@ module.exports = [
     "anonymous": false,
     "inputs": [
       {
-        "indexed": false,
-        "internalType": "string",
-        "name": "previousArweaveHash",
-        "type": "string"
-      },
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "newArweaveHash",
-        "type": "string"
-      },
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "previousIpfsHash",
-        "type": "string"
-      },
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "newIpfsHash",
-        "type": "string"
-      }
-    ],
-    "name": "GeneratorUpdated",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
         "indexed": true,
         "internalType": "uint256",
         "name": "tokenId",
@@ -311,32 +280,6 @@ module.exports = [
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "getArweaveGeneratorHash",
-    "outputs": [
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "getArweaveImgHash",
-    "outputs": [
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      }
-    ],
-    "stateMutability": "pure",
-    "type": "function"
-  },
-  {
     "inputs": [
       {
         "internalType": "uint256",
@@ -386,16 +329,6 @@ module.exports = [
           {
             "internalType": "uint16",
             "name": "beard",
-            "type": "uint16"
-          },
-          {
-            "internalType": "uint16",
-            "name": "facemark",
-            "type": "uint16"
-          },
-          {
-            "internalType": "uint16",
-            "name": "misc",
             "type": "uint16"
           },
           {
@@ -475,32 +408,6 @@ module.exports = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "getIpfsGeneratorHash",
-    "outputs": [
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "getIpfsImgHash",
-    "outputs": [
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      }
-    ],
-    "stateMutability": "pure",
     "type": "function"
   },
   {
@@ -638,35 +545,6 @@ module.exports = [
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "trait",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "lower",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "upper",
-        "type": "uint256"
-      }
-    ],
-    "name": "isTraitInRange",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "pure",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
         "name": "traitCombo",
         "type": "uint256"
       }
@@ -693,6 +571,19 @@ module.exports = [
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "newPrice",
+        "type": "uint256"
+      }
+    ],
+    "name": "overrideMintPrice",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -755,9 +646,9 @@ module.exports = [
         "type": "uint256[5]"
       },
       {
-        "internalType": "uint256[5]",
+        "internalType": "uint256[3]",
         "name": "head",
-        "type": "uint256[5]"
+        "type": "uint256[3]"
       },
       {
         "internalType": "uint256[6]",
@@ -852,24 +743,6 @@ module.exports = [
       }
     ],
     "name": "setApprovalForAll",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "newArweave",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "newIpfs",
-        "type": "string"
-      }
-    ],
-    "name": "setGeneratorHashes",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

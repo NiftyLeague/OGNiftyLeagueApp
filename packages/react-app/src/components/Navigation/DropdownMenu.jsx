@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { Button, Dropdown, Menu } from "antd";
 import { createFromIconfontCN, TwitterOutlined } from "@ant-design/icons";
 import { Menu as MenuIcon, MoreVert } from "@material-ui/icons";
+import { NetworkContext } from "NetworkProvider";
 import { DEBUG } from "../../constants";
 
 const IconFont = createFromIconfontCN({
@@ -10,6 +11,8 @@ const IconFont = createFromIconfontCN({
 });
 
 const DropdownMenu = ({ hideNav, navItems, setRoute }) => {
+  const { localProvider, targetNetwork } = useContext(NetworkContext);
+  const localConnection = localProvider?.connection && targetNetwork.label === "localhost";
   const menu = (
     <Menu style={{ padding: 10 }}>
       {hideNav && navItems(setRoute)}
@@ -25,7 +28,7 @@ const DropdownMenu = ({ hideNav, navItems, setRoute }) => {
           Twitter
         </a>
       </Menu.Item>
-      {DEBUG && (
+      {DEBUG && localConnection ? (
         <>
           <Menu.Item key="/NFTL">
             <Link onClick={() => setRoute("/NTFL")} to="/NFTL">
@@ -58,7 +61,7 @@ const DropdownMenu = ({ hideNav, navItems, setRoute }) => {
             </Link>
           </Menu.Item>
         </>
-      )}
+      ) : null}
     </Menu>
   );
 
