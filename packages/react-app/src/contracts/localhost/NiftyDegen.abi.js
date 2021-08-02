@@ -333,16 +333,6 @@ module.exports = [
           },
           {
             "internalType": "uint16",
-            "name": "facemark",
-            "type": "uint16"
-          },
-          {
-            "internalType": "uint16",
-            "name": "misc",
-            "type": "uint16"
-          },
-          {
-            "internalType": "uint16",
             "name": "top",
             "type": "uint16"
           },
@@ -584,6 +574,19 @@ module.exports = [
     "type": "function"
   },
   {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "newPrice",
+        "type": "uint256"
+      }
+    ],
+    "name": "overrideMintPrice",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "inputs": [],
     "name": "owner",
     "outputs": [
@@ -643,9 +646,9 @@ module.exports = [
         "type": "uint256[5]"
       },
       {
-        "internalType": "uint256[5]",
+        "internalType": "uint256[3]",
         "name": "head",
-        "type": "uint256[5]"
+        "type": "uint256[3]"
       },
       {
         "internalType": "uint256[6]",

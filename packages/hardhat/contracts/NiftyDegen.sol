@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "./NameableCharacter.sol";
-import "./AllowedTraitsStorage.sol";
+import "./AllowedColorsStorage.sol";
 
 import "hardhat/console.sol";
 
@@ -27,16 +27,23 @@ contract NiftyDegen is NameableCharacter {
     /// @dev Available traits storage address
     address internal immutable _storageAddress;
 
+    /// @dev Set if we want to override bonding curve pricing
+    uint256 private _manualMintPrice;
+
     /**
      * @notice Construct the Nifty League NFTs
      * @param nftlAddress Address of verified Nifty League NFTL contract
-     * @param storageAddress Address of verified Allowed Traits Storage
+     * @param storageAddress Address of verified Allowed Colors Storage
      */
     constructor(address nftlAddress, address storageAddress) NiftyLeagueCharacter(nftlAddress, "NiftyDegen", "DEGEN") {
         _storageAddress = storageAddress;
     }
 
     // External functions
+
+    function overrideMintPrice(uint256 newPrice) external onlyOwner {
+        _manualMintPrice = newPrice;
+    }
 
     /**
      * @notice Validate character traits and purchase a Nifty Degen NFT
@@ -49,7 +56,7 @@ contract NiftyDegen is NameableCharacter {
      */
     function purchase(
         uint256[5] memory character,
-        uint256[5] memory head,
+        uint256[3] memory head,
         uint256[6] memory clothing,
         uint256[6] memory accessories,
         uint256[2] memory items
@@ -78,22 +85,20 @@ contract NiftyDegen is NameableCharacter {
         _characterTraits.hair = _unpackUint10(character.traits >> 50);
         _characterTraits.mouth = _unpackUint10(character.traits >> 60);
         _characterTraits.beard = _unpackUint10(character.traits >> 70);
-        _characterTraits.facemark = _unpackUint10(character.traits >> 80);
-        _characterTraits.misc = _unpackUint10(character.traits >> 90);
-        _characterTraits.top = _unpackUint10(character.traits >> 100);
-        _characterTraits.outerwear = _unpackUint10(character.traits >> 110);
-        _characterTraits.print = _unpackUint10(character.traits >> 120);
-        _characterTraits.bottom = _unpackUint10(character.traits >> 130);
-        _characterTraits.footwear = _unpackUint10(character.traits >> 140);
-        _characterTraits.belt = _unpackUint10(character.traits >> 150);
-        _characterTraits.hat = _unpackUint10(character.traits >> 160);
-        _characterTraits.eyewear = _unpackUint10(character.traits >> 170);
-        _characterTraits.piercings = _unpackUint10(character.traits >> 180);
-        _characterTraits.wrists = _unpackUint10(character.traits >> 190);
-        _characterTraits.hands = _unpackUint10(character.traits >> 200);
-        _characterTraits.neckwear = _unpackUint10(character.traits >> 210);
-        _characterTraits.leftItem = _unpackUint10(character.traits >> 220);
-        _characterTraits.rightItem = _unpackUint10(character.traits >> 230);
+        _characterTraits.top = _unpackUint10(character.traits >> 80);
+        _characterTraits.outerwear = _unpackUint10(character.traits >> 90);
+        _characterTraits.print = _unpackUint10(character.traits >> 100);
+        _characterTraits.bottom = _unpackUint10(character.traits >> 110);
+        _characterTraits.footwear = _unpackUint10(character.traits >> 120);
+        _characterTraits.belt = _unpackUint10(character.traits >> 130);
+        _characterTraits.hat = _unpackUint10(character.traits >> 140);
+        _characterTraits.eyewear = _unpackUint10(character.traits >> 150);
+        _characterTraits.piercings = _unpackUint10(character.traits >> 160);
+        _characterTraits.wrists = _unpackUint10(character.traits >> 170);
+        _characterTraits.hands = _unpackUint10(character.traits >> 180);
+        _characterTraits.neckwear = _unpackUint10(character.traits >> 190);
+        _characterTraits.leftItem = _unpackUint10(character.traits >> 200);
+        _characterTraits.rightItem = _unpackUint10(character.traits >> 210);
     }
 
     // Public functions
@@ -108,8 +113,8 @@ contract NiftyDegen is NameableCharacter {
             currentSupply < MAX_SUPPLY - SPECIAL_CHARACTERS || (_msgSender() == owner() && currentSupply < MAX_SUPPLY),
             "Sale has already ended"
         );
-
-        if (currentSupply >= 9900) {
+        if (_manualMintPrice > 0) return _manualMintPrice;
+        if (currentSupply >= 9900 || currentSupply <= 5) {
             return 0; // 9900 - 10000 free special giveaway characters
         } else if (currentSupply >= 9500) {
             return 1000000000000000000; // 9500 - 9900 1 ETH
@@ -132,13 +137,14 @@ contract NiftyDegen is NameableCharacter {
      * @notice Check if traits is allowed for tribe and hasn't been removed yet
      * @param tribe Tribe ID
      * @param trait Trait ID
-     * @dev Trait types are restricted per tribe before deploy in AllowedTraitsStorage
+     * @dev Trait types are restricted per tribe before deploy in AllowedColorsStorage
      * @return True if trait is available and allowed for tribe
      */
     function isAvailableAndAllowedTrait(uint256 tribe, uint256 trait) public view returns (bool) {
         if (trait == EMPTY_TRAIT) return true;
-        AllowedTraitsStorage traitsStorage = AllowedTraitsStorage(_storageAddress);
-        return isAvailableTrait(trait) && traitsStorage.isAllowedTrait(tribe, trait);
+        if (trait >= 150) return isAvailableTrait(trait);
+        AllowedColorsStorage colorsStorage = AllowedColorsStorage(_storageAddress);
+        return isAvailableTrait(trait) && colorsStorage.isAllowedColor(tribe, trait);
     }
 
     // Internal functions
@@ -163,36 +169,34 @@ contract NiftyDegen is NameableCharacter {
      */
     function _validateTraits(
         uint256[5] memory char,
-        uint256[5] memory head,
+        uint256[3] memory head,
         uint256[6] memory cloth,
         uint256[6] memory acc,
         uint256[2] memory items
     ) private view {
         uint256 tribe = char[0];
         require(tribe > 0 && (tribe <= 6 || (tribe <= 9 && msg.sender == owner())), "Tribe incorrect");
-        require(_isTraitInRange(char[1], 15, 74), "Skin color incorrect");
-        require(_isTraitInRange(char[2], 75, 105), "Fur color incorrect");
-        require(_isTraitInRange(char[3], 106, 114), "Eye color incorrect");
-        require(_isTraitInRange(char[4], 115, 123), "Pupil color incorrect");
-        require(_isTraitInRange(head[0], 200, 214), "Hair incorrect");
-        require(_isTraitInRange(head[1], 215, 217), "Mouth incorrect");
-        require(_isTraitInRange(head[2], 218, 226), "Beard incorrect");
-        require(_isTraitInRange(head[3], 227, 227), "Facemark incorrect");
-        require(_isTraitInRange(head[4], 228, 229), "Misc incorrect");
-        require(_isTraitInRange(cloth[0], 230, 238), "Top incorrect");
-        require(_isTraitInRange(cloth[1], 239, 246), "Outerwear incorrect");
-        require(_isTraitInRange(cloth[2], 247, 262), "Print incorrect");
-        require(_isTraitInRange(cloth[3], 263, 274), "Bottom incorrect");
-        require(_isTraitInRange(cloth[4], 275, 279), "Footwear incorrect");
-        require(_isTraitInRange(cloth[5], 280, 282), "Belt incorrect");
-        require(_isTraitInRange(acc[0], 283, 305), "Hat incorrect");
-        require(_isTraitInRange(acc[1], 306, 319), "Eyewear incorrect");
-        require(_isTraitInRange(acc[2], 320, 320), "Piercings incorrect");
-        require(_isTraitInRange(acc[3], 321, 322), "Wist accessory incorrect");
-        require(_isTraitInRange(acc[4], 323, 324), "Hand accessory incorrect");
-        require(_isTraitInRange(acc[5], 325, 327), "Neckwear incorrect");
-        require(_isTraitInRange(items[0], 328, 329), "Left item incorrect");
-        require(_isTraitInRange(items[1], 330, 336), "Right item incorrect");
+        require(_isTraitInRange(char[1], 10, 69) || _isTraitInRange(char[1], 119, 149), "Skin color incorrect");
+        require(_isTraitInRange(char[2], 70, 100) || _isTraitInRange(char[2], 119, 149), "Fur color incorrect");
+        require(_isTraitInRange(char[3], 101, 109) || _isTraitInRange(char[3], 119, 149), "Eye color incorrect");
+        require(_isTraitInRange(char[4], 110, 118) || _isTraitInRange(char[4], 119, 149), "Pupil color incorrect");
+        require(_isTraitInRange(head[0], 150, 262), "Hair incorrect");
+        require(_isTraitInRange(head[1], 263, 276), "Mouth incorrect");
+        require(_isTraitInRange(head[2], 277, 339), "Beard incorrect");
+        require(_isTraitInRange(cloth[0], 340, 438), "Top incorrect");
+        require(_isTraitInRange(cloth[1], 439, 514), "Outerwear incorrect");
+        require(_isTraitInRange(cloth[2], 515, 555), "Print incorrect");
+        require(_isTraitInRange(cloth[3], 556, 657), "Bottom incorrect");
+        require(_isTraitInRange(cloth[4], 658, 694), "Footwear incorrect");
+        require(_isTraitInRange(cloth[5], 695, 706), "Belt incorrect");
+        require(_isTraitInRange(acc[0], 707, 749), "Hat incorrect");
+        require(_isTraitInRange(acc[1], 750, 799), "Eyewear incorrect");
+        require(_isTraitInRange(acc[2], 800, 809), "Piercings incorrect");
+        require(_isTraitInRange(acc[3], 810, 821), "Wist accessory incorrect");
+        require(_isTraitInRange(acc[4], 822, 846), "Hand accessory incorrect");
+        require(_isTraitInRange(acc[5], 847, 883), "Neckwear incorrect");
+        require(_isTraitInRange(items[0], 884, 975), "Left item incorrect");
+        require(_isTraitInRange(items[1], 976, 1023), "Right item incorrect");
 
         require(isAvailableAndAllowedTrait(tribe, char[1]), "Skin color unavailable");
         require(isAvailableAndAllowedTrait(tribe, char[2]), "Fur color unavailable");
@@ -201,8 +205,6 @@ contract NiftyDegen is NameableCharacter {
         require(isAvailableAndAllowedTrait(tribe, head[0]), "Hair unavailable");
         require(isAvailableAndAllowedTrait(tribe, head[1]), "Mouth unavailable");
         require(isAvailableAndAllowedTrait(tribe, head[2]), "Beard unavailable");
-        require(isAvailableAndAllowedTrait(tribe, head[3]), "Facemark unavailable");
-        require(isAvailableAndAllowedTrait(tribe, head[4]), "Misc unavailable");
         require(isAvailableAndAllowedTrait(tribe, cloth[0]), "Top unavailable");
         require(isAvailableAndAllowedTrait(tribe, cloth[1]), "Outerwear unavailable");
         require(isAvailableAndAllowedTrait(tribe, cloth[2]), "Print unavailable");
@@ -231,7 +233,7 @@ contract NiftyDegen is NameableCharacter {
      */
     function _generateTraitCombo(
         uint256[5] memory character,
-        uint256[5] memory head,
+        uint256[3] memory head,
         uint256[6] memory clothing,
         uint256[6] memory accessories,
         uint256[2] memory items
@@ -244,22 +246,20 @@ contract NiftyDegen is NameableCharacter {
         traits |= head[0] << 50;
         traits |= head[1] << 60;
         traits |= head[2] << 70;
-        traits |= head[3] << 80;
-        traits |= head[4] << 90;
-        traits |= clothing[0] << 100;
-        traits |= clothing[1] << 110;
-        traits |= clothing[2] << 120;
-        traits |= clothing[3] << 130;
-        traits |= clothing[4] << 140;
-        traits |= clothing[5] << 150;
-        traits |= accessories[0] << 160;
-        traits |= accessories[1] << 170;
-        traits |= accessories[2] << 180;
-        traits |= accessories[3] << 190;
-        traits |= accessories[4] << 200;
-        traits |= accessories[5] << 210;
-        traits |= items[0] << 220;
-        traits |= items[1] << 230;
+        traits |= clothing[0] << 80;
+        traits |= clothing[1] << 90;
+        traits |= clothing[2] << 100;
+        traits |= clothing[3] << 110;
+        traits |= clothing[4] << 120;
+        traits |= clothing[5] << 130;
+        traits |= accessories[0] << 140;
+        traits |= accessories[1] << 150;
+        traits |= accessories[2] << 160;
+        traits |= accessories[3] << 170;
+        traits |= accessories[4] << 180;
+        traits |= accessories[5] << 190;
+        traits |= items[0] << 200;
+        traits |= items[1] << 210;
         return traits;
     }
 
@@ -287,14 +287,28 @@ contract NiftyDegen is NameableCharacter {
      */
     function _removeRandomTrait(uint256 newCharId, uint256 traitCombo) private {
         if (
-            removedTraits.length < 100 ||
-            (removedTraits.length < 250 && newCharId % 2 == 0) ||
-            (removedTraits.length < 350 && newCharId % 3 == 0) ||
-            (removedTraits.length < 450 && newCharId % 4 == 0)
+            removedTraits.length < 250 ||
+            (removedTraits.length < 500 && newCharId % 2 == 0) ||
+            (removedTraits.length < 750 && newCharId % 3 == 0) ||
+            (removedTraits.length < 1000 && newCharId % 4 == 0)
         ) {
             uint256 randomIndex = _rngIndex(newCharId);
             uint16 randomTrait = _unpackUint10(traitCombo >> randomIndex);
-            if (randomTrait != 0) {
+            // Base character colors cannot be removed
+            if (
+                randomTrait != 0 &&
+                randomTrait != 10 &&
+                randomTrait != 22 &&
+                randomTrait != 29 &&
+                randomTrait != 37 &&
+                randomTrait != 48 &&
+                randomTrait != 59 &&
+                randomTrait != 70 &&
+                randomTrait != 82 &&
+                randomTrait != 90 &&
+                randomTrait != 101 &&
+                randomTrait != 110
+            ) {
                 removedTraits.push(randomTrait);
                 _removedTraitsMap[randomTrait] = true;
             }
@@ -305,11 +319,11 @@ contract NiftyDegen is NameableCharacter {
      * @notice Simulate randomness
      * @param tokenId ID of newly generated NFT
      * @dev Randomness can be anticipated and exploited but is not crucial to NFT sale
-     * @return Number from 1-23
+     * @return Number from 1-21
      */
     function _rngIndex(uint256 tokenId) private view returns (uint256) {
         uint256 randomHash = uint256(keccak256(abi.encodePacked(tokenId, block.timestamp, block.difficulty)));
-        return ((randomHash % 23) + 1) * 10;
+        return ((randomHash % 21) + 1) * 10;
     }
 
     /**

@@ -64,7 +64,8 @@ const Wallet = () => {
   });
 
   const characters = useMemo(() => {
-    return data?.owner?.characters || [];
+    const characterList = data?.owner?.characters ? [...data.owner.characters] : [];
+    return characterList.sort((a, b) => parseInt(a.id, 10) - parseInt(b.id, 10));
   }, [data]);
 
   const tokenIndices = useMemo(() => {

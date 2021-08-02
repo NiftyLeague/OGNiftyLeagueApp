@@ -27,8 +27,6 @@ type TraitMap @entity {
   hair: Int!
   mouth: Int!
   beard: Int!
-  facemark: Int!
-  misc: Int!
   top: Int!
   outerwear: Int!
   print: Int!

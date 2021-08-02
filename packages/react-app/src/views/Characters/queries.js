@@ -20,8 +20,6 @@ export const DEFAULT_QUERY = gql`
         hair
         mouth
         beard
-        facemark
-        misc
         top
         outerwear
         print
@@ -58,8 +56,6 @@ export const ID_SEARCH_QUERY = gql`
         hair
         mouth
         beard
-        facemark
-        misc
         top
         outerwear
         print
@@ -96,8 +92,6 @@ export const NAME_SEARCH_QUERY = gql`
         hair
         mouth
         beard
-        facemark
-        misc
         top
         outerwear
         print
@@ -127,8 +121,6 @@ export const FILTER_SEARCH_QUERY = gql`
     $hair: [Int]
     $mouths: [Int]
     $beards: [Int]
-    $facemarks: [Int]
-    $misc: [Int]
     $tops: [Int]
     $outerwear: [Int]
     $prints: [Int]
@@ -155,8 +147,6 @@ export const FILTER_SEARCH_QUERY = gql`
         hair_in: $hair
         mouth_in: $mouths
         beard_in: $beards
-        facemark_in: $facemarks
-        misc_in: $misc
         top_in: $tops
         outerwear_in: $outerwear
         print_in: $prints
@@ -189,8 +179,6 @@ export const FILTER_SEARCH_QUERY = gql`
           hair
           mouth
           beard
-          facemark
-          misc
           top
           outerwear
           print

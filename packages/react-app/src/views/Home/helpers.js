@@ -18,8 +18,6 @@ export const getMintableTraits = ({ traits }) => {
     Hair,
     Mouth,
     Beard,
-    Facemark,
-    Misc,
     Top,
     Outerwear,
     Print,
@@ -30,15 +28,15 @@ export const getMintableTraits = ({ traits }) => {
     Eyewear,
     Piercing,
     Wrist,
-    Hand,
+    Hands,
     Neckwear,
-    LeftHand,
-    RightHand,
+    LeftItem,
+    RightItem,
   } = traitObject;
   const character = [Tribe, SkinColor, FurColor, EyeColor, PupilColor];
-  const head = [Hair, Mouth, Beard, Facemark, Misc];
+  const head = [Hair, Mouth, Beard];
   const clothing = [Top, Outerwear, Print, Bottom, Footwear, Belt];
-  const accessories = [Hat, Eyewear, Piercing, Wrist, Hand, Neckwear];
-  const items = [LeftHand, RightHand];
+  const accessories = [Hat, Eyewear, Piercing, Wrist, Hands, Neckwear];
+  const items = [LeftItem, RightItem];
   return { character, head, clothing, accessories, items };
 };

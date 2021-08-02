@@ -162,18 +162,6 @@ const CharactersFilter = ({ filterActive, filterState, search, setFilterState, s
             options={FILTER_STATE_MAPPING.beards}
           />
           <MultiSelect
-            label="Facemark"
-            selectedOptions={filterState.facemarks}
-            setSelectedOptions={values => handleFilterStateUpdate("facemarks", values)}
-            options={FILTER_STATE_MAPPING.facemarks}
-          />
-          <MultiSelect
-            label="Misc."
-            selectedOptions={filterState.misc}
-            setSelectedOptions={values => handleFilterStateUpdate("misc", values)}
-            options={FILTER_STATE_MAPPING.misc}
-          />
-          <MultiSelect
             label="Top"
             selectedOptions={filterState.tops}
             setSelectedOptions={values => handleFilterStateUpdate("tops", values)}

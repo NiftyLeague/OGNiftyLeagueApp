@@ -37,8 +37,6 @@ const CHARACTERS_QUERY = `
         hair
         mouth
         beard
-        facemark
-        misc
         top
         outerwear
         print
@@ -109,7 +107,7 @@ function Subgraph({ subgraphUri }) {
   ];
 
   const [character, setCharacter] = useState([1, 0, 0, 0, 0]);
-  const [head, setHead] = useState([0, 0, 0, 0, 0]);
+  const [head, setHead] = useState([0, 0, 0]);
   const [clothing, setClothing] = useState([0, 0, 0, 0, 0, 0]);
   const [accessories, setAccessories] = useState([0, 0, 0, 0, 0, 0]);
   const [items, setItems] = useState([0, 0]);

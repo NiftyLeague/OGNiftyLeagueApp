@@ -3,6 +3,7 @@ import { notification } from "antd";
 import Notify from "bnc-notify";
 import { ethers } from "ethers";
 import axios from "axios";
+import { calculateGasMargin } from "helpers";
 import { BLOCKNATIVE_DAPPID, DEBUG } from "../constants";
 
 // Wrapper around BlockNative's wonderful Notify.js
@@ -23,6 +24,40 @@ const loadGasPrice = async (targetNetwork, speed = "fast") => {
       .catch(error => console.log(error));
   }
   return gasPrice;
+};
+
+const handleError = e => {
+  if (DEBUG) console.log("Transaction Error", e);
+  // Accounts for Metamask and default signer on all networks
+  const message =
+    e.data && e.data.message
+      ? e.data.message
+      : e.error && JSON.parse(JSON.stringify(e.error)).body
+      ? JSON.parse(JSON.parse(JSON.stringify(e.error)).body).error.message
+      : e.data
+      ? e.data
+      : JSON.stringify(e);
+
+  notification.error({
+    message: "Transaction Error",
+    description: message,
+  });
+};
+
+export const submitTxWithGasEstimate = (tx, contract, fn, args, config = {}) => {
+  return contract.estimateGas[fn](...args, config)
+    .then(estimatedGasLimit => {
+      if (DEBUG) console.log("estimatedGasLimit:", estimatedGasLimit);
+      return tx(
+        contract[fn](...args, {
+          ...config,
+          gasLimit: calculateGasMargin(estimatedGasLimit),
+        }),
+      );
+    })
+    .catch(error => {
+      handleError(error);
+    });
 };
 
 export default function Notifier(providerOrSigner, targetNetwork, darkMode = false) {
@@ -74,9 +109,11 @@ export default function Notifier(providerOrSigner, targetNetwork, darkMode = fal
           result = await tx;
         } else {
           if (!tx.gasPrice) {
+            // eslint-disable-next-line no-param-reassign
             tx.gasPrice = await loadGasPrice(targetNetwork);
           }
           if (!tx.gasLimit) {
+            // eslint-disable-next-line no-param-reassign
             tx.gasLimit = ethers.utils.hexlify(120000);
           }
           if (DEBUG) console.log("RUNNING TX", tx);
@@ -124,22 +161,7 @@ export default function Notifier(providerOrSigner, targetNetwork, darkMode = fal
 
         return result;
       } catch (e) {
-        if (DEBUG) console.log(e);
-        // Accounts for Metamask and default signer on all networks
-        const message =
-          e.data && e.data.message
-            ? e.data.message
-            : e.error && JSON.parse(JSON.stringify(e.error)).body
-            ? JSON.parse(JSON.parse(JSON.stringify(e.error)).body).error.message
-            : e.data
-            ? e.data
-            : JSON.stringify(e);
-
-        console.log("Transaction Error:", message);
-        notification.error({
-          message: "Transaction Error",
-          description: message,
-        });
+        handleError(e);
         if (callback && typeof callback === "function") {
           callback(e);
         }
