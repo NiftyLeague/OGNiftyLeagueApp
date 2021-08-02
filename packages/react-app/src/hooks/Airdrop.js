@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { getAddress, isAddress } from "@ethersproject/address";
 import { formatEther } from "@ethersproject/units";
 import { NetworkContext } from "NetworkProvider";
-import { calculateGasMargin } from "helpers";
+import { submitTxWithGasEstimate } from "helpers/Notifier";
 import useMerkleDistributorContract from "./useMerkleDistributorContract";
 import useSingleCallResult from "./useSingleCallResult";
 import { DEBUG, MERKLE_ROOT } from "../constants";
@@ -82,18 +82,9 @@ export function useClaimCallback() {
 
   const claimCallback = async function () {
     if (!claimData || !account || !selectedChainId || !distributorContract) return;
-
     const args = [claimData.index, account, claimData.amount, claimData.proof];
-
     // eslint-disable-next-line consistent-return
-    return distributorContract.estimateGas.claim(...args, {}).then(estimatedGasLimit => {
-      return tx(
-        distributorContract.claim(...args, {
-          value: null,
-          gasLimit: calculateGasMargin(estimatedGasLimit),
-        }),
-      );
-    });
+    return submitTxWithGasEstimate(tx, distributorContract, "claim", args);
   };
 
   return { claimCallback };

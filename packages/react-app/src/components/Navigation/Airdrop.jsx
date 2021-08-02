@@ -19,25 +19,23 @@ const ClaimButton = ({ setAvailableNFTL, setDialogOpen }) => {
     setAvailableNFTL(availableNFTL ?? 0);
   }, [availableNFTL, setAvailableNFTL]);
 
-  return (
-    availableNFTL && (
-      <div style={{ display: "flex", alignItems: "center", marginRight: 16 }}>
-        <Button
-          style={{
-            marginLeft: 8,
-            color: "#fff",
-            borderColor: "#6f6c6c",
-            background: "-webkit-linear-gradient(89deg, #620edf 0%, #5e72eb 100%)",
-          }}
-          shape="round"
-          size="large"
-          onClick={() => setDialogOpen(true)}
-        >
-          claim airdrop
-        </Button>
-      </div>
-    )
-  );
+  return availableNFTL ? (
+    <div style={{ display: "flex", alignItems: "center", marginRight: 16 }}>
+      <Button
+        style={{
+          marginLeft: 8,
+          color: "#fff",
+          borderColor: "#6f6c6c",
+          background: "-webkit-linear-gradient(89deg, #620edf 0%, #5e72eb 100%)",
+        }}
+        shape="round"
+        size="large"
+        onClick={() => setDialogOpen(true)}
+      >
+        claim airdrop
+      </Button>
+    </div>
+  ) : null;
 };
 
 function ClaimDialog({ availableNFTL, dialogOpen, setDialogOpen, setRoute }) {

@@ -94,7 +94,7 @@ export default function Contract({ name, show }) {
               <Account
                 address={address}
                 localProvider={localProvider}
-                injectedProvider={localProvider}
+                userProvider={localProvider}
                 mainnetProvider={localProvider}
                 blockExplorer={targetNetwork.blockExplorer}
               />

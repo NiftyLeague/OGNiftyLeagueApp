@@ -3,6 +3,7 @@ import Unity, { UnityContext } from "react-unity-webgl";
 import { isMobileOnly, withOrientationChange } from "react-device-detect";
 import { parseEther } from "@ethersproject/units";
 import { useNFTPrice, useRemovedTraits } from "hooks";
+import { submitTxWithGasEstimate } from "helpers/Notifier";
 import { NetworkContext } from "NetworkProvider";
 import CharacterBGImg from "assets/images/backgrounds/character_creator.png";
 import CurrentPrice from "./CurrentPrice";
@@ -11,29 +12,18 @@ import { getMintableTraits } from "./helpers";
 import "./home.css";
 
 const unityContext = new UnityContext({
-  loaderUrl: "characterBuild/0.8.1.loader.js",
-  dataUrl: "characterBuild/0.8.1.data.unityweb",
-  frameworkUrl: "characterBuild/0.8.1.framework.js.unityweb",
-  codeUrl: "characterBuild/0.8.1.wasm.unityweb",
+  loaderUrl: "characterBuild/c1.0.1.loader.js",
+  dataUrl: "characterBuild/c1.0.1.data",
+  frameworkUrl: "characterBuild/c1.0.1.framework.js",
+  codeUrl: "characterBuild/c1.0.1.wasm",
   streamingAssetsUrl: "StreamingAssets",
   companyName: "NiftyLeague",
   productName: "NiftyCharacterCreator",
-  productVersion: "0.8.1",
+  productVersion: "c1.0.1",
 });
 
-const mobileUnityContext = new UnityContext({
-  loaderUrl: "characterBuild/0.1.2.loader.js",
-  dataUrl: "characterBuild/0.1.2.data.unityweb",
-  frameworkUrl: "characterBuild/0.1.2.framework.js.unityweb",
-  codeUrl: "characterBuild/0.1.2.wasm.unityweb",
-  streamingAssetsUrl: "StreamingAssets",
-  companyName: "NiftyLeague",
-  productName: "NiftyCharacterCreator",
-  productVersion: "0.1.2",
-});
-
-window.unityInstance = isMobileOnly ? mobileUnityContext : unityContext;
-window.unityInstance.SendMessage = isMobileOnly ? mobileUnityContext.send : unityContext.send;
+window.unityInstance = unityContext;
+window.unityInstance.SendMessage = unityContext.send;
 
 const WIDTH_SCALE = 280;
 const HEIGHT_SCALE = 210;
@@ -121,7 +111,8 @@ const CharacterCreator = memo(({ isLoaded, isPortrait, setLoaded }) => {
 
   const startAuthentication = useCallback(
     e => {
-      const result = `true,${address},My awesome Username`;
+      const result = `true,${address},Vitalik`;
+      if (DEBUG) console.log("Authenticating:", result);
       e.detail.callback(result);
     },
     [address],
@@ -131,13 +122,9 @@ const CharacterCreator = memo(({ isLoaded, isPortrait, setLoaded }) => {
     async e => {
       const { character, head, clothing, accessories, items } = getMintableTraits(e.detail);
       const value = parseEther(nftPrice);
-      const targetNetwork = process.env.REACT_APP_NETWORK;
-      tx(
-        writeContracts[NFT_CONTRACT].purchase(character, head, clothing, accessories, items, {
-          value,
-          ...(targetNetwork !== "localhost" && { gasLimit: 250000 }),
-        }),
-      );
+      const args = [character, head, clothing, accessories, items];
+      const nftContract = writeContracts[NFT_CONTRACT];
+      submitTxWithGasEstimate(tx, nftContract, "purchase", args, { value });
       setTimeout(() => e.detail.callback("true"), 4000);
     },
     [writeContracts, tx, nftPrice],

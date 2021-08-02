@@ -5,18 +5,25 @@ const chalk = require("chalk");
 const { config, ethers, tenderly, run } = require("hardhat");
 const { utils } = require("ethers");
 const R = require("ramda");
-const { ALLOWED_TRAITS } = require("../constants/allowedTraits");
+const { ALLOWED_COLORS } = require("../constants/allowedColors");
 const { COMMUNITY_TREASURY } = require("../constants/addresses");
+
+function calculateGasMargin(value) {
+  return value.mul(ethers.BigNumber.from(10000).add(ethers.BigNumber.from(1000))).div(ethers.BigNumber.from(10000));
+}
 
 const main = async () => {
   const targetNetwork = process.env.HARDHAT_NETWORK || config.defaultNetwork;
   console.log(`\n\n 📡 Deploying to ${targetNetwork}...\n`);
 
-  const storage = await deploy("AllowedTraitsStorage");
+  const storage = await deploy("AllowedColorsStorage");
   // eslint-disable-next-line no-restricted-syntax
-  for (const [i, traits] of ALLOWED_TRAITS.entries()) {
+  for (const [i, traits] of ALLOWED_COLORS.entries()) {
+    const args = [i + 1, traits, true];
     // eslint-disable-next-line no-await-in-loop
-    await storage.setTraitsAllowedOnTribe(i + 1, traits, true);
+    await storage.estimateGas.setAllowedColorsOnTribe(...args, {}).then(async estimatedGasLimit => {
+      await storage.setAllowedColorsOnTribe(...args, { gasLimit: calculateGasMargin(estimatedGasLimit) });
+    });
   }
 
   const emissionStartTimestamp = Math.floor(Date.now() / 1000);
@@ -77,7 +84,7 @@ const main = async () => {
   if (targetNetwork !== "localhost") {
     // If you want to verify your contract on tenderly.co
     console.log(chalk.blue("verifying on tenderly"));
-    await tenderlyVerify({ contractName: "AllowedTraitsStorage", contractAddress: storage.address });
+    await tenderlyVerify({ contractName: "AllowedColorsStorage", contractAddress: storage.address });
     await tenderlyVerify({ contractName: "NFTLToken", contractAddress: nftlToken.address });
     await tenderlyVerify({ contractName: "NiftyDegen", contractAddress: nft.address });
 

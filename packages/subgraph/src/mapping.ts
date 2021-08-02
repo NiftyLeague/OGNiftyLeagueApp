@@ -1,6 +1,10 @@
-import { log } from "@graphprotocol/graph-ts";
-import { NiftyDegen, Transfer, NameUpdated } from "../generated/NiftyDegen/NiftyDegen";
-import { Character, Contract, Owner, TraitMap } from "../generated/schema";
+import {log} from "@graphprotocol/graph-ts";
+import {
+  NiftyDegen,
+  Transfer,
+  NameUpdated,
+} from "../generated/NiftyDegen/NiftyDegen";
+import {Character, Contract, Owner, TraitMap} from "../generated/schema";
 
 export function handleTransfer(event: Transfer): void {
   // Bind the contract to the address that emitted the event
@@ -8,7 +12,11 @@ export function handleTransfer(event: Transfer): void {
   let fromString = event.params.from.toHexString();
   let toString = event.params.to.toHexString();
   let tokenId = event.params.tokenId.toString();
-  log.info("TransferEvent tokenId: {} from: {} to: {}", [tokenId, fromString, toString]);
+  log.info("TransferEvent tokenId: {} from: {} to: {}", [
+    tokenId,
+    fromString,
+    toString,
+  ]);
 
   let previousOwner = Owner.load(fromString);
   let newOwner = Owner.load(toString);
@@ -48,8 +56,6 @@ export function handleTransfer(event: Transfer): void {
     traits.hair = traitList.hair;
     traits.mouth = traitList.mouth;
     traits.beard = traitList.beard;
-    traits.facemark = traitList.facemark;
-    traits.misc = traitList.misc;
     traits.top = traitList.top;
     traits.outerwear = traitList.outerwear;
     traits.print = traitList.print;
@@ -70,7 +76,8 @@ export function handleTransfer(event: Transfer): void {
   }
 
   let contractEntity = Contract.load(event.address.toHexString());
-  if (contractEntity === null) contractEntity = new Contract(event.address.toHexString());
+  if (contractEntity === null)
+    contractEntity = new Contract(event.address.toHexString());
   contractEntity.address = event.address;
   contractEntity.totalSupply = contract.totalSupply();
 
@@ -84,7 +91,11 @@ export function handleCharacterNameChange(event: NameUpdated): void {
   let previousName = event.params.previousName;
   let newName = event.params.newName;
   let tokenId = event.params.tokenId.toString();
-  log.info("NameUpdated tokenId: {} from: {} to: {}", [tokenId, previousName, newName]);
+  log.info("NameUpdated tokenId: {} from: {} to: {}", [
+    tokenId,
+    previousName,
+    newName,
+  ]);
 
   let character = Character.load(tokenId);
   character.name = newName;

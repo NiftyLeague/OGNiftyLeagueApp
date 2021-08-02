@@ -58,7 +58,7 @@ export default function App({ subgraphUri }) {
                 <Contract name={NFT_CONTRACT} />
               </Route>
               <Route path="/storage">
-                <Contract name="AllowedTraitsStorage" />
+                <Contract name="AllowedColorsStorage" />
               </Route>
               <Route path="/merkle-distributor">
                 <Contract name="MerkleDistributor" />

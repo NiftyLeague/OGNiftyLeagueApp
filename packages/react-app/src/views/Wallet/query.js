@@ -23,8 +23,6 @@ export const OWNER_QUERY = gql`
           hair
           mouth
           beard
-          facemark
-          misc
           top
           outerwear
           print

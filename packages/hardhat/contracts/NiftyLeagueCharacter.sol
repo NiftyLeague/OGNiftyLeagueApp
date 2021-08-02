@@ -31,8 +31,6 @@ contract NiftyLeagueCharacter is ERC721, Ownable, Pausable {
         uint16 hair;
         uint16 mouth;
         uint16 beard;
-        uint16 facemark;
-        uint16 misc;
         //  clothing
         uint16 top;
         uint16 outerwear;
