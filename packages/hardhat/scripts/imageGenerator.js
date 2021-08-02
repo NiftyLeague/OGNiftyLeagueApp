@@ -2,10 +2,20 @@ const fs = require("fs");
 const request = require("request");
 
 /**
+ * Returns random background option based on probabilities
+ */
+function raritySelector() {
+  const backgroundOptions = [...Array(90).fill(0), ...Array(6).fill(1), 2, 2, 2, 3];
+  const idx = Math.floor(Math.random() * backgroundOptions.length);
+  return backgroundOptions[idx];
+}
+
+/**
  * Generates NFT image url from character traits.
  * @param {} traits - list of character traits from contract
+ * @param {number} rarity - number of background rarity 0-3
  */
-function generateImageURL(traits) {
+function generateImageURL(traits, rarity) {
   const baseURL = "http://35.175.104.137:56429/";
   const traitArray = [
     ["Tribe", traits[0]],
@@ -35,8 +45,7 @@ function generateImageURL(traits) {
     version: 90,
     traits: JSON.stringify(traitArray),
     secret: process.env.UNITY_IMAGE_GENERATOR_SECRET,
-    // TODO: Calculate rarity probability result 0-3, 0 being generic
-    rarity: 1,
+    rarity,
   });
   return `${baseURL}?${params.toString()}`;
 }
@@ -68,4 +77,4 @@ async function downloadImage(url, dest) {
   });
 }
 
-module.exports = { generateImageURL, downloadImage };
+module.exports = { raritySelector, generateImageURL, downloadImage };

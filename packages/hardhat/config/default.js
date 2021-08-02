@@ -18,6 +18,7 @@ const config = {
     externalURL: "https://nifty-league.com/degens",
   },
   ipfsBaseDirName: "nifty-degens",
+  avoidImageOverride: "$$AVOID_IMAGE_OVERRIDE",
 
   // If you're running IPFS on a non-default port, update this URL. If you're using the IPFS defaults, you should be all set.
   ipfsApiUrl: "http://localhost:5001",

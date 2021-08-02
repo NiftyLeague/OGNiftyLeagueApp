@@ -1,1 +1,1 @@
-module.exports = ["AllowedTraitsStorage","NFTLToken","NiftyDegen"];
+module.exports = ["AllowedColorsStorage","NFTLToken","NiftyDegen"];

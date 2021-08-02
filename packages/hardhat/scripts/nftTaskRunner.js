@@ -27,7 +27,7 @@ async function main() {
   if (!fs.existsSync(`${baseDir}/metadata`)) fs.mkdirSync(`${baseDir}/metadata`);
 
   const minty = await MakeMinty();
-  const tokenIds = [2, 5];
+  const tokenIds = [1, 2];
   let lastestMetadataCID;
   // eslint-disable-next-line no-restricted-syntax
   for (const tokenId of tokenIds) {

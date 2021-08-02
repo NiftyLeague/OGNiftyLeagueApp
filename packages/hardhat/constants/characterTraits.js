@@ -23,6 +23,8 @@ const CHARACTER_TRAIT_TYPES = [
   "Right Item",
 ];
 
+const CHARACTER_BACKGROUNDS = ["Common", "Rare", "Meta", "Legendary"];
+
 const TRIBES = {
   1: "Ape",
   2: "Human",
@@ -1094,4 +1096,4 @@ const TRAIT_VALUE_MAP = {
   ...RIGHT_ITEMS,
 };
 
-module.exports = { CHARACTER_TRAIT_TYPES, TRAIT_VALUE_MAP };
+module.exports = { CHARACTER_BACKGROUNDS, CHARACTER_TRAIT_TYPES, TRAIT_VALUE_MAP };

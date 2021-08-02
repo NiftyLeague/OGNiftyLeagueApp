@@ -17,7 +17,7 @@ export const BLOCKNATIVE_DAPPID = process.env.REACT_APP_BLOCKNATIVE_DAPPID;
 
 export const IPNS_URL = `${process.env.REACT_APP_IPFS_GATEWAY}/ipns/${process.env.REACT_APP_IPNS_ID}`;
 
-export const DEBUG = process.env.NODE_ENV === "development";
+export const DEBUG = process.env.NODE_ENV === "development" || process.env.REACT_APP_DEBUG;
 
 // Request polling intervals
 

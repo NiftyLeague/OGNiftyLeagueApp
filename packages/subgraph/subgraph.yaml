@@ -6,11 +6,11 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: NiftyDegen
-    network: "localhost"
+    network: "rinkeby"
     source:
-      address: "0x5430418AF1dafC11d9480cA8Fa75551957AdfA59"
+      address: "0xfD46Bf0F80206f5c2c17c29eE166dCB2a632f5f2"
       abi: NiftyDegen
-      startBlock: 82
+      startBlock: 9043419
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -20,7 +20,7 @@ dataSources:
         - Owner
       abis:
         - name: NiftyDegen
-          file: ./abis/localhost/NiftyDegen.json
+          file: ./abis/rinkeby/NiftyDegen.json
       eventHandlers:
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
