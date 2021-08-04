@@ -1,4 +1,4 @@
-import "styled-components";
+import 'styled-components';
 
 export type Color = string;
 export interface Colors {
@@ -55,7 +55,7 @@ export interface Grids {
   lg: number;
 }
 
-declare module "styled-components" {
+declare module 'styled-components' {
   export interface DefaultTheme extends Colors {
     grids: Grids;
 

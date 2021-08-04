@@ -1,25 +1,25 @@
-import React, { memo, useCallback, useContext, useEffect, useState, useRef } from "react";
-import Unity, { UnityContext } from "react-unity-webgl";
-import { isMobileOnly, withOrientationChange } from "react-device-detect";
-import { utils } from "ethers";
-import { useNFTPrice, useRemovedTraits } from "hooks";
-import { submitTxWithGasEstimate } from "helpers/Notifier";
-import { NetworkContext } from "NetworkProvider";
-import CharacterBGImg from "assets/images/backgrounds/character_creator.png";
-import CurrentPrice from "./CurrentPrice";
-import { DEBUG, NFT_CONTRACT } from "../../constants";
-import { getMintableTraits } from "./helpers";
-import "./home.css";
+import React, { memo, useCallback, useContext, useEffect, useState, useRef } from 'react';
+import Unity, { UnityContext } from 'react-unity-webgl';
+import { isMobileOnly, withOrientationChange } from 'react-device-detect';
+import { utils } from 'ethers';
+import { useNFTPrice, useRemovedTraits } from 'hooks';
+import { submitTxWithGasEstimate } from 'helpers/Notifier';
+import { NetworkContext } from 'NetworkProvider';
+import CharacterBGImg from 'assets/images/backgrounds/character_creator.png';
+import CurrentPrice from './CurrentPrice';
+import { DEBUG, NFT_CONTRACT } from '../../constants';
+import { getMintableTraits } from './helpers';
+import './home.css';
 
 const unityContext = new UnityContext({
-  loaderUrl: "characterBuild/c1.0.1.loader.js",
-  dataUrl: "characterBuild/c1.0.1.data",
-  frameworkUrl: "characterBuild/c1.0.1.framework.js",
-  codeUrl: "characterBuild/c1.0.1.wasm",
-  streamingAssetsUrl: "StreamingAssets",
-  companyName: "NiftyLeague",
-  productName: "NiftyCharacterCreator",
-  productVersion: "c1.0.1",
+  loaderUrl: 'characterBuild/c1.0.1.loader.js',
+  dataUrl: 'characterBuild/c1.0.1.data',
+  frameworkUrl: 'characterBuild/c1.0.1.framework.js',
+  codeUrl: 'characterBuild/c1.0.1.wasm',
+  streamingAssetsUrl: 'StreamingAssets',
+  companyName: 'NiftyLeague',
+  productName: 'NiftyCharacterCreator',
+  productVersion: 'c1.0.1',
 });
 
 window.unityInstance = unityContext;
@@ -74,7 +74,7 @@ const CharacterCreator = memo(({ isLoaded, isPortrait, setLoaded }) => {
 
   useEffect(() => {
     if (removedTraitsCallback.current) {
-      if (DEBUG) console.log("======== removedTraits ========", JSON.stringify(removedTraits));
+      if (DEBUG) console.log('======== removedTraits ========', JSON.stringify(removedTraits));
       removedTraitsCallback.current(JSON.stringify(removedTraits));
     }
   }, [removedTraits, refreshKey]);
@@ -86,7 +86,7 @@ const CharacterCreator = memo(({ isLoaded, isPortrait, setLoaded }) => {
 
   useEffect(() => {
     if (isMobileOnly && isLoaded) {
-      window.unityInstance.SendMessage("CharacterCreatorLevel", "UI_SetPortrait", isPortrait ? "true" : "false");
+      window.unityInstance.SendMessage('CharacterCreatorLevel', 'UI_SetPortrait', isPortrait ? 'true' : 'false');
     }
   }, [isPortrait, isLoaded]);
 
@@ -112,7 +112,7 @@ const CharacterCreator = memo(({ isLoaded, isPortrait, setLoaded }) => {
   const startAuthentication = useCallback(
     e => {
       const result = `true,${address},Vitalik`;
-      if (DEBUG) console.log("Authenticating:", result);
+      if (DEBUG) console.log('Authenticating:', result);
       e.detail.callback(result);
     },
     [address],
@@ -124,50 +124,50 @@ const CharacterCreator = memo(({ isLoaded, isPortrait, setLoaded }) => {
       const value = utils.parseEther(nftPrice);
       const args = [character, head, clothing, accessories, items];
       const nftContract = writeContracts[NFT_CONTRACT];
-      submitTxWithGasEstimate(tx, nftContract, "purchase", args, { value });
-      setTimeout(() => e.detail.callback("true"), 4000);
+      submitTxWithGasEstimate(tx, nftContract, 'purchase', args, { value });
+      setTimeout(() => e.detail.callback('true'), 4000);
     },
     [writeContracts, tx, nftPrice],
   );
 
   const onScroll = useCallback(() => {
-    const content = document.getElementsByClassName("character-canvas")[0];
-    if (content) content.style["pointer-events"] = "none";
+    const content = document.getElementsByClassName('character-canvas')[0];
+    if (content) content.style['pointer-events'] = 'none';
   }, []);
 
   const onMouse = useCallback(() => {
-    const content = document.getElementsByClassName("character-canvas")[0];
+    const content = document.getElementsByClassName('character-canvas')[0];
     if (content) {
-      content.style["pointer-events"] = "auto";
-      content.style.cursor = "pointer";
+      content.style['pointer-events'] = 'auto';
+      content.style.cursor = 'pointer';
     }
   }, []);
 
   useEffect(() => {
-    window.unityInstance.on("canvas", () => {
+    window.unityInstance.on('canvas', () => {
       setWidth(DEFAULT_WIDTH);
       setHeight(DEFAULT_HEIGHT);
       setTimeout(() => {
         if (isMobileOnly)
-          window.unityInstance.SendMessage("CharacterCreatorLevel", "UI_SetPortrait", isPortrait ? "true" : "false");
+          window.unityInstance.SendMessage('CharacterCreatorLevel', 'UI_SetPortrait', isPortrait ? 'true' : 'false');
       }, 2000);
     });
-    window.unityInstance.on("loaded", () => setLoaded(true));
-    window.unityInstance.on("error", console.error);
-    window.addEventListener("resize", reportWindowSize);
-    window.addEventListener("StartAuthentication", startAuthentication);
-    window.addEventListener("GetRemovedTraits", getRemovedTraits);
-    window.addEventListener("SubmitTraits", mintCharacter);
-    document.addEventListener("wheel", onScroll, false);
-    document.addEventListener("mousemove", onMouse, false);
+    window.unityInstance.on('loaded', () => setLoaded(true));
+    window.unityInstance.on('error', console.error);
+    window.addEventListener('resize', reportWindowSize);
+    window.addEventListener('StartAuthentication', startAuthentication);
+    window.addEventListener('GetRemovedTraits', getRemovedTraits);
+    window.addEventListener('SubmitTraits', mintCharacter);
+    document.addEventListener('wheel', onScroll, false);
+    document.addEventListener('mousemove', onMouse, false);
     return () => {
       window.unityInstance.removeAllEventListeners();
-      window.removeEventListener("resize", reportWindowSize);
-      window.removeEventListener("StartAuthentication", startAuthentication);
-      window.removeEventListener("GetRemovedTraits", getRemovedTraits);
-      window.removeEventListener("SubmitTraits", mintCharacter);
-      document.removeEventListener("wheel", onScroll, false);
-      document.removeEventListener("mousemove", onMouse, false);
+      window.removeEventListener('resize', reportWindowSize);
+      window.removeEventListener('StartAuthentication', startAuthentication);
+      window.removeEventListener('GetRemovedTraits', getRemovedTraits);
+      window.removeEventListener('SubmitTraits', mintCharacter);
+      document.removeEventListener('wheel', onScroll, false);
+      document.removeEventListener('mousemove', onMouse, false);
     };
   }, [
     getRemovedTraits,
@@ -186,7 +186,7 @@ const CharacterCreator = memo(({ isLoaded, isPortrait, setLoaded }) => {
         style={{
           backgroundSize: height / 21,
           backgroundImage: `url(${CharacterBGImg})`,
-          backgroundRepeat: "repeat-x",
+          backgroundRepeat: 'repeat-x',
         }}
       >
         <Unity
@@ -195,7 +195,7 @@ const CharacterCreator = memo(({ isLoaded, isPortrait, setLoaded }) => {
           style={{
             width,
             height,
-            visibility: isLoaded ? "visible" : "hidden",
+            visibility: isLoaded ? 'visible' : 'hidden',
           }}
         />
       </div>

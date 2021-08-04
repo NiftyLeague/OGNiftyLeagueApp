@@ -1,5 +1,5 @@
-@import "~antd/dist/antd.css";
-@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Ubuntu:300,400,500,700");
+@import '~antd/dist/antd.css';
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Ubuntu:300,400,500,700');
 
 .App {
   text-align: center;
@@ -33,7 +33,7 @@
 /* Typography */
 
 body {
-  font-family: "Ubuntu", sans-serif !important;
+  font-family: 'Ubuntu', sans-serif !important;
   font-size: 18px;
 }
 

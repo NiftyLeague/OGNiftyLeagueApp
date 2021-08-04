@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import { WalletOutlined, QrcodeOutlined, SendOutlined, KeyOutlined } from "@ant-design/icons";
-import { Tooltip, Spin, Modal, Button, Typography } from "antd";
-import QR from "qrcode.react";
-import { useUserAddress } from "eth-hooks";
-import { ethers, utils } from "ethers";
-import Address from "../Address";
-import Balance from "../Balance";
-import AddressInput from "../AddressInput";
-import EtherInput from "./EtherInput";
+import React, { useState } from 'react';
+import { WalletOutlined, QrcodeOutlined, SendOutlined, KeyOutlined } from '@ant-design/icons';
+import { Tooltip, Spin, Modal, Button, Typography } from 'antd';
+import QR from 'qrcode.react';
+import { useUserAddress } from 'eth-hooks';
+import { ethers, utils } from 'ethers';
+import Address from '../Address';
+import Balance from '../Balance';
+import AddressInput from '../AddressInput';
+import EtherInput from './EtherInput';
 
 const { Text, Paragraph } = Typography;
 
@@ -58,15 +58,15 @@ export default function Wallet({ address, color, ensProvider, price, provider, t
         rotate={-90}
         style={{
           padding: 7,
-          color: color || "",
-          cursor: "pointer",
+          color: color || '',
+          cursor: 'pointer',
           fontSize: 28,
-          verticalAlign: "middle",
+          verticalAlign: 'middle',
         }}
       />
     </Tooltip>
   ) : (
-    ""
+    ''
   );
 
   let display;
@@ -92,7 +92,7 @@ export default function Wallet({ address, color, ensProvider, price, provider, t
       <Button
         key="hide"
         onClick={() => {
-          setQr("");
+          setQr('');
         }}
       >
         <QrcodeOutlined /> Hide
@@ -103,7 +103,7 @@ export default function Wallet({ address, color, ensProvider, price, provider, t
         key="hide"
         onClick={() => {
           setPK(selectedAddress);
-          setQr("");
+          setQr('');
         }}
       >
         <KeyOutlined /> Private Key
@@ -123,23 +123,23 @@ export default function Wallet({ address, color, ensProvider, price, provider, t
       const extraPkDisplay = [];
       extraPkDisplayAdded[wallet.address] = true;
       extraPkDisplay.push(
-        <div style={{ fontSize: 16, padding: 2, backgroundStyle: "#89e789" }}>
-          <a href={"/pk#" + pk}>
+        <div style={{ fontSize: 16, padding: 2, backgroundStyle: '#89e789' }}>
+          <a href={'/pk#' + pk}>
             <Address minimized address={wallet.address} ensProvider={ensProvider} /> {wallet.address.substr(0, 6)}
           </a>
         </div>,
       );
       // eslint-disable-next-line no-restricted-syntax
       for (const key in localStorage) {
-        if (key.indexOf("metaPrivateKey_backup") >= 0) {
+        if (key.indexOf('metaPrivateKey_backup') >= 0) {
           const pastpk = localStorage.getItem(key);
           const pastwallet = new ethers.Wallet(pastpk);
           if (!extraPkDisplayAdded[pastwallet.address] /* && selectedAddress!=pastwallet.address */) {
             extraPkDisplayAdded[pastwallet.address] = true;
             extraPkDisplay.push(
               <div style={{ fontSize: 16 }}>
-                <a href={"/pk#" + pastpk}>
-                  <Address minimized address={pastwallet.address} ensProvider={ensProvider} />{" "}
+                <a href={'/pk#' + pastpk}>
+                  <Address minimized address={pastwallet.address} ensProvider={ensProvider} />{' '}
                   {pastwallet.address.substr(0, 6)}
                 </a>
               </div>,
@@ -160,13 +160,13 @@ export default function Wallet({ address, color, ensProvider, price, provider, t
 
           <i>
             Point your camera phone at qr code to open in
-            <a target="_blank" href={"https://xdai.io/" + pk} rel="noopener noreferrer">
+            <a target="_blank" href={'https://xdai.io/' + pk} rel="noopener noreferrer">
               burner wallet
             </a>
             :
           </i>
           <QR
-            value={"https://xdai.io/" + pk}
+            value={'https://xdai.io/' + pk}
             size="450"
             level="H"
             includeMargin
@@ -174,8 +174,8 @@ export default function Wallet({ address, color, ensProvider, price, provider, t
             imageSettings={{ excavate: false }}
           />
 
-          <Paragraph style={{ fontSize: "16" }} copyable>
-            {"https://xdai.io/" + pk}
+          <Paragraph style={{ fontSize: '16' }} copyable>
+            {'https://xdai.io/' + pk}
           </Paragraph>
 
           {extraPkDisplay ? (
@@ -184,13 +184,13 @@ export default function Wallet({ address, color, ensProvider, price, provider, t
               {extraPkDisplay}
               <Button
                 onClick={() => {
-                  const currentPrivateKey = window.localStorage.getItem("metaPrivateKey");
+                  const currentPrivateKey = window.localStorage.getItem('metaPrivateKey');
                   if (currentPrivateKey) {
-                    window.localStorage.setItem("metaPrivateKey_backup" + Date.now(), currentPrivateKey);
+                    window.localStorage.setItem('metaPrivateKey_backup' + Date.now(), currentPrivateKey);
                   }
                   const randomWallet = ethers.Wallet.createRandom();
                   const { privateKey } = randomWallet._signingKey();
-                  window.localStorage.setItem("metaPrivateKey", privateKey);
+                  window.localStorage.setItem('metaPrivateKey', privateKey);
                   window.location.reload();
                 }}
               >
@@ -198,7 +198,7 @@ export default function Wallet({ address, color, ensProvider, price, provider, t
               </Button>
             </div>
           ) : (
-            ""
+            ''
           )}
         </div>
       );
@@ -209,7 +209,7 @@ export default function Wallet({ address, color, ensProvider, price, provider, t
         key="receive"
         onClick={() => {
           setQr(selectedAddress);
-          setPK("");
+          setPK('');
         }}
       >
         <QrcodeOutlined /> Receive
@@ -219,8 +219,8 @@ export default function Wallet({ address, color, ensProvider, price, provider, t
       <Button
         key="hide"
         onClick={() => {
-          setPK("");
-          setQr("");
+          setPK('');
+          setQr('');
         }}
       >
         <KeyOutlined /> Hide
@@ -258,7 +258,7 @@ export default function Wallet({ address, color, ensProvider, price, provider, t
         key="receive"
         onClick={() => {
           setQr(selectedAddress);
-          setPK("");
+          setPK('');
         }}
       >
         <QrcodeOutlined /> Receive
@@ -269,8 +269,8 @@ export default function Wallet({ address, color, ensProvider, price, provider, t
         key="hide"
         style={{ fontSize: 16 }}
         onClick={() => {
-          setPK(localStorage.getItem("metaPrivateKey"));
-          setQr("");
+          setPK(localStorage.getItem('metaPrivateKey'));
+          setQr('');
         }}
       >
         <KeyOutlined /> Private Key
@@ -286,7 +286,7 @@ export default function Wallet({ address, color, ensProvider, price, provider, t
         title={
           <div>
             {selectedAddress ? <Address address={selectedAddress} ensProvider={ensProvider} /> : <Spin />}
-            <div style={{ float: "right", paddingRight: 25 }}>
+            <div style={{ float: 'right', paddingRight: 25 }}>
               <Balance address={selectedAddress} provider={provider} dollarMultiplier={price} />
             </div>
           </div>
@@ -312,10 +312,10 @@ export default function Wallet({ address, color, ensProvider, price, provider, t
             onClick={() => {
               let value;
               try {
-                value = utils.parseEther("" + amount);
+                value = utils.parseEther('' + amount);
               } catch (e) {
                 // failed to parseEther, try something else
-                value = utils.parseEther("" + parseFloat(amount).toFixed(8));
+                value = utils.parseEther('' + parseFloat(amount).toFixed(8));
               }
               tx({ to: toAddress, value });
               setOpen(!open);

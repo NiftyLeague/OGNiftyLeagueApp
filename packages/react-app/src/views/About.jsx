@@ -1,29 +1,29 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { useThemeSwitcher } from "react-css-theme-switcher";
-import { Image, Typography } from "antd";
-import withWidth, { isWidthDown } from "@material-ui/core/withWidth";
-import { Container } from "@material-ui/core";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { useThemeSwitcher } from 'react-css-theme-switcher';
+import { Image, Typography } from 'antd';
+import withWidth, { isWidthDown } from '@material-ui/core/withWidth';
+import { Container } from '@material-ui/core';
 
-import NiftySmashersVideo from "components/NiftySmashersVideo";
-import FrogInvite from "assets/images/games/frog-invite.png";
-import Baseball from "assets/images/games/baseball.png";
-import AlienSketch from "assets/gifs/alien-sketch.gif";
-import DogeSketch from "assets/gifs/doge-sketch.gif";
-import CatSketch from "assets/gifs/cat-sketch.gif";
-import GamesSketch from "assets/images/games/games-sketch.png";
-import TennisSketch from "assets/images/games/tennis-sketch.png";
-import SmashSketch from "assets/images/games/smash-sketch.png";
-import TokenDistribution from "assets/images/token-distribution.png";
-import TokenDistributionDark from "assets/images/token-distribution-dark.png";
+import NiftySmashersVideo from 'components/NiftySmashersVideo';
+import FrogInvite from 'assets/images/games/frog-invite.png';
+import Baseball from 'assets/images/games/baseball.png';
+import AlienSketch from 'assets/gifs/alien-sketch.gif';
+import DogeSketch from 'assets/gifs/doge-sketch.gif';
+import CatSketch from 'assets/gifs/cat-sketch.gif';
+import GamesSketch from 'assets/images/games/games-sketch.png';
+import TennisSketch from 'assets/images/games/tennis-sketch.png';
+import SmashSketch from 'assets/images/games/smash-sketch.png';
+import TokenDistribution from 'assets/images/token-distribution.png';
+import TokenDistributionDark from 'assets/images/token-distribution-dark.png';
 
 const { Title } = Typography;
 
 const About = ({ setRoute, width }) => {
   const { currentTheme } = useThemeSwitcher();
-  const sushiswapLPLink = "https://sushi.com";
+  const sushiswapLPLink = 'https://sushi.com';
   return (
-    <Container style={{ textAlign: "left", padding: "40px" }}>
+    <Container style={{ textAlign: 'left', padding: '40px' }}>
       <Title level={2}>About Nifty League</Title>
       <p>
         Welcome to the Nifty League! Our mission is to create the top multi-chain gaming platform with customizable
@@ -39,9 +39,9 @@ const About = ({ setRoute, width }) => {
         including our ecosystem's token, <strong>NFTL</strong>. Purchasing an Ethereum character not only provides you
         with <strong>NFTL</strong> tokens, but unlocks multiplayer modes amongst our games and gives you admission to
         public tournaments. We strive to make our games highly competitive and packed full of nostalgia from retro
-        interactive games. Upon launch we’ll release our first game{" "}
+        interactive games. Upon launch we’ll release our first game{' '}
         <strong>
-          <Link onClick={() => setRoute("/games")} to="/games">
+          <Link onClick={() => setRoute('/games')} to="/games">
             Nifty Smashers
           </Link>
         </strong>
@@ -53,7 +53,7 @@ const About = ({ setRoute, width }) => {
       <p>
         There will be a max supply of <strong>10,000</strong> genesis <strong>DEGENS</strong> minted on Ethereum
         mainnet, <strong>9,900</strong> of which are hand-created by members of our community based on the available
-        traits and accessories. The remaining <strong>100</strong> spots are set aside for our team to mint special{" "}
+        traits and accessories. The remaining <strong>100</strong> spots are set aside for our team to mint special{' '}
         <strong>DEGENS</strong> that will be given away for free as future community incentives! As our platform
         continues to grow, we plan on launching cross-chain including <strong>BSC</strong> and <strong>FTM</strong> to
         allow users to battle other communities. <strong>25%</strong> of all proceeds from future platform character
@@ -66,10 +66,10 @@ const About = ({ setRoute, width }) => {
       <p>
         The first step in designing your own <strong>DEGEN</strong> is deciding on one of the many character classes
         available such as frogs, apes, or aliens. This decision not only affects available character traits or
-        accessories, but determines certain in-game mechanics and special moves. During the sale, you can check our{" "}
-        <Link onClick={() => setRoute("/degens")} to="/degens">
+        accessories, but determines certain in-game mechanics and special moves. During the sale, you can check our{' '}
+        <Link onClick={() => setRoute('/degens')} to="/degens">
           characters page
-        </Link>{" "}
+        </Link>{' '}
         to browse already minted <strong>DEGENS</strong> to help determine which classes are rarer than others. Players
         will naturally gravitate towards certain characters based on their personal preferences as gameplay and special
         moves may be quite different between them for certain games. You’ll be able to select which of your characters
@@ -83,7 +83,7 @@ const About = ({ setRoute, width }) => {
       <br />
       <Title level={3}>Character Traits/Accessories</Title>
       <p>
-        Put on your creative hat to design the perfect <strong>DEGEN</strong>. There are a total of <strong>___</strong>{" "}
+        Put on your creative hat to design the perfect <strong>DEGEN</strong>. There are a total of <strong>___</strong>{' '}
         traits making <strong>___</strong> potential possibilities. Character traits will be randomly removed from the
         set of available traits as more characters are created making it hard to know which options will end up rarest.
         In addition, NFT backgrounds will be randomly assigned upon minting which either results in generic or one of
@@ -110,7 +110,7 @@ const About = ({ setRoute, width }) => {
       <br />
       <Title level={3}>Future Game Ideas</Title>
       <p>
-        More details to come…{" "}
+        More details to come…{' '}
         <span role="img" aria-label="devil emoji">
           😈
         </span>
@@ -137,8 +137,8 @@ const About = ({ setRoute, width }) => {
         governance token <strong>NFTL</strong>. <strong>NFTL</strong> serves a dual purpose of giving users voting
         rights on upcoming games and tournaments as well as being used for expenses platform-wide. This includes naming
         characters, incentivized tournament buy-ins, and purchases within our upcoming NFT store where players can buy
-        additional in-game items and collectibles. Any <strong>NFTL</strong> used for naming characters along with{" "}
-        <strong>90%</strong> of all NFT store proceeds will be burnt to help offset inflation. The Remaining{" "}
+        additional in-game items and collectibles. Any <strong>NFTL</strong> used for naming characters along with{' '}
+        <strong>90%</strong> of all NFT store proceeds will be burnt to help offset inflation. The Remaining{' '}
         <strong>10%</strong> will go to our team to cover development expenses.
       </p>
       <Title level={3}>Distribution</Title>
@@ -147,22 +147,22 @@ const About = ({ setRoute, width }) => {
         the next year following the allocations set below:
       </p>
       <Image
-        width={isWidthDown("sm", width) ? "100%" : "75%"}
-        src={currentTheme === "dark" ? TokenDistributionDark : TokenDistribution}
+        width={isWidthDown('sm', width) ? '100%' : '75%'}
+        src={currentTheme === 'dark' ? TokenDistributionDark : TokenDistribution}
       />
       <Title level={3}>Airdrop</Title>
       <p>
-        We’re excited to announce that as part of our launch we will be air-dropping a total of{" "}
-        <strong>80M NFTL</strong> to all <strong>AXS</strong> token holders from our snapshot taken on{" "}
+        We’re excited to announce that as part of our launch we will be air-dropping a total of{' '}
+        <strong>80M NFTL</strong> to all <strong>AXS</strong> token holders from our snapshot taken on{' '}
         <strong>July 31st, 2021 at 9:50 PM GMT</strong>. Each address holding <strong>AXS</strong> at the time of the
         snapshot will be eligible to claim <strong>5000 NFTL</strong> from our website as soon as we go live. Eligible
-        recipients can check their balance on the top-right corner of our website and claim. Any tokens unclaimed after{" "}
+        recipients can check their balance on the top-right corner of our website and claim. Any tokens unclaimed after{' '}
         <strong>1 month</strong> will be sent to our community reserve.
       </p>
       <Title level={3}>Meme Contest</Title>
       <p>
         Every project needs some quality memes! Within the first weeks we will be awarding <strong>10M NFTL</strong> to
-        our community members who come up with the best memes. Further details will be announced in our{" "}
+        our community members who come up with the best memes. Further details will be announced in our{' '}
         <strong>
           <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/4bmTHYWjhe">
             Discord
@@ -175,48 +175,48 @@ const About = ({ setRoute, width }) => {
       <p>
         In addition to the airdrop and meme contest, <strong>50M</strong> tokens will be minted and claimable along with
         the purchase of each NFT. <strong>100M</strong> will go to a development fund which will be combined with a
-        portion of the ETH received from the genesis character sale and locked in our{" "}
+        portion of the ETH received from the genesis character sale and locked in our{' '}
         <strong>
           <a target="_blank" rel="noopener noreferrer" href={sushiswapLPLink}>
             SushiSwap
           </a>
-        </strong>{" "}
+        </strong>{' '}
         liquidity pool for <strong>6 months</strong> following launch. <strong>180M NFTL</strong> will be minted and
         transferred to our community-controlled treasury for future incentives such as tournament rewards or giveaways.
-        This brings the initial supply to around <strong>420M</strong> with an incentivized <strong>NFTL/ETH</strong>{" "}
+        This brings the initial supply to around <strong>420M</strong> with an incentivized <strong>NFTL/ETH</strong>{' '}
         <strong>
           <a target="_blank" rel="noopener noreferrer" href={sushiswapLPLink}>
             SushiSwap
           </a>
-        </strong>{" "}
+        </strong>{' '}
         liquidity pool and daily emissions for all genesis NFT owners starting shortly after the character sale.
       </p>
       <Title level={3}>First-Year Emissions</Title>
       <p>
-        <strong>250M NFTL</strong> will be distributed daily over <strong>1 year</strong> to all genesis{" "}
-        <strong>DEGEN</strong> NFT owners. There is no need to stake your NFT, just sit back and watch your{" "}
-        <strong>NFTL</strong> accumulate which you can claim on our website at any time on the{" "}
-        <Link onClick={() => setRoute("/wallet")} to="/wallet">
+        <strong>250M NFTL</strong> will be distributed daily over <strong>1 year</strong> to all genesis{' '}
+        <strong>DEGEN</strong> NFT owners. There is no need to stake your NFT, just sit back and watch your{' '}
+        <strong>NFTL</strong> accumulate which you can claim on our website at any time on the{' '}
+        <Link onClick={() => setRoute('/wallet')} to="/wallet">
           wallet page
         </Link>
         . In order to support liquidity, we will also continuously emit <strong>NFTL</strong> to incentivize liquidity
-        mining on{" "}
+        mining on{' '}
         <strong>
           <a target="_blank" rel="noopener noreferrer" href={sushiswapLPLink}>
             SushiSwap
           </a>
-        </strong>{" "}
+        </strong>{' '}
         following the launch. We expect this to come to around <strong>410M NFTL</strong> over the first year which is
         also our target for daily in-game token rewards.
       </p>
       <Title level={3}>Future Emissions</Title>
       <p>
-        We will continue to incentivize our{" "}
+        We will continue to incentivize our{' '}
         <strong>
           <a target="_blank" rel="noopener noreferrer" href={sushiswapLPLink}>
             SushiSwap
           </a>
-        </strong>{" "}
+        </strong>{' '}
         liquidity pool in addition to rewarding daily tokens for playing our games but the emission rate will drop
         around <strong>50%</strong> after the first year to <strong>200M</strong> annually for each.
       </p>

@@ -1,6 +1,6 @@
-import { useCallback, useState } from "react";
-import { utils } from "ethers";
-import usePoller from "./usePoller";
+import { useCallback, useState } from 'react';
+import { utils } from 'ethers';
+import usePoller from './usePoller';
 
 /*
   ~ What it does? ~
@@ -18,7 +18,7 @@ import usePoller from "./usePoller";
 */
 
 export default function useBalance(provider, address, pollTime = 0) {
-  const [balance, setBalance] = useState("0.0");
+  const [balance, setBalance] = useState('0.0');
   const pollBalance = useCallback(async () => {
     if (address && provider) {
       const newBalanceBN = await provider.getBalance(address);

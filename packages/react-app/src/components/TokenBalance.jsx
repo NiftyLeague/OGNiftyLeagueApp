@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { utils } from "ethers";
-import { useTokenBalance } from "eth-hooks";
+import React, { useState } from 'react';
+import { utils } from 'ethers';
+import { useTokenBalance } from 'eth-hooks';
 
 export default function TokenBalance({ address, balance: bal, contracts, dollarMultiplier, img, name }) {
   const [dollarMode, setDollarMode] = useState(true);
@@ -8,11 +8,11 @@ export default function TokenBalance({ address, balance: bal, contracts, dollarM
   const tokenContract = contracts && contracts[name];
   const balance = useTokenBalance(tokenContract, address, 1777);
 
-  let floatBalance = parseFloat("0.00");
+  let floatBalance = parseFloat('0.00');
 
   let usingBalance = balance;
 
-  if (typeof bal !== "undefined") {
+  if (typeof bal !== 'undefined') {
     usingBalance = bal;
   }
 
@@ -25,16 +25,16 @@ export default function TokenBalance({ address, balance: bal, contracts, dollarM
   let displayBalance = floatBalance.toFixed(4);
 
   if (dollarMultiplier && dollarMode) {
-    displayBalance = "$" + (floatBalance * dollarMultiplier).toFixed(2);
+    displayBalance = '$' + (floatBalance * dollarMultiplier).toFixed(2);
   }
 
   return (
     <span
       style={{
-        verticalAlign: "middle",
+        verticalAlign: 'middle',
         fontSize: 24,
         padding: 8,
-        cursor: "pointer",
+        cursor: 'pointer',
       }}
       onClick={() => {
         setDollarMode(!dollarMode);

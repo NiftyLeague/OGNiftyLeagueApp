@@ -1,8 +1,8 @@
-import { useContext, useState } from "react";
-import { WETH, Fetcher, Route } from "@sushiswap/sdk";
-import { usePoller } from "eth-hooks";
-import { NetworkContext } from "NetworkProvider";
-import { DAI as DAI_MAP } from "constants/tokens";
+import { useContext, useState } from 'react';
+import { WETH, Fetcher, Route } from '@sushiswap/sdk';
+import { usePoller } from 'eth-hooks';
+import { NetworkContext } from 'NetworkProvider';
+import { DAI as DAI_MAP } from 'constants/tokens';
 
 // Only pulls price from Eth mainnet
 export default function useExchangePrice(pollTime) {

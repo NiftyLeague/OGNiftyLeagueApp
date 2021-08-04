@@ -1,7 +1,7 @@
-import React from "react";
-import Typography from "./Typography";
+import React from 'react';
+import Typography from './Typography';
 
-function ModalHeader({ title = undefined, onClose, className = "" }) {
+function ModalHeader({ title = undefined, onClose, className = '' }) {
   return (
     <div className={`relative mb-2 ${className}`}>
       {title && (

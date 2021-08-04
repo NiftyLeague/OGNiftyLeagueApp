@@ -1,11 +1,11 @@
-import React, { useContext, useState } from "react";
-import { Switch, Route } from "react-router-dom";
-import { NetworkContext } from "NetworkProvider";
-import { ScrollToTop } from "./hooks";
-import { Contract, Faucet, Navigation, ThemeSwitch } from "./components";
-import { About, Character, Characters, Games, Hints, Home, NotFound, Staking, Subgraph, Wallet } from "./views";
-import { DEBUG, NFT_CONTRACT, NFTL_CONTRACT } from "./constants";
-import "./App.css";
+import React, { useContext, useState } from 'react';
+import { Switch, Route } from 'react-router-dom';
+import { NetworkContext } from 'NetworkProvider';
+import { ScrollToTop } from './hooks';
+import { Contract, Faucet, Navigation, ThemeSwitch } from './components';
+import { About, Character, Characters, Games, Hints, Home, NotFound, Staking, Subgraph, Wallet } from './views';
+import { DEBUG, NFT_CONTRACT, NFTL_CONTRACT } from './constants';
+import './App.css';
 
 // EXTERNAL CONTRACT EXAMPLE:
 // If you want to bring in the mainnet DAI contract it would look like:
@@ -19,7 +19,7 @@ import "./App.css";
 export default function App({ subgraphUri }) {
   const [route, setRoute] = useState(window.location.pathname);
   const { localProvider, targetNetwork } = useContext(NetworkContext);
-  const localConnection = localProvider?.connection && targetNetwork.label === "localhost";
+  const localConnection = localProvider?.connection && targetNetwork.label === 'localhost';
 
   return (
     <div className="App">

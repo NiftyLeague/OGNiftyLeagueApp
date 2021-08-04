@@ -1,12 +1,12 @@
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from '@material-ui/core/styles';
 
 const searchStyles = {
   paper: {
-    padding: "2px 4px",
-    display: "flex",
-    alignItems: "center",
+    padding: '2px 4px',
+    display: 'flex',
+    alignItems: 'center',
     width: 400,
-    marginLeft: "auto",
+    marginLeft: 'auto',
   },
   input: {
     marginLeft: 3,
@@ -15,12 +15,12 @@ const searchStyles = {
   },
   iconButton: {
     padding: 10,
-    " & svg": {
+    ' & svg': {
       fontSize: 18,
     },
   },
   iconPrimary: {
-    color: "#90caf9",
+    color: '#90caf9',
   },
   divider: {
     height: 28,
@@ -36,15 +36,15 @@ const multiSelectStyles = {
     fontSize: 18,
   },
   select: {
-    margin: "5px 0",
+    margin: '5px 0',
   },
   label: {
     fontSize: 16,
-    color: "#bcbcbc !important",
+    color: '#bcbcbc !important',
   },
   chips: {
-    display: "flex",
-    flexWrap: "wrap",
+    display: 'flex',
+    flexWrap: 'wrap',
   },
   chip: {
     margin: 2,
@@ -55,16 +55,16 @@ const multiSelectStyles = {
 
 const accordionStyles = {
   accRoot: {
-    background: "transparent",
-    boxShadow: "none",
+    background: 'transparent',
+    boxShadow: 'none',
   },
   accHeader: {
     fontSize: 18,
-    color: "#fff",
-    margin: "5px 40px",
+    color: '#fff',
+    margin: '5px 40px',
   },
   accDetails: {
-    flexWrap: "wrap",
+    flexWrap: 'wrap',
   },
 };
 
@@ -73,26 +73,26 @@ export const useStyles = makeStyles(theme => ({
   ...multiSelectStyles,
   ...accordionStyles,
   pagination: {
-    width: "100%",
+    width: '100%',
     paddingTop: 20,
     paddingBottom: 125,
-    "& ul": {
-      justifyContent: "center",
+    '& ul': {
+      justifyContent: 'center',
     },
   },
   paginationDark: {
-    "& button, li > div": {
-      color: "white",
-      borderColor: "white",
+    '& button, li > div': {
+      color: 'white',
+      borderColor: 'white',
     },
   },
-  snackbar: { width: "50vw", bottom: 18 },
-  [theme.breakpoints.down("md")]: {
-    snackbar: { width: "75vw" },
+  snackbar: { width: '50vw', bottom: 18 },
+  [theme.breakpoints.down('md')]: {
+    snackbar: { width: '75vw' },
   },
-  [theme.breakpoints.down("sm")]: {
-    snackbar: { width: "90vw", marginBottom: 40 },
-    paper: { width: "60%" },
+  [theme.breakpoints.down('sm')]: {
+    snackbar: { width: '90vw', marginBottom: 40 },
+    paper: { width: '60%' },
   },
 }));
 

@@ -21,7 +21,7 @@ import {
   NECKWEAR,
   LEFT_ITEMS,
   RIGHT_ITEMS,
-} from "../../constants/characters";
+} from '../../constants/characters';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;

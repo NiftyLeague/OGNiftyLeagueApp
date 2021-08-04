@@ -1,5 +1,5 @@
-import React, { useCallback, useContext, useState } from "react";
-import { constants } from "ethers";
+import React, { useCallback, useContext, useState } from 'react';
+import { constants } from 'ethers';
 import {
   Button,
   Dialog,
@@ -8,36 +8,36 @@ import {
   DialogContentText,
   DialogTitle,
   TextField,
-} from "@material-ui/core";
-import { NetworkContext } from "NetworkProvider";
-import { DEBUG, NFT_CONTRACT, NFTL_CONTRACT } from "../constants";
+} from '@material-ui/core';
+import { NetworkContext } from 'NetworkProvider';
+import { DEBUG, NFT_CONTRACT, NFTL_CONTRACT } from '../constants';
 
 const RenameDialog = ({ displayName, open, setOpen, tokenId }) => {
   const { address, tx, writeContracts } = useContext(NetworkContext);
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState('');
   const [error, setError] = useState(false);
-  const [helperText, setHelperText] = useState("");
+  const [helperText, setHelperText] = useState('');
 
   const handleClose = useCallback(() => setOpen(false), [setOpen]);
 
   const validateName = value => {
     setInput(value);
-    const regex = new RegExp("^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$");
-    const doubleSpaceRegex = new RegExp("^(?!.*[ ]{2})");
+    const regex = new RegExp('^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$');
+    const doubleSpaceRegex = new RegExp('^(?!.*[ ]{2})');
     let hasError = true;
     if (!value.length) {
-      setHelperText("Please input a name.");
+      setHelperText('Please input a name.');
     } else if (value.length > 32) {
-      setHelperText("Max character length of 32.");
+      setHelperText('Max character length of 32.');
     } else if (!regex.test(value)) {
-      setHelperText("Invalid character. Please only use numbers, letters, or spaces.");
-    } else if (value.charAt(0) === " " || value.charAt(value.length - 1) === " ") {
-      setHelperText("No leading or trailing spaces.");
+      setHelperText('Invalid character. Please only use numbers, letters, or spaces.');
+    } else if (value.charAt(0) === ' ' || value.charAt(value.length - 1) === ' ') {
+      setHelperText('No leading or trailing spaces.');
     } else if (!doubleSpaceRegex.test(value)) {
-      setHelperText("No double spaces allowed.");
+      setHelperText('No double spaces allowed.');
     } else {
       hasError = false;
-      setHelperText("");
+      setHelperText('');
     }
     setError(hasError);
     return hasError;
@@ -47,13 +47,13 @@ const RenameDialog = ({ displayName, open, setOpen, tokenId }) => {
     const hasError = validateName(input);
     if (!hasError && writeContracts) {
       handleClose();
-      if (DEBUG) console.log("Rename NFT to:", input);
+      if (DEBUG) console.log('Rename NFT to:', input);
       const NFTAddress = writeContracts[NFT_CONTRACT].address;
       const allowance = await writeContracts[NFTL_CONTRACT].allowance(address, NFTAddress);
       if (allowance < 1000) {
-        if (DEBUG) console.log("Allowance:", allowance);
+        if (DEBUG) console.log('Allowance:', allowance);
         const result = tx(writeContracts[NFTL_CONTRACT].approve(NFTAddress, constants.MaxUint256));
-        if (DEBUG) console.log("awaiting metamask/web3 confirm result...", result);
+        if (DEBUG) console.log('awaiting metamask/web3 confirm result...', result);
         await result;
       }
       tx(writeContracts[NFT_CONTRACT].changeName(parseInt(tokenId, 10), input));

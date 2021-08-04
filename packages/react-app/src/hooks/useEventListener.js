@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
 /*
   ~ What it does? ~
@@ -20,8 +20,9 @@ import { useState, useEffect } from "react";
 export default function useEventListener(contracts, contractName, eventName, provider, startBlock) {
   const [updates, setUpdates] = useState([]);
 
+  // eslint-disable-next-line consistent-return
   useEffect(() => {
-    if (typeof provider !== "undefined" && typeof startBlock !== "undefined") {
+    if (typeof provider !== 'undefined' && typeof startBlock !== 'undefined') {
       // if you want to read _all_ events from your contracts, set this to the block number it is deployed
       provider.resetEventsBlock(startBlock);
     }
@@ -29,7 +30,7 @@ export default function useEventListener(contracts, contractName, eventName, pro
       try {
         contracts[contractName].on(eventName, (...args) => {
           const { blockNumber } = args[args.length - 1];
-          setUpdates(messages => [Object.assign({ blockNumber }, args.pop().args), ...messages]);
+          setUpdates(messages => [{ blockNumber, ...args.pop().args }, ...messages]);
         });
         return () => {
           contracts[contractName].removeListener(eventName);

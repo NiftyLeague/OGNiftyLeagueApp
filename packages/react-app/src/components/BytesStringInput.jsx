@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { Input } from "antd";
+import React, { useState, useEffect } from 'react';
+import { Input } from 'antd';
 
-const { utils, constants } = require("ethers");
+const { utils, constants } = require('ethers');
 
 /*
   ~ What it does? ~
@@ -28,20 +28,20 @@ const { utils, constants } = require("ethers");
 */
 
 export default function BytesStringInput({ autoFocus, onChange, placeholder, value: currValue }) {
-  const [mode, setMode] = useState("STRING");
+  const [mode, setMode] = useState('STRING');
   const [display, setDisplay] = useState();
   const [value, setValue] = useState(constants.HashZero);
 
   // current value is the value in bytes32
-  const currentValue = typeof currValue !== "undefined" ? currValue : value;
+  const currentValue = typeof currValue !== 'undefined' ? currValue : value;
 
   const option = title => {
     return (
       <div
-        style={{ cursor: "pointer" }}
+        style={{ cursor: 'pointer' }}
         onClick={() => {
-          if (mode === "STRING") {
-            setMode("BYTES32");
+          if (mode === 'STRING') {
+            setMode('BYTES32');
             if (!utils.isHexString(currentValue)) {
               /* in case user enters invalid bytes32 number, 
                    it considers it as string and converts to bytes32 */
@@ -51,7 +51,7 @@ export default function BytesStringInput({ autoFocus, onChange, placeholder, val
               setDisplay(currentValue);
             }
           } else {
-            setMode("STRING");
+            setMode('STRING');
             if (currentValue && utils.isHexString(currentValue)) {
               setDisplay(utils.parseBytes32String(currentValue));
             } else {
@@ -66,36 +66,36 @@ export default function BytesStringInput({ autoFocus, onChange, placeholder, val
   };
 
   let addonAfter;
-  if (mode === "STRING") {
-    addonAfter = option("STRING 🔀");
+  if (mode === 'STRING') {
+    addonAfter = option('STRING 🔀');
   } else {
-    addonAfter = option("BYTES32 🔀");
+    addonAfter = option('BYTES32 🔀');
   }
 
   useEffect(() => {
     if (!currentValue) {
-      setDisplay("");
+      setDisplay('');
     }
   }, [currentValue]);
 
   return (
     <Input
-      placeholder={placeholder || "Enter value in " + mode}
+      placeholder={placeholder || 'Enter value in ' + mode}
       autoFocus={autoFocus}
       value={display}
       addonAfter={addonAfter}
       onChange={async e => {
         const newValue = e.target.value;
-        if (mode === "STRING") {
+        if (mode === 'STRING') {
           // const ethValue = parseFloat(newValue) / price;
           // setValue(ethValue);
-          if (typeof onChange === "function") {
+          if (typeof onChange === 'function') {
             onChange(utils.formatBytes32String(newValue));
           }
           setValue(utils.formatBytes32String(newValue));
           setDisplay(newValue);
         } else {
-          if (typeof onChange === "function") {
+          if (typeof onChange === 'function') {
             onChange(newValue);
           }
           setValue(newValue);

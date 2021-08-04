@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import { Button, Badge } from "antd";
-import { usePoller, useBlockNumber } from "eth-hooks";
+import React, { useState } from 'react';
+import { Button, Badge } from 'antd';
+import { usePoller, useBlockNumber } from 'eth-hooks';
 
-import Address from "./Address";
+import Address from './Address';
 
 export default function Provider({ name, provider }) {
   const [showMore, setShowMore] = useState(false);
-  const [status, setStatus] = useState("processing");
+  const [status, setStatus] = useState('processing');
   const [network, setNetwork] = useState();
   const [signer, setSigner] = useState();
   const [address, setAddress] = useState();
@@ -14,18 +14,18 @@ export default function Provider({ name, provider }) {
   const blockNumber = useBlockNumber(provider);
 
   usePoller(async () => {
-    if (provider && typeof provider.getNetwork === "function") {
+    if (provider && typeof provider.getNetwork === 'function') {
       try {
         const newNetwork = await provider.getNetwork();
         setNetwork(newNetwork);
         if (newNetwork.chainId > 0) {
-          setStatus("success");
+          setStatus('success');
         } else {
-          setStatus("warning");
+          setStatus('warning');
         }
       } catch (e) {
         console.log(e);
-        setStatus("processing");
+        setStatus('processing');
       }
       try {
         const newSigner = await provider.getSigner();
@@ -37,7 +37,7 @@ export default function Provider({ name, provider }) {
     }
   }, 1377);
 
-  if (typeof provider === "undefined" || typeof provider.getNetwork !== "function" || !network || !network.chainId) {
+  if (typeof provider === 'undefined' || typeof provider.getNetwork !== 'function' || !network || !network.chainId) {
     return (
       <Button
         shape="round"
@@ -51,24 +51,24 @@ export default function Provider({ name, provider }) {
     );
   }
 
-  let showExtra = "";
+  let showExtra = '';
   if (showMore) {
     showExtra = (
       <span>
         <span style={{ padding: 3 }}>
           id:
-          {network ? network.chainId : ""}
+          {network ? network.chainId : ''}
         </span>
         <span style={{ padding: 3 }}>
           name:
-          {network ? network.name : ""}
+          {network ? network.name : ''}
         </span>
       </span>
     );
   }
 
-  let showWallet = "";
-  if (typeof signer !== "undefined" && address) {
+  let showWallet = '';
+  if (typeof signer !== 'undefined' && address) {
     showWallet = (
       <span>
         <span style={{ padding: 3 }}>

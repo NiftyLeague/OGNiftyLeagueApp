@@ -1,7 +1,7 @@
-import React, { useContext } from "react";
-import { Alert } from "antd";
-import { NetworkContext } from "NetworkProvider";
-import { NETWORK, SUPPORTED_CHAIN_IDS } from "../../constants";
+import React, { useContext } from 'react';
+import { Alert } from 'antd';
+import { NetworkContext } from 'NetworkProvider';
+import { NETWORK, SUPPORTED_CHAIN_IDS } from '../../constants';
 
 const WrongNetworkAlert = () => {
   const { localChainId, selectedChainId } = useContext(NetworkContext);
@@ -11,7 +11,7 @@ const WrongNetworkAlert = () => {
     <div
       style={{
         zIndex: 2,
-        position: "absolute",
+        position: 'absolute',
         right: 0,
         top: 60,
         padding: 16,
@@ -24,7 +24,7 @@ const WrongNetworkAlert = () => {
             <div>Selected network is not supported.</div>
           ) : (
             <div>
-              You have <b>{NETWORK(selectedChainId).name}</b> selected and you need to be on{" "}
+              You have <b>{NETWORK(selectedChainId).name}</b> selected and you need to be on{' '}
               <b>{NETWORK(localChainId).name}</b>.
             </div>
           )
