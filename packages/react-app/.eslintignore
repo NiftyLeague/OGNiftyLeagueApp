@@ -1,3 +1,5 @@
 # folders
 build/
+public/
 node_modules/
+src/contracts/

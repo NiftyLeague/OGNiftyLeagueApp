@@ -4,7 +4,7 @@ import ErrorImg from "../assets/images/404-img.png";
 
 const { Title } = Typography;
 
-export default function () {
+export default function NotFound() {
   return (
     <section style={{ height: "90vh", width: "100vw", verticalAlign: "middle", display: "table-cell" }}>
       <img src={ErrorImg} alt="Error 404" />
