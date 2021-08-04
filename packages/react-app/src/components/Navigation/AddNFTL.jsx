@@ -1,11 +1,10 @@
 import React, { useContext } from "react";
-import { useThemeSwitcher } from "react-css-theme-switcher";
 import { NetworkContext } from "NetworkProvider";
+import NFTL from "assets/images/NFTL.png";
 import Tooltip from "../Tooltip";
 import { NFTL_CONTRACT } from "../../constants";
 
 const AddNFTL = () => {
-  const { currentTheme } = useThemeSwitcher();
   const { userProvider, writeContracts } = useContext(NetworkContext);
   const NFTLAddress = writeContracts && writeContracts[NFTL_CONTRACT].address;
   const handleAddToken = () => {
@@ -30,10 +29,7 @@ const AddNFTL = () => {
   return userProvider?.provider?.isMetaMask && userProvider?.provider?.request ? (
     <Tooltip text="Add NFTL to your Metamask wallet">
       <div className="add-token" onClick={handleAddToken}>
-        <img
-          src={`${process.env.PUBLIC_URL}/${currentTheme === "dark" ? "logo192-white.png" : "logo192.png"}`}
-          alt="NFTL logo"
-        />
+        <img src={NFTL} alt="NFTL logo" />
       </div>
     </Tooltip>
   ) : null;

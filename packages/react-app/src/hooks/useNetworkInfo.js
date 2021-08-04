@@ -4,11 +4,11 @@ const useNetworkInfo = provider => {
   const [network, setNetwork] = useState({});
 
   useEffect(() => {
-    const getNetwork = async provider => {
+    const getNetwork = async () => {
       const result = await provider.getNetwork();
       setNetwork(result);
     };
-    if (provider) void getNetwork(provider);
+    if (provider) getNetwork();
   }, [provider]);
 
   return network;

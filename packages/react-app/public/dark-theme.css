@@ -1,9 +1,9 @@
 @import "./antd-dark-theme.css";
 
-body {
+body,
+html {
   color: rgba(255, 255, 255, 0.85);
   background-color: #212121;
-  background-repeat: repeat;
 }
 h1,
 h2,

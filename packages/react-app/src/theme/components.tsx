@@ -93,5 +93,6 @@ export function ExternalLink({
     },
     [href, target],
   );
+  // eslint-disable-next-line react/jsx-props-no-spreading
   return <StyledLink target={target} rel={rel} href={href} onClick={handleClick} {...rest} />;
 }

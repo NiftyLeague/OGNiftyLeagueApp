@@ -5,6 +5,8 @@ import withWidth, { isWidthDown } from "@material-ui/core/withWidth";
 import { Layout, Menu } from "antd";
 
 import { NetworkContext } from "NetworkProvider";
+import LogoPurple from "assets/images/nl_logo.png";
+import LogoWhite from "assets/images/nl_logo_white.png";
 import Account from "../Account";
 import AddNFTL from "./AddNFTL";
 import Airdrop from "./Airdrop";
@@ -51,15 +53,8 @@ function Navigation({ route, setRoute, width }) {
   const mobileView = isWidthDown("sm", width);
   const darkThemed = currentTheme === "dark";
 
-  const {
-    address,
-    loadWeb3Modal,
-    logoutOfWeb3Modal,
-    mainnetProvider,
-    targetNetwork,
-    userProvider,
-    web3Modal,
-  } = useContext(NetworkContext);
+  const { address, loadWeb3Modal, logoutOfWeb3Modal, mainnetProvider, targetNetwork, userProvider, web3Modal } =
+    useContext(NetworkContext);
 
   return (
     <Layout>
@@ -78,7 +73,7 @@ function Navigation({ route, setRoute, width }) {
       >
         <Link onClick={() => setRoute("/")} to="/" style={{ margin: `auto ${mobileView ? "10px" : "20px"} auto 0` }}>
           <img
-            src={`${process.env.PUBLIC_URL}/${darkThemed ? "logo192-white.png" : "logo192.png"}`}
+            src={darkThemed ? LogoWhite : LogoPurple}
             alt="Nifty League logo"
             style={{ width: 50, marginBottom: 3 }}
           />
