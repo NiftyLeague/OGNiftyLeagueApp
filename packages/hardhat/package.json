@@ -5,37 +5,33 @@
   "main": "index.js",
   "dependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.2",
-    "@nomiclabs/hardhat-etherscan": "^2.1.1",
+    "@nomiclabs/hardhat-etherscan": "^2.1.4",
     "@nomiclabs/hardhat-waffle": "^2.0.1",
-    "@openzeppelin/contracts": "^4.0.0",
+    "@openzeppelin/contracts": "^4.2.0",
     "@tenderly/hardhat-tenderly": "^1.0.12",
     "chai": "^4.3.4",
-    "chalk": "^4.1.1",
-    "cids": "^1.1.6",
-    "commander": "^7.2.0",
+    "chalk": "^4.1.2",
+    "cids": "^1.1.7",
     "dotenv": "^10.0.0",
-    "ethereum-waffle": "^3.3.0",
-    "ethers": "^5.1.3",
+    "ethereum-waffle": "^3.4.0",
     "getconfig": "^4.5.0",
-    "hardhat": "^2.2.1",
-    "ipfs-http-client": "^50.0.0",
+    "hardhat": "^2.5.0",
+    "ipfs-http-client": "^51.0.1",
     "it-all": "^1.0.5",
     "json-colorizer": "^2.2.2",
     "node-watch": "^0.7.1",
     "qrcode-terminal": "^0.12.0",
     "ramda": "^0.27.1",
     "request": "^2.88.2",
-    "uint8arrays": "^2.1.5"
+    "uint8arrays": "^2.1.10"
   },
   "devDependencies": {
-    "eslint": "^7.25.0",
+    "eslint": "7.28.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-babel": "^5.3.1",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-prettier": "^3.4.0",
-    "prettier": "^2.2.1",
-    "typescript": "^4.2.4"
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-prettier": "^3.4.0"
   },
   "scripts": {
     "chain": "hardhat node",
@@ -52,5 +48,8 @@
     "generate": "hardhat generate",
     "account": "hardhat account",
     "etherscan-verify": "hardhat etherscan-verify --api-key $ETHERSCAN_KEY"
+  },
+  "peerDependencies": {
+    "ethers": "^5.4.3"
   }
 }

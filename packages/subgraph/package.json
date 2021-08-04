@@ -8,7 +8,7 @@
     "create-local": "graph create nifty-league --node http://localhost:8020/",
     "remove-local": "graph remove nifty-league --node http://localhost:8020/",
     "deploy-local": "graph deploy nifty-league --node http://localhost:8020/ --ipfs http://localhost:5001",
-    "deploy": "graph deploy nifty-league"
+    "deploy": "graph deploy nifty-league --node https://api.studio.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "^0.20.0",

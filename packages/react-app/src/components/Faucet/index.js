@@ -2,11 +2,11 @@ import React, { useCallback, useContext, useState } from "react";
 import { Input, Button, Tooltip } from "antd";
 import Blockies from "react-blockies";
 import { SendOutlined } from "@ant-design/icons";
-import { parseEther } from "@ethersproject/units";
+import { utils } from "ethers";
 import { useLookupAddress } from "eth-hooks";
 import { useExchangePrice } from "hooks";
 import { NetworkContext } from "NetworkProvider";
-import { Notifier } from "helpers";
+import Notifier from "helpers/Notifier";
 import { ETH_EXCHANGE_PRICE_INTERVAL } from "../../constants";
 import Wallet from "./Wallet";
 
@@ -94,7 +94,7 @@ export default function Faucet({ placeholder }) {
               onClick={() => {
                 tx({
                   to: address,
-                  value: parseEther("1.00"),
+                  value: utils.parseEther("1.00"),
                 });
                 setAddress("");
               }}

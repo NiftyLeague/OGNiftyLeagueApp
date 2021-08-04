@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getAddress } from "@ethersproject/address";
+import { utils } from "ethers";
 import useLocalStorage from "./useLocalStorage";
 
 // resolved if(name){} to not save "" into cache
@@ -26,7 +26,7 @@ const lookupAddress = async (provider, address) => {
 
     const resolvedAddress = await provider.resolveName(reportedName);
 
-    if (getAddress(address) === getAddress(resolvedAddress)) {
+    if (utils.getAddress(address) === utils.getAddress(resolvedAddress)) {
       return reportedName;
     }
   } catch (e) {

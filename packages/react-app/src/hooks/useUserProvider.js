@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { Web3Provider } from "@ethersproject/providers";
+import { providers } from "ethers";
 import BurnerProvider from "burner-provider";
 import { INFURA_ID, DEBUG } from "../constants";
 
@@ -49,11 +49,11 @@ const useUserProvider = (injectedProvider, localProvider) =>
 
     if (localProvider.connection && localProvider.connection.url) {
       burnerConfig.rpcUrl = localProvider.connection.url;
-      return new Web3Provider(new BurnerProvider(burnerConfig));
+      return new providers.Web3Provider(new BurnerProvider(burnerConfig));
     }
     const networkName = localProvider._network?.name;
     burnerConfig.rpcUrl = `https://${networkName || "mainnet"}.infura.io/v3/${INFURA_ID}`;
-    return new Web3Provider(new BurnerProvider(burnerConfig));
+    return new providers.Web3Provider(new BurnerProvider(burnerConfig));
   }, [injectedProvider, localProvider]);
 
 export default useUserProvider;

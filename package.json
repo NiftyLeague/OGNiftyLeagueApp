@@ -51,7 +51,7 @@
     "graph-build": "yarn workspace @nifty-league/subgraph build",
     "graph-deploy": "yarn workspace @nifty-league/subgraph deploy",
     "graph-deploy-local": "yarn workspace @nifty-league/subgraph deploy-local",
-    "graph-ship": "yarn graph-prepare && yarn graph-codegen && yarn graph-build && yarn graph-deploy",
+    "graph-ship": "yarn graph-prepare && yarn graph-codegen && yarn graph-build",
     "graph-ship-local": "yarn graph-prepare-local && yarn graph-codegen && yarn graph-deploy-local",
     "deploy-and-graph": "yarn deploy && yarn graph-ship",
     "deploy-and-graph-local": "yarn deploy && yarn graph-ship-local"
@@ -64,7 +64,8 @@
       "**/@graphprotocol/graph-ts",
       "**/@graphprotocol/graph-ts/**",
       "**/hardhat",
-      "**/hardhat/**"
+      "**/hardhat/**",
+      "**/eslint/**"
     ]
   }
 }

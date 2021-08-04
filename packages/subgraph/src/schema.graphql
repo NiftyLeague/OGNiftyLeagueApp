@@ -2,6 +2,8 @@ type Contract @entity {
   id: ID!
   address: Bytes!
   totalSupply: BigInt!
+  nftPrice: BigInt!
+  removedTraits: [Int!]
 }
 
 type Character @entity {

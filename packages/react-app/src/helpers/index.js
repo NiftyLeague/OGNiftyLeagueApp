@@ -1,10 +1,5 @@
-import { AddressZero } from "@ethersproject/constants";
-import { BigNumber } from "@ethersproject/bignumber";
-import { Contract } from "@ethersproject/contracts";
-import { ethers } from "ethers";
-import { getAddress } from "@ethersproject/address";
+import { utils, BigNumber, Contract, constants } from "ethers";
 
-export { default as Notifier } from "./Notifier";
 export * from "./dateTime";
 export * from "./ipfs";
 
@@ -17,7 +12,7 @@ export function isZero(hexNumberString) {
 }
 
 export const formatBalance = (value, decimals = 18, maxFraction = 0) => {
-  const formatted = ethers.utils.formatUnits(value, decimals);
+  const formatted = utils.formatUnits(value, decimals);
   if (maxFraction > 0) {
     const split = formatted.split(".");
     if (split.length > 1) {
@@ -28,18 +23,18 @@ export const formatBalance = (value, decimals = 18, maxFraction = 0) => {
 };
 
 export const parseBalance = (value, decimals = 18) => {
-  return ethers.utils.parseUnits(value || "0", decimals);
+  return utils.parseUnits(value || "0", decimals);
 };
 
 export const isEmptyValue = text =>
-  ethers.BigNumber.isBigNumber(text)
-    ? ethers.BigNumber.from(text).isZero()
+  BigNumber.isBigNumber(text)
+    ? BigNumber.from(text).isZero()
     : text === "" || text.replace(/0/g, "").replace(/\./, "") === "";
 
 // returns the checksummed address if the address is valid, otherwise returns false
 export function isAddress(value) {
   try {
-    return getAddress(value);
+    return utils.getAddress(value);
   } catch {
     return false;
   }
@@ -70,7 +65,7 @@ export function getProviderOrSigner(provider, account) {
 }
 
 export function getContract(address, ABI, provider, account) {
-  if (!isAddress(address) || address === AddressZero) {
+  if (!isAddress(address) || address === constants.AddressZero) {
     throw Error(`Invalid 'address' parameter '${address}'.`);
   }
   return new Contract(address, ABI, getProviderOrSigner(provider, account));

@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import { WalletOutlined, QrcodeOutlined, SendOutlined, KeyOutlined } from "@ant-design/icons";
 import { Tooltip, Spin, Modal, Button, Typography } from "antd";
 import QR from "qrcode.react";
-import { parseEther } from "@ethersproject/units";
 import { useUserAddress } from "eth-hooks";
-import { ethers } from "ethers";
+import { ethers, utils } from "ethers";
 import Address from "../Address";
 import Balance from "../Balance";
 import AddressInput from "../AddressInput";
@@ -313,10 +312,10 @@ export default function Wallet({ address, color, ensProvider, price, provider, t
             onClick={() => {
               let value;
               try {
-                value = parseEther("" + amount);
+                value = utils.parseEther("" + amount);
               } catch (e) {
                 // failed to parseEther, try something else
-                value = parseEther("" + parseFloat(amount).toFixed(8));
+                value = utils.parseEther("" + parseFloat(amount).toFixed(8));
               }
               tx({ to: toAddress, value });
               setOpen(!open);

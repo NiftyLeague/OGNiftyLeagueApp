@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { formatEther } from "@ethersproject/units";
+import { utils } from "ethers";
 import { usePoller } from "eth-hooks";
 import { useExchangePrice } from "hooks";
 import { ETH_EXCHANGE_PRICE_INTERVAL } from "../constants";
@@ -60,7 +60,7 @@ export default function Balance({ address, balance: bal, dollarMultiplier, pollT
   }
 
   if (usingBalance) {
-    const etherBalance = formatEther(usingBalance);
+    const etherBalance = utils.formatEther(usingBalance);
     parseFloat(etherBalance).toFixed(2);
     floatBalance = parseFloat(etherBalance);
   }

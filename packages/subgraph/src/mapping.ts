@@ -80,6 +80,8 @@ export function handleTransfer(event: Transfer): void {
     contractEntity = new Contract(event.address.toHexString());
   contractEntity.address = event.address;
   contractEntity.totalSupply = contract.totalSupply();
+  contractEntity.nftPrice = contract.getNFTPrice();
+  contractEntity.removedTraits = contract.getRemovedTraits();
 
   newOwner.save();
   traits.save();
@@ -99,8 +101,8 @@ export function handleCharacterNameChange(event: NameUpdated): void {
 
   let character = Character.load(tokenId);
   character.name = newName;
-  let nameHistory = character.nameHistory;
-  nameHistory.push(previousName);
+  let nameHistory = character.nameHistory || [];
+  if (previousName.length) nameHistory.push(previousName);
   character.nameHistory = nameHistory;
   character.save();
 }

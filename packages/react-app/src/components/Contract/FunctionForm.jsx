@@ -1,14 +1,11 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
 import React, { useState } from "react";
-import { BigNumber } from "@ethersproject/bignumber";
-import { parseEther } from "@ethersproject/units";
+import { BigNumber, utils } from "ethers";
 import { Row, Col, Input, Divider, Tooltip, Button } from "antd";
 import { useThemeSwitcher } from "react-css-theme-switcher";
 import Blockies from "react-blockies";
-import { Notifier } from "../../helpers";
+import Notifier from "helpers/Notifier";
 import tryToDisplay from "./utils";
-
-const { utils } = require("ethers");
 
 export default function FunctionForm({ contractFunction, functionInfo, provider, targetNetwork, triggerRefresh }) {
   const [form, setForm] = useState({});
@@ -128,7 +125,7 @@ export default function FunctionForm({ contractFunction, functionInfo, provider,
                     type="dashed"
                     style={{ cursor: "pointer" }}
                     onClick={async () => {
-                      const value = parseEther(txValue);
+                      const value = utils.parseEther(txValue);
                       if (value) setTxValue(value);
                     }}
                   >
