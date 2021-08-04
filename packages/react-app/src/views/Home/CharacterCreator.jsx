@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useContext, useEffect, useState, useRef } from "react";
 import Unity, { UnityContext } from "react-unity-webgl";
 import { isMobileOnly, withOrientationChange } from "react-device-detect";
-import { parseEther } from "@ethersproject/units";
+import { utils } from "ethers";
 import { useNFTPrice, useRemovedTraits } from "hooks";
 import { submitTxWithGasEstimate } from "helpers/Notifier";
 import { NetworkContext } from "NetworkProvider";
@@ -121,7 +121,7 @@ const CharacterCreator = memo(({ isLoaded, isPortrait, setLoaded }) => {
   const mintCharacter = useCallback(
     async e => {
       const { character, head, clothing, accessories, items } = getMintableTraits(e.detail);
-      const value = parseEther(nftPrice);
+      const value = utils.parseEther(nftPrice);
       const args = [character, head, clothing, accessories, items];
       const nftContract = writeContracts[NFT_CONTRACT];
       submitTxWithGasEstimate(tx, nftContract, "purchase", args, { value });

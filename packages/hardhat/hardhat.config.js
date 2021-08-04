@@ -1,13 +1,10 @@
 require("dotenv").config();
-const { utils } = require("ethers");
 const fs = require("fs");
 const chalk = require("chalk");
 
 require("@nomiclabs/hardhat-waffle");
 require("@tenderly/hardhat-tenderly");
 require("@nomiclabs/hardhat-etherscan");
-
-const { isAddress, getAddress, formatUnits, parseUnits } = utils;
 
 /*
       📡 This is where you configure your deploy configuration
@@ -40,9 +37,9 @@ module.exports = {
     localhost: {
       url: "http://localhost:8545",
       // Remove accounts if you want to use account 0 of the hardhat node to deploy
-      accounts: {
-        mnemonic: getMnemonic(),
-      },
+      // accounts: {
+      //   mnemonic: getMnemonic(),
+      // },
     },
     mainnet: {
       url: `https://mainnet.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
@@ -200,54 +197,6 @@ task("generate", "Create a mnemonic for builder deploys", async (_, { ethers }) 
   fs.writeFileSync("./mnemonic.txt", mnemonic.toString());
 });
 
-task("mineContractAddress", "Looks for a deployer account that will give leading zeros")
-  .addParam("searchFor", "String to search for")
-  .setAction(async (taskArgs, { network, ethers }) => {
-    let contractAddress = "";
-    let address;
-
-    const bip39 = require("bip39");
-    const hdkey = require("ethereumjs-wallet/hdkey");
-
-    let mnemonic = "";
-    while (contractAddress.indexOf(taskArgs.searchFor) !== 0) {
-      mnemonic = bip39.generateMnemonic();
-      if (DEBUG) console.log("mnemonic", mnemonic);
-      const seed = await bip39.mnemonicToSeed(mnemonic);
-      if (DEBUG) console.log("seed", seed);
-      const hdwallet = hdkey.fromMasterSeed(seed);
-      const walletHDpath = "m/44'/60'/0'/0/";
-      const accountIndex = 0;
-      const fullPath = walletHDpath + accountIndex;
-      if (DEBUG) console.log("fullPath", fullPath);
-      const wallet = hdwallet.derivePath(fullPath).getWallet();
-      const privateKey = "0x" + wallet._privKey.toString("hex");
-      if (DEBUG) console.log("privateKey", privateKey);
-      var EthUtil = require("ethereumjs-util");
-      address = "0x" + EthUtil.privateToAddress(wallet._privKey).toString("hex");
-
-      const rlp = require("rlp");
-      const keccak = require("keccak");
-
-      const nonce = 0x00; // The nonce must be a hex literal!
-      const sender = address;
-
-      const inputArr = [sender, nonce];
-      const rlpEncoded = rlp.encode(inputArr);
-
-      const contractAddressLong = keccak("keccak256").update(rlpEncoded).digest("hex");
-
-      contractAddress = contractAddressLong.substring(24); // Trim the first 24 characters.
-    }
-
-    console.log("⛏  Account Mined as " + address + " and set as mnemonic in packages/hardhat");
-    console.log("📜 This will create the first contract: " + chalk.magenta("0x" + contractAddress));
-    console.log("💬 Use 'yarn account' to get more information about the deployment account.");
-
-    fs.writeFileSync("./" + address + "_produces" + contractAddress + ".txt", mnemonic.toString());
-    fs.writeFileSync("./mnemonic.txt", mnemonic.toString());
-  });
-
 task("account", "Get balance informations for the deployment account.", async (_, { ethers }) => {
   const hdkey = require("ethereumjs-wallet/hdkey");
   const bip39 = require("bip39");
@@ -286,8 +235,8 @@ task("account", "Get balance informations for the deployment account.", async (_
 });
 
 async function addr(ethers, addr) {
-  if (isAddress(addr)) {
-    return getAddress(addr);
+  if (ethers.utils.isAddress(addr)) {
+    return ethers.utils.getAddress(addr);
   }
   const accounts = await ethers.provider.listAccounts();
   if (accounts[addr] !== undefined) {
@@ -310,7 +259,7 @@ task("balance", "Prints an account's balance")
   .addPositionalParam("account", "The account's address")
   .setAction(async (taskArgs, { ethers }) => {
     const balance = await ethers.provider.getBalance(await addr(ethers, taskArgs.account));
-    console.log(formatUnits(balance, "ether"), "ETH");
+    console.log(ethers.utils.formatUnits(balance, "ether"), "ETH");
   });
 
 function send(signer, txparams) {
@@ -345,9 +294,9 @@ task("send", "Send ETH")
     const txRequest = {
       from: await fromSigner.getAddress(),
       to,
-      value: parseUnits(taskArgs.amount ? taskArgs.amount : "0", "ether").toHexString(),
+      value: ethers.utils.parseUnits(taskArgs.amount ? taskArgs.amount : "0", "ether").toHexString(),
       nonce: await fromSigner.getTransactionCount(),
-      gasPrice: parseUnits(taskArgs.gasPrice ? taskArgs.gasPrice : "1.001", "gwei").toHexString(),
+      gasPrice: ethers.utils.parseUnits(taskArgs.gasPrice ? taskArgs.gasPrice : "1.001", "gwei").toHexString(),
       gasLimit: taskArgs.gasLimit ? taskArgs.gasLimit : 24000,
       chainId: network.config.chainId,
     };

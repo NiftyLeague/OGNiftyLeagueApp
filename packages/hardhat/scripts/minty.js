@@ -9,7 +9,7 @@ const ipfsClient = require("ipfs-http-client");
 const all = require("it-all");
 const uint8ArrayConcat = require("uint8arrays/concat");
 const uint8ArrayToString = require("uint8arrays/to-string");
-const { BigNumber } = require("ethers");
+const { ethers } = require("hardhat");
 
 // The getconfig package loads configuration from files located in the the `config` directory.
 // See https://www.npmjs.com/package/getconfig for info on how to override the default config for
@@ -375,7 +375,7 @@ class Minty {
    * @returns {Promise<NFTCreationInfo>}
    */
   async getCreationInfo(tokenId) {
-    const filter = await this.contract.filters.Transfer(null, null, BigNumber.from(tokenId));
+    const filter = await this.contract.filters.Transfer(null, null, ethers.BigNumber.from(tokenId));
 
     const logs = await this.contract.queryFilter(filter);
     const blockNumber = logs[0].blockNumber;

@@ -97,11 +97,20 @@ graph auth
 
 You will be prompted to select a product and enter a deploy key which you can get here: https://thegraph.com/studio/subgraph. Make sure the `subgraph-studio` option is selected.
 
-> generate, build, and deploy the subgraph:
+> generate and build the subgraph:
 
 ```bash
 yarn graph-ship
 ```
+
+> deploy the subgraph:
+
+```bash
+cd packages/subgraph/
+graph deploy nifty-league
+```
+
+You will be prompted to select a product and version. Make sure the `subgraph-studio` product option is selected and then grab the version from the `specVersion` in `packages/subgraph/subgraph.yaml`
 
 ## 📚 Documentation
 

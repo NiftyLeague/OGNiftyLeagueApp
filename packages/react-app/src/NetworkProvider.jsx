@@ -1,13 +1,15 @@
 import React, { createContext, useCallback, useEffect, useState } from "react";
 import { useThemeSwitcher } from "react-css-theme-switcher";
-import { getDefaultProvider, Web3Provider } from "@ethersproject/providers";
+import { providers } from "ethers";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { useUserAddress } from "eth-hooks";
 import Web3Modal from "web3modal";
 
-import { useContractLoader, useUserProvider, useNetworkInfo } from "./hooks";
-import { Notifier } from "./helpers";
+import { useContractLoader, useUserProvider, useNetworkInfo } from "hooks";
+import Notifier from "helpers/Notifier";
 import { ALCHEMY_ID, DEBUG, ETHERSCAN_KEY, INFURA_ID, NETWORKS } from "./constants";
+
+const { getDefaultProvider, Web3Provider } = providers;
 
 const CONTEXT_INITIAL_STATE = {
   address: "",
@@ -36,17 +38,15 @@ const CONTEXT_INITIAL_STATE = {
 
 export const NetworkContext = createContext(CONTEXT_INITIAL_STATE);
 
-// For more hooks, check out 🔗eth-hooks at: https://www.npmjs.com/package/eth-hooks
+if (window.ethereum) window.ethereum.autoRefreshOnNetworkChange = false;
 
 // 📡 What chain are your contracts deployed to? (localhost, rinkeby, mainnet)
 const targetNetwork = NETWORKS[process.env.REACT_APP_NETWORK];
 
 // 🛰 providers
 if (DEBUG) console.log("📡 Connecting to Mainnet Ethereum");
-const providerOptions = { infura: INFURA_ID, etherscan: ETHERSCAN_KEY };
-const mainnetProvider = navigator.onLine
-  ? getDefaultProvider(NETWORKS.mainnet.name, { ...providerOptions, alchemy: ALCHEMY_ID })
-  : null;
+const providerOptions = { infura: INFURA_ID, etherscan: ETHERSCAN_KEY, alchemy: ALCHEMY_ID };
+const mainnetProvider = navigator.onLine ? getDefaultProvider(NETWORKS.mainnet.name, providerOptions) : null;
 
 // 🏠 Your local provider is usually pointed at your local blockchain
 if (DEBUG) console.log("🏠 Connecting to local provider:", targetNetwork.rpcUrl);
@@ -113,6 +113,9 @@ const NetworkProvider = ({ children }) => {
     });
     provider.on("chainChanged", chainId => {
       if (DEBUG) console.log("web3 chainId", chainId);
+      setTimeout(() => {
+        window.location.reload();
+      }, 1);
     });
     provider.on("connect", info => {
       if (DEBUG) console.log("web3 info", info);
@@ -176,15 +179,5 @@ const NetworkProvider = ({ children }) => {
 
   return <NetworkContext.Provider value={context}>{children}</NetworkContext.Provider>;
 };
-
-if (window.ethereum) {
-  window.ethereum.autoRefreshOnNetworkChange = false;
-  // eslint-disable-next-line no-unused-vars
-  window.ethereum.on("chainChanged", chainId => {
-    setTimeout(() => {
-      window.location.reload();
-    }, 1);
-  });
-}
 
 export default NetworkProvider;

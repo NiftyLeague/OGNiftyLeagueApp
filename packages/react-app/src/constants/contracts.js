@@ -1,6 +1,6 @@
 import { ChainId } from "@sushiswap/sdk";
+// import { utils } from "ethers";
 import { LOCAL_CHAIN_ID } from "./networks";
-// import { Interface } from "@ethersproject/abi";
 // import { abi as STAKING_REWARDS_ABI } from "@uniswap/liquidity-staker/build/StakingRewards.json";
 // import { abi as STAKING_REWARDS_FACTORY_ABI } from "@uniswap/liquidity-staker/build/StakingRewardsFactory.json";
 
@@ -8,9 +8,9 @@ export const NFT_CONTRACT = "NiftyDegen";
 
 export const NFTL_CONTRACT = "NFTLToken";
 
-// export const STAKING_REWARDS_INTERFACE = new Interface(STAKING_REWARDS_ABI);
+// export const STAKING_REWARDS_INTERFACE = new utils.Interface(STAKING_REWARDS_ABI);
 
-// export const STAKING_REWARDS_FACTORY_INTERFACE = new Interface(STAKING_REWARDS_FACTORY_ABI);
+// export const STAKING_REWARDS_FACTORY_INTERFACE = new utils.Interface(STAKING_REWARDS_FACTORY_ABI);
 
 export const TIMELOCK_ADDRESS = "0x1a9C8182C09F50C8318d769245beA52c32BE35BC";
 

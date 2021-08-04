@@ -3,7 +3,6 @@
 const fs = require("fs");
 const chalk = require("chalk");
 const { config, ethers, tenderly, run } = require("hardhat");
-const { utils } = require("ethers");
 const R = require("ramda");
 const { ALLOWED_COLORS } = require("../constants/allowedColors");
 const { COMMUNITY_TREASURY } = require("../constants/addresses");
@@ -120,7 +119,7 @@ const deploy = async (contractName, _args = [], overrides = {}, libraries = {}) 
   let extraGasInfo = "";
   if (deployed && deployed.deployTransaction) {
     const gasUsed = deployed.deployTransaction.gasLimit.mul(deployed.deployTransaction.gasPrice);
-    extraGasInfo = `${utils.formatEther(gasUsed)} ETH, tx hash ${deployed.deployTransaction.hash}`;
+    extraGasInfo = `${ethers.utils.formatEther(gasUsed)} ETH, tx hash ${deployed.deployTransaction.hash}`;
   }
 
   console.log(" 📄", chalk.cyan(contractName), "deployed to:", chalk.magenta(deployed.address));
@@ -155,7 +154,7 @@ const abiEncodeArgs = (deployed, contractArgs) => {
   if (!contractArgs || !deployed || !R.hasPath(["interface", "deploy"], deployed)) {
     return "";
   }
-  const encoded = utils.defaultAbiCoder.encode(deployed.interface.deploy.inputs, contractArgs);
+  const encoded = ethers.utils.defaultAbiCoder.encode(deployed.interface.deploy.inputs, contractArgs);
   return encoded;
 };
 

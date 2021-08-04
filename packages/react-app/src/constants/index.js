@@ -22,10 +22,10 @@ export const DEBUG = process.env.NODE_ENV === "development" || process.env.REACT
 // Request polling intervals
 
 export const REMOVED_TRAITS_INTERVAL = DEBUG ? 20000 : 10000;
-export const NFT_PRICE_INTERVAL = DEBUG ? 60000 : 20000;
-export const TOTAL_SUPPLY_INTERVAL = DEBUG ? 60000 : 30000;
+export const NFT_PRICE_INTERVAL = DEBUG ? 120000 : 60000;
+export const TOTAL_SUPPLY_INTERVAL = DEBUG ? 120000 : 60000;
 export const NFTL_CLAIMABLE_INTERVAL = DEBUG ? 60000 : 10000;
-export const ETH_EXCHANGE_PRICE_INTERVAL = 30000;
+export const ETH_EXCHANGE_PRICE_INTERVAL = 60000;
 
 // July 31, 2021 at 9:50 PM GMT
 export const AXS_AIRDROP_TIMESTAMP = 1627768200;

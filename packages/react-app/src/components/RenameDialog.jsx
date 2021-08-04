@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useState } from "react";
-import { MaxUint256 } from "@ethersproject/constants";
+import { constants } from "ethers";
 import {
   Button,
   Dialog,
@@ -52,7 +52,7 @@ const RenameDialog = ({ displayName, open, setOpen, tokenId }) => {
       const allowance = await writeContracts[NFTL_CONTRACT].allowance(address, NFTAddress);
       if (allowance < 1000) {
         if (DEBUG) console.log("Allowance:", allowance);
-        const result = tx(writeContracts[NFTL_CONTRACT].approve(NFTAddress, MaxUint256));
+        const result = tx(writeContracts[NFTL_CONTRACT].approve(NFTAddress, constants.MaxUint256));
         if (DEBUG) console.log("awaiting metamask/web3 confirm result...", result);
         await result;
       }

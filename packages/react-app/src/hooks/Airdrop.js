@@ -1,11 +1,12 @@
 import { useContext, useEffect, useState } from "react";
-import { getAddress, isAddress } from "@ethersproject/address";
-import { formatEther } from "@ethersproject/units";
+import { utils } from "ethers";
 import { NetworkContext } from "NetworkProvider";
 import { submitTxWithGasEstimate } from "helpers/Notifier";
 import useMerkleDistributorContract from "./useMerkleDistributorContract";
 import useSingleCallResult from "./useSingleCallResult";
 import { DEBUG, MERKLE_ROOT } from "../constants";
+
+const { getAddress, formatEther, isAddress } = utils;
 
 const CLAIM_PROMISES = {};
 

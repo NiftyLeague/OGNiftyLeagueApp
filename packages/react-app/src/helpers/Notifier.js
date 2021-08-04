@@ -29,14 +29,18 @@ const loadGasPrice = async (targetNetwork, speed = "fast") => {
 const handleError = e => {
   if (DEBUG) console.log("Transaction Error", e);
   // Accounts for Metamask and default signer on all networks
-  const message =
-    e.data && e.data.message
-      ? e.data.message
-      : e.error && JSON.parse(JSON.stringify(e.error)).body
-      ? JSON.parse(JSON.parse(JSON.stringify(e.error)).body).error.message
-      : e.data
-      ? e.data
-      : JSON.stringify(e);
+  let message;
+  if (e.message) {
+    message = e.message;
+  } else if (e.data && e.data.message) {
+    message = e.data.message;
+  } else if (e.error && JSON.parse(JSON.stringify(e.error)).body) {
+    message = JSON.parse(JSON.parse(JSON.stringify(e.error)).body).error.message;
+  } else if (e.data) {
+    message = JSON.stringify(e.data);
+  } else {
+    message = JSON.stringify(e);
+  }
 
   notification.error({
     message: "Transaction Error",

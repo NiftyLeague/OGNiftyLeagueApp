@@ -1,6 +1,6 @@
 /* eslint-disable import/no-dynamic-require */
 /* eslint-disable global-require */
-import { Contract } from "@ethersproject/contracts";
+import { Contract } from "ethers";
 import { useState, useEffect } from "react";
 
 /*
