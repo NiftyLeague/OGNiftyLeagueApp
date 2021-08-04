@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
-import { utils } from "ethers";
-import useLocalStorage from "./useLocalStorage";
+import { useState, useEffect } from 'react';
+import { utils } from 'ethers';
+import useLocalStorage from './useLocalStorage';
 
 // resolved if(name){} to not save "" into cache
 
@@ -37,7 +37,7 @@ const lookupAddress = async (provider, address) => {
 
 const useLookupAddress = (provider, address) => {
   const [ensName, setEnsName] = useState(address);
-  const [ensCache, setEnsCache] = useLocalStorage("ensCache_" + address);
+  const [ensCache, setEnsCache] = useLocalStorage('ensCache_' + address);
 
   useEffect(() => {
     if (ensCache && ensCache.timestamp > Date.now()) {

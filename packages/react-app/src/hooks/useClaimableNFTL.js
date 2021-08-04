@@ -1,6 +1,6 @@
-import { utils } from "ethers";
-import useContractReader from "./useContractReader";
-import { NFTL_CONTRACT, NFTL_CLAIMABLE_INTERVAL } from "../constants";
+import { utils } from 'ethers';
+import useContractReader from './useContractReader';
+import { NFTL_CONTRACT, NFTL_CLAIMABLE_INTERVAL } from '../constants';
 
 export default function useClaimableNFTL(writeContracts, tokenIndices) {
   const formatter = value => {
@@ -10,7 +10,7 @@ export default function useClaimableNFTL(writeContracts, tokenIndices) {
   const totalAccumulated = useContractReader(
     writeContracts,
     NFTL_CONTRACT,
-    "accumulatedMultiCheck",
+    'accumulatedMultiCheck',
     [tokenIndices],
     NFTL_CLAIMABLE_INTERVAL,
     formatter,

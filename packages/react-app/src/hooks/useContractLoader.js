@@ -1,9 +1,9 @@
 /* eslint-disable import/no-dynamic-require */
 /* eslint-disable global-require */
-import { useState, useEffect } from "react";
-import { ethers } from "ethers";
-import { PROVIDER_NAME } from "../constants";
-import EXTERNAL_CONTRACTS from "../constants/externalContracts";
+import { useState, useEffect } from 'react';
+import { ethers } from 'ethers';
+import { PROVIDER_NAME } from '../constants';
+import EXTERNAL_CONTRACTS from '../constants/externalContracts';
 
 /*
   ~ What it does? ~
@@ -55,14 +55,14 @@ export default function useContractLoader(providerOrSigner, config = {}) {
     let active = true;
 
     async function loadContracts() {
-      if (providerOrSigner && typeof providerOrSigner !== "undefined") {
+      if (providerOrSigner && typeof providerOrSigner !== 'undefined') {
         try {
           // we need to check to see if this providerOrSigner has a signer or not
           let signer;
           let provider;
           let accounts;
 
-          if (providerOrSigner && typeof providerOrSigner.listAccounts === "function") {
+          if (providerOrSigner && typeof providerOrSigner.listAccounts === 'function') {
             accounts = await providerOrSigner.listAccounts();
           }
 
@@ -100,7 +100,7 @@ export default function useContractLoader(providerOrSigner, config = {}) {
 
           if (active) setContracts({ ...hardhatContracts, ...externalContracts });
         } catch (e) {
-          console.log("ERROR LOADING CONTRACTS!!", e);
+          console.log('ERROR LOADING CONTRACTS!!', e);
         }
       }
     }

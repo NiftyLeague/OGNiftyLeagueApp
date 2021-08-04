@@ -1,23 +1,23 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
-import React, { useContext, useState } from "react";
-import { useQuery, gql } from "@apollo/client";
-import { utils } from "ethers";
-import { Button, Input, Table, Typography } from "antd";
-import GraphiQL from "graphiql";
-import "graphiql/graphiql.min.css";
-import fetch from "isomorphic-fetch";
+import React, { useContext, useState } from 'react';
+import { useQuery, gql } from '@apollo/client';
+import { utils } from 'ethers';
+import { Button, Input, Table, Typography } from 'antd';
+import GraphiQL from 'graphiql';
+import 'graphiql/graphiql.min.css';
+import fetch from 'isomorphic-fetch';
 
-import { NetworkContext } from "NetworkProvider";
-import { useNFTPrice } from "hooks";
-import { Address } from "components";
-import { NFT_CONTRACT } from "../constants";
+import { NetworkContext } from 'NetworkProvider';
+import { useNFTPrice } from 'hooks';
+import { Address } from 'components';
+import { NFT_CONTRACT } from '../constants';
 
 const highlight = {
   marginLeft: 4,
   marginRight: 8,
   padding: 4,
   borderRadius: 4,
-  fontWeight: "bolder",
+  fontWeight: 'bolder',
 };
 
 const CHARACTERS_QUERY = `
@@ -78,30 +78,30 @@ function Subgraph({ subgraphUri }) {
 
   function graphQLFetcher(graphQLParams) {
     return fetch(subgraphUri, {
-      method: "post",
-      headers: { "Content-Type": "application/json" },
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(graphQLParams),
     }).then(response => response.json());
   }
 
   const columns = [
     {
-      title: "Token Id",
-      dataIndex: "id",
-      key: "id",
+      title: 'Token Id',
+      dataIndex: 'id',
+      key: 'id',
     },
     {
-      title: "owner",
-      key: "owner",
+      title: 'owner',
+      key: 'owner',
       render: ({ owner }) => <Address address={owner.id} ensProvider={mainnetProvider} fontSize={16} />,
     },
     {
-      title: "Traits",
-      key: "traits",
-      dataIndex: "traits",
+      title: 'Traits',
+      key: 'traits',
+      dataIndex: 'traits',
       render: traits =>
         Object.entries(traits)
-          .map(([key, value]) => (key !== "__typename" ? `${key}: ${value} \n` : ""))
+          .map(([key, value]) => (key !== '__typename' ? `${key}: ${value} \n` : ''))
           .toString(),
     },
   ];
@@ -114,18 +114,18 @@ function Subgraph({ subgraphUri }) {
 
   return (
     <>
-      <div style={{ margin: "auto", marginTop: 32 }}>
-        You will find that parsing/tracking events with the{" "}
+      <div style={{ margin: 'auto', marginTop: 32 }}>
+        You will find that parsing/tracking events with the{' '}
         <span className="highlight" style={highlight}>
           useEventListener
-        </span>{" "}
+        </span>{' '}
         hook becomes a chore for every new project.
       </div>
-      <div style={{ margin: "auto", marginTop: 32 }}>
-        Instead, you can use{" "}
+      <div style={{ margin: 'auto', marginTop: 32 }}>
+        Instead, you can use{' '}
         <a href="https://thegraph.com/docs/introduction" target="_blank" rel="noopener noreferrer">
           The Graph
-        </a>{" "}
+        </a>{' '}
         with 🏗 scaffold-eth (
         <a href="https://youtu.be/T5ylzOTkn-Q" target="_blank" rel="noopener noreferrer">
           learn more
@@ -148,13 +148,13 @@ function Subgraph({ subgraphUri }) {
           yarn graph-run-node
         </span>
         <span style={{ marginLeft: 4 }}>
-          {" "}
-          (requires{" "}
+          {' '}
+          (requires{' '}
           <a href="https://www.docker.com/products/docker-desktop" target="_blank" rel="noopener noreferrer">
-            {" "}
+            {' '}
             Docker
           </a>
-          ){" "}
+          ){' '}
         </span>
       </div>
 
@@ -181,7 +181,7 @@ function Subgraph({ subgraphUri }) {
         <span className="highlight" style={highlight}>
           packages/subgraph/src
         </span>
-        (learn more about subgraph definition{" "}
+        (learn more about subgraph definition{' '}
         <a href="https://thegraph.com/docs/define-a-subgraph" target="_blank" rel="noopener noreferrer">
           here
         </a>
@@ -196,8 +196,8 @@ function Subgraph({ subgraphUri }) {
         </span>
       </div>
 
-      <div style={{ width: 780, margin: "auto", paddingBottom: 64 }}>
-        <div style={{ margin: 32, textAlign: "left" }}>
+      <div style={{ width: 780, margin: 'auto', paddingBottom: 64 }}>
+        <div style={{ margin: 32, textAlign: 'left' }}>
           Character: <Input onChange={({ target: { value } }) => setCharacter(value)} />
           Head: <Input onChange={({ target: { value } }) => setHead(value)} />
           Clothing: <Input onChange={({ target: { value } }) => setClothing(value)} />
@@ -219,14 +219,14 @@ function Subgraph({ subgraphUri }) {
         ) : (
           <Typography>
             {loading ? (
-              "Loading..."
+              'Loading...'
             ) : (
               <div style={{ padding: 8 }}>Warning: 🤔 Have you deployed your subgraph yet?</div>
             )}
           </Typography>
         )}
 
-        <div style={{ margin: 32, height: 400, border: "1px solid #888888", textAlign: "left" }}>
+        <div style={{ margin: 32, height: 400, border: '1px solid #888888', textAlign: 'left' }}>
           <GraphiQL fetcher={graphQLFetcher} docExplorerOpen query={CHARACTERS_QUERY} />
         </div>
       </div>

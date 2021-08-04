@@ -1,7 +1,7 @@
-import { utils, BigNumber, Contract, constants } from "ethers";
+import { utils, BigNumber, Contract, constants } from 'ethers';
 
-export * from "./dateTime";
-export * from "./ipfs";
+export * from './dateTime';
+export * from './ipfs';
 
 /**
  * Returns true if the string value is zero in hex
@@ -14,22 +14,22 @@ export function isZero(hexNumberString) {
 export const formatBalance = (value, decimals = 18, maxFraction = 0) => {
   const formatted = utils.formatUnits(value, decimals);
   if (maxFraction > 0) {
-    const split = formatted.split(".");
+    const split = formatted.split('.');
     if (split.length > 1) {
-      return split[0] + "." + split[1].substr(0, maxFraction);
+      return split[0] + '.' + split[1].substr(0, maxFraction);
     }
   }
   return formatted;
 };
 
 export const parseBalance = (value, decimals = 18) => {
-  return utils.parseUnits(value || "0", decimals);
+  return utils.parseUnits(value || '0', decimals);
 };
 
 export const isEmptyValue = text =>
   BigNumber.isBigNumber(text)
     ? BigNumber.from(text).isZero()
-    : text === "" || text.replace(/0/g, "").replace(/\./, "") === "";
+    : text === '' || text.replace(/0/g, '').replace(/\./, '') === '';
 
 // returns the checksummed address if the address is valid, otherwise returns false
 export function isAddress(value) {

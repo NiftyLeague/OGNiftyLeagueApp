@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 export const DEFAULT_QUERY = gql`
   query defaultCharactersSearch($size: Int!, $lastID: Int) {

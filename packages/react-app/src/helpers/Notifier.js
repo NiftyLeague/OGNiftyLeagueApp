@@ -1,23 +1,23 @@
 /* eslint-disable no-nested-ternary */
-import { notification } from "antd";
-import Notify from "bnc-notify";
-import { ethers } from "ethers";
-import axios from "axios";
-import { calculateGasMargin } from "helpers";
-import { BLOCKNATIVE_DAPPID, DEBUG } from "../constants";
+import { notification } from 'antd';
+import Notify from 'bnc-notify';
+import { ethers } from 'ethers';
+import axios from 'axios';
+import { calculateGasMargin } from 'helpers';
+import { BLOCKNATIVE_DAPPID, DEBUG } from '../constants';
 
 // Wrapper around BlockNative's wonderful Notify.js
 // https://docs.blocknative.com/notify
 
 const callbacks = {};
 
-const loadGasPrice = async (targetNetwork, speed = "fast") => {
-  let gasPrice = ethers.utils.parseUnits("4.1", "gwei");
+const loadGasPrice = async (targetNetwork, speed = 'fast') => {
+  let gasPrice = ethers.utils.parseUnits('4.1', 'gwei');
   if (targetNetwork.gasPrice) {
     gasPrice = targetNetwork.gasPrice;
   } else if (navigator.onLine) {
     axios
-      .get("https://ethgasstation.info/json/ethgasAPI.json")
+      .get('https://ethgasstation.info/json/ethgasAPI.json')
       .then(response => {
         gasPrice = response.data[speed] * 100000000;
       })
@@ -27,7 +27,7 @@ const loadGasPrice = async (targetNetwork, speed = "fast") => {
 };
 
 const handleError = e => {
-  if (DEBUG) console.log("Transaction Error", e);
+  if (DEBUG) console.log('Transaction Error', e);
   // Accounts for Metamask and default signer on all networks
   let message;
   if (e.message) {
@@ -43,7 +43,7 @@ const handleError = e => {
   }
 
   notification.error({
-    message: "Transaction Error",
+    message: 'Transaction Error',
     description: message,
   });
 };
@@ -51,7 +51,7 @@ const handleError = e => {
 export const submitTxWithGasEstimate = (tx, contract, fn, args, config = {}) => {
   return contract.estimateGas[fn](...args, config)
     .then(estimatedGasLimit => {
-      if (DEBUG) console.log("estimatedGasLimit:", estimatedGasLimit);
+      if (DEBUG) console.log('estimatedGasLimit:', estimatedGasLimit);
       return tx(
         contract[fn](...args, {
           ...config,
@@ -65,7 +65,7 @@ export const submitTxWithGasEstimate = (tx, contract, fn, args, config = {}) => 
 };
 
 export default function Notifier(providerOrSigner, targetNetwork, darkMode = false) {
-  if (typeof providerOrSigner !== "undefined") {
+  if (typeof providerOrSigner !== 'undefined') {
     // eslint-disable-next-line consistent-return
     return async (tx, callback) => {
       let signer;
@@ -86,13 +86,13 @@ export default function Notifier(providerOrSigner, targetNetwork, darkMode = fal
       if (navigator.onLine) {
         options = {
           dappId: BLOCKNATIVE_DAPPID, // GET YOUR OWN KEY AT https://account.blocknative.com
-          system: "ethereum",
+          system: 'ethereum',
           networkId: network.chainId,
           darkMode,
           transactionHandler: txInformation => {
-            if (DEBUG) console.log("HANDLE TX", txInformation);
+            if (DEBUG) console.log('HANDLE TX', txInformation);
             const possibleFunction = callbacks[txInformation.transaction.hash];
-            if (typeof possibleFunction === "function") {
+            if (typeof possibleFunction === 'function') {
               possibleFunction(txInformation.transaction);
             }
           },
@@ -100,16 +100,16 @@ export default function Notifier(providerOrSigner, targetNetwork, darkMode = fal
         notify = Notify(options);
       }
 
-      let etherscanNetwork = "";
+      let etherscanNetwork = '';
       if (network.name && network.chainId > 1) {
-        etherscanNetwork = network.name + ".";
+        etherscanNetwork = network.name + '.';
       }
-      const etherscanTxUrl = "https://" + etherscanNetwork + "etherscan.io/tx/";
+      const etherscanTxUrl = 'https://' + etherscanNetwork + 'etherscan.io/tx/';
 
       try {
         let result;
         if (tx instanceof Promise) {
-          if (DEBUG) console.log("AWAITING TX", tx);
+          if (DEBUG) console.log('AWAITING TX', tx);
           result = await tx;
         } else {
           if (!tx.gasPrice) {
@@ -120,10 +120,10 @@ export default function Notifier(providerOrSigner, targetNetwork, darkMode = fal
             // eslint-disable-next-line no-param-reassign
             tx.gasLimit = ethers.utils.hexlify(120000);
           }
-          if (DEBUG) console.log("RUNNING TX", tx);
+          if (DEBUG) console.log('RUNNING TX', tx);
           result = await signer.sendTransaction(tx);
         }
-        if (DEBUG) console.log("RESULT:", result);
+        if (DEBUG) console.log('RESULT:', result);
         // console.log("Notify", notify);
 
         if (callback) {
@@ -133,23 +133,23 @@ export default function Notifier(providerOrSigner, targetNetwork, darkMode = fal
         // if it is a valid Notify.js network, use that, if not, just send a default notification
         if (notify && [1, 3, 4, 5, 42, 100].indexOf(network.chainId) >= 0) {
           const { emitter } = notify.hash(result.hash);
-          emitter.on("all", transaction => {
+          emitter.on('all', transaction => {
             return {
               onclick: () => window.open(etherscanTxUrl + transaction.hash),
             };
           });
         } else {
           notification.info({
-            message: "Local Transaction Sent",
+            message: 'Local Transaction Sent',
             description: result.hash,
-            placement: "topRight",
+            placement: 'topRight',
           });
           // on most networks BlockNative will update a transaction handler,
           // but locally we will set an interval to listen...
           if (callback) {
             const txResult = await tx;
             const listeningInterval = setInterval(async () => {
-              console.log("CHECK IN ON THE TX", txResult, provider);
+              console.log('CHECK IN ON THE TX', txResult, provider);
               const currentTransactionReceipt = await provider.getTransactionReceipt(txResult.hash);
               if (currentTransactionReceipt && currentTransactionReceipt.confirmations) {
                 callback({ ...txResult, ...currentTransactionReceipt });
@@ -159,14 +159,14 @@ export default function Notifier(providerOrSigner, targetNetwork, darkMode = fal
           }
         }
 
-        if (typeof result.wait === "function") {
+        if (typeof result.wait === 'function') {
           await result.wait();
         }
 
         return result;
       } catch (e) {
         handleError(e);
-        if (callback && typeof callback === "function") {
+        if (callback && typeof callback === 'function') {
           callback(e);
         }
       }

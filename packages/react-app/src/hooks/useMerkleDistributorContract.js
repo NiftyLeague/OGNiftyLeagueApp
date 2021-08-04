@@ -1,8 +1,8 @@
-import { useContext, useMemo } from "react";
-import { NetworkContext } from "NetworkProvider";
-import { getContract } from "helpers";
-import { MERKLE_DISTRIBUTOR_ADDRESS } from "../constants";
-import MERKLE_DISTRIBUTOR_ABI from "../constants/abis/merkle-distributor.json";
+import { useContext, useMemo } from 'react';
+import { NetworkContext } from 'NetworkProvider';
+import { getContract } from 'helpers';
+import { MERKLE_DISTRIBUTOR_ADDRESS } from '../constants';
+import MERKLE_DISTRIBUTOR_ABI from '../constants/abis/merkle-distributor.json';
 
 function useContract(address, ABI, withSignerIfPossible = true) {
   const { userProvider, address: account } = useContext(NetworkContext);
@@ -12,7 +12,7 @@ function useContract(address, ABI, withSignerIfPossible = true) {
     try {
       return getContract(address, ABI, userProvider, withSignerIfPossible && account ? account : undefined);
     } catch (error) {
-      console.error("Failed to get contract", error);
+      console.error('Failed to get contract', error);
       return null;
     }
   }, [address, ABI, userProvider, withSignerIfPossible, account]);

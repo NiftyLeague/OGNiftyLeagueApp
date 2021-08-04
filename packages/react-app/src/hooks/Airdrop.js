@@ -1,10 +1,10 @@
-import { useContext, useEffect, useState } from "react";
-import { utils } from "ethers";
-import { NetworkContext } from "NetworkProvider";
-import { submitTxWithGasEstimate } from "helpers/Notifier";
-import useMerkleDistributorContract from "./useMerkleDistributorContract";
-import useSingleCallResult from "./useSingleCallResult";
-import { DEBUG, MERKLE_ROOT } from "../constants";
+import { useContext, useEffect, useState } from 'react';
+import { utils } from 'ethers';
+import { NetworkContext } from 'NetworkProvider';
+import { submitTxWithGasEstimate } from 'helpers/Notifier';
+import useMerkleDistributorContract from './useMerkleDistributorContract';
+import useSingleCallResult from './useSingleCallResult';
+import { DEBUG, MERKLE_ROOT } from '../constants';
 
 const { getAddress, formatEther, isAddress } = utils;
 
@@ -12,7 +12,7 @@ const CLAIM_PROMISES = {};
 
 // returns the claim for the given address, or null if not valid
 function fetchClaim(account, chainId) {
-  if (!isAddress(account)) return Promise.reject(new Error("Invalid address"));
+  if (!isAddress(account)) return Promise.reject(new Error('Invalid address'));
   const key = `${chainId}:${account}`;
   // eslint-disable-next-line no-return-assign
   return (CLAIM_PROMISES[key] =
@@ -28,7 +28,7 @@ function fetchClaim(account, chainId) {
           proof: claim.proof,
         };
       })
-      .catch(error => console.error("Failed to get claim data", error)));
+      .catch(error => console.error('Failed to get claim data', error)));
 }
 
 // parse distributorContract blob and detect if user has claim data
@@ -57,8 +57,8 @@ export function useUserHasAvailableClaim(userClaimData) {
   const skipIf = userClaimData?.index === undefined;
   const isClaimedResult = useSingleCallResult(
     { MerkleDistributor: distributorContract },
-    "MerkleDistributor",
-    "isClaimed",
+    'MerkleDistributor',
+    'isClaimed',
     [userClaimData?.index],
     null,
     skipIf,
@@ -70,7 +70,7 @@ export function useUserHasAvailableClaim(userClaimData) {
 export function useUserUnclaimedAmount() {
   const userClaimData = useUserClaimData();
   const canClaim = useUserHasAvailableClaim(userClaimData);
-  if (DEBUG) console.log("claimStats:", { canClaim, userClaimData });
+  if (DEBUG) console.log('claimStats:', { canClaim, userClaimData });
   if (!canClaim || !userClaimData) return 0;
   return formatEther(userClaimData.amount);
 }
@@ -81,11 +81,11 @@ export function useClaimCallback() {
   const claimData = useUserClaimData();
   const distributorContract = useMerkleDistributorContract();
 
-  const claimCallback = async function () {
+  const claimCallback = async () => {
     if (!claimData || !account || !selectedChainId || !distributorContract) return;
     const args = [claimData.index, account, claimData.amount, claimData.proof];
     // eslint-disable-next-line consistent-return
-    return submitTxWithGasEstimate(tx, distributorContract, "claim", args);
+    return submitTxWithGasEstimate(tx, distributorContract, 'claim', args);
   };
 
   return { claimCallback };

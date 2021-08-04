@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { utils } from "ethers";
-import { usePoller } from "eth-hooks";
-import { useExchangePrice } from "hooks";
-import { ETH_EXCHANGE_PRICE_INTERVAL } from "../constants";
+import React, { useState } from 'react';
+import { utils } from 'ethers';
+import { usePoller } from 'eth-hooks';
+import { useExchangePrice } from 'hooks';
+import { ETH_EXCHANGE_PRICE_INTERVAL } from '../constants';
 
 /*
   ~ What it does? ~
@@ -48,14 +48,14 @@ export default function Balance({ address, balance: bal, dollarMultiplier, pollT
     getBalance();
   }, pollTime || 4999);
 
-  let floatBalance = parseFloat("0.00");
+  let floatBalance = parseFloat('0.00');
 
   let usingBalance = balance;
 
-  if (typeof bal !== "undefined") {
+  if (typeof bal !== 'undefined') {
     usingBalance = bal;
   }
-  if (typeof value !== "undefined") {
+  if (typeof value !== 'undefined') {
     usingBalance = value;
   }
 
@@ -70,7 +70,7 @@ export default function Balance({ address, balance: bal, dollarMultiplier, pollT
   const setPrice = price || dollarMultiplier;
 
   if (setPrice && dollarMode) {
-    displayBalance = "$" + (floatBalance * setPrice).toFixed(2);
+    displayBalance = '$' + (floatBalance * setPrice).toFixed(2);
   } else {
     displayBalance = `${displayBalance} ETH`;
   }
@@ -78,9 +78,9 @@ export default function Balance({ address, balance: bal, dollarMultiplier, pollT
   return (
     <span
       style={{
-        verticalAlign: "middle",
+        verticalAlign: 'middle',
         padding: 8,
-        cursor: "pointer",
+        cursor: 'pointer',
         fontSize: 18,
       }}
       onClick={() => {
