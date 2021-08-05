@@ -4,6 +4,7 @@ import { DefaultTheme, ThemeProvider as StyledComponentsThemeProvider, css } fro
 import { Colors } from './styled';
 
 export * from './components';
+export { default as MuiTheme } from './mui';
 
 const MEDIA_WIDTHS = {
   upToExtra2Small: 320,
