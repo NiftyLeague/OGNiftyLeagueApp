@@ -4,10 +4,8 @@ import Blockies from 'react-blockies';
 import { SendOutlined } from '@ant-design/icons';
 import { utils } from 'ethers';
 import { useLookupAddress } from 'eth-hooks';
-import { useExchangePrice } from 'hooks';
 import { NetworkContext } from 'NetworkProvider';
 import Notifier from 'helpers/Notifier';
-import { ETH_EXCHANGE_PRICE_INTERVAL } from '../../constants';
 import Wallet from './Wallet';
 
 // improved a bit by converting address to ens if it exists
@@ -40,8 +38,6 @@ import Wallet from './Wallet';
 export default function Faucet({ placeholder }) {
   const { localProvider, mainnetProvider, targetNetwork } = useContext(NetworkContext);
   const [address, setAddress] = useState();
-  /* 💵 This hook will get the price of ETH from Sushiswap: */
-  const price = useExchangePrice(ETH_EXCHANGE_PRICE_INTERVAL);
 
   let blockie;
   if (address && typeof address.toLowerCase === 'function') {
@@ -101,7 +97,7 @@ export default function Faucet({ placeholder }) {
               shape="circle"
               icon={<SendOutlined />}
             />
-            <Wallet color="#888888" ensProvider={mainnetProvider} price={price} provider={localProvider} tx={tx} />
+            <Wallet color="#888888" ensProvider={mainnetProvider} provider={localProvider} tx={tx} />
           </Tooltip>
         }
       />

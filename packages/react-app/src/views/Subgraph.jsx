@@ -10,7 +10,7 @@ import fetch from 'isomorphic-fetch';
 import { NetworkContext } from 'NetworkProvider';
 import { useNFTPrice } from 'hooks';
 import { Address } from 'components';
-import { NFT_CONTRACT } from '../constants';
+import { NFT_CONTRACT, SUBGRAPH_URI } from '../constants';
 
 const highlight = {
   marginLeft: 4,
@@ -71,13 +71,13 @@ const CHARACTERS_QUERY = `
 
 const CHARACTERS_GQL = gql(CHARACTERS_QUERY);
 
-function Subgraph({ subgraphUri }) {
+function Subgraph() {
   const { mainnetProvider, readContracts, tx, writeContracts } = useContext(NetworkContext);
   const { loading, data } = useQuery(CHARACTERS_GQL, { pollInterval: 5000 });
   const nftPrice = useNFTPrice(readContracts);
 
   function graphQLFetcher(graphQLParams) {
-    return fetch(subgraphUri, {
+    return fetch(SUBGRAPH_URI, {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(graphQLParams),

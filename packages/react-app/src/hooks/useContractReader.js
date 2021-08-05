@@ -1,10 +1,9 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useCallback, useState, useMemo } from 'react';
+import isEqual from 'lodash/isEqual';
 import usePoller from './usePoller';
-import { DEBUG } from '../constants';
+import { DEBUG, READ_CONTRACT_DEFAULT } from '../constants';
 
 /*
-  ~ What it does? ~
-
   Enables you to read values from contracts and keep track of them in the local React states
 
   ~ How can I use? ~
@@ -13,64 +12,50 @@ import { DEBUG } from '../constants';
 
   ~ Features ~
 
-  - Provide readContracts by loading contracts (see more on ContractLoader.js)
-  - Specify the name of the contract, in this case it is "YourContract"
-  - Specify the name of the variable in the contract, in this case we keep track of "purpose" variable
+  - Provide readContracts by loading contracts from useContractLoader
+  - Specify the name of the target contract
+  - Specify the name of the function name to call from the contract
+  - Pass in any args necessary
+  - Set a custom poll time or default to READ_CONTRACT_DEFAULT if null
+  - Provide a formatter to format the result
+  - Provide a refreshKey if you wish to manually trigger a refetch
 */
 
-export default function useContractReader(contracts, contractName, functionName, args, pollTime, formatter, onChange) {
-  let adjustPollTime = 4777;
-  if (pollTime) {
-    adjustPollTime = pollTime;
-  } else if (!pollTime && typeof args === 'number') {
-    // it's okay to pass poll time as last argument without args for the call
-    adjustPollTime = args;
-  }
-
+export default function useContractReader(
+  contracts,
+  contractName,
+  functionName,
+  args,
+  pollTime,
+  formatter,
+  refreshKey,
+) {
   const [value, setValue] = useState();
-  useEffect(() => {
-    if (typeof onChange === 'function') {
-      setTimeout(onChange.bind(this, value), 1);
-    }
-  }, [value, onChange]);
-
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const argsMemoized = useMemo(() => args, [JSON.stringify(args)]);
 
-  usePoller(
-    async () => {
-      if (contracts && contracts[contractName]) {
-        try {
-          let newValue;
-          if (DEBUG) console.log('CALLING ', contractName, functionName, 'with args', args);
-          if (args && args.length > 0) {
-            newValue = await contracts[contractName][functionName](...args);
-            if (DEBUG)
-              console.log(
-                'contractName',
-                contractName,
-                'functionName',
-                functionName,
-                'args',
-                args,
-                'RESULT:',
-                newValue,
-              );
-          } else {
-            newValue = await contracts[contractName][functionName]();
-          }
-          if (formatter && typeof formatter === 'function') {
-            newValue = formatter(newValue);
-          }
-          if (newValue !== value) setValue(newValue);
-        } catch (e) {
-          console.log(e);
+  const readContract = useCallback(async () => {
+    if (contracts && contracts[contractName]) {
+      try {
+        let newValue;
+        if (DEBUG) console.log('CALLING ', contractName, functionName, 'with args', args);
+        if (args && args.length > 0) {
+          newValue = await contracts[contractName][functionName](...args);
+          if (DEBUG)
+            console.log('contractName', contractName, 'functionName', functionName, 'args', args, 'RESULT:', newValue);
+        } else {
+          newValue = await contracts[contractName][functionName]();
         }
+        if (formatter && typeof formatter === 'function') newValue = formatter(newValue);
+        if (!isEqual(newValue, value)) setValue(newValue);
+      } catch (e) {
+        console.log('Read Contract Error:', e);
       }
-    },
-    adjustPollTime,
-    [contracts && contracts[contractName], argsMemoized],
-  );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [contracts, contractName, functionName, formatter, value, argsMemoized, refreshKey]);
+
+  usePoller(readContract, pollTime || READ_CONTRACT_DEFAULT);
 
   return value;
 }

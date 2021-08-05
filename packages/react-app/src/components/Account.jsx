@@ -96,7 +96,7 @@ export default function Account({
           blockExplorer={blockExplorer}
         />
       )}
-      {!mobileView && <Balance address={address} provider={userProvider} />}
+      {!mobileView && address ? <Balance address={address} provider={userProvider} /> : null}
       {modalButtons}
     </div>
   );

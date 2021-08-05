@@ -4,6 +4,7 @@ import { Tooltip, Spin, Modal, Button, Typography } from 'antd';
 import QR from 'qrcode.react';
 import { useUserAddress } from 'eth-hooks';
 import { ethers, utils } from 'ethers';
+import { useExchangePrice } from 'hooks';
 import Address from '../Address';
 import Balance from '../Balance';
 import AddressInput from '../AddressInput';
@@ -39,7 +40,8 @@ const { Text, Paragraph } = Typography;
   - Provide color to specify the color of wallet icon
 */
 
-export default function Wallet({ address, color, ensProvider, price, provider, tx }) {
+export default function Wallet({ address, color, ensProvider, provider, tx }) {
+  const price = useExchangePrice();
   const signerAddress = useUserAddress(provider);
   const selectedAddress = address || signerAddress;
 
@@ -287,7 +289,7 @@ export default function Wallet({ address, color, ensProvider, price, provider, t
           <div>
             {selectedAddress ? <Address address={selectedAddress} ensProvider={ensProvider} /> : <Spin />}
             <div style={{ float: 'right', paddingRight: 25 }}>
-              <Balance address={selectedAddress} provider={provider} dollarMultiplier={price} />
+              <Balance address={selectedAddress} provider={provider} />
             </div>
           </div>
         }

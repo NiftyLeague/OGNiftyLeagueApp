@@ -5,6 +5,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import { ThemeSwitcherProvider } from 'react-css-theme-switcher';
 import NetworkProvider from './NetworkProvider';
+import { SUBGRAPH_URI } from './constants';
 import App from './App';
 
 dotenv.config();
@@ -16,10 +17,8 @@ const themes = {
 
 const prevTheme = window.localStorage.getItem('theme');
 
-const subgraphUri = process.env.REACT_APP_SUBGRAPH_URI;
-
 const client = new ApolloClient({
-  uri: subgraphUri,
+  uri: SUBGRAPH_URI,
   cache: new InMemoryCache(),
 });
 
@@ -28,7 +27,7 @@ ReactDOM.render(
     <ThemeSwitcherProvider themeMap={themes} defaultTheme={prevTheme ?? 'dark'}>
       <NetworkProvider>
         <Router>
-          <App subgraphUri={subgraphUri} />
+          <App />
         </Router>
       </NetworkProvider>
     </ThemeSwitcherProvider>

@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { providers } from 'ethers';
 import BurnerProvider from 'burner-provider';
-import { INFURA_ID, DEBUG } from '../constants';
+import { INFURA_ID, DEBUG, LOCAL_CHAIN_ID } from '../constants';
 
 /*
   ~ What it does? ~
@@ -21,13 +21,13 @@ import { INFURA_ID, DEBUG } from '../constants';
     const tx = Notifier(userProvider, targetNetwork)
 */
 
-const useUserProvider = (injectedProvider, localProvider) =>
+const useUserProvider = (injectedProvider, localProvider, targetNetwork) =>
   useMemo(() => {
     if (injectedProvider) {
       if (DEBUG) console.log('🦊 Using injected provider');
       return injectedProvider;
     }
-    if (!localProvider) return undefined;
+    if (!localProvider || targetNetwork.chainId !== LOCAL_CHAIN_ID) return undefined;
 
     const burnerConfig = {};
 
@@ -54,6 +54,6 @@ const useUserProvider = (injectedProvider, localProvider) =>
     const networkName = localProvider._network?.name;
     burnerConfig.rpcUrl = `https://${networkName || 'mainnet'}.infura.io/v3/${INFURA_ID}`;
     return new providers.Web3Provider(new BurnerProvider(burnerConfig));
-  }, [injectedProvider, localProvider]);
+  }, [injectedProvider, localProvider, targetNetwork.chainId]);
 
 export default useUserProvider;

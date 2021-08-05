@@ -16,23 +16,22 @@ import './App.css';
 //   "0x34aA3F359A9D614239015126635CE7732c18fDF3",
 // ]);
 
-export default function App({ subgraphUri }) {
-  const [route, setRoute] = useState(window.location.pathname);
+export default function App() {
   const { localProvider, targetNetwork } = useContext(NetworkContext);
   const localConnection = localProvider?.connection && targetNetwork.label === 'localhost';
 
   return (
     <div className="App">
-      <Navigation route={route} setRoute={setRoute} />
+      <Navigation />
       {localConnection && <Faucet />}
       <div className="AppBody">
         <ScrollToTop />
         <Switch>
           <Route exact path="/">
-            <Home setRoute={setRoute} />
+            <Home />
           </Route>
           <Route exact path="/about">
-            <About setRoute={setRoute} />
+            <About />
           </Route>
           <Route exact path="/games">
             <Games />
@@ -67,7 +66,7 @@ export default function App({ subgraphUri }) {
                 <Hints />
               </Route>
               <Route path="/subgraph">
-                <Subgraph subgraphUri={subgraphUri} />
+                <Subgraph />
               </Route>
             </>
           ) : null}
