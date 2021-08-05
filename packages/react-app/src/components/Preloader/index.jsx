@@ -1,21 +1,21 @@
-import React, { useEffect } from "react";
-import { ReactComponent as PreloaderSVG } from "../../assets/svg/preloader.svg";
-import "./preloader.css";
+import React, { useEffect } from 'react';
+import { ReactComponent as PreloaderSVG } from '../../assets/svg/preloader.svg';
+import './preloader.css';
 
 export default function Preloader({ ready }) {
   useEffect(() => {
-    const htmlElement = document.querySelector("html");
+    const htmlElement = document.querySelector('html');
     if (!ready) {
-      htmlElement.style.overflow = "hidden";
+      htmlElement.style.overflow = 'hidden';
     } else {
-      htmlElement.style.overflow = "auto";
+      htmlElement.style.overflow = 'auto';
     }
   }, [ready]);
 
   return (
     <div
       className="preloader-overlay"
-      style={ready ? { transform: "translateY(100%)" } : { transform: "transform: translateY(0)" }}
+      style={ready ? { transform: 'translateY(100%)' } : { transform: 'transform: translateY(0)' }}
     >
       <div id="js-preloader" className="preloader">
         <div className="preloader-inner fadeInUp">

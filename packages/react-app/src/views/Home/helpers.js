@@ -2,7 +2,7 @@
 const objectify = (array = []) => {
   return array.reduce((p, c) => {
     // eslint-disable-next-line prefer-destructuring, no-param-reassign
-    p[c[0].replace(" ", "")] = c[1];
+    p[c[0].replace(' ', '')] = c[1];
     return p;
   }, {});
 };

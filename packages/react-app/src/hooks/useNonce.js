@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 export default function useNonce(mainnetProvider, address) {
   const [nonce, setNonce] = useState(0);

@@ -1,18 +1,18 @@
-import React, { memo, useState } from "react";
-import { Link } from "react-router-dom";
-import { Typography } from "antd";
-import Container from "@material-ui/core/Container";
-import { NiftySmashersVideo, Preloader, SaleProgress } from "components";
+import React, { memo, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Typography } from 'antd';
+import Container from '@material-ui/core/Container';
+import { NiftySmashersVideo, Preloader, SaleProgress } from 'components';
 
-import ApeImg from "assets/gifs/ape.gif";
-import AlienImg from "assets/gifs/alien1.gif";
-import DogeImg from "assets/gifs/doge.gif";
-import HumanImg from "assets/images/characters/human.png";
-import CatImg from "assets/gifs/cat1.gif";
-import FrogImg from "assets/images/characters/frog.png";
-import SatoshiImg from "assets/images/characters/satoshi.png";
-import CharacterCreator from "./CharacterCreator";
-import "./home.css";
+import ApeImg from 'assets/gifs/ape.gif';
+import AlienImg from 'assets/gifs/alien1.gif';
+import DogeImg from 'assets/gifs/doge.gif';
+import HumanImg from 'assets/images/characters/human.png';
+import CatImg from 'assets/gifs/cat1.gif';
+import FrogImg from 'assets/images/characters/frog.png';
+import SatoshiImg from 'assets/images/characters/satoshi.png';
+import CharacterCreator from './CharacterCreator';
+import './home.css';
 
 const { Title } = Typography;
 
@@ -30,10 +30,10 @@ const ParallaxCharacter = ({ direction, title, image, text }) => (
   </div>
 );
 
-const Home = memo(({ setRoute }) => {
+const Home = memo(() => {
   const [isLoaded, setLoaded] = useState(false);
   return (
-    <div style={{ textAlign: "center", overflowX: "hidden" }}>
+    <div style={{ textAlign: 'center', overflowX: 'hidden' }}>
       <Preloader ready={isLoaded} />
       <CharacterCreator isLoaded={isLoaded} setLoaded={setLoaded} />
       <section className="about-page-section">
@@ -56,7 +56,7 @@ const Home = memo(({ setRoute }) => {
                   Advance your skills to earn awards in our games packed full of nostalgia and designed for those who
                   love to compete.
                 </p>
-                <Link onClick={() => setRoute("/about")} to="/about" className="moreBtn">
+                <Link to="/about" className="moreBtn">
                   Learn More
                 </Link>
               </div>
@@ -72,14 +72,14 @@ const Home = memo(({ setRoute }) => {
           text={
             <>
               Yoko lives in the fast and furious Sushi City, where degens come to thrive. Legend has it Andre Cronje has
-              been training these cats to fight for years. Don't forget to stop by{" "}
+              been training these cats to fight for years. Don't forget to stop by{' '}
               <a target="_blank" rel="noopener noreferrer" href="https://sushi.com">
                 sushi
-              </a>{" "}
-              and{" "}
+              </a>{' '}
+              and{' '}
               <a target="_blank" rel="noopener noreferrer" href="https://yearn.finance">
                 yearn
-              </a>{" "}
+              </a>{' '}
               HQ while in town!
             </>
           }

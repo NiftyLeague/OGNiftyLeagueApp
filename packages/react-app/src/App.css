@@ -1,5 +1,5 @@
-@import "~antd/dist/antd.css";
-@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Ubuntu:300,400,500,700");
+@import '~antd/dist/antd.css';
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Ubuntu:300,400,500,700');
 
 .App {
   text-align: center;
@@ -17,6 +17,8 @@
   width: 300px !important;
 }
 
+/* Antd Global Fixes */
+
 .ant-btn {
   line-height: 0;
 }
@@ -30,10 +32,21 @@
   margin: -2px 20px 0;
 }
 
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item:hover::after,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu:hover::after,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-active::after,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu-active::after,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-open::after,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu-open::after,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-selected::after,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu-selected::after {
+  border-bottom: none;
+}
+
 /* Typography */
 
 body {
-  font-family: "Ubuntu", sans-serif !important;
+  font-family: 'Ubuntu', sans-serif !important;
   font-size: 18px;
 }
 
@@ -78,20 +91,6 @@ a:active {
   outline: none;
 }
 
-.alignleft {
-  float: left;
-}
-
-.alignright {
-  float: right;
-}
-
-.aligncenter {
-  clear: both;
-  display: block;
-  margin: 0 auto 1.75em;
-}
-
 @media (max-width: 1200px) {
   h1 {
     font-size: 40px !important;
@@ -105,4 +104,20 @@ a:active {
   h1 {
     font-size: 30px !important;
   }
+}
+
+/* Util Classes */
+
+.alignleft {
+  float: left;
+}
+
+.alignright {
+  float: right;
+}
+
+.aligncenter {
+  clear: both;
+  display: block;
+  margin: 0 auto 1.75em;
 }

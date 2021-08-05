@@ -1,67 +1,67 @@
-import { ChainId } from "@sushiswap/sdk";
-import React, { useState } from "react";
-import { NETWORK_ICON, NETWORK_LABEL } from "../../../constants/networks";
-import Modal from "./Modal";
-import ModalHeader from "./ModalHeader";
+import { ChainId } from '@sushiswap/sdk';
+import React, { useState } from 'react';
+import { NETWORK_ICON, NETWORK_LABEL } from '../../../constants/networks';
+import Modal from './Modal';
+import ModalHeader from './ModalHeader';
 
 const PARAMS = {
   [ChainId.MAINNET]: {
-    chainId: "0x1",
-    chainName: "Ethereum",
+    chainId: '0x1',
+    chainName: 'Ethereum',
     nativeCurrency: {
-      name: "Ethereum",
-      symbol: "ETH",
+      name: 'Ethereum',
+      symbol: 'ETH',
       decimals: 18,
     },
-    rpcUrls: ["https://mainnet.infura.io/v3"],
-    blockExplorerUrls: ["https://etherscan.com"],
+    rpcUrls: ['https://mainnet.infura.io/v3'],
+    blockExplorerUrls: ['https://etherscan.com'],
   },
   [ChainId.FANTOM]: {
-    chainId: "0xfa",
-    chainName: "Fantom",
+    chainId: '0xfa',
+    chainName: 'Fantom',
     nativeCurrency: {
-      name: "Fantom",
-      symbol: "FTM",
+      name: 'Fantom',
+      symbol: 'FTM',
       decimals: 18,
     },
-    rpcUrls: ["https://rpcapi.fantom.network"],
-    blockExplorerUrls: ["https://ftmscan.com"],
+    rpcUrls: ['https://rpcapi.fantom.network'],
+    blockExplorerUrls: ['https://ftmscan.com'],
   },
   [ChainId.BSC]: {
-    chainId: "0x38",
-    chainName: "Binance Smart Chain",
+    chainId: '0x38',
+    chainName: 'Binance Smart Chain',
     nativeCurrency: {
-      name: "Binance Coin",
-      symbol: "BNB",
+      name: 'Binance Coin',
+      symbol: 'BNB',
       decimals: 18,
     },
-    rpcUrls: ["https://bsc-dataseed.binance.org"],
-    blockExplorerUrls: ["https://bscscan.com"],
+    rpcUrls: ['https://bsc-dataseed.binance.org'],
+    blockExplorerUrls: ['https://bscscan.com'],
   },
   [ChainId.MATIC]: {
-    chainId: "0x89",
-    chainName: "Matic",
+    chainId: '0x89',
+    chainName: 'Matic',
     nativeCurrency: {
-      name: "Matic",
-      symbol: "MATIC",
+      name: 'Matic',
+      symbol: 'MATIC',
       decimals: 18,
     },
     rpcUrls: [
       // 'https://matic-mainnet.chainstacklabs.com/'
-      "https://rpc-mainnet.maticvigil.com",
+      'https://rpc-mainnet.maticvigil.com',
     ],
-    blockExplorerUrls: ["https://explorer-mainnet.maticvigil.com"],
+    blockExplorerUrls: ['https://explorer-mainnet.maticvigil.com'],
   },
   [ChainId.AVALANCHE]: {
-    chainId: "0xA86A",
-    chainName: "Avalanche",
+    chainId: '0xA86A',
+    chainName: 'Avalanche',
     nativeCurrency: {
-      name: "Avalanche Token",
-      symbol: "AVAX",
+      name: 'Avalanche Token',
+      symbol: 'AVAX',
       decimals: 18,
     },
-    rpcUrls: ["https://api.avax.network/ext/bc/C/rpc"],
-    blockExplorerUrls: ["https://explorer.avax.network"],
+    rpcUrls: ['https://api.avax.network/ext/bc/C/rpc'],
+    blockExplorerUrls: ['https://explorer.avax.network'],
   },
 };
 
@@ -98,7 +98,7 @@ export default function NetworkModal() {
               onClick={() => {
                 toggleNetworkModal();
                 const params = PARAMS[key];
-                if (library) library.send("wallet_addEthereumChain", [params, account]);
+                if (library) library.send('wallet_addEthereumChain', [params, account]);
               }}
               className="flex items-center bg-dark-800 hover:bg-dark-700 w-full rounded p-3 cursor-pointer"
             >

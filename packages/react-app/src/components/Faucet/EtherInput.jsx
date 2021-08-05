@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Input } from "antd";
+import React, { useState, useEffect } from 'react';
+import { Input } from 'antd';
 
 // small change in useEffect, display currentValue if it's provided by user
 
@@ -29,25 +29,25 @@ import { Input } from "antd";
 */
 
 export default function EtherInput({ autoFocus, onChange, placeholder, price, value: currValue }) {
-  const [mode, setMode] = useState(price ? "USD" : "ETH");
+  const [mode, setMode] = useState(price ? 'USD' : 'ETH');
   const [display, setDisplay] = useState();
   const [value, setValue] = useState();
 
-  const currentValue = typeof currValue !== "undefined" ? currValue : value;
+  const currentValue = typeof currValue !== 'undefined' ? currValue : value;
 
   const option = title => {
-    if (!price) return "";
+    if (!price) return '';
     return (
       <div
-        style={{ cursor: "pointer" }}
+        style={{ cursor: 'pointer' }}
         onClick={() => {
-          if (mode === "USD") {
-            setMode("ETH");
+          if (mode === 'USD') {
+            setMode('ETH');
             setDisplay(currentValue);
           } else {
-            setMode("USD");
+            setMode('USD');
             if (currentValue) {
-              const usdValue = "" + (parseFloat(currentValue) * price).toFixed(2);
+              const usdValue = '' + (parseFloat(currentValue) * price).toFixed(2);
               setDisplay(usdValue);
             } else {
               setDisplay(currentValue);
@@ -62,35 +62,35 @@ export default function EtherInput({ autoFocus, onChange, placeholder, price, va
 
   let prefix;
   let addonAfter;
-  if (mode === "USD") {
-    prefix = "$";
-    addonAfter = option("USD 🔀");
+  if (mode === 'USD') {
+    prefix = '$';
+    addonAfter = option('USD 🔀');
   } else {
-    prefix = "Ξ";
-    addonAfter = option("ETH 🔀");
+    prefix = 'Ξ';
+    addonAfter = option('ETH 🔀');
   }
 
   useEffect(() => {
     if (!currentValue) {
-      setDisplay("");
+      setDisplay('');
     }
   }, [currentValue]);
 
   return (
     <Input
-      placeholder={placeholder || "amount in " + mode}
+      placeholder={placeholder || 'amount in ' + mode}
       autoFocus={autoFocus}
       prefix={prefix}
       value={display}
       addonAfter={addonAfter}
       onChange={async e => {
         const newValue = e.target.value;
-        if (mode === "USD") {
+        if (mode === 'USD') {
           const possibleNewValue = parseFloat(newValue);
           if (possibleNewValue) {
             const ethValue = possibleNewValue / price;
             setValue(ethValue);
-            if (typeof onChange === "function") {
+            if (typeof onChange === 'function') {
               onChange(ethValue);
             }
             setDisplay(newValue);
@@ -99,7 +99,7 @@ export default function EtherInput({ autoFocus, onChange, placeholder, price, va
           }
         } else {
           setValue(newValue);
-          if (typeof onChange === "function") {
+          if (typeof onChange === 'function') {
             onChange(newValue);
           }
           setDisplay(newValue);

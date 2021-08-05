@@ -1,11 +1,11 @@
-import { DialogContent, DialogOverlay } from "@reach/dialog";
-import "@reach/dialog/styles.css";
-import { transparentize } from "polished";
-import React from "react";
-import { isMobile } from "react-device-detect";
-import { animated, useSpring, useTransition } from "react-spring";
-import { useGesture } from "react-use-gesture";
-import styled, { css } from "styled-components";
+import { DialogContent, DialogOverlay } from '@reach/dialog';
+import '@reach/dialog/styles.css';
+import { transparentize } from 'polished';
+import React from 'react';
+import { isMobile } from 'react-device-detect';
+import { animated, useSpring, useTransition } from 'react-spring';
+import { useGesture } from 'react-use-gesture';
+import styled, { css } from 'styled-components';
 
 const AnimatedDialogOverlay = animated(DialogOverlay);
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -29,9 +29,9 @@ const AnimatedDialogContent = animated(DialogContent);
 const StyledDialogContent = styled(({ minHeight, maxHeight, mobile, isOpen, ...rest }) => (
   <AnimatedDialogContent {...rest} />
 )).attrs({
-  "aria-label": "dialog",
+  'aria-label': 'dialog',
 })`
-  overflow-y: ${({ mobile }) => (mobile ? "scroll" : "hidden")};
+  overflow-y: ${({ mobile }) => (mobile ? 'scroll' : 'hidden')};
 
   &[data-reach-dialog-content] {
     margin: 0 0 2rem 0;
@@ -39,10 +39,10 @@ const StyledDialogContent = styled(({ minHeight, maxHeight, mobile, isOpen, ...r
     box-shadow: 0 4px 8px 0 ${({ theme }) => transparentize(0.95, theme.shadow1)};
     padding: 0px;
     width: 50vw;
-    overflow-y: ${({ mobile }) => (mobile ? "scroll" : "hidden")};
+    overflow-y: ${({ mobile }) => (mobile ? 'scroll' : 'hidden')};
     overflow-x: hidden;
 
-    align-self: ${({ mobile }) => (mobile ? "flex-end" : "center")};
+    align-self: ${({ mobile }) => (mobile ? 'flex-end' : 'center')};
 
     max-width: 420px;
     ${({ maxHeight }) =>
@@ -139,7 +139,7 @@ export default function Modal({
                 <div className="bg-gradient-to-r from-blue to-pink w-full rounded p-px">
                   <div
                     className={`flex flex-col h-full w-full bg-dark-900 rounded overflow-y-auto ${
-                      noPadding ? "p-0" : "p-6"
+                      noPadding ? 'p-0' : 'p-6'
                     }`}
                   >
                     {/* prevents the automatic focusing of inputs on mobile by the reach dialog */}

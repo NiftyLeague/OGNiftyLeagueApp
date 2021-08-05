@@ -1,8 +1,8 @@
-import { ChainId } from "@sushiswap/sdk";
-import DAI_ABI from "./abis/dai.json";
-import MERKLE_ABI from "./abis/merkle-distributor.json";
-import { MERKLE_DISTRIBUTOR_ADDRESS } from "./contracts";
-import { LOCAL_CHAIN_ID } from "./networks";
+import { ChainId } from '@sushiswap/sdk';
+import DAI_ABI from './abis/dai.json';
+import MERKLE_ABI from './abis/merkle-distributor.json';
+import { MERKLE_DISTRIBUTOR_ADDRESS } from './contracts';
+import { LOCAL_CHAIN_ID } from './networks';
 
 export default {
   [LOCAL_CHAIN_ID]: {
@@ -13,7 +13,7 @@ export default {
   },
   [ChainId.MAINNET]: {
     DAI: {
-      address: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+      address: '0x6B175474E89094C44Da98b954EedeAC495271d0F',
       abi: DAI_ABI,
     },
     MerkleDistributor: {

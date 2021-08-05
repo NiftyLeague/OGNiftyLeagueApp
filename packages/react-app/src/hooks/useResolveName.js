@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { constants } from "ethers";
+import { useState, useEffect } from 'react';
+import { constants } from 'ethers';
 
 /*
   ~ What it does? ~

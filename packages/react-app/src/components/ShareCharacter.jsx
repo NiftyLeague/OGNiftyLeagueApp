@@ -1,19 +1,19 @@
-import React, { useState } from "react";
-import { useThemeSwitcher } from "react-css-theme-switcher";
-import copy from "copy-to-clipboard";
-import { Tooltip } from "antd";
-import { makeStyles } from "@material-ui/core/styles";
-import Snackbar from "@material-ui/core/Snackbar";
-import IconButton from "@material-ui/core/IconButton";
-import ShareIcon from "@material-ui/icons/Share";
-import CloseIcon from "@material-ui/icons/Close";
+import React, { useState } from 'react';
+import { useThemeSwitcher } from 'react-css-theme-switcher';
+import copy from 'copy-to-clipboard';
+import { Tooltip } from 'antd';
+import { makeStyles } from '@material-ui/core/styles';
+import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+import ShareIcon from '@material-ui/icons/Share';
+import CloseIcon from '@material-ui/icons/Close';
 
 export const useStyles = makeStyles({
-  actionButtons: { color: "#fff", borderRadius: "50%", "&:focus": { outline: "none" } },
+  actionButtons: { color: '#fff', borderRadius: '50%', '&:focus': { outline: 'none' } },
   snackbarLight: {
-    "& > div": {
-      color: "black",
-      backgroundColor: "white",
+    '& > div': {
+      color: 'black',
+      backgroundColor: 'white',
     },
   },
 });
@@ -24,7 +24,7 @@ const ShareCharacter = ({ tokenId }) => {
   const [open, setOpen] = useState(false);
 
   const handleClose = (event, reason) => {
-    if (reason === "clickaway") return;
+    if (reason === 'clickaway') return;
     setOpen(false);
   };
 
@@ -43,9 +43,9 @@ const ShareCharacter = ({ tokenId }) => {
         </IconButton>
       </Tooltip>
       <Snackbar
-        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
         autoHideDuration={4000}
-        classes={{ root: currentTheme === "light" ? classes.snackbarLight : null }}
+        classes={{ root: currentTheme === 'light' ? classes.snackbarLight : null }}
         message="Link copied to clipboard"
         onClose={handleClose}
         open={open}

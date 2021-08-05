@@ -1,23 +1,23 @@
-import React, { useState } from "react";
-import clsx from "clsx";
-import { useThemeSwitcher } from "react-css-theme-switcher";
-import { makeStyles } from "@material-ui/core/styles";
-import Snackbar from "@material-ui/core/Snackbar";
+import React, { useState } from 'react';
+import clsx from 'clsx';
+import { useThemeSwitcher } from 'react-css-theme-switcher';
+import { makeStyles } from '@material-ui/core/styles';
+import Snackbar from '@material-ui/core/Snackbar';
 
 export const useStyles = makeStyles({
   snackbar: {
     width: 225,
     marginBottom: -15,
     marginRight: 80,
-    "& > div": {
-      width: "inherit",
+    '& > div': {
+      width: 'inherit',
       minWidth: 160,
     },
   },
   snackbarLight: {
-    "& > div": {
-      color: "black",
-      backgroundColor: "white",
+    '& > div': {
+      color: 'black',
+      backgroundColor: 'white',
     },
   },
 });
@@ -28,14 +28,14 @@ export default function CurrentPrice({ nftPrice, isLoaded }) {
   const [open, setOpen] = useState(true);
 
   const handleClose = (event, reason) => {
-    if (reason === "clickaway") return;
+    if (reason === 'clickaway') return;
     setOpen(false);
   };
 
   return (
     <Snackbar
-      anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-      classes={{ root: clsx(classes.snackbar, { [classes.snackbarLight]: currentTheme === "light" }) }}
+      anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+      classes={{ root: clsx(classes.snackbar, { [classes.snackbarLight]: currentTheme === 'light' }) }}
       message={
         <>
           <div>Current mint price: {nftPrice} ETH</div>
