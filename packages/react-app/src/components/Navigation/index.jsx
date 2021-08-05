@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
 import withWidth, { isWidthDown } from '@material-ui/core/withWidth';
 import { Layout, Menu } from 'antd';
@@ -14,40 +14,29 @@ import DropdownMenu from './DropdownMenu';
 import WrongNetworkAlert from './WrongNetworkAlert';
 import './navigation.css';
 
-const navItems = setRoute => [
+const navItems = () => [
   <Menu.Item key="/">
-    <Link onClick={() => setRoute('/')} to="/">
-      Home
-    </Link>
+    <Link to="/">Home</Link>
   </Menu.Item>,
   <Menu.Item key="/about">
-    <Link onClick={() => setRoute('/about')} to="/about">
-      About
-    </Link>
+    <Link to="/about">About</Link>
   </Menu.Item>,
   <Menu.Item key="/games">
-    <Link onClick={() => setRoute('/games')} to="/games">
-      Games
-    </Link>
+    <Link to="/games">Games</Link>
   </Menu.Item>,
   <Menu.Item key="/degens">
-    <Link onClick={() => setRoute('/degens')} to="/degens">
-      Degens
-    </Link>
+    <Link to="/degens">Degens</Link>
   </Menu.Item>,
   <Menu.Item key="/wallet">
-    <Link onClick={() => setRoute('/wallet')} to="/wallet">
-      Wallet
-    </Link>
+    <Link to="/wallet">Wallet</Link>
   </Menu.Item>,
   <Menu.Item key="/staking">
-    <Link onClick={() => setRoute('/staking')} to="/staking">
-      Staking
-    </Link>
+    <Link to="/staking">Staking</Link>
   </Menu.Item>,
 ];
 
-function Navigation({ route, setRoute, width }) {
+function Navigation({ width }) {
+  const { pathname } = useLocation();
   const { currentTheme } = useThemeSwitcher();
   const hideNav = isWidthDown('md', width);
   const mobileView = isWidthDown('sm', width);
@@ -71,7 +60,7 @@ function Navigation({ route, setRoute, width }) {
             : { background: '#c1ccdd' }),
         }}
       >
-        <Link onClick={() => setRoute('/')} to="/" style={{ margin: `auto ${mobileView ? '10px' : '20px'} auto 0` }}>
+        <Link to="/" style={{ margin: `auto ${mobileView ? '10px' : '20px'} auto 0` }}>
           <img
             src={darkThemed ? LogoWhite : LogoPurple}
             alt="Nifty League logo"
@@ -87,16 +76,16 @@ function Navigation({ route, setRoute, width }) {
                 backgroundColor: 'transparent',
               }}
               className="menu"
-              selectedKeys={[route]}
+              selectedKeys={[pathname]}
               mode="horizontal"
               defaultSelectedKeys={['/']}
             >
-              {navItems(setRoute)}
+              {navItems()}
             </Menu>
           </nav>
         )}
         <div className="menu-right">
-          <Airdrop setRoute={setRoute} />
+          <Airdrop />
           {!mobileView && <AddNFTL />}
           <div className="network-label" style={{ padding: mobileView ? '0 5px' : '0 16px' }}>
             {targetNetwork.label}
@@ -111,7 +100,7 @@ function Navigation({ route, setRoute, width }) {
             userProvider={userProvider}
             web3Modal={web3Modal}
           />
-          <DropdownMenu key="more" hideNav={hideNav} navItems={navItems} setRoute={setRoute} />
+          <DropdownMenu key="more" hideNav={hideNav} navItems={navItems} />
         </div>
         <WrongNetworkAlert />
       </Layout.Header>

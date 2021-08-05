@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useMemo } from 'react';
+import React, { useCallback, useContext, useMemo, useState } from 'react';
 import { useQuery } from '@apollo/client';
 import { Button } from 'antd';
 import { makeStyles } from '@material-ui/core/styles';
@@ -22,11 +22,15 @@ const useStyles = makeStyles(theme => ({
 const ClaimNFTL = ({ tokenIndices }) => {
   const { tx, writeContracts } = useContext(NetworkContext);
   const classes = useStyles();
-  const totalAccumulated = useClaimableNFTL(writeContracts, tokenIndices);
+  const [refreshKey, setRefreshKey] = useState(0);
+  const totalAccumulated = useClaimableNFTL(writeContracts, tokenIndices, refreshKey);
 
   const handleClaimNFTL = useCallback(async () => {
     if (DEBUG) console.log('claim', tokenIndices, totalAccumulated);
-    tx(writeContracts[NFTL_CONTRACT].claim(tokenIndices));
+    const result = tx(writeContracts[NFTL_CONTRACT].claim(tokenIndices));
+    if (DEBUG) console.log('awaiting claim result...', result);
+    await result;
+    setRefreshKey(Math.random() + 1);
   }, [tokenIndices, totalAccumulated, tx, writeContracts]);
 
   const btnStyles = {

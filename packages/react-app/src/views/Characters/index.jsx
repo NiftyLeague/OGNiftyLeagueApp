@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
 import clsx from 'clsx';
 import { useQuery } from '@apollo/client';
@@ -45,10 +45,13 @@ const CharactersContainer = () => {
     skip: !filterActive,
   });
 
-  const handleClose = (event, reason) => {
-    if (reason === 'clickaway') return;
-    setOpen(false);
-  };
+  const handleClose = useCallback(
+    (event, reason) => {
+      if (reason === 'clickaway') return;
+      setOpen(false);
+    },
+    [setOpen],
+  );
 
   const handleSearch = value => {
     setPage(1);

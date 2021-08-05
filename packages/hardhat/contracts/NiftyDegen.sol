@@ -287,10 +287,10 @@ contract NiftyDegen is NameableCharacter {
      */
     function _removeRandomTrait(uint256 newCharId, uint256 traitCombo) private {
         if (
-            removedTraits.length < 250 ||
-            (removedTraits.length < 500 && newCharId % 2 == 0) ||
-            (removedTraits.length < 750 && newCharId % 3 == 0) ||
-            (removedTraits.length < 1000 && newCharId % 4 == 0)
+            (removedTraits.length < 200 && newCharId % 4 == 0) ||
+            (removedTraits.length < 400 && newCharId % 6 == 0) ||
+            (removedTraits.length < 600 && newCharId % 8 == 0) ||
+            (removedTraits.length < 800 && newCharId % 10 == 0)
         ) {
             uint256 randomIndex = _rngIndex(newCharId);
             uint16 randomTrait = _unpackUint10(traitCombo >> randomIndex);

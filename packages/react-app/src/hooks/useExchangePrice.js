@@ -1,26 +1,27 @@
-import { useContext, useState } from 'react';
-import { WETH, Fetcher, Route } from '@sushiswap/sdk';
-import { usePoller } from 'eth-hooks';
+import { useCallback, useContext, useState } from 'react';
+import { ChainId, WETH, Fetcher, Route } from '@sushiswap/sdk';
 import { NetworkContext } from 'NetworkProvider';
 import { DAI as DAI_MAP } from 'constants/tokens';
+import { ETH_EXCHANGE_PRICE_INTERVAL } from '../constants';
+import usePoller from './usePoller';
 
-// Only pulls price from Eth mainnet
-export default function useExchangePrice(pollTime) {
+/* 💵 This hook will get the price of ETH from Sushiswap on Mainnet: */
+export default function useExchangePrice(pollTime = ETH_EXCHANGE_PRICE_INTERVAL) {
   const [price, setPrice] = useState(0);
   const { mainnetProvider } = useContext(NetworkContext);
-  const targetNetwork = 1;
-  const DAI = DAI_MAP[targetNetwork];
 
-  const pollPrice = () => {
+  const pollPrice = useCallback(() => {
     async function getPrice() {
-      if (!mainnetProvider) return;
+      const DAI = DAI_MAP[ChainId.MAINNET];
       const pair = await Fetcher.fetchPairData(DAI, WETH[DAI.chainId], mainnetProvider);
       const route = new Route([pair], WETH[DAI.chainId]);
-      setPrice(parseFloat(route.midPrice.toSignificant(6)));
+      const newPrice = parseFloat(route.midPrice.toSignificant(6));
+      console.log('newPrice', newPrice);
+      if (price !== newPrice) setPrice(newPrice);
     }
-    getPrice();
-  };
-  usePoller(pollPrice, pollTime || 9777);
+    if (mainnetProvider) getPrice();
+  }, [mainnetProvider, price]);
+  usePoller(pollPrice, pollTime);
 
   return price;
 }

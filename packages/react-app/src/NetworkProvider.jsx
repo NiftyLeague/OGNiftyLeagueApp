@@ -50,7 +50,7 @@ const mainnetProvider = navigator.onLine ? getDefaultProvider(NETWORKS.mainnet.n
 
 // 🏠 Your local provider is usually pointed at your local blockchain
 if (DEBUG) console.log('🏠 Connecting to local provider:', targetNetwork.rpcUrl);
-const localProvider = getDefaultProvider(targetNetwork.name, providerOptions);
+const localProvider = getDefaultProvider(targetNetwork.name || targetNetwork.rpcUrl, providerOptions);
 
 /*
   Web3 modal helps us "connect" external wallets:
@@ -82,7 +82,7 @@ const NetworkProvider = ({ children }) => {
   const [injectedProvider, setInjectedProvider] = useState(null);
 
   // Use your injected provider from 🦊 Metamask or if you don't have it then instantly generate a 🔥 burner wallet.
-  const userProvider = useUserProvider(injectedProvider, localProvider);
+  const userProvider = useUserProvider(injectedProvider, localProvider, targetNetwork);
   const address = useUserAddress(userProvider);
   const signer = userProvider?.getSigner();
 
@@ -109,19 +109,18 @@ const NetworkProvider = ({ children }) => {
     updateWeb3ModalTheme();
     setInjectedProvider(new Web3Provider(provider));
     provider.on('accountsChanged', accounts => {
-      if (DEBUG) console.log('web3 accounts', accounts);
+      if (DEBUG) console.log('web3 accountsChanged:', accounts);
+      setInjectedProvider(new Web3Provider(provider));
     });
     provider.on('chainChanged', chainId => {
-      if (DEBUG) console.log('web3 chainId', chainId);
-      setTimeout(() => {
-        window.location.reload();
-      }, 1);
+      if (DEBUG) console.log('web3 chainChanged:', chainId);
+      setInjectedProvider(new Web3Provider(provider));
     });
     provider.on('connect', info => {
-      if (DEBUG) console.log('web3 info', info);
+      if (DEBUG) console.log('web3 info:', info);
     });
     provider.on('disconnect', error => {
-      if (DEBUG) console.log('web3 error', error);
+      if (DEBUG) console.log('web3 error:', error);
     });
   }, [setInjectedProvider, updateWeb3ModalTheme]);
 

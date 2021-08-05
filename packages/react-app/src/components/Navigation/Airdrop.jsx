@@ -38,7 +38,7 @@ const ClaimButton = ({ setAvailableNFTL, setDialogOpen }) => {
   ) : null;
 };
 
-function ClaimDialog({ availableNFTL, dialogOpen, setDialogOpen, setRoute }) {
+function ClaimDialog({ availableNFTL, dialogOpen, setDialogOpen }) {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const { claimCallback } = useClaimCallback();
@@ -56,13 +56,7 @@ function ClaimDialog({ availableNFTL, dialogOpen, setDialogOpen, setRoute }) {
       <DialogContent>
         <DialogContentText>
           Claimable until September 15th, 2021. Learn more about <strong>NFTL</strong>{' '}
-          <Link
-            onClick={() => {
-              onClose();
-              setRoute('/about');
-            }}
-            to="/about/#nftl"
-          >
+          <Link onClick={() => onClose()} to="/about/#nftl">
             here
           </Link>
           !
@@ -77,21 +71,15 @@ function ClaimDialog({ availableNFTL, dialogOpen, setDialogOpen, setRoute }) {
   );
 }
 
-export default function Airdrop({ setRoute }) {
-  const { selectedChainId } = useContext(NetworkContext);
-  const validAccount = true;
+export default function Airdrop() {
+  const { selectedChainId, validAccount } = useContext(NetworkContext);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [availableNFTL, setAvailableNFTL] = useState(0);
 
   return validAccount && selectedChainId ? (
     <>
       <ClaimButton setDialogOpen={setDialogOpen} setAvailableNFTL={setAvailableNFTL} />
-      <ClaimDialog
-        availableNFTL={availableNFTL}
-        dialogOpen={dialogOpen}
-        setDialogOpen={setDialogOpen}
-        setRoute={setRoute}
-      />
+      <ClaimDialog availableNFTL={availableNFTL} dialogOpen={dialogOpen} setDialogOpen={setDialogOpen} />
     </>
   ) : null;
 }

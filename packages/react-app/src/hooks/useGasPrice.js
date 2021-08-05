@@ -1,10 +1,10 @@
-import { useRef } from 'react';
-import { usePoller } from 'eth-hooks';
+import { useCallback, useRef } from 'react';
 import axios from 'axios';
+import usePoller from './usePoller';
 
-export default function useGasPrice(targetNetwork, speed, pollTime) {
+export default function useGasPrice(targetNetwork, speed, pollTime = 9999) {
   const gasPriceRef = useRef();
-  const loadGasPrice = async () => {
+  const loadGasPrice = useCallback(async () => {
     if (targetNetwork.gasPrice) {
       gasPriceRef.current = targetNetwork.gasPrice;
     } else if (navigator.onLine) {
@@ -16,8 +16,8 @@ export default function useGasPrice(targetNetwork, speed, pollTime) {
         })
         .catch(error => console.log(error));
     }
-  };
+  }, [targetNetwork.gasPrice, speed]);
 
-  usePoller(loadGasPrice, pollTime || 9999);
+  usePoller(loadGasPrice, pollTime);
   return gasPriceRef.current;
 }

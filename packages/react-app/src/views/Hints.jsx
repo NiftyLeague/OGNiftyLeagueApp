@@ -140,10 +140,6 @@ export default function Hints() {
         <span style={{ marginRight: 8 }}>🚢</span>
         ship it!
         <span className="highlight" style={{ marginLeft: 4, padding: 4, borderRadius: 4, fontWeight: 'bolder' }}>
-          yarn surge
-        </span>
-        or
-        <span className="highlight" style={{ marginLeft: 4, padding: 4, borderRadius: 4, fontWeight: 'bolder' }}>
           yarn s3
         </span>
         or

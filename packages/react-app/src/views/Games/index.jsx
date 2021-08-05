@@ -10,6 +10,7 @@ import { NetworkContext } from 'NetworkProvider';
 import { Preloader, WalletConnectPrompt } from 'components';
 import NiftySmashers from 'assets/gifs/nifty-smashers.gif';
 import NiftySmashersThumb from 'assets/images/characters/alien-dj.png';
+import { DEBUG } from '../../constants';
 import './games.css';
 
 const { Content, Sider } = Layout;
@@ -31,7 +32,8 @@ const Game = ({ unityContext }) => {
 
   const startAuthentication = useCallback(
     e => {
-      const result = `true,${address},My awesome Username`;
+      const result = `true,${address},Vitalik`;
+      if (DEBUG) console.log('Authenticating:', result);
       e.detail.callback(result);
     },
     [address],

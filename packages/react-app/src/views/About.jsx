@@ -19,7 +19,7 @@ import TokenDistributionDark from 'assets/images/token-distribution-dark.png';
 
 const { Title } = Typography;
 
-const About = ({ setRoute, width }) => {
+const About = ({ width }) => {
   const { currentTheme } = useThemeSwitcher();
   const sushiswapLPLink = 'https://sushi.com';
   return (
@@ -41,9 +41,7 @@ const About = ({ setRoute, width }) => {
         public tournaments. We strive to make our games highly competitive and packed full of nostalgia from retro
         interactive games. Upon launch we’ll release our first game{' '}
         <strong>
-          <Link onClick={() => setRoute('/games')} to="/games">
-            Nifty Smashers
-          </Link>
+          <Link to="/games">Nifty Smashers</Link>
         </strong>
         ; an NFT brawler to battle it out with your friends and the crypto community! Going forward we have several game
         options that we’ll develop based on community votes.
@@ -67,13 +65,10 @@ const About = ({ setRoute, width }) => {
         The first step in designing your own <strong>DEGEN</strong> is deciding on one of the many character classes
         available such as frogs, apes, or aliens. This decision not only affects available character traits or
         accessories, but determines certain in-game mechanics and special moves. During the sale, you can check our{' '}
-        <Link onClick={() => setRoute('/degens')} to="/degens">
-          characters page
-        </Link>{' '}
-        to browse already minted <strong>DEGENS</strong> to help determine which classes are rarer than others. Players
-        will naturally gravitate towards certain characters based on their personal preferences as gameplay and special
-        moves may be quite different between them for certain games. You’ll be able to select which of your characters
-        to play with before each game so no harm in having one of each class!
+        <Link to="/degens">characters page</Link> to browse already minted <strong>DEGENS</strong> to help determine
+        which classes are rarer than others. Players will naturally gravitate towards certain characters based on their
+        personal preferences as gameplay and special moves may be quite different between them for certain games. You’ll
+        be able to select which of your characters to play with before each game so no harm in having one of each class!
       </p>
       <div className="d-flex justify-content-around align-items-center">
         <Image width="30%" src={CatSketch} />
@@ -196,11 +191,8 @@ const About = ({ setRoute, width }) => {
         <strong>250M NFTL</strong> will be distributed daily over <strong>1 year</strong> to all genesis{' '}
         <strong>DEGEN</strong> NFT owners. There is no need to stake your NFT, just sit back and watch your{' '}
         <strong>NFTL</strong> accumulate which you can claim on our website at any time on the{' '}
-        <Link onClick={() => setRoute('/wallet')} to="/wallet">
-          wallet page
-        </Link>
-        . In order to support liquidity, we will also continuously emit <strong>NFTL</strong> to incentivize liquidity
-        mining on{' '}
+        <Link to="/wallet">wallet page</Link>. In order to support liquidity, we will also continuously emit{' '}
+        <strong>NFTL</strong> to incentivize liquidity mining on{' '}
         <strong>
           <a target="_blank" rel="noopener noreferrer" href={sushiswapLPLink}>
             SushiSwap

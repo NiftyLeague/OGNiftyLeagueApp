@@ -29,11 +29,12 @@ export const NETWORK_ICON = {
   [ChainId.MATIC]: Polygon,
   [ChainId.MATIC_TESTNET]: Matic,
   [ChainId.AVALANCHE]: Avalanche,
-  [ChainId.FUJI]: Avalanche,
+  [ChainId.AVALANCHE_TESTNET]: Avalanche,
   [ChainId.ARBITRUM]: Arbitrum,
 };
 
 export const NETWORK_LABEL = {
+  [LOCAL_CHAIN_ID]: 'localhost',
   [ChainId.MAINNET]: 'Ethereum',
   [ChainId.ROPSTEN]: 'Ropsten',
   [ChainId.RINKEBY]: 'Rinkeby',
@@ -46,7 +47,7 @@ export const NETWORK_LABEL = {
   [ChainId.BSC]: 'BSC',
   [ChainId.BSC_TESTNET]: 'BSC Testnet',
   [ChainId.AVALANCHE]: 'Avalanche',
-  [ChainId.FUJI]: 'Fuji',
+  [ChainId.AVALANCHE_TESTNET]: 'Avalanche Testnet',
   [ChainId.ARBITRUM]: 'Arbitrum',
 };
 
@@ -72,18 +73,15 @@ export const RPC = {
   [ChainId.BSC]: 'https://bsc-dataseed.binance.org/',
   [ChainId.BSC_TESTNET]: 'https://data-seed-prebsc-2-s3.binance.org:8545',
   [ChainId.AVALANCHE]: 'https://api.avax.network/ext/bc/C/rpc',
-  [ChainId.FUJI]: 'https://api.avax-test.network/ext/bc/C/rpc',
+  [ChainId.AVALANCHE_TESTNET]: 'https://api.avax-test.network/ext/bc/C/rpc',
 };
-
-export const LOCAL_RPC = 'http://' + window.location.hostname + ':8545';
 
 export const NETWORKS = {
   localhost: {
     blockExplorer: '',
     chainId: LOCAL_CHAIN_ID,
-    label: 'localhost',
-    name: LOCAL_RPC,
-    rpcUrl: LOCAL_RPC,
+    label: NETWORK_LABEL[LOCAL_CHAIN_ID],
+    rpcUrl: 'http://' + window.location.hostname + ':8545',
   },
   mainnet: {
     blockExplorer: 'https://etherscan.io/',
@@ -128,7 +126,6 @@ export const NETWORKS = {
     blockExplorer: 'https://ftmscan.com/',
     chainId: ChainId.FANTOM,
     label: NETWORK_LABEL[ChainId.FANTOM],
-    name: RPC[ChainId.FANTOM],
     rpcUrl: RPC[ChainId.FANTOM],
   },
   fantomTestnet: {
@@ -136,7 +133,6 @@ export const NETWORKS = {
     chainId: ChainId.FANTOM_TESTNET,
     faucet: 'https://faucet.fantom.network/',
     label: NETWORK_LABEL[ChainId.FANTOM_TESTNET],
-    name: RPC[ChainId.FANTOM_TESTNET],
     rpcUrl: RPC[ChainId.FANTOM_TESTNET],
   },
   matic: {
@@ -144,7 +140,6 @@ export const NETWORKS = {
     chainId: ChainId.MATIC,
     gasPrice: 1000000000,
     label: NETWORK_LABEL[ChainId.MATIC],
-    name: RPC[ChainId.MATIC],
     rpcUrl: RPC[ChainId.MATIC],
   },
   mumbai: {
@@ -153,14 +148,12 @@ export const NETWORKS = {
     faucet: 'https://faucet.matic.network/',
     gasPrice: 1000000000,
     label: NETWORK_LABEL[ChainId.MATIC_TESTNET],
-    name: RPC[ChainId.MATIC_TESTNET],
     rpcUrl: RPC[ChainId.MATIC_TESTNET],
   },
   bsc: {
     blockExplorer: 'https://bscscan.com/',
     chainId: ChainId.BSC,
     label: NETWORK_LABEL[ChainId.BSC],
-    name: RPC[ChainId.BSC],
     rpcUrl: RPC[ChainId.BSC],
   },
   bscTestnet: {
@@ -168,23 +161,20 @@ export const NETWORKS = {
     chainId: ChainId.BSC_TESTNET,
     faucet: 'https://faucet.ropsten.be/',
     label: NETWORK_LABEL[ChainId.BSC_TESTNET],
-    name: RPC[ChainId.BSC_TESTNET],
     rpcUrl: RPC[ChainId.BSC_TESTNET],
   },
   avalanche: {
     blockExplorer: 'https://explorer.avax.network/',
     chainId: ChainId.AVALANCHE,
     label: NETWORK_LABEL[ChainId.AVALANCHE],
-    name: RPC[ChainId.AVALANCHE],
     rpcUrl: RPC[ChainId.AVALANCHE],
   },
-  fuji: {
+  avalancheTestnet: {
     blockExplorer: 'https://cchain.explorer.avax-test.network/',
-    chainId: ChainId.FUJI,
+    chainId: ChainId.AVALANCHE_TESTNET,
     faucet: 'https://faucet.avax-test.network/',
-    label: NETWORK_LABEL[ChainId.FUJI],
-    name: RPC[ChainId.FUJI],
-    rpcUrl: RPC[ChainId.FUJI],
+    label: NETWORK_LABEL[ChainId.AVALANCHE_TESTNET],
+    rpcUrl: RPC[ChainId.AVALANCHE_TESTNET],
   },
 };
 
@@ -196,7 +186,7 @@ export const SUPPORTED_CHAIN_IDS = [
   LOCAL_CHAIN_ID,
   ChainId.MAINNET,
   ChainId.RINKEBY,
-  ChainId.ROPSTEN,
+  // ChainId.ROPSTEN,
   // ChainId.GÖRLI,
   // ChainId.KOVAN,
   // ChainId.FANTOM,
