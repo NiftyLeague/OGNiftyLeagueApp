@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Tooltip } from 'antd';
 import { NetworkContext } from 'NetworkProvider';
-import OpenSeaIcon from '../assets/images/opensea.png';
+import OpenSeaIcon from 'assets/images/opensea.png';
 import { NFT_CONTRACT } from '../constants';
 
 export default function OpenSeaLink({ tokenId }) {
