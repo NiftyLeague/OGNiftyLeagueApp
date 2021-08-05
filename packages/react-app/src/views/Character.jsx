@@ -20,8 +20,8 @@ import withWidth, { isWidthDown } from '@material-ui/core/withWidth';
 
 import { NetworkContext } from 'NetworkProvider';
 import { Address, OpenSeaLink, RenameDialog, ShareCharacter } from 'components';
-import UnavailableImg from 'assets/images/unavailable-image.jpeg';
 import { ResolveImageURL } from 'helpers/ipfs';
+import UnavailableImg from '../assets/images/unavailable-image.jpeg';
 import { TRAIT_INDEXES, TRAIT_NAME_MAP, TRAIT_VALUE_MAP } from '../constants/characters';
 import { NFT_CONTRACT } from '../constants';
 

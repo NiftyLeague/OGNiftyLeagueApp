@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { NetworkContext } from 'NetworkProvider';
 import { ScrollToTop } from './hooks';
@@ -39,7 +39,7 @@ export default function App() {
           <Route exact path="/degens">
             <Characters />
           </Route>
-          <Route exact path="/degens/:tokenId">
+          <Route path="/degens/:tokenId">
             <Character />
           </Route>
           <Route exact path="/wallet">

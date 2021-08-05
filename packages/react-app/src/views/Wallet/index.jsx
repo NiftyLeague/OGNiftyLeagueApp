@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
   claimContainer: { display: 'flex', alignItems: 'baseline', float: 'right', marginTop: -50 },
   grid: { flexGrow: 1, margin: '8px 0px 8px -8px' },
   [theme.breakpoints.down(840)]: {
-    claimContainer: { marginTop: 0 },
+    claimContainer: { marginTop: 0, marginRight: 20 },
   },
 }));
 
@@ -93,7 +93,7 @@ const Wallet = () => {
               ))}
             </Grid>
           ) : (
-            <div style={{ paddingTop: 60 }}>
+            <div style={{ padding: '60px 20px' }}>
               No Degens found. Please check your address or go mint if you haven't done so already!
             </div>
           )}

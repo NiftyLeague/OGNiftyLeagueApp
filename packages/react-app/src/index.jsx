@@ -4,8 +4,10 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import { ThemeSwitcherProvider } from 'react-css-theme-switcher';
+import { ThemeProvider } from '@material-ui/core/styles';
 import NetworkProvider from './NetworkProvider';
 import { SUBGRAPH_URI } from './constants';
+import { MuiTheme as theme } from './theme';
 import App from './App';
 
 dotenv.config();
@@ -26,9 +28,11 @@ ReactDOM.render(
   <ApolloProvider client={client}>
     <ThemeSwitcherProvider themeMap={themes} defaultTheme={prevTheme ?? 'dark'}>
       <NetworkProvider>
-        <Router>
-          <App />
-        </Router>
+        <ThemeProvider theme={theme}>
+          <Router>
+            <App />
+          </Router>
+        </ThemeProvider>
       </NetworkProvider>
     </ThemeSwitcherProvider>
   </ApolloProvider>,
