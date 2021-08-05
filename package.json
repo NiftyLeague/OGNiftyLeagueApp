@@ -30,7 +30,6 @@
     "balance": "yarn workspace @nifty-league/hardhat balance",
     "send": "yarn workspace @nifty-league/hardhat send",
     "ipfs": "yarn workspace @nifty-league/react-app ipfs",
-    "surge": "yarn workspace @nifty-league/react-app surge",
     "s3": "yarn workspace @nifty-league/react-app s3",
     "ship": "yarn workspace @nifty-league/react-app ship",
     "generate": "yarn workspace @nifty-league/hardhat generate",

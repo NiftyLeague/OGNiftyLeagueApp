@@ -1,8 +1,8 @@
-import React from "react";
-import { useThemeSwitcher } from "react-css-theme-switcher";
-import { Button } from "antd";
-import Address from "./Address";
-import Balance from "./Balance";
+import React from 'react';
+import { useThemeSwitcher } from 'react-css-theme-switcher';
+import { Button } from 'antd';
+import Address from './Address';
+import Balance from './Balance';
 
 /*
   ~ What it does? ~
@@ -53,13 +53,13 @@ export default function Account({
   if (web3Modal) {
     const btnStyles = {
       marginLeft: 8,
-      borderColor: "#6f6c6c",
+      borderColor: '#6f6c6c',
     };
     if (web3Modal.cachedProvider) {
       modalButtons.push(
         <Button
           key="logoutbutton"
-          style={{ ...btnStyles, background: "transparent", color: currentTheme === "dark" ? "#fff" : "black" }}
+          style={{ ...btnStyles, background: 'transparent', color: currentTheme === 'dark' ? '#fff' : 'black' }}
           shape="round"
           size="large"
           onClick={logoutOfWeb3Modal}
@@ -73,8 +73,8 @@ export default function Account({
           key="loginbutton"
           style={{
             ...btnStyles,
-            background: "-webkit-linear-gradient(89deg, #620edf 0%, #5e72eb 100%)",
-            color: "#fff",
+            background: '-webkit-linear-gradient(89deg, #620edf 0%, #5e72eb 100%)',
+            color: '#fff',
           }}
           shape="round"
           size="large"
@@ -87,7 +87,7 @@ export default function Account({
   }
 
   return (
-    <div style={{ display: "flex", flexWrap: "nowrap", alignItems: "center" }}>
+    <div style={{ display: 'flex', flexWrap: 'nowrap', alignItems: 'center' }}>
       {address && (
         <Address
           address={address}
@@ -96,7 +96,7 @@ export default function Account({
           blockExplorer={blockExplorer}
         />
       )}
-      {!mobileView && <Balance address={address} provider={userProvider} />}
+      {!mobileView && address ? <Balance address={address} provider={userProvider} /> : null}
       {modalButtons}
     </div>
   );

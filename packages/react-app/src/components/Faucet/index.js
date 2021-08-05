@@ -1,14 +1,12 @@
-import React, { useCallback, useContext, useState } from "react";
-import { Input, Button, Tooltip } from "antd";
-import Blockies from "react-blockies";
-import { SendOutlined } from "@ant-design/icons";
-import { utils } from "ethers";
-import { useLookupAddress } from "eth-hooks";
-import { useExchangePrice } from "hooks";
-import { NetworkContext } from "NetworkProvider";
-import Notifier from "helpers/Notifier";
-import { ETH_EXCHANGE_PRICE_INTERVAL } from "../../constants";
-import Wallet from "./Wallet";
+import React, { useCallback, useContext, useState } from 'react';
+import { Input, Button, Tooltip } from 'antd';
+import Blockies from 'react-blockies';
+import { SendOutlined } from '@ant-design/icons';
+import { utils } from 'ethers';
+import { useLookupAddress } from 'eth-hooks';
+import { NetworkContext } from 'NetworkProvider';
+import Notifier from 'helpers/Notifier';
+import Wallet from './Wallet';
 
 // improved a bit by converting address to ens if it exists
 // added option to directly input ens name
@@ -40,11 +38,9 @@ import Wallet from "./Wallet";
 export default function Faucet({ placeholder }) {
   const { localProvider, mainnetProvider, targetNetwork } = useContext(NetworkContext);
   const [address, setAddress] = useState();
-  /* 💵 This hook will get the price of ETH from Sushiswap: */
-  const price = useExchangePrice(ETH_EXCHANGE_PRICE_INTERVAL);
 
   let blockie;
-  if (address && typeof address.toLowerCase === "function") {
+  if (address && typeof address.toLowerCase === 'function') {
     blockie = <Blockies seed={address.toLowerCase()} size={8} scale={4} />;
   } else {
     blockie = <div />;
@@ -54,9 +50,9 @@ export default function Faucet({ placeholder }) {
 
   const updateAddress = useCallback(
     async newValue => {
-      if (typeof newValue !== "undefined") {
+      if (typeof newValue !== 'undefined') {
         let thisAddress = newValue;
-        if (thisAddress.indexOf(".eth") > 0 || thisAddress.indexOf(".xyz") > 0) {
+        if (thisAddress.indexOf('.eth') > 0 || thisAddress.indexOf('.xyz') > 0) {
           try {
             const possibleAddress = await mainnetProvider.resolveName(thisAddress);
             if (possibleAddress) {
@@ -76,7 +72,7 @@ export default function Faucet({ placeholder }) {
   return (
     <div
       style={{
-        position: "fixed",
+        position: 'fixed',
         top: 65,
         right: 0,
         padding: 10,
@@ -84,7 +80,7 @@ export default function Faucet({ placeholder }) {
     >
       <Input
         size="large"
-        placeholder={placeholder || "local faucet"}
+        placeholder={placeholder || 'local faucet'}
         prefix={blockie}
         value={ens || address}
         onChange={e => updateAddress(e.target.value)}
@@ -94,14 +90,14 @@ export default function Faucet({ placeholder }) {
               onClick={() => {
                 tx({
                   to: address,
-                  value: utils.parseEther("1.00"),
+                  value: utils.parseEther('1.00'),
                 });
-                setAddress("");
+                setAddress('');
               }}
               shape="circle"
               icon={<SendOutlined />}
             />
-            <Wallet color="#888888" ensProvider={mainnetProvider} price={price} provider={localProvider} tx={tx} />
+            <Wallet color="#888888" ensProvider={mainnetProvider} provider={localProvider} tx={tx} />
           </Tooltip>
         }
       />

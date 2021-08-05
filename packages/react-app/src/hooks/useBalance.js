@@ -1,6 +1,7 @@
-import { useCallback, useState } from "react";
-import { utils } from "ethers";
-import usePoller from "./usePoller";
+import { useCallback, useState } from 'react';
+import { utils } from 'ethers';
+import usePoller from './usePoller';
+import { BALANCE_INTERVAL } from '../constants';
 
 /*
   ~ What it does? ~
@@ -17,16 +18,20 @@ import usePoller from "./usePoller";
   - Change provider to access balance on different chains (ex. mainnetProvider)
 */
 
-export default function useBalance(provider, address, pollTime = 0) {
-  const [balance, setBalance] = useState("0.0");
-  const pollBalance = useCallback(async () => {
-    if (address && provider) {
-      const newBalanceBN = await provider.getBalance(address);
-      const newBalance = utils.formatEther(newBalanceBN);
-      if (newBalance !== balance) setBalance(newBalance);
+export default function useBalance(provider, address, pollTime = BALANCE_INTERVAL) {
+  const [balance, setBalance] = useState('0.00');
+  const getBalance = useCallback(async () => {
+    if (provider && address) {
+      try {
+        const newBalanceBN = await provider.getBalance(address);
+        const newBalance = utils.formatEther(newBalanceBN);
+        if (newBalance !== balance) setBalance(newBalance);
+      } catch (e) {
+        console.log(e);
+      }
     }
   }, [address, provider, balance]);
-  usePoller(pollBalance, pollTime || 27777, [address && provider]);
+  usePoller(getBalance, pollTime);
 
   return balance;
 }

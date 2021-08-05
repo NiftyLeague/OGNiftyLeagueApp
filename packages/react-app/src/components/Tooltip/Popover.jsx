@@ -1,15 +1,15 @@
-import React, { useCallback, useState } from "react";
-import Portal from "@reach/portal";
-import { transparentize } from "polished";
-import { usePopper } from "react-popper";
-import styled from "styled-components";
-import useInterval from "hooks/useInterval";
-import ThemeProvider from "theme";
+import React, { useCallback, useState } from 'react';
+import Portal from '@reach/portal';
+import { transparentize } from 'polished';
+import { usePopper } from 'react-popper';
+import styled from 'styled-components';
+import useInterval from 'hooks/useInterval';
+import ThemeProvider from 'theme';
 
 const PopoverContainer = styled.div`
   z-index: 9999;
 
-  visibility: ${props => (props.show ? "visible" : "hidden")};
+  visibility: ${props => (props.show ? 'visible' : 'hidden')};
   opacity: ${props => (props.show ? 1 : 0)};
   transition: visibility 150ms linear, opacity 150ms linear;
 
@@ -35,7 +35,7 @@ const Arrow = styled.div`
     height: 8px;
     z-index: 9998;
 
-    content: "";
+    content: '';
     border: 1px solid ${({ theme }) => theme.bg3};
     transform: rotate(45deg);
     background: ${({ theme }) => theme.bg2};
@@ -75,16 +75,16 @@ const Arrow = styled.div`
   }
 `;
 
-export default function Popover({ content, show, children, placement = "auto" }) {
+export default function Popover({ content, show, children, placement = 'auto' }) {
   const [referenceElement, setReferenceElement] = useState(null);
   const [popperElement, setPopperElement] = useState(null);
   const [arrowElement, setArrowElement] = useState(null);
   const { styles, update, attributes } = usePopper(referenceElement, popperElement, {
     placement,
-    strategy: "fixed",
+    strategy: 'fixed',
     modifiers: [
-      { name: "offset", options: { offset: [8, 8] } },
-      { name: "arrow", options: { element: arrowElement } },
+      { name: 'offset', options: { offset: [8, 8] } },
+      { name: 'arrow', options: { element: arrowElement } },
     ],
   });
   const updateCallback = useCallback(() => {
@@ -99,7 +99,7 @@ export default function Popover({ content, show, children, placement = "auto" })
         <PopoverContainer show={show} ref={setPopperElement} style={styles.popper} {...attributes.popper}>
           {content}
           <Arrow
-            className={`arrow-${attributes.popper?.["data-popper-placement"] ?? ""}`}
+            className={`arrow-${attributes.popper?.['data-popper-placement'] ?? ''}`}
             ref={setArrowElement}
             style={styles.arrow}
             {...attributes.arrow}

@@ -150,7 +150,7 @@
 .title-hr::after {
   border-top: 2px solid;
   border-color: #d71414;
-  content: "";
+  content: '';
   display: block;
   height: 1px;
   width: 100px;

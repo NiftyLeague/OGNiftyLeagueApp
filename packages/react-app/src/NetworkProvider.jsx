@@ -1,18 +1,18 @@
-import React, { createContext, useCallback, useEffect, useState } from "react";
-import { useThemeSwitcher } from "react-css-theme-switcher";
-import { providers } from "ethers";
-import WalletConnectProvider from "@walletconnect/web3-provider";
-import { useUserAddress } from "eth-hooks";
-import Web3Modal from "web3modal";
+import React, { createContext, useCallback, useEffect, useState } from 'react';
+import { useThemeSwitcher } from 'react-css-theme-switcher';
+import { providers } from 'ethers';
+import WalletConnectProvider from '@walletconnect/web3-provider';
+import { useUserAddress } from 'eth-hooks';
+import Web3Modal from 'web3modal';
 
-import { useContractLoader, useUserProvider, useNetworkInfo } from "hooks";
-import Notifier from "helpers/Notifier";
-import { ALCHEMY_ID, DEBUG, ETHERSCAN_KEY, INFURA_ID, NETWORKS } from "./constants";
+import { useContractLoader, useUserProvider, useNetworkInfo } from 'hooks';
+import Notifier from 'helpers/Notifier';
+import { ALCHEMY_ID, DEBUG, ETHERSCAN_KEY, INFURA_ID, NETWORKS } from './constants';
 
 const { getDefaultProvider, Web3Provider } = providers;
 
 const CONTEXT_INITIAL_STATE = {
-  address: "",
+  address: '',
   faucetAvailable: false,
   loadWeb3Modal: () => {},
   localChainId: null,
@@ -23,11 +23,11 @@ const CONTEXT_INITIAL_STATE = {
   selectedChainId: null,
   signer: {},
   targetNetwork: {
-    blockExplorer: "",
+    blockExplorer: '',
     chainId: null,
-    label: "",
-    name: "",
-    rpcUrl: "",
+    label: '',
+    name: '',
+    rpcUrl: '',
   },
   tx: () => {},
   userProvider: null,
@@ -44,20 +44,20 @@ if (window.ethereum) window.ethereum.autoRefreshOnNetworkChange = false;
 const targetNetwork = NETWORKS[process.env.REACT_APP_NETWORK];
 
 // 🛰 providers
-if (DEBUG) console.log("📡 Connecting to Mainnet Ethereum");
+if (DEBUG) console.log('📡 Connecting to Mainnet Ethereum');
 const providerOptions = { infura: INFURA_ID, etherscan: ETHERSCAN_KEY, alchemy: ALCHEMY_ID };
 const mainnetProvider = navigator.onLine ? getDefaultProvider(NETWORKS.mainnet.name, providerOptions) : null;
 
 // 🏠 Your local provider is usually pointed at your local blockchain
-if (DEBUG) console.log("🏠 Connecting to local provider:", targetNetwork.rpcUrl);
-const localProvider = getDefaultProvider(targetNetwork.name, providerOptions);
+if (DEBUG) console.log('🏠 Connecting to local provider:', targetNetwork.rpcUrl);
+const localProvider = getDefaultProvider(targetNetwork.name || targetNetwork.rpcUrl, providerOptions);
 
 /*
   Web3 modal helps us "connect" external wallets:
 */
 const web3Modal = new Web3Modal({
   cacheProvider: true,
-  theme: "dark",
+  theme: 'dark',
   providerOptions: {
     injected: {
       package: null,
@@ -79,10 +79,10 @@ const logoutOfWeb3Modal = async () => {
 };
 
 const NetworkProvider = ({ children }) => {
-  const [injectedProvider, setInjectedProvider] = useState();
+  const [injectedProvider, setInjectedProvider] = useState(null);
 
   // Use your injected provider from 🦊 Metamask or if you don't have it then instantly generate a 🔥 burner wallet.
-  const userProvider = useUserProvider(injectedProvider, localProvider);
+  const userProvider = useUserProvider(injectedProvider, localProvider, targetNetwork);
   const address = useUserAddress(userProvider);
   const signer = userProvider?.getSigner();
 
@@ -92,7 +92,7 @@ const NetworkProvider = ({ children }) => {
 
   // The Notifier wraps transactions and provides notificiations
   const { currentTheme } = useThemeSwitcher();
-  const tx = Notifier(userProvider, targetNetwork, currentTheme === "dark");
+  const tx = Notifier(userProvider, targetNetwork, currentTheme === 'dark');
 
   // Load in your local 📝 contract and read a value from it:
   const readContracts = useContractLoader(localProvider);
@@ -108,20 +108,19 @@ const NetworkProvider = ({ children }) => {
     const provider = await web3Modal.connect();
     updateWeb3ModalTheme();
     setInjectedProvider(new Web3Provider(provider));
-    provider.on("accountsChanged", accounts => {
-      if (DEBUG) console.log("web3 accounts", accounts);
+    provider.on('accountsChanged', accounts => {
+      if (DEBUG) console.log('web3 accountsChanged:', accounts);
+      setInjectedProvider(new Web3Provider(provider));
     });
-    provider.on("chainChanged", chainId => {
-      if (DEBUG) console.log("web3 chainId", chainId);
-      setTimeout(() => {
-        window.location.reload();
-      }, 1);
+    provider.on('chainChanged', chainId => {
+      if (DEBUG) console.log('web3 chainChanged:', chainId);
+      setInjectedProvider(new Web3Provider(provider));
     });
-    provider.on("connect", info => {
-      if (DEBUG) console.log("web3 info", info);
+    provider.on('connect', info => {
+      if (DEBUG) console.log('web3 info:', info);
     });
-    provider.on("disconnect", error => {
-      if (DEBUG) console.log("web3 error", error);
+    provider.on('disconnect', error => {
+      if (DEBUG) console.log('web3 error:', error);
     });
   }, [setInjectedProvider, updateWeb3ModalTheme]);
 
@@ -146,16 +145,16 @@ const NetworkProvider = ({ children }) => {
       userProvider &&
       writeContracts
     ) {
-      console.log("_________________ 🏗 Nifty League _________________");
-      console.log("🌎 mainnetProvider", mainnetProvider);
-      console.log("📡 userProvider", userProvider);
-      console.log("📡 localProvider", localProvider);
-      console.log("🏠 localChainId", localChainId);
-      console.log("🕵🏻‍♂️ selectedChainId:", selectedChainId);
-      console.log("🔭 targetNetwork:", targetNetwork);
-      console.log("👩‍💼 user address:", address);
-      console.log("📝 readContracts", readContracts);
-      console.log("🔐 writeContracts", writeContracts);
+      console.log('_________________ 🏗 Nifty League _________________');
+      console.log('🌎 mainnetProvider', mainnetProvider);
+      console.log('📡 userProvider', userProvider);
+      console.log('📡 localProvider', localProvider);
+      console.log('🏠 localChainId', localChainId);
+      console.log('🕵🏻‍♂️ selectedChainId:', selectedChainId);
+      console.log('🔭 targetNetwork:', targetNetwork);
+      console.log('👩‍💼 user address:', address);
+      console.log('📝 readContracts', readContracts);
+      console.log('🔐 writeContracts', writeContracts);
     }
   }, [address, localChainId, readContracts, selectedChainId, userProvider, writeContracts]);
 

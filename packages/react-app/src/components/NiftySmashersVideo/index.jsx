@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import ModalVideo from "react-modal-video";
-import VideoBGImg from "assets/images/games/nifty-smashers.png";
-import PlayIconImg from "assets/images/play-icon-red.png";
-import "./index.css";
+import React, { useState } from 'react';
+import ModalVideo from 'react-modal-video';
+import VideoBGImg from 'assets/images/games/nifty-smashers.png';
+import PlayIconImg from 'assets/images/play-icon-red.png';
+import './index.css';
 
 const NiftySmashersVideo = () => {
   const [isVideoOpen, setVideoOpen] = useState(false);

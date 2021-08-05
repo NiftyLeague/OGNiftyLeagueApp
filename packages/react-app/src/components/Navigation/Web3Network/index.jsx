@@ -1,6 +1,6 @@
-import React from "react";
-import { NETWORK_ICON, NETWORK_LABEL } from "../../../constants/networks";
-import NetworkModel from "./NetworkModal";
+import React from 'react';
+import { NETWORK_ICON, NETWORK_LABEL } from '../../../constants/networks';
+import NetworkModel from './NetworkModal';
 
 function Web3Network() {
   const chainId = 1;

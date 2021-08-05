@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { Switch } from "antd";
-import { useThemeSwitcher } from "react-css-theme-switcher";
-import { Brightness3, Brightness5 } from "@material-ui/icons";
+import React, { useEffect, useState } from 'react';
+import { Switch } from 'antd';
+import { useThemeSwitcher } from 'react-css-theme-switcher';
+import { Brightness3, Brightness5 } from '@material-ui/icons';
 
 export default function ThemeSwitcher() {
-  const theme = window.localStorage.getItem("theme");
-  const [isDarkMode, setIsDarkMode] = useState(!theme || theme !== "light");
+  const theme = window.localStorage.getItem('theme');
+  const [isDarkMode, setIsDarkMode] = useState(!theme || theme !== 'light');
   const { switcher, currentTheme, themes } = useThemeSwitcher();
   const iconStyle = { marginBottom: -6, fontSize: 20 };
 
   useEffect(() => {
-    window.localStorage.setItem("theme", currentTheme);
+    window.localStorage.setItem('theme', currentTheme);
   }, [currentTheme]);
 
   const toggleTheme = isChecked => {
@@ -19,9 +19,9 @@ export default function ThemeSwitcher() {
   };
 
   return (
-    <div className="main fade-in" style={{ position: "fixed", right: 25, bottom: 15, zIndex: 1500 }}>
+    <div className="main fade-in" style={{ position: 'fixed', right: 25, bottom: 15, zIndex: 1500 }}>
       <span style={{ padding: 8 }}>
-        {currentTheme === "light" ? <Brightness5 style={iconStyle} /> : <Brightness3 style={iconStyle} />}
+        {currentTheme === 'light' ? <Brightness5 style={iconStyle} /> : <Brightness3 style={iconStyle} />}
       </span>
       <Switch checked={isDarkMode} onChange={toggleTheme} />
     </div>

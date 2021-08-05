@@ -1,7 +1,7 @@
-import { darken } from "polished";
-import React, { HTMLProps, useCallback } from "react";
-import ReactGA from "react-ga";
-import styled from "styled-components";
+import { darken } from 'polished';
+import React, { HTMLProps, useCallback } from 'react';
+import ReactGA from 'react-ga';
+import styled from 'styled-components';
 
 export const Button = styled.button.attrs<{ warning: boolean }, { backgroundColor: string }>(({ warning, theme }) => ({
   backgroundColor: warning ? theme.red1 : theme.primary1,
@@ -38,8 +38,8 @@ export const IconWrapper = styled.div<{ stroke?: string; size?: string; marginRi
   display: flex;
   align-items: center;
   justify-content: center;
-  width: ${({ size }) => size ?? "20px"};
-  height: ${({ size }) => size ?? "20px"};
+  width: ${({ size }) => size ?? '20px'};
+  height: ${({ size }) => size ?? '20px'};
   margin-right: ${({ marginRight }) => marginRight ?? 0};
   margin-left: ${({ marginLeft }) => marginLeft ?? 0};
   & > * {
@@ -71,17 +71,18 @@ const StyledLink = styled.a`
  * Outbound link that handles firing google analytics events
  */
 export function ExternalLink({
-  target = "_blank",
+  target = '_blank',
   href,
-  rel = "noopener noreferrer",
+  rel = 'noopener noreferrer',
   ...rest
-}: Omit<HTMLProps<HTMLAnchorElement>, "as" | "ref" | "onClick"> & { href: string }) {
+}: Omit<HTMLProps<HTMLAnchorElement>, 'as' | 'ref' | 'onClick'> & { href: string }): JSX.Element {
   const handleClick = useCallback(
     (event: React.MouseEvent<HTMLAnchorElement>) => {
       // don't prevent default, don't redirect if it's a new tab
-      if (target === "_blank" || event.ctrlKey || event.metaKey) {
+      if (target === '_blank' || event.ctrlKey || event.metaKey) {
         ReactGA.outboundLink({ label: href }, () => {
-          console.debug("Fired outbound link event", href);
+          // eslint-disable-next-line no-console
+          console.debug('Fired outbound link event', href);
         });
       } else {
         event.preventDefault();

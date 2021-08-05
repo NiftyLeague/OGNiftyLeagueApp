@@ -1,7 +1,7 @@
-import { IPNS_URL } from "../constants";
+import { IPNS_URL } from '../constants';
 
 export function makeImageGatewayURL(ipfsURI) {
-  return `${process.env.REACT_APP_IPFS_GATEWAY}/ipfs/${ipfsURI.slice("ipfs://".length)}`;
+  return `${process.env.REACT_APP_IPFS_GATEWAY}/ipfs/${ipfsURI.slice('ipfs://'.length)}`;
 }
 
 export async function ResolveImageURL(tokenId) {
