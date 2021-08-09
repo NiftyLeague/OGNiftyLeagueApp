@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 import { utils } from 'ethers';
-import usePoller from './usePoller';
+import useAsyncInterval from './useAsyncInterval';
+import useNetworkInfo from './useNetworkInfo';
 import { BALANCE_INTERVAL } from '../constants';
 
 /*
@@ -19,6 +20,7 @@ import { BALANCE_INTERVAL } from '../constants';
 */
 
 export default function useBalance(provider, address, pollTime = BALANCE_INTERVAL) {
+  const { name } = useNetworkInfo(provider);
   const [balance, setBalance] = useState('0.00');
   const getBalance = useCallback(async () => {
     if (provider && address) {
@@ -31,7 +33,7 @@ export default function useBalance(provider, address, pollTime = BALANCE_INTERVA
       }
     }
   }, [address, provider, balance]);
-  usePoller(getBalance, pollTime);
-
+  const manualUpdate = `${name}-${address}`;
+  useAsyncInterval(getBalance, pollTime, false, manualUpdate);
   return balance;
 }

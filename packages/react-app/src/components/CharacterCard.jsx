@@ -39,12 +39,8 @@ export const useStyles = makeStyles(theme => ({
   },
   expandOpen: { transform: 'rotate(180deg)' },
   avatar: { '& div': { backgroundColor: 'transparent', border: 'solid #ffffff4d 0.5px' } },
-  cardTitle: {
-    fontSize: 18,
-    color: '#fff',
-    textAlign: 'left',
-    '&:hover': { color: '#fff' },
-  },
+  cardTitle: { display: 'flex', alignItems: 'center' },
+  cardTitleLink: { fontSize: 18, marginRight: 6, color: '#fff', '&:hover': { color: '#fff' } },
   cardSubheader: { fontSize: 14, textAlign: 'left', color: '#ffffff66' },
   media: { height: 280, paddingTop: '56.25%' },
   actionButtons: { color: '#fff', borderRadius: '50%', '&:focus': { outline: 'none' } },
@@ -89,7 +85,7 @@ export default function CharacterCard({ character, ownerOwned }) {
           }
           title={
             <>
-              <Link to={`degens/${tokenId}`} className={classes.cardTitle}>
+              <Link to={`degens/${tokenId}`} className={classes.cardTitleLink}>
                 {displayName}
               </Link>{' '}
               <OpenSeaLink tokenId={tokenId} />

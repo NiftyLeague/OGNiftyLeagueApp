@@ -6,7 +6,7 @@ import { CircularProgress, Container, Grid, Typography } from '@material-ui/core
 import { CharacterCard, WalletConnectPrompt } from 'components';
 import { useClaimableNFTL } from 'hooks';
 import { NetworkContext } from 'NetworkProvider';
-import { DEBUG, NFTL_CONTRACT } from '../../constants';
+import { DEBUG, NFTL_CONTRACT, CHARACTERS_SUBGRAPH_INTERVAL } from '../../constants';
 import { OWNER_QUERY } from './query';
 
 const useStyles = makeStyles(theme => ({
@@ -62,7 +62,7 @@ const Wallet = () => {
   const classes = useStyles();
   const { address } = useContext(NetworkContext);
   const { loading, data } = useQuery(OWNER_QUERY, {
-    pollInterval: 5000,
+    pollInterval: CHARACTERS_SUBGRAPH_INTERVAL,
     variables: { address: address?.toLowerCase() },
     skip: !address,
   });

@@ -45,8 +45,8 @@ module.exports = {
     'no-console': 'off',
     'no-plusplus': 'off',
     'no-underscore-dangle': 'off',
-    'no-use-before-define': 'off',
     'no-unused-expressions': 'off',
+    'no-use-before-define': 'off',
     'prefer-template': 'off',
     'react/jsx-props-no-spreading': 'off',
     'react/no-array-index-key': 'off',
@@ -67,6 +67,9 @@ module.exports = {
         'plugin:@typescript-eslint/recommended-requiring-type-checking',
         'plugin:prettier/recommended',
       ],
+      rules: {
+        'no-void': 'off',
+      },
     },
   ],
 };

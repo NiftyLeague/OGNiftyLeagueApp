@@ -6,7 +6,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 
 export const useStyles = makeStyles({
   snackbar: {
-    width: 225,
+    width: 250,
     marginBottom: -15,
     marginRight: 80,
     '& > div': {

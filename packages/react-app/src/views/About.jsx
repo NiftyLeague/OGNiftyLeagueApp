@@ -26,8 +26,8 @@ const About = ({ width }) => {
     <Container style={{ textAlign: 'left', padding: '40px' }}>
       <Title level={2}>About Nifty League</Title>
       <p>
-        Welcome to the Nifty League! Our mission is to create the top multi-chain gaming platform with customizable
-        characters and tradable in-game assets.
+        Welcome to the Nifty League! Our mission is to create the go-to NFT gaming platform through interactive and
+        competitive games which utilize our customizable characters and tradable in-game assets.
       </p>
       <div className="d-flex justify-content-around align-items-center">
         <Image width="40%" src={FrogInvite} />
