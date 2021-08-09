@@ -10,7 +10,7 @@ export const Button = styled.button.attrs<{ warning: boolean }, { backgroundColo
   border-radius: 3rem;
   cursor: pointer;
   user-select: none;
-  font-size: 1rem;
+  font-size: 18px;
   border: none;
   outline: none;
   background-color: ${({ backgroundColor }) => backgroundColor};
@@ -51,7 +51,7 @@ const StyledLink = styled.a`
   text-decoration: none;
   cursor: pointer;
   color: #0094ec;
-  font-weight: 500;
+  font-weight: 400;
 
   :hover {
     text-decoration: underline;

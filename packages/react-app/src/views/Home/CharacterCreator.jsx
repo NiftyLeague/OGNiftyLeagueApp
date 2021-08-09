@@ -2,7 +2,7 @@ import React, { memo, useCallback, useContext, useEffect, useState, useRef } fro
 import Unity, { UnityContext } from 'react-unity-webgl';
 import { isMobileOnly, withOrientationChange } from 'react-device-detect';
 import { utils } from 'ethers';
-import { useNFTPrice, useRemovedTraits } from 'hooks';
+import { useCachedSubgraph, useRemovedTraits } from 'hooks';
 import { submitTxWithGasEstimate } from 'helpers/Notifier';
 import { NetworkContext } from 'NetworkProvider';
 import CharacterBGImg from 'assets/images/backgrounds/character_creator.png';
@@ -75,13 +75,12 @@ const RemovedTraits = ({ callback, refreshKey }) => {
 };
 
 const CharacterCreator = memo(({ isLoaded, isPortrait, setLoaded }) => {
-  const { readContracts, targetNetwork, tx, writeContracts } = useContext(NetworkContext);
+  const { targetNetwork, tx, writeContracts } = useContext(NetworkContext);
   const removedTraitsCallback = useRef();
+  const { nftPrice } = useCachedSubgraph();
   const [refreshKey, setRefreshKey] = useState(0);
   const [width, setWidth] = useState(DEFAULT_WIDTH);
   const [height, setHeight] = useState(DEFAULT_HEIGHT);
-
-  const nftPrice = useNFTPrice(readContracts);
 
   const getRemovedTraits = useCallback(e => {
     removedTraitsCallback.current = e.detail.callback;
@@ -125,13 +124,13 @@ const CharacterCreator = memo(({ isLoaded, isPortrait, setLoaded }) => {
   const mintCharacter = useCallback(
     async e => {
       const { character, head, clothing, accessories, items } = getMintableTraits(e.detail);
-      const value = utils.parseEther(nftPrice);
-      const args = [character, head, clothing, accessories, items];
       const nftContract = writeContracts[NFT_CONTRACT];
+      const args = [character, head, clothing, accessories, items];
+      const value = await nftContract.getNFTPrice();
       submitTxWithGasEstimate(tx, nftContract, 'purchase', args, { value });
       setTimeout(() => e.detail.callback('true'), 4000);
     },
-    [writeContracts, tx, nftPrice],
+    [writeContracts, tx],
   );
 
   const onScroll = useCallback(() => {

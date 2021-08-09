@@ -11,6 +11,7 @@ import {
   List,
   ListItem,
   ListItemText,
+  Typography,
 } from '@material-ui/core';
 import { Image, Tooltip } from 'antd';
 import EditIcon from '@material-ui/icons/Edit';
@@ -34,19 +35,21 @@ export const useStyles = makeStyles({
     background: '-webkit-linear-gradient(89deg, #620edf 0%, #5e72eb 100%)',
   },
   avatar: { '& div': { backgroundColor: 'transparent', border: 'solid #ffffff4d 0.5px' } },
-  cardTitle: { fontSize: 22, color: '#fff', textAlign: 'left' },
+  cardTitle: { fontSize: 22, display: 'flex', color: '#fff', alignItems: 'center' },
+  name: { marginRight: 6 },
   owner: {
     display: 'flex',
-    marginLeft: 36,
+    marginLeft: 'auto',
+    marginRight: 16,
     '& div': { marginLeft: '8px !important', color: '#fff' },
     '& a': { color: '#fff !important' },
   },
   traitsHeader: { color: '#fff', paddingLeft: 8 },
   cardContent: { padding: 0, paddingBottom: 0, color: '#fff' },
-  traitList: { padding: 20, display: 'flex', flexWrap: 'wrap', flexDirection: 'row' },
+  traitList: { padding: 16, display: 'flex', flexWrap: 'wrap', flexDirection: 'row' },
   traitListItem: { width: '25%', alignItems: 'baseline' },
-  traitListText: { color: '#fff', fontSize: 14, textAlign: 'center' },
-  traitListTextSecondary: { color: '#aaa0a0', fontSize: 14, textAlign: 'center' },
+  traitListText: { color: '#fff', fontSize: 18, textAlign: 'center' },
+  traitListTextSecondary: { color: '#aaa0a0', fontSize: 18, textAlign: 'center' },
   cardActions: { marginTop: 'auto', color: '#fff' },
   actionButtons: { color: '#fff', borderRadius: '50%', '&:focus': { outline: 'none' } },
 });
@@ -104,13 +107,16 @@ const Character = ({ width }) => {
           avatar={<Avatar aria-label="Character ID">{tokenId}</Avatar>}
           title={
             <>
-              {displayName} <OpenSeaLink tokenId={tokenId} />
+              <Typography variant="h6" className={classes.name}>
+                {displayName}
+              </Typography>{' '}
+              <OpenSeaLink tokenId={tokenId} />
             </>
           }
         />
 
         <CardContent className={classes.cardContent}>
-          Character Traits:
+          <Typography variant="h6">Character Traits:</Typography>
           <List dense className={classes.traitList}>
             {Object.entries(traits)
               .filter(([, value]) => parseInt(value, 10) > 0)

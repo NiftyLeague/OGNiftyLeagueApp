@@ -1,7 +1,7 @@
 import { useCallback, useState, useMemo } from 'react';
 import isEqual from 'lodash/isEqual';
-import usePoller from './usePoller';
-import { DEBUG, READ_CONTRACT_DEFAULT } from '../constants';
+import useAsyncInterval from './useAsyncInterval';
+import { DEBUG, READ_CONTRACT_DEFAULT_INTERVAL } from '../constants';
 
 /*
   Enables you to read values from contracts and keep track of them in the local React states
@@ -16,7 +16,7 @@ import { DEBUG, READ_CONTRACT_DEFAULT } from '../constants';
   - Specify the name of the target contract
   - Specify the name of the function name to call from the contract
   - Pass in any args necessary
-  - Set a custom poll time or default to READ_CONTRACT_DEFAULT if null
+  - Set a custom poll time or default to READ_CONTRACT_DEFAULT_INTERVAL if null
   - Provide a formatter to format the result
   - Provide a refreshKey if you wish to manually trigger a refetch
 */
@@ -55,7 +55,7 @@ export default function useContractReader(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [contracts, contractName, functionName, formatter, value, argsMemoized, refreshKey]);
 
-  usePoller(readContract, pollTime || READ_CONTRACT_DEFAULT);
+  useAsyncInterval(readContract, pollTime || READ_CONTRACT_DEFAULT_INTERVAL, true, argsMemoized);
 
   return value;
 }

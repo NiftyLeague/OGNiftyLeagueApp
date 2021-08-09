@@ -1,11 +1,9 @@
-import React, { memo, useContext } from 'react';
+import React, { memo } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import { LinearProgress, Typography } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
-import { NetworkContext } from 'NetworkProvider';
-import { useContractReader } from 'hooks';
-import { NFT_CONTRACT, TOTAL_SUPPLY_INTERVAL } from '../constants';
+import { useCachedSubgraph } from 'hooks';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -17,15 +15,17 @@ const useStyles = makeStyles(theme => ({
   alert: {
     width: '100%',
     margin: '0 auto',
+    fontWeight: 300,
   },
   message: { width: '95%' },
-  progressLabels: { width: '10%' },
-  progress: { width: '85%' },
+  progressTitle: { color: '#fff', fontWeight: 400, fontSize: 22 },
+  progressLabels: { width: '10%', fontSize: 16, fontWeight: 500 },
+  progress: { width: '85%', fontSize: 16 },
   [theme.breakpoints.down('sm')]: {
     icon: { display: 'none' },
     message: { width: '100%' },
-    progressLabels: { width: '15%' },
-    progress: { width: '75%' },
+    progressLabels: { width: '15%', fontSize: 14 },
+    progress: { width: '75%', fontSize: 14 },
   },
   col1: { width: '10%' },
   col2: { width: '15%' },
@@ -49,17 +49,15 @@ function Alert(props) {
 
 const SaleProgress = memo(({ className, handleClose }) => {
   const classes = useStyles();
-  const { readContracts } = useContext(NetworkContext);
-  const progress = useContractReader(readContracts, NFT_CONTRACT, 'totalSupply', null, TOTAL_SUPPLY_INTERVAL);
-
+  const { totalSupply } = useCachedSubgraph();
   return (
     <Alert
       severity="info"
       classes={{ root: clsx(classes.alert, className), message: classes.message, icon: classes.icon }}
       {...(handleClose && { onClose: handleClose })}
     >
-      <Typography variant="h6" gutterBottom style={{ color: '#fff' }}>
-        Sale Progress: {`${progress ?? 0}/4900 NTFs Sold`}
+      <Typography variant="h6" gutterBottom className={classes.progressTitle}>
+        Sale Progress: {`${totalSupply ?? 0}/4900 NTFs Sold`}
       </Typography>
       <div className="row d-flex flex-nowrap">
         <div className={classes.progressLabels}>
@@ -80,34 +78,34 @@ const SaleProgress = memo(({ className, handleClose }) => {
             <LinearProgress
               className={clsx(classes.col1, classes.borderRight)}
               variant="determinate"
-              value={normalise(progress, 0, 1000)}
+              value={normalise(totalSupply, 0, 1000)}
             />
             <LinearProgress
               className={clsx(classes.col2, classes.borderRight)}
               variant="determinate"
-              value={normalise(progress, 1000, 2500)}
+              value={normalise(totalSupply, 1000, 2500)}
             />
             <LinearProgress
               className={clsx(classes.col3, classes.borderRight)}
               variant="determinate"
-              value={normalise(progress, 2500, 4500)}
+              value={normalise(totalSupply, 2500, 4500)}
             />
             <LinearProgress
               className={clsx(classes.col4, classes.borderRight)}
               variant="determinate"
-              value={normalise(progress, 4500, 6500)}
+              value={normalise(totalSupply, 4500, 6500)}
             />
             <LinearProgress
               className={clsx(classes.col5, classes.borderRight)}
               variant="determinate"
-              value={normalise(progress, 6500, 8500)}
+              value={normalise(totalSupply, 6500, 8500)}
             />
             <LinearProgress
               className={clsx(classes.col6, classes.borderRight)}
               variant="determinate"
-              value={normalise(progress, 8500, 9500)}
+              value={normalise(totalSupply, 8500, 9500)}
             />
-            <LinearProgress className={classes.col7} variant="determinate" value={normalise(progress, 9500, 9900)} />
+            <LinearProgress className={classes.col7} variant="determinate" value={normalise(totalSupply, 9500, 9900)} />
           </div>
           <div className="row d-flex flex-nowrap">
             <div className={classes.col1}>0.025</div>

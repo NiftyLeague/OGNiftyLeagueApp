@@ -5,7 +5,9 @@ import WalletConnectProvider from '@walletconnect/web3-provider';
 import { useUserAddress } from 'eth-hooks';
 import Web3Modal from 'web3modal';
 
-import { useContractLoader, useUserProvider, useNetworkInfo } from 'hooks';
+import useNetworkInfo from 'hooks/useNetworkInfo';
+import useContractLoader from 'hooks/useContractLoader';
+import useUserProvider from 'hooks/useUserProvider';
 import Notifier from 'helpers/Notifier';
 import { ALCHEMY_ID, DEBUG, ETHERSCAN_KEY, INFURA_ID, NETWORKS } from './constants';
 
@@ -13,7 +15,6 @@ const { getDefaultProvider, Web3Provider } = providers;
 
 const CONTEXT_INITIAL_STATE = {
   address: '',
-  faucetAvailable: false,
   loadWeb3Modal: () => {},
   localChainId: null,
   localProvider: null,
@@ -106,7 +107,7 @@ const NetworkProvider = ({ children }) => {
 
   const loadWeb3Modal = useCallback(async () => {
     const provider = await web3Modal.connect();
-    updateWeb3ModalTheme();
+    await updateWeb3ModalTheme();
     setInjectedProvider(new Web3Provider(provider));
     provider.on('accountsChanged', accounts => {
       if (DEBUG) console.log('web3 accountsChanged:', accounts);

@@ -19,13 +19,19 @@
 
 /* Typography */
 
-body {
+html,
+body,
+p,
+a,
+button,
+button span {
   font-family: 'Ubuntu', 'Roboto', sans-serif !important;
   font-size: 18px;
+  font-weight: 400;
 }
 
 h1 {
-  font-size: 55px !important;
+  font-size: 48px !important;
 }
 
 h1,
@@ -44,17 +50,6 @@ h2 {
   background: -webkit-linear-gradient(right, #5e72eb, #620edf);
   background: -o-linear-gradient(right, #5e72eb, #620edf);
   background: linear-gradient(to left, #5e72eb, #620edf);
-}
-
-p,
-a,
-button,
-button span {
-  font-size: 18px;
-}
-
-a {
-  text-decoration: none;
 }
 
 a,
@@ -108,7 +103,7 @@ a:active {
 
 .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item,
 .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu {
-  margin: -2px 20px 0;
+  margin: -2px 18px 0;
 }
 
 .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item:hover::after,

@@ -12,7 +12,7 @@ export default function OpenSeaLink({ tokenId }) {
   return (
     <Tooltip title="View in OpenSea">
       <a target="_blank" href={`${host}/${NFTAddress}/${tokenId}`} rel="noopener noreferrer">
-        <img src={OpenSeaIcon} alt="opensea icon" style={{ width: 24, height: 24 }} />
+        <img src={OpenSeaIcon} alt="opensea icon" style={{ width: 24, height: 24, marginBottom: 3 }} />
       </a>
     </Tooltip>
   );

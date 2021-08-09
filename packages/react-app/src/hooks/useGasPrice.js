@@ -1,6 +1,6 @@
 import { useCallback, useRef } from 'react';
 import axios from 'axios';
-import usePoller from './usePoller';
+import useInterval from './useInterval';
 
 export default function useGasPrice(targetNetwork, speed, pollTime = 9999) {
   const gasPriceRef = useRef();
@@ -18,6 +18,6 @@ export default function useGasPrice(targetNetwork, speed, pollTime = 9999) {
     }
   }, [targetNetwork.gasPrice, speed]);
 
-  usePoller(loadGasPrice, pollTime);
+  useInterval(loadGasPrice, pollTime);
   return gasPriceRef.current;
 }

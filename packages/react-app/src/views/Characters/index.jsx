@@ -6,6 +6,7 @@ import { CircularProgress, Container, Grid, Snackbar } from '@material-ui/core';
 import Pagination from '@material-ui/lab/Pagination';
 import { CharacterCard, SaleProgress } from 'components';
 import CharactersFilter from './CharactersFilter';
+import { CHARACTERS_SUBGRAPH_INTERVAL } from '../../constants';
 import { INITIAL_FILTER_STATE, FILTER_STATE_MAPPING, PAGE_SIZE } from './constants';
 import { DEFAULT_QUERY, FILTER_SEARCH_QUERY, ID_SEARCH_QUERY, NAME_SEARCH_QUERY } from './queries';
 import { useStyles } from './styles';
@@ -22,7 +23,7 @@ const CharactersContainer = () => {
   let query = DEFAULT_QUERY;
   if (search) query = search.match(/^\d+$/) ? ID_SEARCH_QUERY : NAME_SEARCH_QUERY;
   const { loading, data } = useQuery(query, {
-    pollInterval: 5000,
+    pollInterval: CHARACTERS_SUBGRAPH_INTERVAL,
     variables: { size: PAGE_SIZE, lastID: (page - 1) * PAGE_SIZE, search },
   });
 
@@ -40,7 +41,7 @@ const CharactersContainer = () => {
   }, [filterActive, filterState]);
 
   const { loading: filterDataLoading, data: filterData } = useQuery(FILTER_SEARCH_QUERY, {
-    pollInterval: 5000,
+    pollInterval: CHARACTERS_SUBGRAPH_INTERVAL,
     variables: { ...filterParams },
     skip: !filterActive,
   });

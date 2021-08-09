@@ -3,9 +3,9 @@ import { ChainId, WETH, Fetcher, Route } from '@sushiswap/sdk';
 import { NetworkContext } from 'NetworkProvider';
 import { DAI as DAI_MAP } from 'constants/tokens';
 import { ETH_EXCHANGE_PRICE_INTERVAL } from '../constants';
-import usePoller from './usePoller';
+import useInterval from './useInterval';
 
-/* 💵 This hook will get the price of ETH from Sushiswap on Mainnet: */
+/* 💵 This hook will poll the price of ETH from Sushiswap on Mainnet: */
 export default function useExchangePrice(pollTime = ETH_EXCHANGE_PRICE_INTERVAL) {
   const [price, setPrice] = useState(0);
   const { mainnetProvider } = useContext(NetworkContext);
@@ -16,12 +16,11 @@ export default function useExchangePrice(pollTime = ETH_EXCHANGE_PRICE_INTERVAL)
       const pair = await Fetcher.fetchPairData(DAI, WETH[DAI.chainId], mainnetProvider);
       const route = new Route([pair], WETH[DAI.chainId]);
       const newPrice = parseFloat(route.midPrice.toSignificant(6));
-      console.log('newPrice', newPrice);
       if (price !== newPrice) setPrice(newPrice);
     }
-    if (mainnetProvider) getPrice();
+    if (mainnetProvider) void getPrice();
   }, [mainnetProvider, price]);
-  usePoller(pollPrice, pollTime);
+  useInterval(pollPrice, pollTime);
 
   return price;
 }

@@ -49,12 +49,12 @@ const Home = memo(() => {
                   Welcome to the Nifty League
                 </Title>
                 <p className="text">
-                  Our mission is to create the top multi-chain gaming platform with customizable characters and tradable
-                  in-game assets.
+                  Our mission is to create the go-to NFT gaming platform through interactive and competitive games which
+                  utilize our customizable characters and tradable in-game assets.
                 </p>
                 <p className="text">
-                  Advance your skills to earn awards in our games packed full of nostalgia and designed for those who
-                  love to compete.
+                  Advance your skills to earn daily rewards in our games packed full of nostalgia. Stay tuned for
+                  upcoming multi-chain launches enabling you to battle it out cross-platform!
                 </p>
                 <Link to="/about" className="moreBtn">
                   Learn More
