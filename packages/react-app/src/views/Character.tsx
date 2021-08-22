@@ -13,14 +13,14 @@ import {
   ListItemText,
   Typography,
 } from '@material-ui/core';
-import { Image, Tooltip } from 'antd';
+import { Image } from 'antd';
 import EditIcon from '@material-ui/icons/Edit';
 
 import { makeStyles } from '@material-ui/core/styles';
 import withWidth, { isWidthDown } from '@material-ui/core/withWidth';
 
 import { NetworkContext } from 'NetworkProvider';
-import { Address, OpenSeaLink, RenameDialog, ShareCharacter } from 'components';
+import { Address, OpenSeaLink, RenameDialog, ShareCharacter, Tooltip } from 'components';
 import { ResolveImageURL } from 'helpers/ipfs';
 import UnavailableImg from 'assets/images/unavailable-image.jpeg';
 import { TRAIT_INDEXES, TRAIT_NAME_MAP, TRAIT_VALUE_MAP } from '../constants/characters';
@@ -138,7 +138,7 @@ const Character = ({ width }) => {
         </CardContent>
         <CardActions disableSpacing className={classes.cardActions}>
           {ownerOwned && (
-            <Tooltip title="Rename">
+            <Tooltip text="Rename">
               <IconButton aria-label="rename" className={classes.actionButtons} onClick={() => setDialogOpen(true)}>
                 <EditIcon />
               </IconButton>

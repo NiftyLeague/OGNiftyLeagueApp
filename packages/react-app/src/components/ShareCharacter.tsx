@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
 import copy from 'copy-to-clipboard';
-import { Tooltip } from 'antd';
 import { makeStyles } from '@material-ui/core/styles';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import ShareIcon from '@material-ui/icons/Share';
 import CloseIcon from '@material-ui/icons/Close';
+import Tooltip from 'components/Tooltip';
 
 export const useStyles = makeStyles({
   actionButtons: { color: '#fff', borderRadius: '50%', '&:focus': { outline: 'none' } },
@@ -30,7 +30,7 @@ const ShareCharacter = ({ tokenId }: { tokenId: string }): JSX.Element => {
 
   return (
     <>
-      <Tooltip title="Share link">
+      <Tooltip text="Share link">
         <IconButton
           aria-label="share"
           className={classes.actionButtons}

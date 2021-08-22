@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import clsx from 'clsx';
-import { useThemeSwitcher } from 'react-css-theme-switcher';
 import { makeStyles } from '@material-ui/core/styles';
 import Snackbar from '@material-ui/core/Snackbar';
 
@@ -14,17 +12,10 @@ export const useStyles = makeStyles({
       minWidth: 160,
     },
   },
-  snackbarLight: {
-    '& > div': {
-      color: 'black',
-      backgroundColor: 'white',
-    },
-  },
 });
 
 const CurrentPrice = ({ nftPrice, isLoaded }: { nftPrice?: string; isLoaded?: boolean }): JSX.Element => {
   const classes = useStyles();
-  const { currentTheme } = useThemeSwitcher();
   const [open, setOpen] = useState(true);
 
   const handleClose = (event: React.SyntheticEvent | React.MouseEvent, reason?: string) => {
@@ -35,7 +26,7 @@ const CurrentPrice = ({ nftPrice, isLoaded }: { nftPrice?: string; isLoaded?: bo
   return (
     <Snackbar
       anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-      classes={{ root: clsx(classes.snackbar, { [classes.snackbarLight]: currentTheme === 'light' }) }}
+      classes={{ root: classes.snackbar }}
       message={
         <>
           <div>Current mint price: {nftPrice} ETH</div>

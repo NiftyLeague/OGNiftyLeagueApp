@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { NetworkContext } from 'NetworkProvider';
 import NFTL from 'assets/images/NFTL.png';
-import Tooltip from '../Tooltip';
+import Tooltip from 'components/Tooltip';
 import { NFTL_CONTRACT } from '../../constants';
 
 const AddNFTL = (): JSX.Element | null => {
@@ -29,7 +29,7 @@ const AddNFTL = (): JSX.Element | null => {
   };
 
   return userProvider?.provider?.isMetaMask && userProvider?.provider?.request ? (
-    <Tooltip text="Add NFTL to your Metamask wallet">
+    <Tooltip text="Add NFTL to your Metamask wallet" placement="left-start">
       <div className="add-token" onClick={handleAddToken}>
         <img src={NFTL} alt="NFTL logo" />
       </div>

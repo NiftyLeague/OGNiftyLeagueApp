@@ -1,10 +1,11 @@
 import React, { useCallback, useContext, useState } from 'react';
-import { Input, Button, Tooltip } from 'antd';
+import { Input, Button } from 'antd';
 import Blockies from 'react-blockies';
 import { SendOutlined } from '@ant-design/icons';
 import { utils } from 'ethers';
 import { useLookupAddress } from 'eth-hooks';
 import { NetworkContext } from 'NetworkProvider';
+import Tooltip from 'components/Tooltip';
 import Notifier from 'helpers/Notifier';
 import Wallet from './Wallet';
 
@@ -85,16 +86,18 @@ export default function Faucet(): JSX.Element {
         value={ens || address}
         onChange={e => updateAddress(e.target.value)}
         suffix={
-          <Tooltip title="Faucet: Send local ether to an address.">
-            <Button
-              onClick={async () => {
-                await tx({ to: address, value: utils.parseEther('1.00') });
-                setAddress('');
-              }}
-              shape="circle"
-              icon={<SendOutlined />}
-            />
-            <Wallet color="#888888" ensProvider={mainnetProvider} provider={localProvider} tx={tx} />
+          <Tooltip text="Faucet: Send local ether to an address.">
+            <>
+              <Button
+                onClick={async () => {
+                  await tx({ to: address, value: utils.parseEther('1.00') });
+                  setAddress('');
+                }}
+                shape="circle"
+                icon={<SendOutlined />}
+              />
+              <Wallet color="#888888" ensProvider={mainnetProvider} provider={localProvider} tx={tx} />
+            </>
           </Tooltip>
         }
       />
