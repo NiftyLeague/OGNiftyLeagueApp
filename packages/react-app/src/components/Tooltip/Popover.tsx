@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useRef } from 'react';
 import Portal from '@reach/portal';
 import { transparentize } from 'polished';
 import { usePopper } from 'react-popper';
@@ -10,9 +9,8 @@ import ThemeProvider from 'theme';
 
 const PopoverContainer = styled.div`
   z-index: 9999;
-
-  visibility: ${props => ((props as any).show ? 'visible' : 'hidden')};
-  opacity: ${props => ((props as any).show ? 1 : 0)};
+  visibility: ${(props: { show: boolean }) => (props.show ? 'visible' : 'hidden')};
+  opacity: ${(props: { show: boolean }) => (props.show ? 1 : 0)};
   transition: visibility 150ms linear, opacity 150ms linear;
 
   background: ${({ theme }) => theme.bg2};
@@ -59,16 +57,17 @@ const Arrow = styled.div`
     }
   }
 
-  &.arrow-left {
+  &.arrow-left,
+  &.arrow-left-start {
     right: -5px;
-
     ::before {
       border-bottom: none;
       border-left: none;
     }
   }
 
-  &.arrow-right {
+  &.arrow-right,
+  &.arrow-right-start {
     left: -5px;
     ::before {
       border-right: none;
@@ -77,23 +76,23 @@ const Arrow = styled.div`
   }
 `;
 
-interface PopoverProps {
+export interface PopoverProps {
   content: JSX.Element;
   show?: boolean;
-  children?: JSX.Element;
+  children: JSX.Element;
   placement?: Placement;
 }
 
 const Popover = ({ content, show, children, placement }: PopoverProps): JSX.Element => {
-  const [referenceElement, setReferenceElement] = useState(null);
-  const [popperElement, setPopperElement] = useState(null);
-  const [arrowElement, setArrowElement] = useState(null);
-  const { styles, update, attributes } = usePopper(referenceElement, popperElement, {
+  const referenceElement = useRef(null);
+  const popperElement = useRef(null);
+  const arrowElement = useRef(null);
+  const { styles, update, attributes } = usePopper(referenceElement.current, popperElement.current, {
     placement,
     strategy: 'fixed',
     modifiers: [
       { name: 'offset', options: { offset: [8, 8] } },
-      { name: 'arrow', options: { element: arrowElement } },
+      { name: 'arrow', options: { element: arrowElement.current } },
     ],
   });
   const updateCallback = useCallback(() => {
@@ -103,16 +102,14 @@ const Popover = ({ content, show, children, placement }: PopoverProps): JSX.Elem
 
   return (
     <ThemeProvider>
-      {/* @ts-expect-error ts-migrate(2769) FIXME: No overload matches this call. */}
-      <ReferenceElement ref={setReferenceElement}>{children}</ReferenceElement>
+      <ReferenceElement ref={referenceElement}>{children}</ReferenceElement>
       <Portal>
         {/* @ts-expect-error ts-migrate(2769) FIXME: No overload matches this call. */}
-        <PopoverContainer show={show} ref={setPopperElement} style={styles.popper} {...attributes.popper}>
+        <PopoverContainer show={show} ref={popperElement} style={styles.popper} {...attributes.popper}>
           {content}
           <Arrow
             className={`arrow-${attributes.popper?.['data-popper-placement'] ?? ''}`}
-            // @ts-expect-error ts-migrate(2769) FIXME: No overload matches this call.
-            ref={setArrowElement}
+            ref={arrowElement}
             style={styles.arrow}
             {...attributes.arrow}
           />
@@ -124,7 +121,6 @@ const Popover = ({ content, show, children, placement }: PopoverProps): JSX.Elem
 
 Popover.defaultProps = {
   show: false,
-  children: undefined,
   placement: 'auto',
 };
 

@@ -1,9 +1,10 @@
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
+import { Placement } from '@popperjs/core';
 import Popover from './Popover';
 
 const TooltipContainer = styled.div`
-  width: 228px;
+  max-width: 300px;
   padding: 0.6rem 1rem;
   line-height: 150%;
   font-weight: 400;
@@ -15,18 +16,31 @@ const TooltipInner = styled.div`
   display: flex;
 `;
 
-function Tooltip({ text, ...rest }): JSX.Element {
-  return <Popover content={<TooltipContainer>{text}</TooltipContainer>} {...rest} />;
+interface TooltipProps extends MouseoverTooltipProps {
+  show: boolean;
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-function MouseoverTooltip({ children, ...rest }): JSX.Element {
+function Tooltip({ children, placement, show, text }: TooltipProps): JSX.Element {
+  return (
+    <Popover content={<TooltipContainer>{text}</TooltipContainer>} placement={placement} show={show}>
+      {children}
+    </Popover>
+  );
+}
+
+interface MouseoverTooltipProps {
+  children: JSX.Element;
+  // eslint-disable-next-line react/require-default-props
+  placement?: Placement;
+  text: string | JSX.Element;
+}
+
+function MouseoverTooltip({ children, placement, text }: MouseoverTooltipProps): JSX.Element {
   const [show, setShow] = useState(false);
   const open = useCallback(() => setShow(true), [setShow]);
   const close = useCallback(() => setShow(false), [setShow]);
   return (
-    // @ts-expect-error ts-migrate(2741) FIXME: Property 'text' is missing in type '{ children: El... Remove this comment to see the full error message
-    <Tooltip {...rest} show={show}>
+    <Tooltip placement={placement} text={text} show={show}>
       <TooltipInner onMouseEnter={open} onMouseLeave={close}>
         {children}
       </TooltipInner>
