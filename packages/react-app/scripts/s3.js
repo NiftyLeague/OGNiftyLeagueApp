@@ -1,18 +1,18 @@
-const s3FolderUpload = require("s3-folder-upload");
-const fs = require("fs");
+const s3FolderUpload = require('s3-folder-upload');
+const fs = require('fs');
 
-const directoryName = "build";
+const directoryName = 'build';
 
-const BUCKETNAME = ""; // <<---- SET YOUR BUCKET NAME AND CREATE aws.json ** see below vvvvvvvvvv
+const BUCKETNAME = ''; // <<---- SET YOUR BUCKET NAME AND CREATE aws.json ** see below vvvvvvvvvv
 
 if (!BUCKETNAME) {
-  console.log("☢️   Enter a bucket name in packages/react-app/scripts/s3.js ");
+  console.log('☢️   Enter a bucket name in packages/react-app/scripts/s3.js ');
   process.exit(1);
 }
 
 let credentials = {};
 try {
-  credentials = JSON.parse(fs.readFileSync("aws.json"));
+  credentials = JSON.parse(fs.readFileSync('aws.json'));
 } catch (e) {
   console.log(e);
   console.log(
@@ -20,7 +20,7 @@ try {
   );
   process.exit(1);
 }
-console.log("credentials", credentials);
+console.log('credentials', credentials);
 
 credentials.bucket = BUCKETNAME;
 

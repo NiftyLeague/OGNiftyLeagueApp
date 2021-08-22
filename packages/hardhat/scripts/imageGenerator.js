@@ -1,5 +1,5 @@
-const fs = require("fs");
-const request = require("request");
+const fs = require('fs');
+const request = require('request');
 
 /**
  * Returns random background option based on probabilities
@@ -16,30 +16,30 @@ function raritySelector() {
  * @param {number} rarity - number of background rarity 0-3
  */
 function generateImageURL(traits, rarity) {
-  const baseURL = "http://35.175.104.137:56429/";
+  const baseURL = 'http://35.175.104.137:56429/';
   const traitArray = [
-    ["Tribe", traits[0]],
-    ["Skin Color", traits[1]],
-    ["Fur Color", traits[2]],
-    ["Eye Color", traits[3]],
-    ["Pupil Color", traits[4]],
-    ["Hair", traits[5]],
-    ["Mouth", traits[6]],
-    ["Beard", traits[7]],
-    ["Top", traits[8]],
-    ["Outerwear", traits[9]],
-    ["Print", traits[10]],
-    ["Bottom", traits[11]],
-    ["Footwear", traits[12]],
-    ["Belt", traits[13]],
-    ["Hat", traits[14]],
-    ["Eyewear", traits[15]],
-    ["Piercing", traits[16]],
-    ["Wrist", traits[17]],
-    ["Hand", traits[18]],
-    ["Neckwear", traits[19]],
-    ["Left Hand", traits[20]],
-    ["Right Hand", traits[21]],
+    ['Tribe', traits[0]],
+    ['Skin Color', traits[1]],
+    ['Fur Color', traits[2]],
+    ['Eye Color', traits[3]],
+    ['Pupil Color', traits[4]],
+    ['Hair', traits[5]],
+    ['Mouth', traits[6]],
+    ['Beard', traits[7]],
+    ['Top', traits[8]],
+    ['Outerwear', traits[9]],
+    ['Print', traits[10]],
+    ['Bottom', traits[11]],
+    ['Footwear', traits[12]],
+    ['Belt', traits[13]],
+    ['Hat', traits[14]],
+    ['Eyewear', traits[15]],
+    ['Piercing', traits[16]],
+    ['Wrist', traits[17]],
+    ['Hand', traits[18]],
+    ['Neckwear', traits[19]],
+    ['Left Hand', traits[20]],
+    ['Right Hand', traits[21]],
   ];
   const params = new URLSearchParams({
     version: 90,
@@ -65,11 +65,11 @@ async function downloadImage(url, dest) {
       gzip: true,
     })
       .pipe(file)
-      .on("finish", async () => {
+      .on('finish', async () => {
         console.log(`The file is finished downloading.`);
         resolve();
       })
-      .on("error", error => {
+      .on('error', error => {
         reject(error);
       });
   }).catch(error => {

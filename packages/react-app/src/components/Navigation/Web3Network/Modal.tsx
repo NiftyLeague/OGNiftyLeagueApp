@@ -1,3 +1,10 @@
+/* eslint-disable jsx-a11y/tabindex-no-positive */
+/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
+/* eslint-disable react/require-default-props */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+
 import { DialogContent, DialogOverlay } from '@reach/dialog';
 import '@reach/dialog/styles.css';
 import { transparentize } from 'polished';
@@ -96,7 +103,7 @@ export default function Modal({
   children,
   padding = 5,
   noPadding = false,
-}: ModalProps) {
+}: ModalProps): JSX.Element {
   const fadeTransition = useTransition(isOpen, {
     config: { duration: 200 },
     from: { opacity: 0 },
@@ -127,7 +134,7 @@ export default function Modal({
                   ? {
                       ...bind(),
                       style: {
-                        transform: y.interpolate(y => `translateY(${y > 0 ? y : 0}px)`),
+                        transform: y.interpolate(Y => `translateY(${Y > 0 ? Y : 0}px)`),
                       },
                     }
                   : {})}

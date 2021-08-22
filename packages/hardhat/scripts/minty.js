@@ -1,20 +1,20 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-use-before-define */
 /* eslint-disable spaced-comment */
-const fs = require("fs");
-const path = require("path");
+const fs = require('fs');
+const path = require('path');
 
-const CID = require("cids");
-const ipfsClient = require("ipfs-http-client");
-const all = require("it-all");
-const uint8ArrayConcat = require("uint8arrays/concat");
-const uint8ArrayToString = require("uint8arrays/to-string");
-const { ethers } = require("hardhat");
+const CID = require('cids');
+const ipfsClient = require('ipfs-http-client');
+const all = require('it-all');
+const uint8ArrayConcat = require('uint8arrays/concat');
+const uint8ArrayToString = require('uint8arrays/to-string');
+const { ethers } = require('hardhat');
 
 // The getconfig package loads configuration from files located in the the `config` directory.
 // See https://www.npmjs.com/package/getconfig for info on how to override the default config for
 // different environments (e.g. testnet, mainnet, staging, production, etc).
-const config = require("getconfig");
+const config = require('getconfig');
 
 const {
   stripIpfsUriPrefix,
@@ -22,14 +22,14 @@ const {
   makeGatewayURL,
   makeIPNSGatewayURL,
   extractCID,
-} = require("./uriHelpers");
-const { raritySelector, generateImageURL, downloadImage } = require("./imageGenerator");
-const { CHARACTER_BACKGROUNDS, CHARACTER_TRAIT_TYPES, TRAIT_VALUE_MAP } = require("../constants/characterTraits");
+} = require('./uriHelpers');
+const { raritySelector, generateImageURL, downloadImage } = require('./imageGenerator');
+const { CHARACTER_BACKGROUNDS, CHARACTER_TRAIT_TYPES, TRAIT_VALUE_MAP } = require('../constants/characterTraits');
 
 // ipfs parameters for more deterministic CIDs
 const ipfsOptions = {
   cidVersion: 1,
-  hashAlg: "sha2-256",
+  hashAlg: 'sha2-256',
   wrapWithDirectory: true,
 };
 
@@ -64,7 +64,7 @@ class Minty {
     if (this._initialized) return;
 
     // eslint-disable-next-line global-require
-    this.hardhat = require("hardhat");
+    this.hardhat = require('hardhat');
     const targetNetwork = process.env.HARDHAT_NETWORK || config.defaultNetwork;
 
     // connect to the smart contract using the address and ABI from the deploy info
@@ -194,11 +194,11 @@ class Minty {
   // eslint-disable-next-line class-methods-use-this
   async generateImage(tokenId, traits, rarity) {
     const filePath = `${this.dir}/images/${tokenId}.png`;
-    if (config.avoidImageOverride === "true" && fs.existsSync(filePath)) {
+    if (config.avoidImageOverride === 'true' && fs.existsSync(filePath)) {
       console.log(`Image already exists at ${filePath}`);
     } else {
       const url = generateImageURL(traits, rarity);
-      console.log("Unity image url:", url);
+      console.log('Unity image url:', url);
       await downloadImage(url, filePath);
     }
     return filePath;
@@ -224,8 +224,8 @@ class Minty {
    */
   async makeNFTMetadata(tokenId, traits, rarity, assetURI) {
     const attributes = [
-      { display_type: "number", trait_type: "Generation", value: 1 },
-      { trait_type: "Tier", value: CHARACTER_BACKGROUNDS[rarity] },
+      { display_type: 'number', trait_type: 'Generation', value: 1 },
+      { trait_type: 'Tier', value: CHARACTER_BACKGROUNDS[rarity] },
     ];
     traits.forEach((trait, i) => {
       if (trait !== 0) {
@@ -334,13 +334,13 @@ class Minty {
     // The transaction receipt contains events emitted while processing the transaction.
     const receipt = await tx.wait();
     for (const event of receipt.events) {
-      if (event.event !== "Transfer") {
-        console.log("ignoring unknown event type ", event.event);
+      if (event.event !== 'Transfer') {
+        console.log('ignoring unknown event type ', event.event);
       } else {
         return event.args.tokenId.toString();
       }
     }
-    throw new Error("unable to get token id");
+    throw new Error('unable to get token id');
   }
 
   /**
@@ -420,7 +420,7 @@ class Minty {
    */
   async getIPFSBase64(cidOrURI) {
     const bytes = await this.getIPFS(cidOrURI);
-    return uint8ArrayToString(bytes, "base64");
+    return uint8ArrayToString(bytes, 'base64');
   }
 
   /**
@@ -509,7 +509,7 @@ class Minty {
   async isPinned(cid) {
     const opts = {
       service: config.pinningService.name,
-      cid: [typeof cid === "string" ? new CID(cid) : cid], // ls expects an array of cids
+      cid: [typeof cid === 'string' ? new CID(cid) : cid], // ls expects an array of cids
     };
     // eslint-disable-next-line no-unused-vars
     for await (const result of this.ipfs.pin.remote.ls(opts)) {
@@ -539,7 +539,7 @@ class Minty {
     // add the service to IPFS
     const { name, endpoint, key } = config.pinningService;
     if (!name) {
-      throw new Error("No name configured for pinning service");
+      throw new Error('No name configured for pinning service');
     }
     if (!endpoint) {
       throw new Error(`No endpoint configured for pinning service ${name}`);
@@ -566,7 +566,7 @@ class Minty {
    */
   async publishToIPNS(cid) {
     console.log(`Publishing ${cid} to IPNS...`);
-    console.log("IPNS config:", this.ipnsKey);
+    console.log('IPNS config:', this.ipnsKey);
     const { name, value } = await this.ipfs.name.publish(cid, { key: this.ipnsKey.name });
     return { name, value, gatewayURL: makeIPNSGatewayURL(name) };
   }
