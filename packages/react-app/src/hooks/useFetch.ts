@@ -72,7 +72,8 @@ function useFetch<T = unknown>(url?: string, options?: RequestInit): State<T> {
 
     // Use the cleanup function for avoiding a possibly...
     // ...state update after the component was unmounted
-    return () => {
+    // eslint-disable-next-line consistent-return
+    return function cleanup() {
       cancelRequest.current = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps

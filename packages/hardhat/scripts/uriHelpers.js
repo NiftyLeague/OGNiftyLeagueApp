@@ -1,25 +1,25 @@
-const CID = require("cids");
-const config = require("getconfig");
+const CID = require('cids');
+const config = require('getconfig');
 
 /**
  * @param {string} cidOrURI either a CID string, or a URI string of the form `ipfs://${cid}`
  * @returns the input string with the `ipfs://` prefix stripped off
  */
 function stripIpfsUriPrefix(cidOrURI) {
-  if (cidOrURI.startsWith("ipfs://")) {
-    return cidOrURI.slice("ipfs://".length);
+  if (cidOrURI.startsWith('ipfs://')) {
+    return cidOrURI.slice('ipfs://'.length);
   }
   return cidOrURI;
 }
 
 function ensureIpfsUriPrefix(cidOrURI) {
   let uri = cidOrURI.toString();
-  if (!uri.startsWith("ipfs://")) {
-    uri = "ipfs://" + cidOrURI;
+  if (!uri.startsWith('ipfs://')) {
+    uri = 'ipfs://' + cidOrURI;
   }
   // Avoid the Nyan Cat bug (https://github.com/ipfs/go-ipfs/pull/7930)
-  if (uri.startsWith("ipfs://ipfs/")) {
-    uri = uri.replace("ipfs://ipfs/", "ipfs://");
+  if (uri.startsWith('ipfs://ipfs/')) {
+    uri = uri.replace('ipfs://ipfs/', 'ipfs://');
   }
   return uri;
 }
@@ -30,7 +30,7 @@ function ensureIpfsUriPrefix(cidOrURI) {
  * @returns - an HTTP url to view the IPFS object on the configured gateway.
  */
 function makeGatewayURL(ipfsURI) {
-  return config.ipfsGatewayUrl + "/" + stripIpfsUriPrefix(ipfsURI);
+  return config.ipfsGatewayUrl + '/' + stripIpfsUriPrefix(ipfsURI);
 }
 
 /**
@@ -39,7 +39,7 @@ function makeGatewayURL(ipfsURI) {
  * @returns - an HTTP url to view the IPNS object on the configured gateway.
  */
 function makeIPNSGatewayURL(ipnsKey) {
-  return config.ipnsGatewayUrl + "/" + ipnsKey;
+  return config.ipnsGatewayUrl + '/' + ipnsKey;
 }
 
 /**
@@ -49,7 +49,7 @@ function makeIPNSGatewayURL(ipnsKey) {
  */
 function extractCID(cidOrURI) {
   // remove the ipfs:// prefix, split on '/' and return first path component (root CID)
-  const cidString = stripIpfsUriPrefix(cidOrURI).split("/")[0];
+  const cidString = stripIpfsUriPrefix(cidOrURI).split('/')[0];
   return new CID(cidString);
 }
 

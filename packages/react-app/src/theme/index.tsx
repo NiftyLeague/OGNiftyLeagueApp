@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any */
 import React, { useMemo } from 'react';
 import { DefaultTheme, ThemeProvider as StyledComponentsThemeProvider, css } from 'styled-components';
-import { Colors } from './styled';
+import { Colors } from '../@types/styled';
 
 export * from './components';
 export { default as MuiTheme } from './mui';
