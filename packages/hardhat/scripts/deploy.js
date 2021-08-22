@@ -1,11 +1,11 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-use-before-define */
-const fs = require("fs");
-const chalk = require("chalk");
-const { config, ethers, tenderly, run } = require("hardhat");
-const R = require("ramda");
-const { ALLOWED_COLORS } = require("../constants/allowedColors");
-const { COMMUNITY_TREASURY } = require("../constants/addresses");
+const fs = require('fs');
+const chalk = require('chalk');
+const { config, ethers, tenderly, run } = require('hardhat');
+const R = require('ramda');
+const { ALLOWED_COLORS } = require('../constants/allowedColors');
+const { COMMUNITY_TREASURY } = require('../constants/addresses');
 
 function calculateGasMargin(value) {
   return value.mul(ethers.BigNumber.from(10000).add(ethers.BigNumber.from(1000))).div(ethers.BigNumber.from(10000));
@@ -15,7 +15,7 @@ const main = async () => {
   const targetNetwork = process.env.HARDHAT_NETWORK || config.defaultNetwork;
   console.log(`\n\n 📡 Deploying to ${targetNetwork}...\n`);
 
-  const storage = await deploy("AllowedColorsStorage");
+  const storage = await deploy('AllowedColorsStorage');
   // eslint-disable-next-line no-restricted-syntax
   for (const [i, traits] of ALLOWED_COLORS.entries()) {
     const args = [i + 1, traits, true];
@@ -26,15 +26,15 @@ const main = async () => {
   }
 
   const emissionStartTimestamp = Math.floor(Date.now() / 1000);
-  const ownerSupply = ethers.utils.parseEther("110000000");
-  const treasurySupply = ethers.utils.parseEther("180000000");
-  const nftlToken = await deploy("NFTLToken", [
+  const ownerSupply = ethers.utils.parseEther('110000000');
+  const treasurySupply = ethers.utils.parseEther('180000000');
+  const nftlToken = await deploy('NFTLToken', [
     emissionStartTimestamp,
     ownerSupply,
     treasurySupply,
     COMMUNITY_TREASURY,
   ]);
-  const nft = await deploy("NiftyDegen", [nftlToken.address, storage.address]);
+  const nft = await deploy('NiftyDegen', [nftlToken.address, storage.address]);
   await nftlToken.setNFTAddress(nft.address);
 
   // const yourContract = await ethers.getContractAt('YourContract', "0xaAC799eC2d00C013f1F11c37E654e59B0429DF6A") //<-- if you want to instantiate a version of a contract at a specific address!
@@ -80,12 +80,12 @@ const main = async () => {
   });
   */
 
-  if (targetNetwork !== "localhost") {
+  if (targetNetwork !== 'localhost') {
     // If you want to verify your contract on tenderly.co
-    console.log(chalk.blue("verifying on tenderly"));
-    await tenderlyVerify({ contractName: "AllowedColorsStorage", contractAddress: storage.address });
-    await tenderlyVerify({ contractName: "NFTLToken", contractAddress: nftlToken.address });
-    await tenderlyVerify({ contractName: "NiftyDegen", contractAddress: nft.address });
+    console.log(chalk.blue('verifying on tenderly'));
+    await tenderlyVerify({ contractName: 'AllowedColorsStorage', contractAddress: storage.address });
+    await tenderlyVerify({ contractName: 'NFTLToken', contractAddress: nftlToken.address });
+    await tenderlyVerify({ contractName: 'NiftyDegen', contractAddress: nft.address });
 
     // If you want to verify your contract on etherscan
     // console.log(chalk.blue("verifying on etherscan"));
@@ -100,9 +100,9 @@ const main = async () => {
   }
 
   console.log(
-    " 💾  Artifacts (address, abi, and args) saved to: ",
+    ' 💾  Artifacts (address, abi, and args) saved to: ',
     chalk.blue(`packages/hardhat/artifacts/${targetNetwork}`),
-    "\n\n",
+    '\n\n',
   );
 };
 
@@ -116,14 +116,14 @@ const deploy = async (contractName, _args = [], overrides = {}, libraries = {}) 
   const deployed = await contractArtifacts.deploy(...contractArgs, overrides);
   const encoded = abiEncodeArgs(deployed, contractArgs);
   fs.writeFileSync(`${config.paths.artifacts}/${contractName}.address`, deployed.address);
-  let extraGasInfo = "";
+  let extraGasInfo = '';
   if (deployed && deployed.deployTransaction) {
     const gasUsed = deployed.deployTransaction.gasLimit.mul(deployed.deployTransaction.gasPrice);
     extraGasInfo = `${ethers.utils.formatEther(gasUsed)} ETH, tx hash ${deployed.deployTransaction.hash}`;
   }
 
-  console.log(" 📄", chalk.cyan(contractName), "deployed to:", chalk.magenta(deployed.address));
-  console.log(" ⛽", chalk.grey(extraGasInfo));
+  console.log(' 📄', chalk.cyan(contractName), 'deployed to:', chalk.magenta(deployed.address));
+  console.log(' ⛽', chalk.grey(extraGasInfo));
 
   await tenderly.persistArtifacts({
     name: contractName,
@@ -151,8 +151,8 @@ function send(signer, txparams) {
 // for example, on Etherscan
 const abiEncodeArgs = (deployed, contractArgs) => {
   // not writing abi encoded args if this does not pass
-  if (!contractArgs || !deployed || !R.hasPath(["interface", "deploy"], deployed)) {
-    return "";
+  if (!contractArgs || !deployed || !R.hasPath(['interface', 'deploy'], deployed)) {
+    return '';
   }
   const encoded = ethers.utils.defaultAbiCoder.encode(deployed.interface.deploy.inputs, contractArgs);
   return encoded;
@@ -160,7 +160,7 @@ const abiEncodeArgs = (deployed, contractArgs) => {
 
 // checks if it is a Solidity file
 const isSolidity = fileName =>
-  fileName.indexOf(".sol") >= 0 && fileName.indexOf(".swp") < 0 && fileName.indexOf(".swap") < 0;
+  fileName.indexOf('.sol') >= 0 && fileName.indexOf('.swp') < 0 && fileName.indexOf('.swap') < 0;
 
 const readArgsFile = contractName => {
   let args = [];
@@ -182,7 +182,7 @@ function sleep(ms) {
 // If you want to verify on https://tenderly.co/
 // eslint-disable-next-line consistent-return
 const tenderlyVerify = async ({ contractName, contractAddress }) => {
-  const tenderlyNetworks = ["kovan", "goerli", "mainnet", "rinkeby", "ropsten", "matic", "mumbai", "xDai", "POA"];
+  const tenderlyNetworks = ['kovan', 'goerli', 'mainnet', 'rinkeby', 'ropsten', 'matic', 'mumbai', 'xDai', 'POA'];
   const targetNetwork = process.env.HARDHAT_NETWORK || config.defaultNetwork;
 
   if (tenderlyNetworks.includes(targetNetwork)) {

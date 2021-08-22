@@ -36,12 +36,11 @@
   -webkit-text-fill-color: transparent;
 }
 .about-page-section .section-heading .text {
-  font-size: 24px;
+  font-size: 22px;
   line-height: 34px;
-  font-weight: 300;
 }
 .about-page-section .moreBtn {
-  margin-top: 23px;
+  margin-top: 16px;
   text-transform: uppercase;
   font-weight: 600;
   padding: 14px 35px;
@@ -77,7 +76,7 @@
 }
 .characters p,
 .characters a {
-  font-size: 24px;
+  font-size: 22px;
   margin-bottom: 0;
 }
 

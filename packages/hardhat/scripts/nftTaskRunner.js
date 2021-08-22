@@ -1,16 +1,16 @@
 /* eslint-disable no-use-before-define, no-await-in-loop */
-const fs = require("fs");
-const hardhat = require("hardhat");
-const config = require("getconfig");
-const chalk = require("chalk");
-const colorize = require("json-colorizer");
-const { MakeMinty } = require("./minty");
+const fs = require('fs');
+const hardhat = require('hardhat');
+const config = require('getconfig');
+const chalk = require('chalk');
+const colorize = require('json-colorizer');
+const { MakeMinty } = require('./minty');
 
 const colorizeOptions = {
   pretty: true,
   colors: {
-    STRING_KEY: "blue.bold",
-    STRING_LITERAL: "green",
+    STRING_KEY: 'blue.bold',
+    STRING_LITERAL: 'green',
   },
 };
 
@@ -41,15 +41,15 @@ async function main() {
 async function generateNFT(minty, tokenId) {
   const nft = await minty.generateNFT(tokenId);
 
-  console.log("");
+  console.log('');
   alignOutput([
-    ["Token ID:", chalk.green(nft.tokenId)],
-    ["Metadata Address:", chalk.blue(nft.metadataURI)],
-    ["Metadata Gateway URL:", chalk.blue(nft.metadataGatewayURL)],
-    ["Asset Address:", chalk.blue(nft.assetURI)],
-    ["Asset Gateway URL:", chalk.blue(nft.assetGatewayURL)],
+    ['Token ID:', chalk.green(nft.tokenId)],
+    ['Metadata Address:', chalk.blue(nft.metadataURI)],
+    ['Metadata Gateway URL:', chalk.blue(nft.metadataGatewayURL)],
+    ['Asset Address:', chalk.blue(nft.assetURI)],
+    ['Asset Gateway URL:', chalk.blue(nft.assetGatewayURL)],
   ]);
-  console.log("NFT Metadata:");
+  console.log('NFT Metadata:');
   console.log(colorize(JSON.stringify(nft.metadata), colorizeOptions));
   return { metadata: nft.metadata, metadataURI: nft.metadataURI };
 }
@@ -59,32 +59,32 @@ async function getNFT(minty, tokenId, options = {}) {
   const nft = await minty.getNFT(tokenId, options);
 
   const output = [
-    ["Token ID:", chalk.green(nft.tokenId)],
-    ["Owner Address:", chalk.yellow(nft.ownerAddress)],
+    ['Token ID:', chalk.green(nft.tokenId)],
+    ['Owner Address:', chalk.yellow(nft.ownerAddress)],
   ];
   if (nft.creationInfo) {
-    output.push(["Creator Address:", chalk.yellow(nft.creationInfo.creatorAddress)]);
-    output.push(["Block Number:", nft.creationInfo.blockNumber]);
+    output.push(['Creator Address:', chalk.yellow(nft.creationInfo.creatorAddress)]);
+    output.push(['Block Number:', nft.creationInfo.blockNumber]);
   }
-  output.push(["Metadata Address:", chalk.blue(nft.metadataURI)]);
-  output.push(["Metadata Gateway URL:", chalk.blue(nft.metadataGatewayURL)]);
-  output.push(["Asset Address:", chalk.blue(nft.assetURI)]);
-  output.push(["Asset Gateway URL:", chalk.blue(nft.assetGatewayURL)]);
+  output.push(['Metadata Address:', chalk.blue(nft.metadataURI)]);
+  output.push(['Metadata Gateway URL:', chalk.blue(nft.metadataGatewayURL)]);
+  output.push(['Asset Address:', chalk.blue(nft.assetURI)]);
+  output.push(['Asset Gateway URL:', chalk.blue(nft.assetGatewayURL)]);
   alignOutput(output);
 
-  console.log("NFT Metadata:");
+  console.log('NFT Metadata:');
   console.log(colorize(JSON.stringify(nft.metadata), colorizeOptions));
 }
 
 async function pinNFTData(minty, tokenId, metadata, metadataURI) {
-  console.log("");
+  console.log('');
   const { pinnedMetadataCID } = await minty.pinTokenData(tokenId, metadata, metadataURI);
   console.log(`🌿 Pinned all data for token id ${chalk.green(tokenId)}`);
   return pinnedMetadataCID;
 }
 
 async function updateIPNS(minty, pinnedMetadataCID) {
-  console.log("");
+  console.log('');
   const { name, value, gatewayURL } = await minty.publishToIPNS(pinnedMetadataCID);
   console.log(`Updated IPNS (${name}) to point to ${value}`);
   console.log(`Viewable at ${gatewayURL}`);
