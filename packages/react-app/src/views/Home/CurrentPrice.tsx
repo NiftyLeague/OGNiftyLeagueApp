@@ -30,7 +30,7 @@ const CurrentPrice = ({ nftPrice, isLoaded }: { nftPrice?: string; isLoaded?: bo
       message={
         <>
           <div>Current mint price: {nftPrice} ETH</div>
-          <div>*includes ~5000 NFTL tokens</div>
+          <div>Includes 5000 NFTL tokens</div>
         </>
       }
       onClose={handleClose}

@@ -68,7 +68,20 @@ const SaleProgress = memo(({ className, handleClose }: ProgressProps): JSX.Eleme
   return (
     <Alert
       icon={
-        <Tooltip text="While sale price may increase, additional NFTL tokens are given away at each sale level to each minted DEGEN.">
+        <Tooltip
+          text={
+            <>
+              <div style={{ marginBottom: 8 }}>
+                While sale price may increase, additional NFTL tokens are given away at each sale level to each minted
+                DEGEN.
+              </div>
+              <div>
+                The final 45 DEGENs are reserved for special edition tribes to be minted and given away to the
+                community!
+              </div>
+            </>
+          }
+        >
           <InfoIcon fontSize="inherit" />
         </Tooltip>
       }
@@ -77,7 +90,7 @@ const SaleProgress = memo(({ className, handleClose }: ProgressProps): JSX.Eleme
       {...(handleClose && { onClose: handleClose })}
     >
       <Typography variant="h6" gutterBottom className={classes.progressTitle}>
-        Sale Progress: {`${progress}/9900 NTFs Sold`}
+        Progress: {`${progress}/10000 DEGENs Minted`}
       </Typography>
       <div className="row d-flex flex-nowrap">
         <div className={clsx(classes.progressLabels, classes.extraMarginBottom)}>
@@ -93,16 +106,16 @@ const SaleProgress = memo(({ className, handleClose }: ProgressProps): JSX.Eleme
             <div className={classes.col4}>2000</div>
             <div className={classes.col5}>2000</div>
             <div className={classes.col6}>1000</div>
-            <div className={classes.col7}>400</div>
+            <div className={classes.col7}>455</div>
           </div>
           <div className="row d-flex flex-nowrap">
             <div className={classes.col1}>1000</div>
-            <div className={classes.col2}>2000</div>
-            <div className={classes.col3}>4000</div>
-            <div className={classes.col4}>8000</div>
-            <div className={classes.col5}>12000</div>
-            <div className={classes.col6}>16000</div>
-            <div className={classes.col7}>20000</div>
+            <div className={classes.col2}>2500</div>
+            <div className={classes.col3}>5000</div>
+            <div className={classes.col4}>10000</div>
+            <div className={classes.col5}>15000</div>
+            <div className={classes.col6}>20000</div>
+            <div className={classes.col7}>25000</div>
           </div>
           <div className={clsx(classes.progressBar, 'row d-flex flex-nowrap')}>
             <LinearProgress
