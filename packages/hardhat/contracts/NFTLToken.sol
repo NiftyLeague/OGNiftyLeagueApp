@@ -44,7 +44,7 @@ contract NFTLToken is ERC20("Nifty League", "NFTL") {
         address treasuryAddress
     ) {
         emissionStart = emissionStartTimestamp;
-        emissionEnd = emissionStartTimestamp + (1 days * 365 * 5);
+        emissionEnd = emissionStartTimestamp + (1 days * 365 * 3);
         _mint(msg.sender, ownerSupply);
         _mint(treasuryAddress, treasurySupply);
     }

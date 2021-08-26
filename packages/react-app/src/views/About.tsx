@@ -15,8 +15,8 @@ import CatSketch from 'assets/gifs/cat-sketch.gif';
 import GamesSketch from 'assets/images/games/games-sketch.png';
 import TennisSketch from 'assets/images/games/tennis-sketch.png';
 import SmashSketch from 'assets/images/games/smash-sketch.png';
-import TokenDistribution from 'assets/images/token-distribution.png';
-import TokenDistributionDark from 'assets/images/token-distribution-dark.png';
+import TokenDistributionLight from 'assets/images/nftl-distribution-light.png';
+import TokenDistributionDark from 'assets/images/nftl-distribution-dark.png';
 import NFTL from 'assets/images/NFTL.png';
 import Ape from 'assets/images/characters/ape.png';
 import Human from 'assets/images/characters/human.png';
@@ -58,7 +58,7 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
           <Link to="/games">Nifty Smashers</Link>
         </strong>
         ; an NFT brawler to battle it out with your friends and the crypto community! Going forward we have several game
-        options that we’ll develop based on the community input.
+        options that we’ll develop based on the communities input.
       </p>
       <Title level={3}>Nifty DAO</Title>
       <p>
@@ -83,14 +83,14 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
       <Title level={3}>Future Character Sales</Title>
       <p>
         As our platform continues to grow, we will monitor demand and make a decision whether we'll need an additional
-        launch on <strong>Polygon</strong> to onboard new users. If so, <strong>50%</strong> of all proceeds from future
-        character sales will be used to buy back <strong>NFTL</strong> to distribute to the <strong>Nifty DAO</strong>.
-        It is important to note that the unique trait combinations from our genesis <strong>DEGENS</strong> will never
-        be mintable again and the <strong>Nifty DAO</strong> will have the option to decide if any new characters should
-        be listed as gen 2 with completely different tribes all together. While all NFTs will have the chance to earn
-        daily rewards by playing our games and contributing to the community, only Ethereum NFT holders will earn daily{' '}
-        <strong>NFTL</strong> tokens for the first <strong>5 years</strong> as described in our token emissions{' '}
-        <a href="#emissions">below</a>.
+        launch on another EVM compatible chain like <strong>Polygon</strong> to onboard new users. If so,{' '}
+        <strong>50%</strong> of all proceeds from future character sales will be used to buy back <strong>NFTL</strong>{' '}
+        to distribute to the <strong>Nifty DAO</strong>. It is important to note that the unique trait combinations from
+        our genesis <strong>DEGENS</strong> will never be mintable again and the <strong>Nifty DAO</strong> will have
+        the option to decide if any new characters should be listed as gen 2 with completely different tribes all
+        together. While all NFTs will have the chance to earn daily rewards by playing our games and contributing to the
+        community, only Ethereum NFT holders will earn daily <strong>NFTL</strong> tokens for the first{' '}
+        <strong>5 years</strong> as described in our token emissions <a href="#emissions">below</a>.
       </p>
       <Title level={3}>
         Tribes <img src={Ape} alt="ape" width={32} />
@@ -127,8 +127,8 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
         endless potential combinations. Character traits will be randomly removed from the set of available traits as
         more characters are created making it difficult to know which options will end up rarest. In addition, NFT
         backgrounds will be randomly assigned upon minting which either results in a common background or one of three
-        special options with Rare, Meta, or Legendary character cards available. We look forward to seeing what creative
-        characters you design and will not be shy in sharing some of our favorites!
+        special options: <strong>Rare</strong>, <strong>Meta</strong>, or <strong>Legendary</strong>. We look forward to
+        seeing what creative characters you design and will not be shy in sharing some of our favorites!
       </p>
       <Title level={2}>
         Games{' '}
@@ -140,32 +140,21 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
         Daily Rewards <img src={NFTL} alt="NFTL logo" width={24} />
       </Title>
       <p>
-        The more you play the more chances to earn <strong>NFTL</strong> tokens! Staying active within our community is
-        highly regarded by our team. Be sure to join our{' '}
+        The more you play the more chances to earn <strong>NFTL</strong> tokens! We'll also frequently reward users for
+        staying active within our community so be sure to join our{' '}
         <strong>
           <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/4bmTHYWjhe">
             Discord
           </a>
         </strong>{' '}
-        to get access to frequent random <strong>NFTL</strong> tips. We are always watching and keeping track of our
-        active members. Help us onboard new community members by answering questions and you just might find even more
-        tips coming your way!
+        to get access to random <strong>NFTL</strong> tips! We are always watching and keeping track of users providing
+        the most value to our community ;). Help us onboard new members by answering questions and you just might find
+        even more tips coming your way!
       </p>
       <p>
         We plan on announcing a progression system in the future to level up your characters and gain more rewards for
         your XP. This is something we want to take slowly so we can be sure to define the best rewards system for our
         platform and mitigate issues with bots attempting to game the system.
-      </p>
-      <Title level={3}>
-        Tournaments{' '}
-        <span role="img" aria-label="trophy emoji">
-          🏆
-        </span>
-      </Title>
-      <p>
-        Join in on the fun in weekly or monthly tournaments which will be incentivized by rewards from our community
-        treasury fund at the communities discretion via the <strong>Nifty DAO</strong>. For any other activities you'd
-        want to see implemented, reach out to our team!
       </p>
       <Title level={3}>
         Nifty Smashers{' '}
@@ -185,27 +174,19 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
         <span role="img" aria-label="baguette emoji">
           🥖
         </span>{' '}
-        in on your friends as you can!{' '}
-        <strong>
-          <Link to="/games">Nifty Smashers</Link>
-        </strong>{' '}
-        takes inspirations from the classic game of Smash Bros where the objective is to knock your opponents off the
-        map to score points. In order to play you'll need a <strong>DEGEN</strong> to select for battle. From the game
-        lobby you'll be able to select from any of the <strong>DEGENs</strong> in your wallet to show off your cool
-        creations! Each tribe has a different special move so think carefully while selecting which tribe to mint. As
-        noted, this is only a beta release of our initial game so lag and issues with pesky bots is expected. Our plan
-        is to continue development on this game to introduce more features such as additional combo moves and a
-        progression system. Hop in our{' '}
+        in on your friends as you can! <strong>Nifty Smashers</strong> takes inspirations from the classic game of Smash
+        Bros where the objective is to knock your opponents off the map to score points. In order to play you'll need a{' '}
+        <strong>DEGEN</strong> to select for battle. From the game lobby you'll be able to select from any of the{' '}
+        <strong>DEGENs</strong> in your wallet to show off your cool creations! Each tribe has a different special move
+        so think carefully while selecting which tribe to mint. As noted, this is only a beta release of our initial
+        game so lag and issues with pesky bots is expected. Our plan is to continue development on this game to
+        introduce more features such as additional combo moves and a progression system. Hop in our{' '}
         <strong>
           <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/4bmTHYWjhe">
             Discord
           </a>
         </strong>{' '}
-        to provide feedback and ideas on how we can bring{' '}
-        <strong>
-          <Link to="/games">Nifty Smashers</Link>
-        </strong>{' '}
-        to the next level!
+        to provide feedback and ideas on how we can bring <strong>Nifty Smashers</strong> to the next level!
       </p>
       <div className="col-md-8 col-lg-6 d-flex align-self-center">
         <NiftySmashersVideo />
@@ -240,6 +221,17 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
       </div>
       <br />
       <Title level={3}>
+        Tournaments{' '}
+        <span role="img" aria-label="trophy emoji">
+          🏆
+        </span>
+      </Title>
+      <p>
+        Join in on the fun in weekly or monthly tournaments! All tournaments may be incentivized by rewards from our
+        community treasury fund at the communities discretion via the <strong>Nifty DAO</strong>. For any other
+        activities you'd want to see implemented, reach out to our team!
+      </p>
+      <Title level={3}>
         Community Developers{' '}
         <span role="img" aria-label="technologist emoji">
           🧑‍💻
@@ -264,18 +256,19 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
         <strong>NFTL</strong> serves a dual purpose of giving users voting rights on upcoming games and tournaments as
         well as being used for expenses platform-wide. For now, this only includes naming characters, but may be
         expanded to be used for purchasing additional in-game items, collectibles or even potential future characters.
-        Any <strong>NFTL</strong> used for naming characters will be immediately burnt or removed from circulation. If
-        and when additional in-game items are introduced, <strong>90%</strong> of all proceeds will be given to the{' '}
+        Any <strong>NFTL</strong> used for naming characters is immediately burnt or removed from circulation. If and
+        when additional in-game items are introduced, <strong>90%</strong> of all proceeds will be given to the{' '}
         <strong>Nifty DAO</strong> with the remaining <strong>10%</strong> paid to our team.
       </p>
-      <Title level={3}>Distribution</Title>
+      <Title level={3}>Distribution (First Year)</Title>
       <p>
         There is no max supply set for now but we expect around <strong>1 Billion NFTL</strong> to be distributed over
         the next year following the allocations set below:
       </p>
       <Image
+        preview={false}
+        src={currentTheme === 'dark' ? TokenDistributionDark : TokenDistributionLight}
         width={isWidthDown('sm', width) ? '100%' : '75%'}
-        src={currentTheme === 'dark' ? TokenDistributionDark : TokenDistribution}
       />
       <Title level={3}>
         Airdrop{' '}
@@ -285,56 +278,55 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
       </Title>
       <p>
         We’re excited to announce that as part of our launch we will be air-dropping a total of{' '}
-        <strong>~94M NFTL</strong> to all <strong>AXS</strong> token holders from our snapshot taken on{' '}
-        <strong>July 31st, 2021 at 9:50 PM GMT</strong>. Each address holding <strong>AXS</strong> at the time of the
-        snapshot will be eligible to claim <strong>8000 NFTL</strong> from our website as soon as we go live. Eligible
-        recipients can check their balance on the top-right corner of our website and claim. Any tokens unclaimed after{' '}
-        <strong>2 months</strong> will be sent to the <strong>Nifty DAO</strong>.
+        <strong>104M NFTL</strong> to all <strong>Ethereum Mainnet AXS</strong> token holders from our snapshot taken at{' '}
+        <strong>
+          <a target="_blank" rel="noopener noreferrer" href="https://etherscan.io/block/13095547">
+            Block #13095547
+          </a>
+        </strong>{' '}
+        on <strong>August 25th, 2021 4:28 PM +UTC</strong>. Each address holding <strong>AXS</strong> at the time of the
+        snapshot will be eligible to claim <strong>4000 NFTL</strong> from our website as soon as we go live. Eligible
+        recipients will see a claim button on our navbar. <br />
+        <strong>Note: Any tokens unclaimed after 2 months will be sent to the Nifty DAO</strong>.
       </p>
       <Title level={3}>Marketing</Title>
       <p>
         Every project needs some quality memes! Within the first weeks we will be awarding <strong>1M NFTL</strong> to
-        our community members who come up with the best memes. Further details will be announced in our{' '}
+        our community members who come up with the best memes or Discord stickers. Further details will be announced in
+        the{' '}
         <strong>
           <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/4bmTHYWjhe">
-            Discord
+            Nifty League Discord
           </a>
         </strong>
-        . We will also be randomly tipping{' '}
-        <strong>
-          <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/4bmTHYWjhe">
-            Discord
-          </a>
-        </strong>{' '}
-        users a total of <strong>9M NFTL</strong> over the first few weeks. As noted earlier, these tips will remain
-        available for active{' '}
-        <strong>
-          <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/4bmTHYWjhe">
-            Discord
-          </a>
-        </strong>{' '}
-        members going forward but the rate is expected to be much lower.
+        . We will also be randomly tipping Discord users a total of <strong>10.4M NFTL</strong> over the first few
+        weeks. As noted earlier, these tips will remain available for active Discord members going forward but the rate
+        is expected to be much lower.
       </p>
       <Title level={3}>Initial Supply</Title>
       <span id="emissions" />
       <p>
-        In addition to the airdrop and marketing expenses, <strong>~96M</strong> tokens will be minted and claimable
-        along with the purchase of each NFT. <strong>100M</strong> will go to a team development fund which will be
-        time-locked for <strong>6 months</strong> following launch. <strong>120M NFTL</strong> will be minted and
-        transferred to our community-controlled treasury under the <strong>Nifty DAO</strong> for initial funding and
-        future community incentives such as tournament rewards or giveaways. This brings the initial supply to around{' '}
-        <strong>420M</strong> with daily emissions for all genesis NFT owners starting immediately after each character
-        sale.
+        In addition to the airdrop and marketing expenses, <strong>79.6M</strong> tokens in total will be minted and
+        claimable along with the purchase of <strong>DEGEN</strong> NFTs. <strong>100M</strong> will go to a team
+        development fund which will be time-locked for <strong>6 months</strong> following launch.{' '}
+        <strong>125M NFTL</strong> will be minted and transferred to our community-controlled treasury under the{' '}
+        <strong>Nifty DAO</strong> for initial funding and future community incentives such as tournament rewards or
+        giveaways. This brings the initial supply to <strong>420M</strong> with daily emissions for all genesis NFT
+        owners starting immediately after each character sale.
       </p>
       <Title level={3}>Emissions</Title>
       <p>
-        <strong>250M NFTL</strong> will be distributed annually over the first <strong>5 years</strong> to all genesis{' '}
+        <strong>250M NFTL</strong> will be distributed annually over the first <strong>3 years</strong> to all genesis{' '}
         <strong>DEGEN</strong> NFT owners. There is no need to stake your NFT, just sit back and watch your{' '}
         <strong>NFTL</strong> accumulate daily which you can claim on our website at any time on the{' '}
-        <Link to="/wallet">wallet page</Link>. Finally, we will grant the <strong>Nifty DAO</strong> to mint up to{' '}
+        <Link to="/wallet">wallet page</Link>.
+      </p>
+      <p>
+        Any remaining future emissions will either be for daily in-game rewards or funding for the{' '}
+        <strong>Nifty DAO</strong>. We will grant the <strong>Nifty DAO</strong> to mint up to{' '}
         <strong>330M NFTL</strong> over the first year after we get a minimum of <strong>10 signers</strong> controlling
         the multi-sig wallet. We see most of these tokens going to community contributors as well as being used for
-        daily community in-game rewards but ultimately the DAO will make the decision when time comes.
+        competition rewards but ultimately the DAO will make the decision when time comes.
       </p>
       <Title level={2}>Future Developments</Title>
       <p>

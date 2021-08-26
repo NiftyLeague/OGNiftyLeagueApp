@@ -29,10 +29,9 @@ const useStyles = makeStyles(theme => ({
   },
   extraMarginTop: { marginTop: 11 },
   [theme.breakpoints.down('sm')]: {
-    icon: { display: 'none' },
     message: { width: '100%' },
-    progressLabels: { width: '15%', fontSize: 14 },
-    progress: { width: '75%', fontSize: 14 },
+    progressLabels: { width: '14%', fontSize: 14 },
+    progress: { width: '78%', fontSize: 14 },
   },
   col1: { width: '10%' },
   col2: { width: '15%' },
@@ -59,9 +58,11 @@ interface ProgressProps {
   className?: string;
   // eslint-disable-next-line react/require-default-props
   handleClose?: (event: React.SyntheticEvent | React.MouseEvent, reason?: string) => void;
+  // eslint-disable-next-line react/require-default-props
+  smallScreen: boolean;
 }
 
-const SaleProgress = memo(({ className, handleClose }: ProgressProps): JSX.Element => {
+const SaleProgress = memo(({ className, handleClose, smallScreen }: ProgressProps): JSX.Element => {
   const classes = useStyles();
   const { totalSupply } = useCachedSubgraph();
   const progress = totalSupply ?? 0;
@@ -100,22 +101,22 @@ const SaleProgress = memo(({ className, handleClose }: ProgressProps): JSX.Eleme
         </div>
         <div className={clsx(classes.progress, classes.extraMarginBottom)}>
           <div className="row d-flex flex-nowrap">
-            <div className={classes.col1}>1000</div>
-            <div className={classes.col2}>1500</div>
-            <div className={classes.col3}>2000</div>
-            <div className={classes.col4}>2000</div>
-            <div className={classes.col5}>2000</div>
-            <div className={classes.col6}>1000</div>
+            <div className={classes.col1}>{smallScreen ? '1K' : '1000'}</div>
+            <div className={classes.col2}>{smallScreen ? '1.5K' : '1500'}</div>
+            <div className={classes.col3}>{smallScreen ? '2K' : '2000'}</div>
+            <div className={classes.col4}>{smallScreen ? '2K' : '2000'}</div>
+            <div className={classes.col5}>{smallScreen ? '2K' : '2000'}</div>
+            <div className={classes.col6}>{smallScreen ? '1K' : '1000'}</div>
             <div className={classes.col7}>455</div>
           </div>
           <div className="row d-flex flex-nowrap">
-            <div className={classes.col1}>1000</div>
-            <div className={classes.col2}>2500</div>
-            <div className={classes.col3}>5000</div>
-            <div className={classes.col4}>10000</div>
-            <div className={classes.col5}>15000</div>
-            <div className={classes.col6}>20000</div>
-            <div className={classes.col7}>25000</div>
+            <div className={classes.col1}>{smallScreen ? '2K' : '2000'}</div>
+            <div className={classes.col2}>{smallScreen ? '3K' : '3000'}</div>
+            <div className={classes.col3}>{smallScreen ? '4K' : '4000'}</div>
+            <div className={classes.col4}>{smallScreen ? '8K' : '8000'}</div>
+            <div className={classes.col5}>{smallScreen ? '12K' : '12000'}</div>
+            <div className={classes.col6}>{smallScreen ? '16K' : '16000'}</div>
+            <div className={classes.col7}>{smallScreen ? '20K' : '20000'}</div>
           </div>
           <div className={clsx(classes.progressBar, 'row d-flex flex-nowrap')}>
             <LinearProgress
@@ -151,8 +152,8 @@ const SaleProgress = memo(({ className, handleClose }: ProgressProps): JSX.Eleme
             <LinearProgress className={classes.col7} variant="determinate" value={normalise(progress, 9500, 9900)} />
           </div>
           <div className="row d-flex flex-nowrap">
-            <div className={classes.col1}>0.025</div>
-            <div className={classes.col2}>0.05</div>
+            <div className={classes.col1}>0.05</div>
+            <div className={classes.col2}>0.075</div>
             <div className={classes.col3}>0.1</div>
             <div className={classes.col4}>0.2</div>
             <div className={classes.col5}>0.3</div>
