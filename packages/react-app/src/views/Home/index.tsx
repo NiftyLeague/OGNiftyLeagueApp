@@ -2,6 +2,8 @@ import React, { memo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Typography } from 'antd';
 import Container from '@material-ui/core/Container';
+import withWidth, { isWidthDown } from '@material-ui/core/withWidth';
+import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import { NiftySmashersVideo, Preloader, SaleProgress } from 'components';
 
 import ApeImg from 'assets/gifs/ape.gif';
@@ -40,15 +42,16 @@ const ParallaxCharacter = ({
   </div>
 );
 
-const Home = memo(() => {
+const Home = memo(({ width }: { width: Breakpoint }) => {
   const [isLoaded, setLoaded] = useState(false);
+  const smallScreen = isWidthDown('xs', width);
   return (
     <div style={{ textAlign: 'center', overflowX: 'hidden' }}>
       <Preloader ready={isLoaded} />
       <CharacterCreator isLoaded={isLoaded} setLoaded={setLoaded} />
       <section className="about-page-section">
         <Container>
-          <SaleProgress className="alert" />
+          <SaleProgress className="alert" smallScreen={smallScreen} />
           <div className="row" style={{ paddingTop: 32 }}>
             <div className="col-md-6 d-flex align-self-center">
               <NiftySmashersVideo />
@@ -142,4 +145,4 @@ const Home = memo(() => {
   );
 });
 
-export default Home;
+export default withWidth()(Home);
