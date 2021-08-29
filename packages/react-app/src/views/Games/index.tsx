@@ -10,26 +10,29 @@ import { NetworkContext } from 'NetworkProvider';
 import { Preloader, WalletConnectPrompt } from 'components';
 import NiftySmashers from 'assets/gifs/nifty-smashers.gif';
 import NiftySmashersThumb from 'assets/images/characters/alien-dj.png';
-import { DEBUG } from '../../constants';
+import { DEBUG, NETWORK_NAME } from '../../constants';
 import './games.css';
 
 const { Content, Sider } = Layout;
 
 const authEvent = new CustomEvent('build', { detail: 3 });
 
+const baseUrl = process.env.REACT_APP_UNITY_SMASHERS_BASE_URL as string;
+const buildVersion = process.env.REACT_APP_UNITY_SMASHERS_BASE_VERSION as string;
+
 const smashersContext = new UnityContext({
-  loaderUrl: 'niftySmashersBuild/0.6.9.loader.js',
-  dataUrl: 'niftySmashersBuild/0.6.9.data',
-  frameworkUrl: 'niftySmashersBuild/0.6.9.framework.js',
-  codeUrl: 'niftySmashersBuild/0.6.9.wasm',
-  streamingAssetsUrl: 'StreamingAssets',
+  loaderUrl: `${baseUrl}/Build/${buildVersion}.loader.js`,
+  dataUrl: `${baseUrl}/Build/${buildVersion}.data.br`,
+  frameworkUrl: `${baseUrl}/Build/${buildVersion}.framework.js.br`,
+  codeUrl: `${baseUrl}/Build/${buildVersion}.wasm.br`,
+  streamingAssetsUrl: `${baseUrl}/StreamingAssets`,
   companyName: 'NiftyLeague',
   productName: 'NiftySmashers',
-  productVersion: '0.6.9',
+  productVersion: buildVersion,
 });
 
 const Game = ({ unityContext }: { unityContext: UnityContext }) => {
-  const { address } = useContext(NetworkContext);
+  const { address, targetNetwork } = useContext(NetworkContext);
   const [isLoaded, setLoaded] = useState(false);
 
   const startAuthentication = useCallback(
@@ -39,6 +42,16 @@ const Game = ({ unityContext }: { unityContext: UnityContext }) => {
       e.detail.callback(result);
     },
     [address],
+  );
+
+  const getConfiguration = useCallback(
+    (e: CustomEvent<{ callback: (network: string) => void }>) => {
+      const networkName = NETWORK_NAME[targetNetwork.chainId];
+      const version = process.env.REACT_APP_SUBGRAPH_VERSION;
+      console.log(`${networkName},${version ?? ''}`);
+      setTimeout(() => e.detail.callback(`${networkName},${version ?? ''}`), 1000);
+    },
+    [targetNetwork.chainId],
   );
 
   const onMouse = useCallback(() => {
@@ -58,14 +71,16 @@ const Game = ({ unityContext }: { unityContext: UnityContext }) => {
       unityContext.on('error', console.error);
       unityContext.on('canvas', element => console.log('Canvas', element));
       window.addEventListener('StartAuthentication', startAuthentication);
+      window.addEventListener('GetConfiguration', getConfiguration);
       document.addEventListener('mousemove', onMouse, false);
     }
     return () => {
       unityContext.removeAllEventListeners();
       window.removeEventListener('StartAuthentication', startAuthentication);
+      window.removeEventListener('GetConfiguration', getConfiguration);
       document.removeEventListener('mousemove', onMouse, false);
     };
-  }, [unityContext, onMouse, startAuthentication]);
+  }, [unityContext, onMouse, startAuthentication, getConfiguration]);
 
   const handleOnClickFullscreen = () => {
     if (window.unityInstance) window.unityInstance.setFullscreen(true);
