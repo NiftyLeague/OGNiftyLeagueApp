@@ -5,6 +5,8 @@ export * from './contracts';
 export * from './networks';
 export * from './tokens';
 
+export const DEPLOYER_ADDRESS = '0x6ac131D20eEc5D396030CB6D8b3FD34476e74C78';
+
 // MY INFURA_ID, SWAP IN YOURS FROM https://infura.io/dashboard/ethereum
 export const INFURA_ID = process.env.REACT_APP_INFURA_PROJECT_ID as string;
 

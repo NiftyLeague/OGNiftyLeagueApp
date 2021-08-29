@@ -38,11 +38,11 @@ function generateImageURL(traits, rarity) {
     ['Wrist', traits[17]],
     ['Hand', traits[18]],
     ['Neckwear', traits[19]],
-    ['Left Hand', traits[20]],
-    ['Right Hand', traits[21]],
+    ['Left Item', traits[20]],
+    ['Right Item', traits[21]],
   ];
   const params = new URLSearchParams({
-    version: 90,
+    version: 91,
     traits: JSON.stringify(traitArray),
     secret: process.env.UNITY_IMAGE_GENERATOR_SECRET,
     rarity,

@@ -4,7 +4,7 @@ import { providers } from 'ethers';
 import { NetworkContext } from 'NetworkProvider';
 import { ScrollToTop } from './hooks';
 import { Contract, Faucet, Navigation, ThemeSwitch } from './components';
-import { About, Character, Characters, Games, Hints, Home, NotFound, Staking, Subgraph, Wallet } from './views';
+import { About, Character, Characters, Games, Hints, Home, NotFound, Subgraph, Wallet } from './views';
 import { DEBUG, NFT_CONTRACT, NFTL_CONTRACT } from './constants';
 import './App.css';
 
@@ -47,9 +47,6 @@ export default function App(): JSX.Element {
           </Route>
           <Route exact path="/wallet">
             <Wallet />
-          </Route>
-          <Route exact path="/staking">
-            <Staking />
           </Route>
           {DEBUG && localConnection ? (
             <>
