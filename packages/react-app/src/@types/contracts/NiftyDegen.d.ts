@@ -33,6 +33,7 @@ interface NiftyDegenInterface extends ethers.utils.Interface {
     "getNFTPrice()": FunctionFragment;
     "getName(uint256)": FunctionFragment;
     "getRemovedTraits()": FunctionFragment;
+    "initPoolSizes()": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "isAvailableAndAllowedTrait(uint256,uint256)": FunctionFragment;
     "isAvailableTrait(uint256)": FunctionFragment;
@@ -98,6 +99,10 @@ interface NiftyDegenInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "getRemovedTraits",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "initPoolSizes",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -229,6 +234,10 @@ interface NiftyDegenInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "getName", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getRemovedTraits",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "initPoolSizes",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -501,6 +510,10 @@ export class NiftyDegen extends BaseContract {
 
     getRemovedTraits(overrides?: CallOverrides): Promise<[number[]]>;
 
+    initPoolSizes(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     isApprovedForAll(
       owner: string,
       operator: string,
@@ -728,6 +741,10 @@ export class NiftyDegen extends BaseContract {
 
   getRemovedTraits(overrides?: CallOverrides): Promise<number[]>;
 
+  initPoolSizes(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   isApprovedForAll(
     owner: string,
     operator: string,
@@ -944,6 +961,8 @@ export class NiftyDegen extends BaseContract {
 
     getRemovedTraits(overrides?: CallOverrides): Promise<number[]>;
 
+    initPoolSizes(overrides?: CallOverrides): Promise<void>;
+
     isApprovedForAll(
       owner: string,
       operator: string,
@@ -1158,6 +1177,10 @@ export class NiftyDegen extends BaseContract {
 
     getRemovedTraits(overrides?: CallOverrides): Promise<BigNumber>;
 
+    initPoolSizes(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     isApprovedForAll(
       owner: string,
       operator: string,
@@ -1343,6 +1366,10 @@ export class NiftyDegen extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     getRemovedTraits(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    initPoolSizes(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
 
     isApprovedForAll(
       owner: string,

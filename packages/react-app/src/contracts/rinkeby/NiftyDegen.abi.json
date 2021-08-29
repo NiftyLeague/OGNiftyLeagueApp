@@ -456,6 +456,13 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "initPoolSizes",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "address",

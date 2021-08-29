@@ -10,6 +10,9 @@ export default function Preloader({ ready }: { ready: boolean }): JSX.Element {
     } else {
       htmlElement.style.overflow = 'auto';
     }
+    return function cleanup() {
+      htmlElement.style.overflow = 'auto';
+    };
   }, [ready]);
 
   return (

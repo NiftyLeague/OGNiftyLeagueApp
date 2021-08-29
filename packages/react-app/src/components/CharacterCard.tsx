@@ -14,11 +14,11 @@ import {
   ListItem,
   ListItemText,
 } from '@material-ui/core';
-import { Tooltip } from 'antd';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import EditIcon from '@material-ui/icons/Edit';
 import { makeStyles } from '@material-ui/core/styles';
 
+import Tooltip from 'components/Tooltip';
 import UnavailableImg from 'assets/images/unavailable-image.jpeg';
 import { formatDateTime } from 'helpers/dateTime';
 import { ResolveImageURL } from 'helpers/ipfs';
@@ -99,7 +99,7 @@ const CharacterCard = ({ character, ownerOwned }: { character: Character; ownerO
         </Link>
         <CardActions disableSpacing>
           {ownerOwned && (
-            <Tooltip title="Rename">
+            <Tooltip text="Rename">
               <IconButton aria-label="rename" className={classes.actionButtons} onClick={() => setDialogOpen(true)}>
                 <EditIcon />
               </IconButton>

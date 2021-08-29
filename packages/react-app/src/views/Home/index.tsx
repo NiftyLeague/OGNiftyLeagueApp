@@ -2,14 +2,16 @@ import React, { memo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Typography } from 'antd';
 import Container from '@material-ui/core/Container';
+import withWidth, { isWidthDown } from '@material-ui/core/withWidth';
+import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import { NiftySmashersVideo, Preloader, SaleProgress } from 'components';
 
 import ApeImg from 'assets/gifs/ape.gif';
 import AlienImg from 'assets/gifs/alien1.gif';
 import DogeImg from 'assets/gifs/doge.gif';
-import HumanImg from 'assets/images/characters/human.png';
+import HumanImg from 'assets/images/characters/human-ex.png';
 import CatImg from 'assets/gifs/cat1.gif';
-import FrogImg from 'assets/images/characters/frog.png';
+import FrogImg from 'assets/images/characters/frog-ex.png';
 import SatoshiImg from 'assets/images/characters/satoshi.png';
 import CharacterCreator from './CharacterCreator';
 import './home.css';
@@ -40,15 +42,16 @@ const ParallaxCharacter = ({
   </div>
 );
 
-const Home = memo(() => {
+const Home = memo(({ width }: { width: Breakpoint }) => {
   const [isLoaded, setLoaded] = useState(false);
+  const smallScreen = isWidthDown('xs', width);
   return (
     <div style={{ textAlign: 'center', overflowX: 'hidden' }}>
       <Preloader ready={isLoaded} />
       <CharacterCreator isLoaded={isLoaded} setLoaded={setLoaded} />
       <section className="about-page-section">
         <Container>
-          <SaleProgress className="alert" />
+          <SaleProgress className="alert" smallScreen={smallScreen} />
           <div className="row" style={{ paddingTop: 32 }}>
             <div className="col-md-6 d-flex align-self-center">
               <NiftySmashersVideo />
@@ -59,12 +62,12 @@ const Home = memo(() => {
                   Welcome to the Nifty League
                 </Title>
                 <p className="text">
-                  Our mission is to create the go-to NFT gaming platform through interactive and competitive games which
-                  utilize our customizable characters and tradable in-game assets.
+                  Our mission is to create an interactive and community governed NFT gaming platform. Nifty League
+                  prides itself on being one of the first platforms offering competitive games utilizing customizable
+                  characters and tradable in-game assets.
                 </p>
                 <p className="text">
-                  Advance your skills to earn daily rewards in our games packed full of nostalgia. Stay tuned for
-                  upcoming multi-chain launches enabling you to battle it out cross-platform!
+                  Advance your gaming skills and join our community to earn daily NFTL rewards from the Nifty DAO!
                 </p>
                 <Link to="/about" className="moreBtn">
                   Learn More
@@ -106,7 +109,7 @@ const Home = memo(() => {
           title="Aurora"
           image={AlienImg}
           text="Aurora has been on a universal DJ tour for the past 300 years. She's quite the celebrity but has
-          yet to perform on Satoshi's Island. Only problem is she need a key to the Citadel first..."
+          yet to perform on Satoshi's Island. Only problem is she need a key to the Citadel first."
         />
         <ParallaxCharacter
           direction="right"
@@ -120,13 +123,13 @@ const Home = memo(() => {
           title="Java"
           image={ApeImg}
           text="Since humans escaped for Mars and left rising sea levels behind as a gift, the Apes have inherited Earth and
-          let nature run its course, planting banana tress everywhere."
+          let nature run its course, planting banana tress everywhere in sight."
         />
         <ParallaxCharacter
           direction="right"
           title="Cribbit"
           image={FrogImg}
-          text="After destroying his home planet as a result of a widespread nuclear-powered crypto mining, Cribbit welcomes 
+          text="After destroying his home planet as a result of widespread nuclear-powered crypto mining, Cribbit welcomes 
           the Nifty League invite to try and redeem himself."
         />
         <ParallaxCharacter
@@ -142,4 +145,4 @@ const Home = memo(() => {
   );
 });
 
-export default Home;
+export default withWidth()(Home);

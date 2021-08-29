@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { WalletOutlined, QrcodeOutlined, SendOutlined, KeyOutlined } from '@ant-design/icons';
-import { Tooltip, Spin, Modal, Button, Typography } from 'antd';
+import { Spin, Modal, Button, Typography } from 'antd';
 import QR from 'qrcode.react';
 import { useUserAddress } from 'eth-hooks';
 import { ethers, utils } from 'ethers';
 import { useExchangePrice } from 'hooks';
 import { Provider, MainnetProvider } from 'types/web3';
 import { Tx } from 'types/notify';
+import Tooltip from 'components/Tooltip';
 import Address from '../Address';
 import Balance from '../Balance';
 import AddressInput from '../AddressInput';
@@ -65,7 +66,7 @@ export default function Wallet({ address, color, ensProvider, provider, tx }: Wa
   const [pk, setPK] = useState('');
 
   const providerSend = provider ? (
-    <Tooltip title="Wallet">
+    <Tooltip text="Wallet">
       <WalletOutlined
         onClick={() => {
           setOpen(!open);
