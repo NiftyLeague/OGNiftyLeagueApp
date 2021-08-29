@@ -1,8 +1,23 @@
-import React, { useEffect } from 'react';
-import { ReactComponent as PreloaderSVG } from '../../assets/svg/preloader.svg';
+import React, { useEffect, useState } from 'react';
+import { Progress } from 'antd';
+import { ReactComponent as PreloaderSVG } from 'assets/svg/preloader.svg';
 import './preloader.css';
 
-export default function Preloader({ ready }: { ready: boolean }): JSX.Element {
+export default function Preloader({ ready, progress }: { ready: boolean; progress: number }): JSX.Element {
+  const [percent, setPercent] = useState(progress);
+
+  useEffect(() => {
+    if (progress !== 90) {
+      setPercent(progress);
+    } else {
+      const id = setInterval(() => {
+        setPercent(p => (p < 90 ? p + 10 : 90));
+      }, 100);
+      return () => clearInterval(id);
+    }
+    return undefined;
+  }, [progress]);
+
   useEffect(() => {
     const htmlElement = document.querySelector('html') as HTMLElement;
     if (!ready) {
@@ -30,6 +45,14 @@ export default function Preloader({ ready }: { ready: boolean }): JSX.Element {
           </svg>
         </div>
       </div>
+      <Progress
+        key={percent}
+        percent={percent}
+        size="small"
+        status={percent < 100 ? 'active' : 'success'}
+        strokeColor="#a3ff12"
+        style={{ width: 160, marginLeft: 32 }}
+      />
     </div>
   );
 }
