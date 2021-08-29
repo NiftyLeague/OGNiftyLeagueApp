@@ -3,14 +3,15 @@ import Unity, { UnityContext } from 'react-unity-webgl';
 import { isMobileOnly, withOrientationChange } from 'react-device-detect';
 import { BigNumber } from 'ethers';
 import { Alert } from 'antd';
+
 import { useCachedSubgraph, useRemovedTraits } from 'hooks';
 import { submitTxWithGasEstimate } from 'helpers/Notifier';
 import { NetworkContext } from 'NetworkProvider';
 import CharacterBGImg from 'assets/images/backgrounds/character_creator.png';
+import { DEBUG, DEPLOYER_ADDRESS, NFT_CONTRACT, NETWORK_NAME } from '../../../constants';
 import CurrentPrice from './CurrentPrice';
-import { DEBUG, DEPLOYER_ADDRESS, NFT_CONTRACT, NETWORK_NAME } from '../../constants';
-import { getMintableTraits, TraitArray } from './helpers';
-import './home.css';
+import SaleLocked from './SaleLocked';
+import { getMintableTraits, TraitArray } from '../helpers';
 
 const baseUrl = process.env.REACT_APP_UNITY_CREATOR_BASE_URL as string;
 const buildVersion = process.env.REACT_APP_UNITY_CREATOR_BASE_VERSION as string;
@@ -25,10 +26,6 @@ const unityContext = new UnityContext({
   productName: 'NiftyCreator',
   productVersion: buildVersion,
 });
-
-window.unityInstance = unityContext;
-// eslint-disable-next-line @typescript-eslint/unbound-method
-window.unityInstance.SendMessage = unityContext.send;
 
 const WIDTH_SCALE = 280;
 const HEIGHT_SCALE = 210;
@@ -67,33 +64,6 @@ window.onload = (e: Event) => {
   }
 };
 
-const SaleLocked = ({ totalSupply, saleLocked }: { totalSupply: number; saleLocked: boolean }): JSX.Element | null => {
-  return saleLocked ? (
-    <div
-      style={{
-        zIndex: 2,
-        position: 'absolute',
-        right: 0,
-        top: 60,
-        padding: 16,
-      }}
-    >
-      <Alert
-        message={totalSupply < 5 ? '⚠️ The sale has not started yet' : '✅ ALL DEGENS HAVE SOLD OUT!'}
-        description={
-          totalSupply < 5 ? (
-            <div>We will officially launch as soon as the 5th NFT is minted!</div>
-          ) : (
-            <div>Thank you all for the support!</div>
-          )
-        }
-        type="warning"
-        closable
-      />
-    </div>
-  ) : null;
-};
-
 const RemovedTraits = ({ callback, refreshKey }: { callback: (string) => void; refreshKey: number }) => {
   const { readContracts } = useContext(NetworkContext);
   const removedTraits = useRemovedTraits(readContracts);
@@ -106,32 +76,25 @@ const RemovedTraits = ({ callback, refreshKey }: { callback: (string) => void; r
   return null;
 };
 
-interface CharacterCreatorProps {
+interface CharacterCreatorContainerProps {
   isLoaded: boolean;
   // eslint-disable-next-line react/require-default-props
   isPortrait?: boolean;
   setLoaded: (boolean) => void;
+  setProgress: (number) => void;
+}
+interface CharacterCreatorProps extends CharacterCreatorContainerProps {
+  saleLocked: boolean;
 }
 
 type MintEvent = CustomEvent<{ callback: (reset: string) => void; traits: TraitArray }>;
 
-const CharacterCreator = memo(({ isLoaded, isPortrait, setLoaded }: CharacterCreatorProps) => {
-  const { address, targetNetwork, tx, writeContracts } = useContext(NetworkContext);
+const CharacterCreator = memo(({ isLoaded, isPortrait, saleLocked, setLoaded, setProgress }: CharacterCreatorProps) => {
+  const { targetNetwork, tx, writeContracts } = useContext(NetworkContext);
   const removedTraitsCallback = useRef<null | ((removedTraits: string) => void)>();
-  const { nftPrice, totalSupply } = useCachedSubgraph();
-  const [refreshKey, setRefreshKey] = useState(0);
   const [width, setWidth] = useState(DEFAULT_WIDTH);
   const [height, setHeight] = useState(DEFAULT_HEIGHT);
-  const [saleLocked, setSaleLocked] = useState(false);
-
-  useEffect(() => {
-    const count = totalSupply ?? 0;
-    if ((count < 5 && address !== DEPLOYER_ADDRESS) || count >= 9955) {
-      setSaleLocked(true);
-    } else {
-      setSaleLocked(false);
-    }
-  }, [totalSupply, address]);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const getRemovedTraits = useCallback((e: CustomEvent<{ callback: (removedTraits: string) => void }>) => {
     removedTraitsCallback.current = e.detail.callback;
@@ -228,6 +191,7 @@ const CharacterCreator = memo(({ isLoaded, isPortrait, setLoaded }: CharacterCre
       });
       window.unityInstance.on('loaded', () => setLoaded(true));
       window.unityInstance.on('error', console.error);
+      window.unityInstance.on('progress', p => setProgress(p * 100));
     }
     window.addEventListener('resize', reportWindowSize);
     window.addEventListener('GetConfiguration', getConfiguration);
@@ -244,7 +208,17 @@ const CharacterCreator = memo(({ isLoaded, isPortrait, setLoaded }: CharacterCre
       document.removeEventListener('wheel', onScroll, false);
       document.removeEventListener('mousemove', onMouse, false);
     };
-  }, [getConfiguration, getRemovedTraits, isPortrait, onMintCharacter, onMouse, onScroll, reportWindowSize, setLoaded]);
+  }, [
+    getConfiguration,
+    getRemovedTraits,
+    isPortrait,
+    onMintCharacter,
+    onMouse,
+    onScroll,
+    reportWindowSize,
+    setLoaded,
+    setProgress,
+  ]);
 
   return (
     <>
@@ -268,10 +242,47 @@ const CharacterCreator = memo(({ isLoaded, isPortrait, setLoaded }: CharacterCre
       {removedTraitsCallback.current && refreshKey ? (
         <RemovedTraits callback={removedTraitsCallback.current} refreshKey={refreshKey} />
       ) : null}
-      <CurrentPrice nftPrice={nftPrice} isLoaded={isLoaded} totalSupply={totalSupply ?? 0} />
-      <SaleLocked totalSupply={totalSupply ?? 0} saleLocked={saleLocked} />
     </>
   );
 });
 
-export default withOrientationChange(CharacterCreator);
+const CharacterCreatorContainer = memo(
+  ({ isLoaded, isPortrait, setLoaded, setProgress }: CharacterCreatorContainerProps) => {
+    const { address } = useContext(NetworkContext);
+    const { nftPrice, totalSupply } = useCachedSubgraph();
+    const [saleLocked, setSaleLocked] = useState(false);
+
+    useEffect(() => {
+      const count = totalSupply ?? 0;
+      if ((count < 5 && address !== DEPLOYER_ADDRESS) || count >= 9955) {
+        setSaleLocked(true);
+      } else {
+        setSaleLocked(false);
+      }
+    }, [totalSupply, address]);
+
+    useEffect(() => {
+      window.unityInstance = unityContext;
+      // eslint-disable-next-line @typescript-eslint/unbound-method
+      window.unityInstance.SendMessage = unityContext.send;
+    }, []);
+
+    return (
+      <>
+        {window.unityInstance && (
+          <CharacterCreator
+            isLoaded={isLoaded}
+            isPortrait={isPortrait}
+            saleLocked={saleLocked}
+            setLoaded={setLoaded}
+            setProgress={setProgress}
+          />
+        )}
+        <CurrentPrice nftPrice={nftPrice} isLoaded={isLoaded} totalSupply={totalSupply ?? 0} />
+        <SaleLocked totalSupply={totalSupply ?? 0} saleLocked={saleLocked} />
+      </>
+    );
+  },
+);
+
+export default withOrientationChange(CharacterCreatorContainer);

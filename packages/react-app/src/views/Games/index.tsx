@@ -34,6 +34,7 @@ const smashersContext = new UnityContext({
 const Game = ({ unityContext }: { unityContext: UnityContext }) => {
   const { address, targetNetwork } = useContext(NetworkContext);
   const [isLoaded, setLoaded] = useState(false);
+  const [progress, setProgress] = useState(0);
 
   const startAuthentication = useCallback(
     (e: CustomEvent<{ callback: (user: string) => void }>) => {
@@ -48,7 +49,7 @@ const Game = ({ unityContext }: { unityContext: UnityContext }) => {
     (e: CustomEvent<{ callback: (network: string) => void }>) => {
       const networkName = NETWORK_NAME[targetNetwork.chainId];
       const version = process.env.REACT_APP_SUBGRAPH_VERSION;
-      console.log(`${networkName},${version ?? ''}`);
+      if (DEBUG) console.log(`${networkName},${version ?? ''}`);
       setTimeout(() => e.detail.callback(`${networkName},${version ?? ''}`), 1000);
     },
     [targetNetwork.chainId],
@@ -70,12 +71,13 @@ const Game = ({ unityContext }: { unityContext: UnityContext }) => {
       unityContext.on('loaded', () => setLoaded(true));
       unityContext.on('error', console.error);
       unityContext.on('canvas', element => console.log('Canvas', element));
+      unityContext.on('progress', p => setProgress(p * 100));
       window.addEventListener('StartAuthentication', startAuthentication);
       window.addEventListener('GetConfiguration', getConfiguration);
       document.addEventListener('mousemove', onMouse, false);
     }
     return () => {
-      unityContext.removeAllEventListeners();
+      if (window.unityInstance) window.unityInstance.removeAllEventListeners();
       window.removeEventListener('StartAuthentication', startAuthentication);
       window.removeEventListener('GetConfiguration', getConfiguration);
       document.removeEventListener('mousemove', onMouse, false);
@@ -97,7 +99,7 @@ const Game = ({ unityContext }: { unityContext: UnityContext }) => {
 
   return (
     <>
-      <Preloader ready={isLoaded} />
+      <Preloader ready={isLoaded} progress={progress} />
       <Unity
         className="game-canvas"
         unityContext={unityContext}

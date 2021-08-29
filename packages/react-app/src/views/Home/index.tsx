@@ -13,7 +13,7 @@ import HumanImg from 'assets/images/characters/human-ex.png';
 import CatImg from 'assets/gifs/cat1.gif';
 import FrogImg from 'assets/images/characters/frog-ex.png';
 import SatoshiImg from 'assets/images/characters/satoshi.png';
-import CharacterCreator from './CharacterCreator';
+import CharacterCreator from './components/CharacterCreator';
 import './home.css';
 
 const { Title } = Typography;
@@ -44,11 +44,12 @@ const ParallaxCharacter = ({
 
 const Home = memo(({ width }: { width: Breakpoint }) => {
   const [isLoaded, setLoaded] = useState(false);
+  const [progress, setProgress] = useState(0);
   const smallScreen = isWidthDown('xs', width);
   return (
     <div style={{ textAlign: 'center', overflowX: 'hidden' }}>
-      <Preloader ready={isLoaded} />
-      <CharacterCreator isLoaded={isLoaded} setLoaded={setLoaded} />
+      <Preloader ready={isLoaded} progress={progress} />
+      <CharacterCreator isLoaded={isLoaded} setLoaded={setLoaded} setProgress={setProgress} />
       <section className="about-page-section">
         <Container>
           <SaleProgress className="alert" smallScreen={smallScreen} />
