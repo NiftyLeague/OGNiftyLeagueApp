@@ -24,6 +24,7 @@ interface NiftyLeagueCharacterInterface extends ethers.utils.Interface {
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
+    "getCharacterTraits(uint256)": FunctionFragment;
     "getRemovedTraits()": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "isAvailableTrait(uint256)": FunctionFragment;
@@ -52,6 +53,10 @@ interface NiftyLeagueCharacterInterface extends ethers.utils.Interface {
   encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
   encodeFunctionData(
     functionFragment: "getApproved",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getCharacterTraits",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
@@ -120,6 +125,10 @@ interface NiftyLeagueCharacterInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getApproved",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getCharacterTraits",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -249,6 +258,109 @@ export class NiftyLeagueCharacter extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string]>;
 
+    getCharacterTraits(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<
+      [
+        [
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number
+        ] & {
+          tribe: number;
+          skinColor: number;
+          furColor: number;
+          eyeColor: number;
+          pupilColor: number;
+          hair: number;
+          mouth: number;
+          beard: number;
+          top: number;
+          outerwear: number;
+          print: number;
+          bottom: number;
+          footwear: number;
+          belt: number;
+          hat: number;
+          eyewear: number;
+          piercings: number;
+          wrists: number;
+          hands: number;
+          neckwear: number;
+          leftItem: number;
+          rightItem: number;
+        }
+      ] & {
+        _characterTraits: [
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number
+        ] & {
+          tribe: number;
+          skinColor: number;
+          furColor: number;
+          eyeColor: number;
+          pupilColor: number;
+          hair: number;
+          mouth: number;
+          beard: number;
+          top: number;
+          outerwear: number;
+          print: number;
+          bottom: number;
+          footwear: number;
+          belt: number;
+          hat: number;
+          eyewear: number;
+          piercings: number;
+          wrists: number;
+          hands: number;
+          neckwear: number;
+          leftItem: number;
+          rightItem: number;
+        };
+      }
+    >;
+
     getRemovedTraits(overrides?: CallOverrides): Promise<[number[]]>;
 
     isApprovedForAll(
@@ -353,6 +465,59 @@ export class NiftyLeagueCharacter extends BaseContract {
     overrides?: CallOverrides
   ): Promise<string>;
 
+  getCharacterTraits(
+    tokenId: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<
+    [
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number
+    ] & {
+      tribe: number;
+      skinColor: number;
+      furColor: number;
+      eyeColor: number;
+      pupilColor: number;
+      hair: number;
+      mouth: number;
+      beard: number;
+      top: number;
+      outerwear: number;
+      print: number;
+      bottom: number;
+      footwear: number;
+      belt: number;
+      hat: number;
+      eyewear: number;
+      piercings: number;
+      wrists: number;
+      hands: number;
+      neckwear: number;
+      leftItem: number;
+      rightItem: number;
+    }
+  >;
+
   getRemovedTraits(overrides?: CallOverrides): Promise<number[]>;
 
   isApprovedForAll(
@@ -450,6 +615,59 @@ export class NiftyLeagueCharacter extends BaseContract {
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<string>;
+
+    getCharacterTraits(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<
+      [
+        number,
+        number,
+        number,
+        number,
+        number,
+        number,
+        number,
+        number,
+        number,
+        number,
+        number,
+        number,
+        number,
+        number,
+        number,
+        number,
+        number,
+        number,
+        number,
+        number,
+        number,
+        number
+      ] & {
+        tribe: number;
+        skinColor: number;
+        furColor: number;
+        eyeColor: number;
+        pupilColor: number;
+        hair: number;
+        mouth: number;
+        beard: number;
+        top: number;
+        outerwear: number;
+        print: number;
+        bottom: number;
+        footwear: number;
+        belt: number;
+        hat: number;
+        eyewear: number;
+        piercings: number;
+        wrists: number;
+        hands: number;
+        neckwear: number;
+        leftItem: number;
+        rightItem: number;
+      }
+    >;
 
     getRemovedTraits(overrides?: CallOverrides): Promise<number[]>;
 
@@ -583,6 +801,11 @@ export class NiftyLeagueCharacter extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    getCharacterTraits(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     getRemovedTraits(overrides?: CallOverrides): Promise<BigNumber>;
 
     isApprovedForAll(
@@ -687,6 +910,11 @@ export class NiftyLeagueCharacter extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     getApproved(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getCharacterTraits(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;

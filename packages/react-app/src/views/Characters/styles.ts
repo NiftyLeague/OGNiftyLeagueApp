@@ -87,13 +87,16 @@ export const useStyles = makeStyles(theme => ({
       borderColor: 'white',
     },
   },
-  snackbar: { width: '50vw', bottom: 18 },
+  snackbar: { width: '60vw', bottom: 18 },
   [theme.breakpoints.down('md')]: {
     snackbar: { width: '75vw' },
   },
   [theme.breakpoints.down('sm')]: {
     snackbar: { width: '90vw', marginBottom: 40 },
     paper: { width: '60%' },
+  },
+  [theme.breakpoints.down('xs')]: {
+    snackbar: { display: 'none' },
   },
 }));
 

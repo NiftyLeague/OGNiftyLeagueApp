@@ -4,6 +4,8 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
 import clsx from 'clsx';
 import { useQuery } from '@apollo/client';
+import withWidth, { isWidthDown } from '@material-ui/core/withWidth';
+import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import { CircularProgress, Container, Grid, Snackbar } from '@material-ui/core';
 import Pagination from '@material-ui/lab/Pagination';
 import { CharacterCard, SaleProgress } from 'components';
@@ -14,8 +16,9 @@ import { INITIAL_FILTER_STATE, FILTER_STATE_MAPPING, PAGE_SIZE } from './constan
 import { DEFAULT_QUERY, FILTER_SEARCH_QUERY, ID_SEARCH_QUERY, NAME_SEARCH_QUERY } from './queries';
 import { useStyles } from './styles';
 
-const CharactersContainer = (): JSX.Element => {
+const CharactersContainer = ({ width }: { width: Breakpoint }): JSX.Element => {
   const classes: any = useStyles();
+  const smallScreen = isWidthDown('sm', width);
   const { currentTheme } = useThemeSwitcher();
   const [open, setOpen] = useState(true);
   const [page, setPage] = useState(1);
@@ -120,10 +123,10 @@ const CharactersContainer = (): JSX.Element => {
         />
       ) : null}
       <Snackbar open={open} autoHideDuration={null} onClose={handleClose} className={classes.snackbar}>
-        <SaleProgress handleClose={handleClose} />
+        <SaleProgress handleClose={handleClose} smallScreen={smallScreen} />
       </Snackbar>
     </Container>
   );
 };
 
-export default CharactersContainer;
+export default withWidth()(CharactersContainer);

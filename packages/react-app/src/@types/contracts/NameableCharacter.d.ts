@@ -26,6 +26,7 @@ interface NameableCharacterInterface extends ethers.utils.Interface {
     "balanceOf(address)": FunctionFragment;
     "changeName(uint256,string)": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
+    "getCharacterTraits(uint256)": FunctionFragment;
     "getName(uint256)": FunctionFragment;
     "getRemovedTraits()": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
@@ -65,6 +66,10 @@ interface NameableCharacterInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "getApproved",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getCharacterTraits",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
@@ -150,6 +155,10 @@ interface NameableCharacterInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "changeName", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getApproved",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getCharacterTraits",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "getName", data: BytesLike): Result;
@@ -298,6 +307,109 @@ export class NameableCharacter extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string]>;
 
+    getCharacterTraits(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<
+      [
+        [
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number
+        ] & {
+          tribe: number;
+          skinColor: number;
+          furColor: number;
+          eyeColor: number;
+          pupilColor: number;
+          hair: number;
+          mouth: number;
+          beard: number;
+          top: number;
+          outerwear: number;
+          print: number;
+          bottom: number;
+          footwear: number;
+          belt: number;
+          hat: number;
+          eyewear: number;
+          piercings: number;
+          wrists: number;
+          hands: number;
+          neckwear: number;
+          leftItem: number;
+          rightItem: number;
+        }
+      ] & {
+        _characterTraits: [
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+          number
+        ] & {
+          tribe: number;
+          skinColor: number;
+          furColor: number;
+          eyeColor: number;
+          pupilColor: number;
+          hair: number;
+          mouth: number;
+          beard: number;
+          top: number;
+          outerwear: number;
+          print: number;
+          bottom: number;
+          footwear: number;
+          belt: number;
+          hat: number;
+          eyewear: number;
+          piercings: number;
+          wrists: number;
+          hands: number;
+          neckwear: number;
+          leftItem: number;
+          rightItem: number;
+        };
+      }
+    >;
+
     getName(
       tokenId: BigNumberish,
       overrides?: CallOverrides
@@ -425,6 +537,59 @@ export class NameableCharacter extends BaseContract {
     overrides?: CallOverrides
   ): Promise<string>;
 
+  getCharacterTraits(
+    tokenId: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<
+    [
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number
+    ] & {
+      tribe: number;
+      skinColor: number;
+      furColor: number;
+      eyeColor: number;
+      pupilColor: number;
+      hair: number;
+      mouth: number;
+      beard: number;
+      top: number;
+      outerwear: number;
+      print: number;
+      bottom: number;
+      footwear: number;
+      belt: number;
+      hat: number;
+      eyewear: number;
+      piercings: number;
+      wrists: number;
+      hands: number;
+      neckwear: number;
+      leftItem: number;
+      rightItem: number;
+    }
+  >;
+
   getName(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
   getRemovedTraits(overrides?: CallOverrides): Promise<number[]>;
@@ -539,6 +704,59 @@ export class NameableCharacter extends BaseContract {
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<string>;
+
+    getCharacterTraits(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<
+      [
+        number,
+        number,
+        number,
+        number,
+        number,
+        number,
+        number,
+        number,
+        number,
+        number,
+        number,
+        number,
+        number,
+        number,
+        number,
+        number,
+        number,
+        number,
+        number,
+        number,
+        number,
+        number
+      ] & {
+        tribe: number;
+        skinColor: number;
+        furColor: number;
+        eyeColor: number;
+        pupilColor: number;
+        hair: number;
+        mouth: number;
+        beard: number;
+        top: number;
+        outerwear: number;
+        print: number;
+        bottom: number;
+        footwear: number;
+        belt: number;
+        hat: number;
+        eyewear: number;
+        piercings: number;
+        wrists: number;
+        hands: number;
+        neckwear: number;
+        leftItem: number;
+        rightItem: number;
+      }
+    >;
 
     getName(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
@@ -698,6 +916,11 @@ export class NameableCharacter extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    getCharacterTraits(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     getName(
       tokenId: BigNumberish,
       overrides?: CallOverrides
@@ -825,6 +1048,11 @@ export class NameableCharacter extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     getApproved(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getCharacterTraits(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;

@@ -1,10 +1,11 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
 import React, { useState } from 'react';
 import { BigNumber, utils } from 'ethers';
-import { Row, Col, Input, Divider, Tooltip, Button } from 'antd';
+import { Row, Col, Input, Divider, Button } from 'antd';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
 import Blockies from 'react-blockies';
 import Notifier from 'helpers/Notifier';
+import Tooltip from 'components/Tooltip';
 import { Provider, Network } from 'types/web3';
 import tryToDisplay from './utils';
 
@@ -44,7 +45,7 @@ export default function FunctionForm({
     let buttons: JSX.Element | null = null;
     if (input.type === 'bytes32') {
       buttons = (
-        <Tooltip placement="right" title="to bytes32">
+        <Tooltip text="to bytes32">
           <div
             style={{ cursor: 'pointer' }}
             onClick={() => {
@@ -61,7 +62,7 @@ export default function FunctionForm({
       );
     } else if (input.type === 'bytes') {
       buttons = (
-        <Tooltip placement="right" title="to hex">
+        <Tooltip text="to hex">
           <div
             style={{ cursor: 'pointer' }}
             onClick={() => {
@@ -79,7 +80,7 @@ export default function FunctionForm({
       );
     } else if (input.type === 'uint256') {
       buttons = (
-        <Tooltip placement="right" title="* 10 ** 18">
+        <Tooltip text="* 10 ** 18">
           <div
             style={{ cursor: 'pointer' }}
             onClick={() => {
@@ -95,7 +96,7 @@ export default function FunctionForm({
       const possibleAddress = value && value.toLowerCase && value.toLowerCase().trim();
       if (possibleAddress && possibleAddress.length === 42) {
         buttons = (
-          <Tooltip placement="right" title="blockie">
+          <Tooltip text="blockie">
             <Blockies seed={possibleAddress} scale={3} />
           </Tooltip>
         );
@@ -131,7 +132,7 @@ export default function FunctionForm({
           <div>
             <Row>
               <Col span={16}>
-                <Tooltip placement="right" title=" * 10^18 ">
+                <Tooltip text=" * 10^18 ">
                   <div
                     style={{ cursor: 'pointer' }}
                     onClick={() => {
@@ -144,7 +145,7 @@ export default function FunctionForm({
                 </Tooltip>
               </Col>
               <Col span={16}>
-                <Tooltip placement="right" title="number to hex">
+                <Tooltip text="number to hex">
                   <div
                     style={{ cursor: 'pointer' }}
                     onClick={() => {

@@ -14,6 +14,10 @@ export default createTheme({
     MuiSnackbarContent: {
       root: {
         fontSize: 16,
+        backgroundColor: 'rgb(22,21,34)',
+        border: '1px solid #2a3a50',
+        color: '#C3C5CB',
+        boxShadow: '0 4px 8px 0 rgb(0 0 0 / 10%)',
       },
     },
   },

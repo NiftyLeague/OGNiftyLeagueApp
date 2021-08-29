@@ -31,9 +31,6 @@ const navItems = () => [
   <Menu.Item key="/wallet">
     <Link to="/wallet">Wallet</Link>
   </Menu.Item>,
-  <Menu.Item key="/staking">
-    <Link to="/staking">Staking</Link>
-  </Menu.Item>,
 ];
 
 function Navigation({ width }: { width: Breakpoint }): JSX.Element {

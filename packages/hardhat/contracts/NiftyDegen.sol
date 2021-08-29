@@ -9,7 +9,7 @@ import "./AllowedColorsStorage.sol";
 import "hardhat/console.sol";
 
 /**
- * @title NiftyDegen NFT (The OG NFTs of Nifty League on Ethereum)
+ * @title NiftyDegen NFT (The OG NFTs of the Nifty League on Ethereum)
  * @dev Extends NameableCharacter and NiftyLeagueCharacter (ERC721)
  */
 contract NiftyDegen is NameableCharacter {
@@ -22,12 +22,15 @@ contract NiftyDegen is NameableCharacter {
     uint256 public constant MAX_SUPPLY = 10000;
 
     /// @notice Special characters reserved for future giveaways
-    uint256 public constant SPECIAL_CHARACTERS = 100;
+    uint256 public constant SPECIAL_CHARACTERS = 45;
 
     /// @dev Available traits storage address
     address internal immutable _storageAddress;
 
-    /// @dev Set if we want to override bonding curve pricing
+    /// @dev Mapping trait indexes to pool size of available traits
+    mapping(uint256 => uint256) internal _originalPoolSizes;
+
+    /// @dev Set if we want to override semi-fomo ramp pricing
     uint256 private _manualMintPrice;
 
     /**
@@ -40,10 +43,6 @@ contract NiftyDegen is NameableCharacter {
     }
 
     // External functions
-
-    function overrideMintPrice(uint256 newPrice) external onlyOwner {
-        _manualMintPrice = newPrice;
-    }
 
     /**
      * @notice Validate character traits and purchase a Nifty Degen NFT
@@ -61,44 +60,49 @@ contract NiftyDegen is NameableCharacter {
         uint256[6] memory accessories,
         uint256[2] memory items
     ) external payable {
-        require(!paused() || msg.sender == owner(), "Purchases are paused.");
-        require(msg.value == getNFTPrice() || msg.sender == owner(), "Ether value incorrect");
+        uint256 currentSupply = totalSupply.current();
+        require(currentSupply >= 5 || _msgSender() == owner(), "Sale has not started");
+        require(!paused(), "Purchases are paused");
+        require(msg.value == getNFTPrice(), "Ether value incorrect");
         _validateTraits(character, head, clothing, accessories, items);
         uint256 traitCombo = _generateTraitCombo(character, head, clothing, accessories, items);
         _storeNewCharacter(traitCombo);
     }
 
     /**
-     * @notice Retrieve a list of character traits for a token
-     * @param tokenId ID of NFT
-     * @dev Permissioning not added because it is only callable once.
-     * @return _characterTraits - indexed list of character traits
+     * @notice Set pool size for each trait index called on deploy
      */
-    function getCharacterTraits(uint256 tokenId) external view returns (CharacterTraits memory _characterTraits) {
-        require(_exists(tokenId), "nonexistent token");
-        Character memory character = _characters[tokenId];
-        _characterTraits.tribe = _unpackUint10(character.traits);
-        _characterTraits.skinColor = _unpackUint10(character.traits >> 10);
-        _characterTraits.furColor = _unpackUint10(character.traits >> 20);
-        _characterTraits.eyeColor = _unpackUint10(character.traits >> 30);
-        _characterTraits.pupilColor = _unpackUint10(character.traits >> 40);
-        _characterTraits.hair = _unpackUint10(character.traits >> 50);
-        _characterTraits.mouth = _unpackUint10(character.traits >> 60);
-        _characterTraits.beard = _unpackUint10(character.traits >> 70);
-        _characterTraits.top = _unpackUint10(character.traits >> 80);
-        _characterTraits.outerwear = _unpackUint10(character.traits >> 90);
-        _characterTraits.print = _unpackUint10(character.traits >> 100);
-        _characterTraits.bottom = _unpackUint10(character.traits >> 110);
-        _characterTraits.footwear = _unpackUint10(character.traits >> 120);
-        _characterTraits.belt = _unpackUint10(character.traits >> 130);
-        _characterTraits.hat = _unpackUint10(character.traits >> 140);
-        _characterTraits.eyewear = _unpackUint10(character.traits >> 150);
-        _characterTraits.piercings = _unpackUint10(character.traits >> 160);
-        _characterTraits.wrists = _unpackUint10(character.traits >> 170);
-        _characterTraits.hands = _unpackUint10(character.traits >> 180);
-        _characterTraits.neckwear = _unpackUint10(character.traits >> 190);
-        _characterTraits.leftItem = _unpackUint10(character.traits >> 200);
-        _characterTraits.rightItem = _unpackUint10(character.traits >> 210);
+    function initPoolSizes() external onlyOwner {
+        _originalPoolSizes[1] = 60;
+        _originalPoolSizes[2] = 31;
+        _originalPoolSizes[3] = 9;
+        _originalPoolSizes[4] = 9;
+        _originalPoolSizes[5] = 113;
+        _originalPoolSizes[6] = 14;
+        _originalPoolSizes[7] = 63;
+        _originalPoolSizes[8] = 99;
+        _originalPoolSizes[9] = 76;
+        _originalPoolSizes[10] = 41;
+        _originalPoolSizes[11] = 101;
+        _originalPoolSizes[12] = 37;
+        _originalPoolSizes[13] = 12;
+        _originalPoolSizes[14] = 43;
+        _originalPoolSizes[15] = 50;
+        _originalPoolSizes[16] = 10;
+        _originalPoolSizes[17] = 12;
+        _originalPoolSizes[18] = 25;
+        _originalPoolSizes[19] = 37;
+        _originalPoolSizes[20] = 92;
+        _originalPoolSizes[21] = 48;
+    }
+
+    /**
+     * @notice Fallback to set NFT price to static ether value if necessary
+     * @param newPrice New price to set for remaining character sale
+     * @dev Minimum value of 0.05 ETH for this to be considered in getNFTPrice
+     */
+    function overrideMintPrice(uint256 newPrice) external onlyOwner {
+        _manualMintPrice = newPrice;
     }
 
     // Public functions
@@ -113,24 +117,17 @@ contract NiftyDegen is NameableCharacter {
             currentSupply < MAX_SUPPLY - SPECIAL_CHARACTERS || (_msgSender() == owner() && currentSupply < MAX_SUPPLY),
             "Sale has already ended"
         );
-        if (_manualMintPrice > 0) return _manualMintPrice;
-        if (currentSupply >= 9900 || currentSupply <= 5) {
-            return 0; // 9900 - 10000 free special giveaway characters
-        } else if (currentSupply >= 9500) {
-            return 1000000000000000000; // 9500 - 9900 1 ETH
-        } else if (currentSupply >= 8500) {
-            return 750000000000000000; // 8500 - 9500 0.75 ETH
-        } else if (currentSupply >= 6500) {
-            return 500000000000000000; // 6500 - 8500 0.5 ETH
-        } else if (currentSupply >= 4500) {
-            return 250000000000000000; // 4500 - 6500 0.25 ETH
-        } else if (currentSupply >= 2500) {
-            return 100000000000000000; // 2500 - 4500 0.1 ETH
-        } else if (currentSupply >= 1000) {
-            return 50000000000000000; // 1000 - 2500 0.05 ETH
-        } else {
-            return 25000000000000000; // 0 - 1000 0.025 ETH
-        }
+        // 1 - 5 free for team players, 9956 - 10000 free special community giveaway characters
+        if (currentSupply < 5 || currentSupply >= 9955) return 0;
+        // fallback option to override price floors only if necessary. Minimum value of 0.05 ETH
+        if (_manualMintPrice > 50000000000000000) return _manualMintPrice;
+        if (currentSupply >= 9500) return 500000000000000000; // 9500 - 9900 0.5 ETH
+        if (currentSupply >= 8500) return 400000000000000000; // 8501 - 9500 0.4 ETH
+        if (currentSupply >= 6500) return 300000000000000000; // 6501 - 8500 0.3 ETH
+        if (currentSupply >= 4500) return 200000000000000000; // 4501 - 6500 0.2 ETH
+        if (currentSupply >= 2500) return 100000000000000000; // 2501 - 4500 0.1 ETH
+        if (currentSupply >= 1000) return 75000000000000000; // 1001 - 2500 0.075 ETH
+        return 50000000000000000; // 6 - 1000 0.05 ETH
     }
 
     /**
@@ -154,7 +151,7 @@ contract NiftyDegen is NameableCharacter {
      * @return Base token URI linked to IPFS metadata
      */
     function _baseURI() internal view virtual override returns (string memory) {
-        return "https://nifty-league.com/ipfs/metadata/";
+        return "https://nifty-league.com/ipfs/metadata/degens";
     }
 
     // Private functions
@@ -222,48 +219,6 @@ contract NiftyDegen is NameableCharacter {
     }
 
     /**
-     * @notice Generates uint256 bitwise trait combo
-     * @param character Indexed list of character traits
-     * @param head Indexed list of head traits
-     * @param clothing Indexed list of clothing options
-     * @param accessories Indexed list of accessories
-     * @param items Indexed list of items
-     * @dev Each trait is stored in 10 bits
-     * @return Trait combo packed into uint256
-     */
-    function _generateTraitCombo(
-        uint256[5] memory character,
-        uint256[3] memory head,
-        uint256[6] memory clothing,
-        uint256[6] memory accessories,
-        uint256[2] memory items
-    ) private pure returns (uint256) {
-        uint256 traits = character[0];
-        traits |= character[1] << 10;
-        traits |= character[2] << 20;
-        traits |= character[3] << 30;
-        traits |= character[4] << 40;
-        traits |= head[0] << 50;
-        traits |= head[1] << 60;
-        traits |= head[2] << 70;
-        traits |= clothing[0] << 80;
-        traits |= clothing[1] << 90;
-        traits |= clothing[2] << 100;
-        traits |= clothing[3] << 110;
-        traits |= clothing[4] << 120;
-        traits |= clothing[5] << 130;
-        traits |= accessories[0] << 140;
-        traits |= accessories[1] << 150;
-        traits |= accessories[2] << 160;
-        traits |= accessories[3] << 170;
-        traits |= accessories[4] << 180;
-        traits |= accessories[5] << 190;
-        traits |= items[0] << 200;
-        traits |= items[1] << 210;
-        return traits;
-    }
-
-    /**
      * @notice Mints NFT if unique and attempts to remove a random trait
      * @param traitCombo Trait combo provided from _generateTraitCombo
      */
@@ -293,7 +248,7 @@ contract NiftyDegen is NameableCharacter {
             (removedTraits.length < 800 && newCharId % 10 == 0)
         ) {
             uint256 randomIndex = _rngIndex(newCharId);
-            uint16 randomTrait = _unpackUint10(traitCombo >> randomIndex);
+            uint16 randomTrait = _unpackUint10(traitCombo >> (randomIndex * 10));
             // Base character colors cannot be removed
             if (
                 randomTrait != 0 &&
@@ -309,30 +264,37 @@ contract NiftyDegen is NameableCharacter {
                 randomTrait != 101 &&
                 randomTrait != 110
             ) {
-                removedTraits.push(randomTrait);
-                _removedTraitsMap[randomTrait] = true;
+                uint256 poolSize = _originalPoolSizes[randomIndex];
+                bool skip = _rngSkip(poolSize);
+                if (!skip) {
+                    removedTraits.push(randomTrait);
+                    _removedTraitsMap[randomTrait] = true;
+                }
             }
         }
     }
 
     /**
-     * @notice Simulate randomness
+     * @notice Simulate randomness for token index to attempt to remove
      * @param tokenId ID of newly generated NFT
      * @dev Randomness can be anticipated and exploited but is not crucial to NFT sale
      * @return Number from 1-21
      */
     function _rngIndex(uint256 tokenId) private view returns (uint256) {
         uint256 randomHash = uint256(keccak256(abi.encodePacked(tokenId, block.timestamp, block.difficulty)));
-        return ((randomHash % 21) + 1) * 10;
+        return (randomHash % 21) + 1;
     }
 
     /**
-     * @notice Unpack trait id from trait list
-     * @param traits Section within trait combo
-     * @return Trait ID
+     * @notice Simulate randomness to decide to skip removing trait based on pool size
+     * @param poolSize Number of trait options for a specific trait type
+     * @dev Randomness can be anticipated and exploited but is not crucial to NFT sale
+     * @return True if should skip this trait removal
      */
-    function _unpackUint10(uint256 traits) private pure returns (uint16) {
-        return uint16(traits) & 0x03FF;
+    function _rngSkip(uint256 poolSize) private view returns (bool) {
+        uint256 randomHash = uint256(keccak256(abi.encodePacked(poolSize, block.timestamp, block.difficulty)));
+        int256 odds = 13 - int256(randomHash % 26);
+        return odds < int256(100 / poolSize);
     }
 
     /**

@@ -2,24 +2,28 @@ import React, { memo, useCallback, useContext, useEffect, useState, useRef } fro
 import Unity, { UnityContext } from 'react-unity-webgl';
 import { isMobileOnly, withOrientationChange } from 'react-device-detect';
 import { BigNumber } from 'ethers';
+import { Alert } from 'antd';
 import { useCachedSubgraph, useRemovedTraits } from 'hooks';
 import { submitTxWithGasEstimate } from 'helpers/Notifier';
 import { NetworkContext } from 'NetworkProvider';
 import CharacterBGImg from 'assets/images/backgrounds/character_creator.png';
 import CurrentPrice from './CurrentPrice';
-import { DEBUG, NFT_CONTRACT, NETWORK_NAME } from '../../constants';
+import { DEBUG, DEPLOYER_ADDRESS, NFT_CONTRACT, NETWORK_NAME } from '../../constants';
 import { getMintableTraits, TraitArray } from './helpers';
 import './home.css';
 
+const baseUrl = process.env.REACT_APP_UNITY_CREATOR_BASE_URL as string;
+const buildVersion = process.env.REACT_APP_UNITY_CREATOR_BASE_VERSION as string;
+
 const unityContext = new UnityContext({
-  loaderUrl: 'characterBuild/c1.1.1.loader.js',
-  dataUrl: 'characterBuild/c1.1.1.data',
-  frameworkUrl: 'characterBuild/c1.1.1.framework.js',
-  codeUrl: 'characterBuild/c1.1.1.wasm',
-  streamingAssetsUrl: 'StreamingAssets',
+  loaderUrl: `${baseUrl}/Build/${buildVersion}.loader.js`,
+  dataUrl: `${baseUrl}/Build/${buildVersion}.data.br`,
+  frameworkUrl: `${baseUrl}/Build/${buildVersion}.framework.js.br`,
+  codeUrl: `${baseUrl}/Build/${buildVersion}.wasm.br`,
+  streamingAssetsUrl: `${baseUrl}/StreamingAssets`,
   companyName: 'NiftyLeague',
-  productName: 'NiftyCharacterCreator',
-  productVersion: 'c1.1.1',
+  productName: 'NiftyCreator',
+  productVersion: buildVersion,
 });
 
 window.unityInstance = unityContext;
@@ -63,12 +67,39 @@ window.onload = (e: Event) => {
   }
 };
 
+const SaleLocked = ({ totalSupply, saleLocked }: { totalSupply: number; saleLocked: boolean }): JSX.Element | null => {
+  return saleLocked ? (
+    <div
+      style={{
+        zIndex: 2,
+        position: 'absolute',
+        right: 0,
+        top: 60,
+        padding: 16,
+      }}
+    >
+      <Alert
+        message={totalSupply < 5 ? '⚠️ The sale has not started yet' : '✅ ALL DEGENS HAVE SOLD OUT!'}
+        description={
+          totalSupply < 5 ? (
+            <div>We will officially launch as soon as the 5th NFT is minted!</div>
+          ) : (
+            <div>Thank you all for the support!</div>
+          )
+        }
+        type="warning"
+        closable
+      />
+    </div>
+  ) : null;
+};
+
 const RemovedTraits = ({ callback, refreshKey }: { callback: (string) => void; refreshKey: number }) => {
   const { readContracts } = useContext(NetworkContext);
   const removedTraits = useRemovedTraits(readContracts);
 
   useEffect(() => {
-    if (DEBUG) console.log('======== removedTraits ========', JSON.stringify(removedTraits));
+    if (DEBUG) console.log('Removed Traits:', removedTraits);
     callback(JSON.stringify(removedTraits));
   }, [callback, removedTraits, refreshKey]);
 
@@ -85,21 +116,22 @@ interface CharacterCreatorProps {
 type MintEvent = CustomEvent<{ callback: (reset: string) => void; traits: TraitArray }>;
 
 const CharacterCreator = memo(({ isLoaded, isPortrait, setLoaded }: CharacterCreatorProps) => {
-  const { targetNetwork, tx, writeContracts } = useContext(NetworkContext);
+  const { address, targetNetwork, tx, writeContracts } = useContext(NetworkContext);
   const removedTraitsCallback = useRef<null | ((removedTraits: string) => void)>();
-  const { nftPrice } = useCachedSubgraph();
+  const { nftPrice, totalSupply } = useCachedSubgraph();
   const [refreshKey, setRefreshKey] = useState(0);
-  const [stashedMint, setStashedMint] = useState<null | number[][]>(null);
   const [width, setWidth] = useState(DEFAULT_WIDTH);
   const [height, setHeight] = useState(DEFAULT_HEIGHT);
+  const [saleLocked, setSaleLocked] = useState(false);
 
   useEffect(() => {
-    if (stashedMint) {
-      console.log('stashedMint', stashedMint);
-      // TODO: handle connect to MetaMask to complete this transaction
-      setStashedMint(null);
+    const count = totalSupply ?? 0;
+    if ((count < 5 && address !== DEPLOYER_ADDRESS) || count >= 9955) {
+      setSaleLocked(true);
+    } else {
+      setSaleLocked(false);
     }
-  }, [stashedMint]);
+  }, [totalSupply, address]);
 
   const getRemovedTraits = useCallback((e: CustomEvent<{ callback: (removedTraits: string) => void }>) => {
     removedTraitsCallback.current = e.detail.callback;
@@ -141,10 +173,8 @@ const CharacterCreator = memo(({ isLoaded, isPortrait, setLoaded }: CharacterCre
   );
 
   const stashMintState = useCallback((e: MintEvent) => {
-    const { character, head, clothing, accessories, items } = getMintableTraits(e.detail);
-    const args = [character, head, clothing, accessories, items];
-    setStashedMint(args);
-    setTimeout(() => e.detail.callback('true'), 2000);
+    // TODO: handle connect to MetaMask
+    setTimeout(() => e.detail.callback('false'), 1000);
   }, []);
 
   const mintCharacter = useCallback(
@@ -163,13 +193,14 @@ const CharacterCreator = memo(({ isLoaded, isPortrait, setLoaded }: CharacterCre
 
   const onMintCharacter = useCallback(
     (e: MintEvent) => {
-      if (writeContracts[NFT_CONTRACT]) {
+      if (writeContracts[NFT_CONTRACT] && !saleLocked) {
+        // userProvider connected and contracts initialized
         void mintCharacter(e);
       } else {
         stashMintState(e);
       }
     },
-    [mintCharacter, stashMintState, writeContracts],
+    [mintCharacter, stashMintState, writeContracts, saleLocked],
   );
 
   const onScroll = useCallback(() => {
@@ -237,7 +268,8 @@ const CharacterCreator = memo(({ isLoaded, isPortrait, setLoaded }: CharacterCre
       {removedTraitsCallback.current && refreshKey ? (
         <RemovedTraits callback={removedTraitsCallback.current} refreshKey={refreshKey} />
       ) : null}
-      <CurrentPrice nftPrice={nftPrice} isLoaded={isLoaded} />
+      <CurrentPrice nftPrice={nftPrice} isLoaded={isLoaded} totalSupply={totalSupply ?? 0} />
+      <SaleLocked totalSupply={totalSupply ?? 0} saleLocked={saleLocked} />
     </>
   );
 });

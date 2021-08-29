@@ -39,9 +39,9 @@ module.exports = {
     localhost: {
       url: 'http://localhost:8545',
       // Remove accounts if you want to use account 0 of the hardhat node to deploy
-      // accounts: {
-      //   mnemonic: getMnemonic(),
-      // },
+      accounts: {
+        mnemonic: getMnemonic(),
+      },
     },
     mainnet: {
       url: `https://mainnet.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
