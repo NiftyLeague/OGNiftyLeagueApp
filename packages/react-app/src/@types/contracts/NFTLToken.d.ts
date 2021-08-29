@@ -22,7 +22,6 @@ import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 interface NFTLTokenInterface extends ethers.utils.Interface {
   functions: {
     "EMISSION_PER_DAY()": FunctionFragment;
-    "INITIAL_ALLOTMENT()": FunctionFragment;
     "accumulated(uint256)": FunctionFragment;
     "accumulatedMultiCheck(uint256[])": FunctionFragment;
     "allowance(address,address)": FunctionFragment;
@@ -46,10 +45,6 @@ interface NFTLTokenInterface extends ethers.utils.Interface {
 
   encodeFunctionData(
     functionFragment: "EMISSION_PER_DAY",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "INITIAL_ALLOTMENT",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -116,10 +111,6 @@ interface NFTLTokenInterface extends ethers.utils.Interface {
 
   decodeFunctionResult(
     functionFragment: "EMISSION_PER_DAY",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "INITIAL_ALLOTMENT",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -227,8 +218,6 @@ export class NFTLToken extends BaseContract {
   functions: {
     EMISSION_PER_DAY(overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    INITIAL_ALLOTMENT(overrides?: CallOverrides): Promise<[BigNumber]>;
-
     accumulated(
       tokenIndex: BigNumberish,
       overrides?: CallOverrides
@@ -313,8 +302,6 @@ export class NFTLToken extends BaseContract {
 
   EMISSION_PER_DAY(overrides?: CallOverrides): Promise<BigNumber>;
 
-  INITIAL_ALLOTMENT(overrides?: CallOverrides): Promise<BigNumber>;
-
   accumulated(
     tokenIndex: BigNumberish,
     overrides?: CallOverrides
@@ -398,8 +385,6 @@ export class NFTLToken extends BaseContract {
 
   callStatic: {
     EMISSION_PER_DAY(overrides?: CallOverrides): Promise<BigNumber>;
-
-    INITIAL_ALLOTMENT(overrides?: CallOverrides): Promise<BigNumber>;
 
     accumulated(
       tokenIndex: BigNumberish,
@@ -503,8 +488,6 @@ export class NFTLToken extends BaseContract {
   estimateGas: {
     EMISSION_PER_DAY(overrides?: CallOverrides): Promise<BigNumber>;
 
-    INITIAL_ALLOTMENT(overrides?: CallOverrides): Promise<BigNumber>;
-
     accumulated(
       tokenIndex: BigNumberish,
       overrides?: CallOverrides
@@ -589,8 +572,6 @@ export class NFTLToken extends BaseContract {
 
   populateTransaction: {
     EMISSION_PER_DAY(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    INITIAL_ALLOTMENT(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     accumulated(
       tokenIndex: BigNumberish,

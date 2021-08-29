@@ -44,8 +44,8 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
         characters and tradable in-game assets.
       </p>
       <div className="d-flex justify-content-around align-items-center">
-        <Image width="40%" src={FrogInvite} />
-        <Image width="42%" src={Baseball} />
+        <Image width="40%" src={FrogInvite} preview={false} />
+        <Image width="42%" src={Baseball} preview={false} />
       </div>
       <br />
       <p>
@@ -64,11 +64,11 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
       <p>
         We will gradually be transfering over ownership of the Nifty League to our DAO in order to decentralize the
         platform and encourage devs to help us build! <strong>NFTL</strong> is our native governance token which
-        provides voting rights amongst other utilities you can read about <a href="#nftl">below</a>. Our treasury assets
-        are held within a Polygon gnosis multi-sig wallet which will be used to handle distributions to future project
-        contributors as well as tournaments or other activities. We are actively looking for notable members of our
-        community to join our DAO board of members and help control the multi-sig wallet so get in touch if you think
-        you would be a good fit!
+        provides voting rights amongst other utilities you can read about <a href="about#nftl">below</a>. Our treasury
+        assets are held within a Polygon gnosis multi-sig wallet which will be used to handle distributions to future
+        project contributors as well as for tournaments or other activities. We are actively looking for notable members
+        of our community to join our DAO board of members and help control the multi-sig wallet so get in touch if you
+        think you would be a good fit!
       </p>
       <Title level={2}>Characters</Title>
       <Title level={3}>Overview</Title>
@@ -82,15 +82,21 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
       </p>
       <Title level={3}>Future Character Sales</Title>
       <p>
-        As our platform continues to grow, we will monitor demand and make a decision whether we'll need an additional
-        launch on another EVM compatible chain like <strong>Polygon</strong> to onboard new users. If so,{' '}
-        <strong>50%</strong> of all proceeds from future character sales will be used to buy back <strong>NFTL</strong>{' '}
-        to distribute to the <strong>Nifty DAO</strong>. It is important to note that the unique trait combinations from
-        our genesis <strong>DEGENS</strong> will never be mintable again and the <strong>Nifty DAO</strong> will have
-        the option to decide if any new characters should be listed as gen 2 with completely different tribes all
-        together. While all NFTs will have the chance to earn daily rewards by playing our games and contributing to the
-        community, only Ethereum NFT holders will earn daily <strong>NFTL</strong> tokens for the first{' '}
-        <strong>5 years</strong> as described in our token emissions <a href="#emissions">below</a>.
+        As our platform continues to grow, we'll aim for partnerships with other popular NFT projects to increase the
+        player capacity for our games which are only available to <strong>DEGEN</strong> holders (...if you're reading
+        this BAYC{' '}
+        <span role="img" aria-label="heart emoji">
+          💜
+        </span>
+        ). Another option is to monitor demand and make a decision whether to do an additional launch on another EVM
+        compatible chain like Polygon or Avalanche to onboard new users and enable cross-chain gaming. If so,{' '}
+        <strong>50%</strong> of all proceeds from future character sales will be sent to the <strong>Nifty DAO</strong>.
+        It is important to note that the unique trait combinations from our genesis <strong>DEGENS</strong> will never
+        be mintable again and the <strong>Nifty DAO</strong> will have the option to decide if any new characters should
+        be listed as gen 2 with completely different tribes all together. While all NFTs will have the chance to earn
+        daily rewards by playing our games and contributing to the community, only Ethereum NFT holders will earn daily{' '}
+        <strong>NFTL</strong> tokens for the first <strong>3 years</strong> as described in our token emissions{' '}
+        <a href="about#emissions">below</a>.
       </p>
       <Title level={3}>
         Tribes <img src={Ape} alt="ape" width={32} />
@@ -140,8 +146,14 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
         Daily Rewards <img src={NFTL} alt="NFTL logo" width={24} />
       </Title>
       <p>
-        The more you play the more chances to earn <strong>NFTL</strong> tokens! We'll also frequently reward users for
-        staying active within our community so be sure to join our{' '}
+        The more you play the more chances to earn <strong>NFTL</strong> tokens! More details will be announced as we
+        define our emission model for each new game. As part of this we plan on implementing a progression system in the
+        future to level up your characters and gain more rewards for your XP. This is something we want to take slowly
+        so we can be sure to define the best rewards system for our platform and mitigate issues with bots attempting to
+        game the system.
+      </p>
+      <p>
+        We'll also frequently reward users for staying active within our community so be sure to join our{' '}
         <strong>
           <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/4bmTHYWjhe">
             Discord
@@ -151,10 +163,20 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
         the most value to our community ;). Help us onboard new members by answering questions and you just might find
         even more tips coming your way!
       </p>
+      <Title level={3}>
+        Tournaments{' '}
+        <span role="img" aria-label="trophy emoji">
+          🏆
+        </span>
+      </Title>
       <p>
-        We plan on announcing a progression system in the future to level up your characters and gain more rewards for
-        your XP. This is something we want to take slowly so we can be sure to define the best rewards system for our
-        platform and mitigate issues with bots attempting to game the system.
+        Join in on the fun in weekly or monthly tournaments! All tournaments may be incentivized by rewards from our
+        community treasury fund at the <strong>Nifty DAO's</strong> discretion via token voting. Some tournament
+        champions may even walk away with some special edition Key to the Citadel{' '}
+        <span role="img" aria-label="key emoji">
+          🗝️
+        </span>{' '}
+        NFTs... For any other activities you'd like to see implemented, reach out to our team!
       </p>
       <Title level={3}>
         Nifty Smashers{' '}
@@ -220,17 +242,6 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
         <Image width="30%" src={SmashSketch} />
       </div>
       <br />
-      <Title level={3}>
-        Tournaments{' '}
-        <span role="img" aria-label="trophy emoji">
-          🏆
-        </span>
-      </Title>
-      <p>
-        Join in on the fun in weekly or monthly tournaments! All tournaments may be incentivized by rewards from our
-        community treasury fund at the communities discretion via the <strong>Nifty DAO</strong>. For any other
-        activities you'd want to see implemented, reach out to our team!
-      </p>
       <Title level={3}>
         Community Developers{' '}
         <span role="img" aria-label="technologist emoji">

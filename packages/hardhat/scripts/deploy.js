@@ -5,7 +5,7 @@ const chalk = require('chalk');
 const { config, ethers, tenderly, run } = require('hardhat');
 const R = require('ramda');
 const { ALLOWED_COLORS } = require('../constants/allowedColors');
-const { COMMUNITY_TREASURY } = require('../constants/addresses');
+const { NIFTY_DAO, NIFTY_MARKETING } = require('../constants/addresses');
 
 function calculateGasMargin(value) {
   return value.mul(ethers.BigNumber.from(10000).add(ethers.BigNumber.from(1000))).div(ethers.BigNumber.from(10000));
@@ -26,16 +26,12 @@ const main = async () => {
   }
 
   const emissionStartTimestamp = Math.floor(Date.now() / 1000);
-  const ownerSupply = ethers.utils.parseEther('110000000');
-  const treasurySupply = ethers.utils.parseEther('180000000');
-  const nftlToken = await deploy('NFTLToken', [
-    emissionStartTimestamp,
-    ownerSupply,
-    treasurySupply,
-    COMMUNITY_TREASURY,
-  ]);
-  const nft = await deploy('NiftyDegen', [nftlToken.address, storage.address]);
-  await nftlToken.setNFTAddress(nft.address);
+  const ownerSupply = ethers.utils.parseEther('111400000');
+  const treasurySupply = ethers.utils.parseEther('125000000');
+  const nftlToken = await deploy('NFTLToken', [emissionStartTimestamp, ownerSupply, treasurySupply, NIFTY_DAO]);
+  const degen = await deploy('NiftyDegen', [nftlToken.address, storage.address]);
+  await nftlToken.setNFTAddress(degen.address);
+  await degen.initPoolSizes();
 
   // const yourContract = await ethers.getContractAt('YourContract', "0xaAC799eC2d00C013f1F11c37E654e59B0429DF6A") //<-- if you want to instantiate a version of a contract at a specific address!
 
@@ -45,7 +41,7 @@ const main = async () => {
   const deployerAddress = await deployerWallet.getAddress();
   const nonce = await deployerWallet.getTransactionCount();
   await deployerWallet.sendTransaction({
-    to: COMMUNITY_TREASURY_ADDRESS[targetNetwork],
+    to: NIFTY_MARKETING,
     value: ethers.utils.parseEther("1"),
   });
   */
@@ -55,7 +51,7 @@ const main = async () => {
   const treasuryTx = await nftlToken.methods.transfer(toAddress, amount);
   const treasuryTxRequest = {
     from: deployerAddress,
-    to: COMMUNITY_TREASURY_ADDRESS[targetNetwork],
+    to: NIFTY_MARKETING,
     data: treasuryTx.encodeABI(),
     nonce,
   gasPrice: parseUnits(taskArgs.gasPrice ? taskArgs.gasPrice : "1.001", "gwei").toHexString(),
@@ -85,7 +81,7 @@ const main = async () => {
     console.log(chalk.blue('verifying on tenderly'));
     await tenderlyVerify({ contractName: 'AllowedColorsStorage', contractAddress: storage.address });
     await tenderlyVerify({ contractName: 'NFTLToken', contractAddress: nftlToken.address });
-    await tenderlyVerify({ contractName: 'NiftyDegen', contractAddress: nft.address });
+    await tenderlyVerify({ contractName: 'NiftyDegen', contractAddress: degen.address });
 
     // If you want to verify your contract on etherscan
     // console.log(chalk.blue("verifying on etherscan"));
@@ -94,7 +90,7 @@ const main = async () => {
     //   constructorArguments: [emissionStartTimestamp, initalSupply],
     // });
     // await run("verify:verify", {
-    //   address: nft.address,
+    //   address: degen.address,
     //   constructorArguments: [nftlToken.address],
     // });
   }

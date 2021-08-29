@@ -256,6 +256,137 @@ const _abi = [
         type: "uint256",
       },
     ],
+    name: "getCharacterTraits",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "uint16",
+            name: "tribe",
+            type: "uint16",
+          },
+          {
+            internalType: "uint16",
+            name: "skinColor",
+            type: "uint16",
+          },
+          {
+            internalType: "uint16",
+            name: "furColor",
+            type: "uint16",
+          },
+          {
+            internalType: "uint16",
+            name: "eyeColor",
+            type: "uint16",
+          },
+          {
+            internalType: "uint16",
+            name: "pupilColor",
+            type: "uint16",
+          },
+          {
+            internalType: "uint16",
+            name: "hair",
+            type: "uint16",
+          },
+          {
+            internalType: "uint16",
+            name: "mouth",
+            type: "uint16",
+          },
+          {
+            internalType: "uint16",
+            name: "beard",
+            type: "uint16",
+          },
+          {
+            internalType: "uint16",
+            name: "top",
+            type: "uint16",
+          },
+          {
+            internalType: "uint16",
+            name: "outerwear",
+            type: "uint16",
+          },
+          {
+            internalType: "uint16",
+            name: "print",
+            type: "uint16",
+          },
+          {
+            internalType: "uint16",
+            name: "bottom",
+            type: "uint16",
+          },
+          {
+            internalType: "uint16",
+            name: "footwear",
+            type: "uint16",
+          },
+          {
+            internalType: "uint16",
+            name: "belt",
+            type: "uint16",
+          },
+          {
+            internalType: "uint16",
+            name: "hat",
+            type: "uint16",
+          },
+          {
+            internalType: "uint16",
+            name: "eyewear",
+            type: "uint16",
+          },
+          {
+            internalType: "uint16",
+            name: "piercings",
+            type: "uint16",
+          },
+          {
+            internalType: "uint16",
+            name: "wrists",
+            type: "uint16",
+          },
+          {
+            internalType: "uint16",
+            name: "hands",
+            type: "uint16",
+          },
+          {
+            internalType: "uint16",
+            name: "neckwear",
+            type: "uint16",
+          },
+          {
+            internalType: "uint16",
+            name: "leftItem",
+            type: "uint16",
+          },
+          {
+            internalType: "uint16",
+            name: "rightItem",
+            type: "uint16",
+          },
+        ],
+        internalType: "struct NiftyLeagueCharacter.CharacterTraits",
+        name: "_characterTraits",
+        type: "tuple",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
     name: "getName",
     outputs: [
       {

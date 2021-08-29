@@ -5,16 +5,11 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 
-import "hardhat/console.sol";
-
 /**
  * @title NFTL Token (The native token of Nifty League)
  * @dev Extends standard ERC20 contract from OpenZeppelin
  */
 contract NFTLToken is ERC20("Nifty League", "NFTL") {
-    /// @notice Initial supply given upon minting an NFT
-    uint256 public constant INITIAL_ALLOTMENT = 5000e18; // 5000 NFTL
-
     /// @notice NFTL tokens calaimable per day for each NFT holder
     uint256 public constant EMISSION_PER_DAY = 68.49315e18; // ~68.5 NFTL
 
@@ -92,7 +87,19 @@ contract NFTLToken is ERC20("Nifty League", "NFTL") {
 
         // If claim hasn't been done before for the index, add initial allotment (plus prereveal multiplier if applicable)
         if (lastClaimed == emissionStart) {
-            totalAccumulated = totalAccumulated + INITIAL_ALLOTMENT;
+            if (tokenIndex > 9500 && tokenIndex < 9956)
+                totalAccumulated = totalAccumulated + 20000e18; // 20000 NFTL
+            else if (tokenIndex > 8500)
+                totalAccumulated = totalAccumulated + 16000e18; // 16000 NFTL
+            else if (tokenIndex > 6500)
+                totalAccumulated = totalAccumulated + 12000e18; // 12000 NFTL
+            else if (tokenIndex > 4500)
+                totalAccumulated = totalAccumulated + 8000e18; // 8000 NFTL
+            else if (tokenIndex > 2500)
+                totalAccumulated = totalAccumulated + 4000e18; // 4000 NFTL
+            else if (tokenIndex > 1000)
+                totalAccumulated = totalAccumulated + 3000e18; // 3000 NFTL
+            else totalAccumulated = totalAccumulated + 2000e18; // 2000 NFTL
         }
         return totalAccumulated;
     }
