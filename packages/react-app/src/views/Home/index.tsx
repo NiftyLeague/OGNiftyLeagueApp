@@ -4,7 +4,7 @@ import { Typography } from 'antd';
 import Container from '@material-ui/core/Container';
 import withWidth, { isWidthDown } from '@material-ui/core/withWidth';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
-import { NiftySmashersVideo, Preloader, SaleProgress } from 'components';
+import { Footer, NiftySmashersVideo, Preloader, SaleProgress } from 'components';
 
 import ApeImg from 'assets/gifs/ape.gif';
 import AlienImg from 'assets/gifs/alien1.gif';
@@ -48,8 +48,8 @@ const Home = memo(({ width }: { width: Breakpoint }) => {
   const smallScreen = isWidthDown('xs', width);
   return (
     <div style={{ textAlign: 'center', overflowX: 'hidden' }}>
-      <Preloader ready={isLoaded} progress={progress} />
-      <CharacterCreator isLoaded={isLoaded} setLoaded={setLoaded} setProgress={setProgress} />
+      {/* <Preloader ready={isLoaded} progress={progress} />
+      <CharacterCreator isLoaded={isLoaded} setLoaded={setLoaded} setProgress={setProgress} /> */}
       <section className="about-page-section">
         <Container>
           <SaleProgress className="alert" smallScreen={smallScreen} />
@@ -141,7 +141,7 @@ const Home = memo(({ width }: { width: Breakpoint }) => {
           Satoshi's Island. Who knew Satoshi collected NFTs as well?"
         />
       </section>
-      <footer style={{ padding: 30 }} />
+      <Footer />
     </div>
   );
 });

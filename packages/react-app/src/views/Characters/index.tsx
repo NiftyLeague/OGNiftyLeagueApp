@@ -8,7 +8,7 @@ import withWidth, { isWidthDown } from '@material-ui/core/withWidth';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import { CircularProgress, Container, Grid, Snackbar } from '@material-ui/core';
 import Pagination from '@material-ui/lab/Pagination';
-import { CharacterCard, SaleProgress } from 'components';
+import { CharacterCard, Footer, SaleProgress } from 'components';
 import { Characters, TraitMaps } from 'types/graph';
 import CharactersFilter from './CharactersFilter';
 import { CHARACTERS_SUBGRAPH_INTERVAL } from '../../constants';
@@ -85,47 +85,50 @@ const CharactersContainer = ({ width }: { width: Breakpoint }): JSX.Element => {
   const unfilteredSearch = Boolean(data?.contracts && !filterActive);
 
   return (
-    <Container style={{ padding: '40px 0' }}>
-      <CharactersFilter
-        filterActive={filterActive}
-        filterState={filterState}
-        search={search}
-        setFilterState={handleFilter}
-        setSearch={handleSearch}
-      />
-      {loading || filterDataLoading ? (
-        <CircularProgress size={100} style={{ marginTop: 100 }} />
-      ) : (
-        <Grid container spacing={2} style={{ flexGrow: 1, margin: '8px 0px 8px -8px' }}>
-          {(unfilteredSearch
-            ? characters
-            : characters.slice((page - 1) * PAGE_SIZE, (page - 1) * PAGE_SIZE + PAGE_SIZE)
-          ).map(character => (
-            <Grid item xs={12} sm={6} md={4} lg={3} key={character.id}>
-              <CharacterCard character={character} />
-            </Grid>
-          ))}
-        </Grid>
-      )}
-      {(unfilteredSearch && data?.contracts[0]?.totalSupply) || (characters && characters.length > PAGE_SIZE) ? (
-        <Pagination
-          className={clsx(classes.pagination, { [classes.paginationDark]: currentTheme === 'dark' })}
-          color="primary"
-          count={
-            unfilteredSearch
-              ? Math.ceil((data?.contracts[0]?.totalSupply as unknown as number) / PAGE_SIZE)
-              : Math.ceil(characters?.length / PAGE_SIZE)
-          }
-          onChange={(_, value) => setPage(value)}
-          page={page}
-          size="large"
-          variant="outlined"
+    <>
+      <Container style={{ padding: '40px 0' }}>
+        <CharactersFilter
+          filterActive={filterActive}
+          filterState={filterState}
+          search={search}
+          setFilterState={handleFilter}
+          setSearch={handleSearch}
         />
-      ) : null}
-      <Snackbar open={open} autoHideDuration={null} onClose={handleClose} className={classes.snackbar}>
-        <SaleProgress handleClose={handleClose} smallScreen={smallScreen} />
-      </Snackbar>
-    </Container>
+        {loading || filterDataLoading ? (
+          <CircularProgress size={100} style={{ marginTop: 100 }} />
+        ) : (
+          <Grid container spacing={2} style={{ flexGrow: 1, margin: '8px 0px 8px -8px' }}>
+            {(unfilteredSearch
+              ? characters
+              : characters.slice((page - 1) * PAGE_SIZE, (page - 1) * PAGE_SIZE + PAGE_SIZE)
+            ).map(character => (
+              <Grid item xs={12} sm={6} md={4} lg={3} key={character.id}>
+                <CharacterCard character={character} />
+              </Grid>
+            ))}
+          </Grid>
+        )}
+        {(unfilteredSearch && data?.contracts[0]?.totalSupply) || (characters && characters.length > PAGE_SIZE) ? (
+          <Pagination
+            className={clsx(classes.pagination, { [classes.paginationDark]: currentTheme === 'dark' })}
+            color="primary"
+            count={
+              unfilteredSearch
+                ? Math.ceil((data?.contracts[0]?.totalSupply as unknown as number) / PAGE_SIZE)
+                : Math.ceil(characters?.length / PAGE_SIZE)
+            }
+            onChange={(_, value) => setPage(value)}
+            page={page}
+            size="large"
+            variant="outlined"
+          />
+        ) : null}
+        <Snackbar open={open} autoHideDuration={null} onClose={handleClose} className={classes.snackbar}>
+          <SaleProgress handleClose={handleClose} smallScreen={smallScreen} />
+        </Snackbar>
+      </Container>
+      <Footer />
+    </>
   );
 };
 

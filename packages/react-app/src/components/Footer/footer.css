@@ -1,0 +1,16 @@
+footer {
+  display: grid;
+  grid-template-columns: 42px 42px 1fr;
+  padding: 12px 16px;
+}
+
+footer .anticon {
+  font-size: 22px;
+}
+
+footer .anticon.discord {
+  color: #7289da;
+}
+footer .anticon.discord:hover {
+  color: #7289dad4;
+}
