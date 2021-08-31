@@ -2,6 +2,7 @@ import React, { memo, useCallback, useContext, useEffect, useState, useRef } fro
 import Unity, { UnityContext } from 'react-unity-webgl';
 import { isMobileOnly, withOrientationChange } from 'react-device-detect';
 import { BigNumber } from 'ethers';
+import MetaMaskOnboarding from '@metamask/onboarding';
 
 import { useCachedSubgraph, useRemovedTraits } from 'hooks';
 import { submitTxWithGasEstimate } from 'helpers/Notifier';
@@ -9,6 +10,7 @@ import { NetworkContext } from 'NetworkProvider';
 import CharacterBGImg from 'assets/images/backgrounds/character_creator.png';
 import { DEBUG, DEPLOYER_ADDRESS, NFT_CONTRACT, NETWORK_NAME } from '../../../constants';
 import CurrentPrice from './CurrentPrice';
+import MetaMaskOnboard from './MetaMaskOnboard';
 import SaleLocked from './SaleLocked';
 import { getMintableTraits, TraitArray } from '../helpers';
 
@@ -227,9 +229,10 @@ const CharacterCreator = memo(
 
 const CharacterCreatorContainer = memo(
   ({ isLoaded, isPortrait, setLoaded, setProgress }: CharacterCreatorContainerProps) => {
-    const { address, tx, writeContracts } = useContext(NetworkContext);
+    const { address, loadWeb3Modal, tx, writeContracts } = useContext(NetworkContext);
     const { nftPrice, totalSupply } = useCachedSubgraph();
     const [saleLocked, setSaleLocked] = useState(false);
+    const [onboardUser, setOnboardUser] = useState(false);
 
     useEffect(() => {
       const count = totalSupply ?? 0;
@@ -246,10 +249,18 @@ const CharacterCreatorContainer = memo(
       window.unityInstance.SendMessage = creatorContext.send;
     }, []);
 
-    const stashMintState = useCallback((e: MintEvent) => {
-      // TODO: handle connect to MetaMask
-      setTimeout(() => e.detail.callback('false'), 1000);
-    }, []);
+    const stashMintState = useCallback(
+      (e: MintEvent) => {
+        // TODO: handle connect to MetaMask
+        setTimeout(() => e.detail.callback('false'), 1000);
+        if (MetaMaskOnboarding.isMetaMaskInstalled()) {
+          void loadWeb3Modal();
+        } else {
+          setOnboardUser(true);
+        }
+      },
+      [loadWeb3Modal],
+    );
 
     const mintCharacter = useCallback(
       async (e: MintEvent) => {
@@ -279,6 +290,7 @@ const CharacterCreatorContainer = memo(
         )}
         <CurrentPrice nftPrice={nftPrice} isLoaded={isLoaded} totalSupply={totalSupply ?? 0} />
         <SaleLocked totalSupply={totalSupply ?? 0} saleLocked={saleLocked} />
+        <MetaMaskOnboard open={onboardUser} />
       </>
     );
   },
