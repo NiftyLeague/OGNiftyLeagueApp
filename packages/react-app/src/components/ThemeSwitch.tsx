@@ -7,7 +7,7 @@ export default function ThemeSwitcher(): JSX.Element {
   const theme = window.localStorage.getItem('theme');
   const [isDarkMode, setIsDarkMode] = useState(!theme || theme !== 'light');
   const { switcher, currentTheme, themes } = useThemeSwitcher();
-  const iconStyle = { marginBottom: -6, fontSize: 20 };
+  const iconStyle = { marginBottom: -6, fontSize: 22 };
 
   useEffect(() => {
     window.localStorage.setItem('theme', currentTheme ?? 'dark');
