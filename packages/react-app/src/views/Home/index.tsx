@@ -48,8 +48,8 @@ const Home = memo(({ width }: { width: Breakpoint }) => {
   const smallScreen = isWidthDown('xs', width);
   return (
     <div style={{ textAlign: 'center', overflowX: 'hidden' }}>
-      {/* <Preloader ready={isLoaded} progress={progress} />
-      <CharacterCreator isLoaded={isLoaded} setLoaded={setLoaded} setProgress={setProgress} /> */}
+      <Preloader ready={isLoaded} progress={progress} />
+      <CharacterCreator isLoaded={isLoaded} setLoaded={setLoaded} setProgress={setProgress} />
       <section className="about-page-section">
         <Container>
           <SaleProgress className="alert" smallScreen={smallScreen} />
