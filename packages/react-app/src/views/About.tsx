@@ -15,6 +15,7 @@ import CatSketch from 'assets/gifs/cat-sketch.gif';
 import GamesSketch from 'assets/images/games/games-sketch.png';
 import TennisSketch from 'assets/images/games/tennis-sketch.png';
 import SmashSketch from 'assets/images/games/smash-sketch.png';
+import NiftyRacersSketch from 'assets/images/games/nifty-racers-sketch.png';
 import TokenDistributionLight from 'assets/images/nftl-distribution-light.png';
 import TokenDistributionDark from 'assets/images/nftl-distribution-dark.png';
 import NFTL from 'assets/images/NFTL.png';
@@ -116,9 +117,11 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
         to select which of your characters to play with before each game so no harm in having one of each tribe!
       </p>
       <div className="d-flex justify-content-around align-items-center">
-        <Image width="30%" src={CatSketch} />
-        <Image width="29%" src={AlienSketch} />
-        <Image width="30%" src={DogeSketch} />
+        <Image.PreviewGroup>
+          <Image width="30%" src={CatSketch} />
+          <Image width="29%" src={AlienSketch} />
+          <Image width="30%" src={DogeSketch} />
+        </Image.PreviewGroup>
       </div>
       <br />
       <Title level={3}>
@@ -236,10 +239,13 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
           😈
         </span>
       </p>
-      <div className="d-flex justify-content-around align-items-center">
-        <Image width="30%" src={TennisSketch} />
-        <Image width="30%" src={GamesSketch} />
-        <Image width="30%" src={SmashSketch} />
+      <div className="d-flex justify-content-around align-items-center flex-wrap">
+        <Image.PreviewGroup>
+          <Image width={isWidthDown('md', width, false) ? '49%' : '24%'} src={TennisSketch} />
+          <Image width={isWidthDown('md', width, false) ? '49%' : '24%'} src={NiftyRacersSketch} />
+          <Image width={isWidthDown('md', width, false) ? '49%' : '24%'} src={GamesSketch} />
+          <Image width={isWidthDown('md', width, false) ? '49%' : '24%'} src={SmashSketch} />
+        </Image.PreviewGroup>
       </div>
       <br />
       <Title level={3}>

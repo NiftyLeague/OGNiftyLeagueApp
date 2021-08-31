@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import Unity, { UnityContext } from 'react-unity-webgl';
 import { isMobileOnly } from 'react-device-detect';
 import { Button, Card, Col, Image, Layout, Menu, Row } from 'antd';
@@ -7,15 +7,13 @@ import { SportsEsports, SportsMma } from '@material-ui/icons';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
 
 import { NetworkContext } from 'NetworkProvider';
-import { Preloader, WalletConnectPrompt } from 'components';
+import Preloader from 'components/Preloader';
 import NiftySmashers from 'assets/gifs/nifty-smashers.gif';
 import NiftySmashersThumb from 'assets/images/characters/alien-dj.png';
 import { DEBUG, NETWORK_NAME } from '../../constants';
 import './games.css';
 
 const { Content, Sider } = Layout;
-
-const authEvent = new CustomEvent('build', { detail: 3 });
 
 const baseUrl = process.env.REACT_APP_UNITY_SMASHERS_BASE_URL as string;
 const buildVersion = process.env.REACT_APP_UNITY_SMASHERS_BASE_VERSION as string;
@@ -33,16 +31,24 @@ const smashersContext = new UnityContext({
 
 const Game = ({ unityContext }: { unityContext: UnityContext }) => {
   const { address, targetNetwork } = useContext(NetworkContext);
+  const auth = `true,${address || '0x0'},Vitalik`;
+  const authCallback = useRef<null | ((auth: string) => void)>();
   const [isLoaded, setLoaded] = useState(false);
   const [progress, setProgress] = useState(0);
 
+  useEffect(() => {
+    if (address.length && authCallback.current) {
+      authCallback.current(auth);
+    }
+  }, [address, auth]);
+
   const startAuthentication = useCallback(
-    (e: CustomEvent<{ callback: (user: string) => void }>) => {
-      const result = `true,${address},Vitalik`;
-      if (DEBUG) console.log('Authenticating:', result);
-      e.detail.callback(result);
+    (e: CustomEvent<{ callback: (auth: string) => void }>) => {
+      if (DEBUG) console.log('Authenticating:', auth);
+      e.detail.callback(auth);
+      authCallback.current = e.detail.callback;
     },
-    [address],
+    [auth],
   );
 
   const getConfiguration = useCallback(
@@ -70,7 +76,6 @@ const Game = ({ unityContext }: { unityContext: UnityContext }) => {
       window.unityInstance.SendMessage = unityContext.send;
       unityContext.on('loaded', () => setLoaded(true));
       unityContext.on('error', console.error);
-      unityContext.on('canvas', element => console.log('Canvas', element));
       unityContext.on('progress', p => setProgress(p * 100));
       window.addEventListener('StartAuthentication', startAuthentication);
       window.addEventListener('GetConfiguration', getConfiguration);
@@ -117,12 +122,11 @@ const Game = ({ unityContext }: { unityContext: UnityContext }) => {
 };
 
 export default function Games(): JSX.Element {
-  const { validAccount } = useContext(NetworkContext);
   const { currentTheme } = useThemeSwitcher();
   const [selectedGame, setSelectedGame] = useState('all');
   const [collapsed, setCollapsed] = useState(true);
 
-  return validAccount && !isMobileOnly ? (
+  return !isMobileOnly ? (
     <Layout className="games">
       <Sider
         collapsible
@@ -139,7 +143,7 @@ export default function Games(): JSX.Element {
         <Menu
           mode="inline"
           selectedKeys={[selectedGame]}
-          {...(validAccount && { onClick: ({ key }) => setSelectedGame(key) })}
+          onClick={({ key }) => setSelectedGame(key)}
           style={{ textAlign: 'center' }}
         >
           <Menu.Item key="all" icon={<SportsEsports />}>
@@ -184,9 +188,7 @@ export default function Games(): JSX.Element {
         </Content>
       </Layout>
     </Layout>
-  ) : isMobileOnly ? (
-    <div style={{ paddingTop: 60 }}>Gaming is not supported on mobile devices at the moment</div>
   ) : (
-    <WalletConnectPrompt />
+    <div style={{ paddingTop: 60 }}>Gaming is not supported on mobile devices at the moment</div>
   );
 }
