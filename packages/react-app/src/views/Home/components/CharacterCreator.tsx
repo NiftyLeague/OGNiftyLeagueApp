@@ -2,7 +2,6 @@ import React, { memo, useCallback, useContext, useEffect, useState, useRef } fro
 import Unity, { UnityContext } from 'react-unity-webgl';
 import { isMobileOnly, withOrientationChange } from 'react-device-detect';
 import { BigNumber } from 'ethers';
-import { Alert } from 'antd';
 
 import { useCachedSubgraph, useRemovedTraits } from 'hooks';
 import { submitTxWithGasEstimate } from 'helpers/Notifier';
@@ -16,7 +15,7 @@ import { getMintableTraits, TraitArray } from '../helpers';
 const baseUrl = process.env.REACT_APP_UNITY_CREATOR_BASE_URL as string;
 const buildVersion = process.env.REACT_APP_UNITY_CREATOR_BASE_VERSION as string;
 
-const unityContext = new UnityContext({
+const creatorContext = new UnityContext({
   loaderUrl: `${baseUrl}/Build/${buildVersion}.loader.js`,
   dataUrl: `${baseUrl}/Build/${buildVersion}.data.br`,
   frameworkUrl: `${baseUrl}/Build/${buildVersion}.framework.js.br`,
@@ -84,171 +83,151 @@ interface CharacterCreatorContainerProps {
   setProgress: (number) => void;
 }
 interface CharacterCreatorProps extends CharacterCreatorContainerProps {
-  saleLocked: boolean;
+  onMintCharacter: (e: MintEvent) => Promise<void> | void;
+  unityContext: UnityContext;
 }
 
 type MintEvent = CustomEvent<{ callback: (reset: string) => void; traits: TraitArray }>;
 
-const CharacterCreator = memo(({ isLoaded, isPortrait, saleLocked, setLoaded, setProgress }: CharacterCreatorProps) => {
-  const { targetNetwork, tx, writeContracts } = useContext(NetworkContext);
-  const removedTraitsCallback = useRef<null | ((removedTraits: string) => void)>();
-  const [width, setWidth] = useState(DEFAULT_WIDTH);
-  const [height, setHeight] = useState(DEFAULT_HEIGHT);
-  const [refreshKey, setRefreshKey] = useState(0);
+const CharacterCreator = memo(
+  ({ isLoaded, isPortrait, onMintCharacter, setLoaded, setProgress, unityContext }: CharacterCreatorProps) => {
+    const { targetNetwork } = useContext(NetworkContext);
+    const removedTraitsCallback = useRef<null | ((removedTraits: string) => void)>();
+    const [width, setWidth] = useState(DEFAULT_WIDTH);
+    const [height, setHeight] = useState(DEFAULT_HEIGHT);
+    const [refreshKey, setRefreshKey] = useState(0);
 
-  const getRemovedTraits = useCallback((e: CustomEvent<{ callback: (removedTraits: string) => void }>) => {
-    removedTraitsCallback.current = e.detail.callback;
-    setRefreshKey(Math.random() + 1);
-  }, []);
+    const getRemovedTraits = useCallback((e: CustomEvent<{ callback: (removedTraits: string) => void }>) => {
+      removedTraitsCallback.current = e.detail.callback;
+      setRefreshKey(Math.random() + 1);
+    }, []);
 
-  useEffect(() => {
-    if (isMobileOnly && isLoaded && window.unityInstance?.SendMessage) {
-      window.unityInstance.SendMessage('CharacterCreatorLevel', 'UI_SetPortrait', isPortrait ? 'true' : 'false');
-    }
-  }, [isPortrait, isLoaded]);
+    useEffect(() => {
+      if (isMobileOnly && isLoaded && unityContext?.send) {
+        unityContext.send('CharacterCreatorLevel', 'UI_SetPortrait', isPortrait ? 'true' : 'false');
+      }
+    }, [isPortrait, isLoaded, unityContext]);
 
-  const reportWindowSize = useCallback((e: UIEvent) => {
-    if (isMobileOnly) {
-      const { innerWidth } = e.currentTarget as Window;
-      const size = innerWidth && innerWidth > 0 ? innerWidth : window.screen.width;
-      setWidth(size);
-      setHeight(size);
-    } else {
-      const ratio = getWindowRatio(e);
-      if (ratio >= 3) {
-        setWidth(ratio * WIDTH_SCALE);
-        setHeight(ratio * HEIGHT_SCALE);
-      } else {
+    const reportWindowSize = useCallback((e: UIEvent) => {
+      if (isMobileOnly) {
         const { innerWidth } = e.currentTarget as Window;
-        setWidth(innerWidth * 0.95);
-        setHeight(innerWidth * 0.7125);
-      }
-    }
-  }, []);
-
-  const getConfiguration = useCallback(
-    (e: CustomEvent<{ callback: (network: string) => void }>) => {
-      const networkName = NETWORK_NAME[targetNetwork.chainId];
-      const version = process.env.REACT_APP_SUBGRAPH_VERSION;
-      setTimeout(() => e.detail.callback(`${networkName},${version ?? ''}`), 1000);
-    },
-    [targetNetwork.chainId],
-  );
-
-  const stashMintState = useCallback((e: MintEvent) => {
-    // TODO: handle connect to MetaMask
-    setTimeout(() => e.detail.callback('false'), 1000);
-  }, []);
-
-  const mintCharacter = useCallback(
-    async (e: MintEvent) => {
-      const { character, head, clothing, accessories, items } = getMintableTraits(e.detail);
-      const nftContract = writeContracts[NFT_CONTRACT];
-      const args = [character, head, clothing, accessories, items];
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      const value = (await nftContract.getNFTPrice()) as BigNumber;
-      const extraGasNeeded = true;
-      void submitTxWithGasEstimate(tx, nftContract, 'purchase', args, { value }, extraGasNeeded);
-      setTimeout(() => e.detail.callback('true'), 4000);
-    },
-    [writeContracts, tx],
-  );
-
-  const onMintCharacter = useCallback(
-    (e: MintEvent) => {
-      if (writeContracts[NFT_CONTRACT] && !saleLocked) {
-        // userProvider connected and contracts initialized
-        void mintCharacter(e);
+        const size = innerWidth && innerWidth > 0 ? innerWidth : window.screen.width;
+        setWidth(size);
+        setHeight(size);
       } else {
-        stashMintState(e);
+        const ratio = getWindowRatio(e);
+        if (ratio >= 3) {
+          setWidth(ratio * WIDTH_SCALE);
+          setHeight(ratio * HEIGHT_SCALE);
+        } else {
+          const { innerWidth } = e.currentTarget as Window;
+          setWidth(innerWidth * 0.95);
+          setHeight(innerWidth * 0.7125);
+        }
       }
-    },
-    [mintCharacter, stashMintState, writeContracts, saleLocked],
-  );
+    }, []);
 
-  const onScroll = useCallback(() => {
-    const content = Array.from(document.getElementsByClassName('character-canvas') as HTMLCollectionOf<HTMLElement>)[0];
-    if (content) content.style['pointer-events'] = 'none';
-  }, []);
+    const getConfiguration = useCallback(
+      (e: CustomEvent<{ callback: (network: string) => void }>) => {
+        const networkName = NETWORK_NAME[targetNetwork.chainId];
+        const version = process.env.REACT_APP_SUBGRAPH_VERSION;
+        setTimeout(() => e.detail.callback(`${networkName},${version ?? ''}`), 1000);
+      },
+      [targetNetwork.chainId],
+    );
 
-  const onMouse = useCallback(() => {
-    const content = Array.from(document.getElementsByClassName('character-canvas') as HTMLCollectionOf<HTMLElement>)[0];
-    if (content) {
-      content.style['pointer-events'] = 'auto';
-      content.style.cursor = 'pointer';
-    }
-  }, []);
+    const onScroll = useCallback(() => {
+      const content = Array.from(
+        document.getElementsByClassName('character-canvas') as HTMLCollectionOf<HTMLElement>,
+      )[0];
+      if (content) content.style['pointer-events'] = 'none';
+    }, []);
 
-  useEffect(() => {
-    if (window.unityInstance) {
-      window.unityInstance.on('canvas', () => {
-        setWidth(DEFAULT_WIDTH);
-        setHeight(DEFAULT_HEIGHT);
-        setTimeout(() => {
-          if (isMobileOnly && window.unityInstance?.SendMessage)
-            window.unityInstance.SendMessage('CharacterCreatorLevel', 'UI_SetPortrait', isPortrait ? 'true' : 'false');
-        }, 2000);
-      });
-      window.unityInstance.on('loaded', () => setLoaded(true));
-      window.unityInstance.on('error', console.error);
-      window.unityInstance.on('progress', p => setProgress(p * 100));
-    }
-    window.addEventListener('resize', reportWindowSize);
-    window.addEventListener('GetConfiguration', getConfiguration);
-    window.addEventListener('GetRemovedTraits', getRemovedTraits);
-    window.addEventListener('SubmitTraits', onMintCharacter);
-    document.addEventListener('wheel', onScroll, false);
-    document.addEventListener('mousemove', onMouse, false);
-    return () => {
-      if (window.unityInstance) window.unityInstance.removeAllEventListeners();
-      window.removeEventListener('resize', reportWindowSize);
-      window.removeEventListener('GetConfiguration', getConfiguration);
-      window.removeEventListener('GetRemovedTraits', getRemovedTraits);
-      window.removeEventListener('SubmitTraits', onMintCharacter);
-      document.removeEventListener('wheel', onScroll, false);
-      document.removeEventListener('mousemove', onMouse, false);
-    };
-  }, [
-    getConfiguration,
-    getRemovedTraits,
-    isPortrait,
-    onMintCharacter,
-    onMouse,
-    onScroll,
-    reportWindowSize,
-    setLoaded,
-    setProgress,
-  ]);
+    const onMouse = useCallback(() => {
+      const content = Array.from(
+        document.getElementsByClassName('character-canvas') as HTMLCollectionOf<HTMLElement>,
+      )[0];
+      if (content) {
+        content.style['pointer-events'] = 'auto';
+        content.style.cursor = 'pointer';
+      }
+    }, []);
 
-  return (
-    <>
-      <div
-        style={{
-          backgroundSize: height / 21,
-          backgroundImage: `url(${CharacterBGImg})`,
-          backgroundRepeat: 'repeat-x',
-        }}
-      >
-        <Unity
-          className="character-canvas"
-          unityContext={window.unityInstance as UnityContext}
+    useEffect(() => {
+      if (unityContext) {
+        unityContext.on('canvas', () => {
+          setWidth(DEFAULT_WIDTH);
+          setHeight(DEFAULT_HEIGHT);
+          setTimeout(() => {
+            if (isMobileOnly && unityContext?.send)
+              unityContext.send('CharacterCreatorLevel', 'UI_SetPortrait', isPortrait ? 'true' : 'false');
+          }, 2000);
+        });
+        unityContext.on('loaded', () => setLoaded(true));
+        unityContext.on('error', console.error);
+        unityContext.on('progress', p => setProgress(p * 100));
+        window.addEventListener('resize', reportWindowSize);
+        window.addEventListener('GetConfiguration', getConfiguration);
+        window.addEventListener('GetRemovedTraits', getRemovedTraits);
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        window.addEventListener('SubmitTraits', onMintCharacter);
+        document.addEventListener('wheel', onScroll, false);
+        document.addEventListener('mousemove', onMouse, false);
+      }
+      return () => {
+        if (window.unityInstance) window.unityInstance.removeAllEventListeners();
+        if (unityContext) unityContext.removeAllEventListeners();
+        window.removeEventListener('resize', reportWindowSize);
+        window.removeEventListener('GetConfiguration', getConfiguration);
+        window.removeEventListener('GetRemovedTraits', getRemovedTraits);
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        window.removeEventListener('SubmitTraits', onMintCharacter);
+        document.removeEventListener('wheel', onScroll, false);
+        document.removeEventListener('mousemove', onMouse, false);
+      };
+    }, [
+      getConfiguration,
+      getRemovedTraits,
+      isPortrait,
+      onMintCharacter,
+      onMouse,
+      onScroll,
+      reportWindowSize,
+      setLoaded,
+      setProgress,
+      unityContext,
+    ]);
+
+    return (
+      <>
+        <div
           style={{
-            width,
-            height,
-            visibility: isLoaded ? 'visible' : 'hidden',
+            backgroundSize: height / 21,
+            backgroundImage: `url(${CharacterBGImg})`,
+            backgroundRepeat: 'repeat-x',
           }}
-        />
-      </div>
-      {removedTraitsCallback.current && refreshKey ? (
-        <RemovedTraits callback={removedTraitsCallback.current} refreshKey={refreshKey} />
-      ) : null}
-    </>
-  );
-});
+        >
+          <Unity
+            className="character-canvas"
+            unityContext={unityContext}
+            style={{
+              width,
+              height,
+              visibility: isLoaded ? 'visible' : 'hidden',
+            }}
+          />
+        </div>
+        {removedTraitsCallback.current && refreshKey ? (
+          <RemovedTraits callback={removedTraitsCallback.current} refreshKey={refreshKey} />
+        ) : null}
+      </>
+    );
+  },
+);
 
 const CharacterCreatorContainer = memo(
   ({ isLoaded, isPortrait, setLoaded, setProgress }: CharacterCreatorContainerProps) => {
-    const { address } = useContext(NetworkContext);
+    const { address, tx, writeContracts } = useContext(NetworkContext);
     const { nftPrice, totalSupply } = useCachedSubgraph();
     const [saleLocked, setSaleLocked] = useState(false);
 
@@ -262,10 +241,29 @@ const CharacterCreatorContainer = memo(
     }, [totalSupply, address]);
 
     useEffect(() => {
-      window.unityInstance = unityContext;
+      window.unityInstance = creatorContext;
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      window.unityInstance.SendMessage = unityContext.send;
+      window.unityInstance.SendMessage = creatorContext.send;
     }, []);
+
+    const stashMintState = useCallback((e: MintEvent) => {
+      // TODO: handle connect to MetaMask
+      setTimeout(() => e.detail.callback('false'), 1000);
+    }, []);
+
+    const mintCharacter = useCallback(
+      async (e: MintEvent) => {
+        const { character, head, clothing, accessories, items } = getMintableTraits(e.detail);
+        const nftContract = writeContracts[NFT_CONTRACT];
+        const args = [character, head, clothing, accessories, items];
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+        const value = (await nftContract.getNFTPrice()) as BigNumber;
+        const extraGasNeeded = true;
+        void submitTxWithGasEstimate(tx, nftContract, 'purchase', args, { value }, extraGasNeeded);
+        setTimeout(() => e.detail.callback('true'), 4000);
+      },
+      [writeContracts, tx],
+    );
 
     return (
       <>
@@ -273,9 +271,10 @@ const CharacterCreatorContainer = memo(
           <CharacterCreator
             isLoaded={isLoaded}
             isPortrait={isPortrait}
-            saleLocked={saleLocked}
+            onMintCharacter={writeContracts[NFT_CONTRACT] && !saleLocked ? mintCharacter : stashMintState}
             setLoaded={setLoaded}
             setProgress={setProgress}
+            unityContext={creatorContext}
           />
         )}
         <CurrentPrice nftPrice={nftPrice} isLoaded={isLoaded} totalSupply={totalSupply ?? 0} />
