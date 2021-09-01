@@ -7,7 +7,8 @@ import MetaMaskOnboarding from '@metamask/onboarding';
 import { useCachedSubgraph, useRemovedTraits } from 'hooks';
 import { submitTxWithGasEstimate } from 'helpers/Notifier';
 import { NetworkContext } from 'NetworkProvider';
-import CharacterBGImg from 'assets/images/backgrounds/character_creator.png';
+import CharacterBGImg from 'assets/images/backgrounds/character-creator-repeat.png';
+import CharacterDarkBGImg from 'assets/images/backgrounds/character-creator-repeat-dark.png';
 import { DEBUG, DEPLOYER_ADDRESS, NFT_CONTRACT, NETWORK_NAME } from '../../../constants';
 import CurrentPrice from './CurrentPrice';
 import MetaMaskOnboard from './MetaMaskOnboard';
@@ -203,6 +204,7 @@ const CharacterCreator = memo(
     return (
       <>
         <div
+          className="pixelated"
           style={{
             backgroundSize: height / 21,
             backgroundImage: `url(${CharacterBGImg})`,
