@@ -52,6 +52,15 @@ h2 {
   background: linear-gradient(to left, #5e72eb, #620edf);
 }
 
+.pixelated {
+  image-rendering: crisp-edges;
+  image-rendering: -moz-crisp-edges;          /* Firefox */
+  image-rendering: -o-crisp-edges;            /* Opera */
+  image-rendering: -webkit-optimize-contrast; /* Webkit (non-standard naming)*/
+  -ms-interpolation-mode: nearest-neighbor;   /* IE (non-standard property) */
+  image-rendering: pixelated;
+}
+
 a,
 a:hover,
 a:focus,
