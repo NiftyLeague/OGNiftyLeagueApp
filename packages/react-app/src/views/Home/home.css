@@ -88,33 +88,40 @@
   will-change: transform;
   background-position: center center;
   background-repeat: no-repeat;
-  background-size: 100% 100%;
+  background-size: cover;
 }
 .parallax-row:nth-of-type(1) {
+  background-position-y: 46%;
   background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.4) 100%),
     url(../../assets/gifs/sushi-level.gif);
 }
 .parallax-row:nth-of-type(2) {
+  background-position-y: 55%;
   background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.4) 100%),
-    url(../../assets/gifs/doge-level.gif);
+    url(../../assets/gifs/doge-moon.gif);
 }
 .parallax-row:nth-of-type(3) {
+  background-position-y: 80%;
   background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.9) 100%),
-    url(../../assets/gifs/alien-level.gif);
+    url(../../assets/gifs/dj-aurora.gif);
 }
 .parallax-row:nth-of-type(4) {
+  background-position-y: 60%;
   background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.4) 100%),
     url(../../assets/gifs/mars-level.gif);
 }
 .parallax-row:nth-of-type(5) {
+  background-position-y: 60%;
   background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.4) 100%),
     url(../../assets/gifs/ape-level.gif);
 }
 .parallax-row:nth-of-type(6) {
+  background-position-y: 90%;
   background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.4) 100%),
-    url(../../assets/gifs/frog-level.gif);
+    url(../../assets/gifs/train-level.gif);
 }
 .parallax-row:nth-of-type(7) {
+  background-position-y: 95%;
   background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.4) 100%),
     url(../../assets/gifs/satoshi-level.gif);
 }

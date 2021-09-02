@@ -11,7 +11,7 @@ export default function Preloader({ ready, progress }: { ready: boolean; progres
       setPercent(Math.round(progress));
     } else {
       const id = setInterval(() => {
-        setPercent(p => Math.round(p < 90 ? p + 10 : 90));
+        setPercent(p => Math.round(p < 80 ? p + 10 : 90));
       }, 100);
       return () => clearInterval(id);
     }
