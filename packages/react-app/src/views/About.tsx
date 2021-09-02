@@ -8,6 +8,7 @@ import { Container } from '@material-ui/core';
 
 import Footer from 'components/Footer';
 import NiftySmashersVideo from 'components/NiftySmashersVideo';
+import NiftyLeagueStory from 'assets/gifs/story.gif';
 import FrogInvite from 'assets/images/games/frog-invite.png';
 import Baseball from 'assets/images/games/baseball.png';
 import AlienSketch from 'assets/gifs/alien-sketch.gif';
@@ -46,9 +47,8 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
           platform. Nifty League prides itself on being one of the first platforms offering competitive games utilizing
           customizable characters and tradable in-game assets.
         </p>
-        <div className="d-flex justify-content-around align-items-center">
-          <Image width="40%" src={FrogInvite} preview={false} />
-          <Image width="42%" src={Baseball} preview={false} />
+        <div className="d-flex justify-content-around align-items-center pixelated">
+          <Image width="65%" src={NiftyLeagueStory} preview={false} />
         </div>
         <br />
         <p>
@@ -121,9 +121,9 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
         </p>
         <div className="d-flex justify-content-around align-items-center">
           <Image.PreviewGroup>
-            <Image width="30%" src={CatSketch} />
-            <Image width="29%" src={AlienSketch} />
-            <Image width="30%" src={DogeSketch} />
+            <Image width="30%" src={CatSketch} preview={false}/>
+            <Image width="29%" src={AlienSketch} preview={false}/>
+            <Image width="30%" src={DogeSketch} preview={false}/>
           </Image.PreviewGroup>
         </div>
         <br />
@@ -289,6 +289,7 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
           preview={false}
           src={currentTheme === 'dark' ? TokenDistributionDark : TokenDistributionLight}
           width={isWidthDown('sm', width) ? '100%' : '75%'}
+          style={{marginLeft: isWidthDown('sm', width) ? '0' : '12.5%'}}
         />
         <Title level={3}>
           Airdrop{' '}
