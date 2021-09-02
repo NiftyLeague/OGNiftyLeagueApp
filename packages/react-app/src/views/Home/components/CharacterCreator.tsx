@@ -140,9 +140,8 @@ const CharacterCreator = memo(
       [targetNetwork.chainId],
     );
 
-    const toggleIsMinting = useCallback(
-      (e: CustomEvent<boolean>) => {
-        setIsMinting(e.detail);
+    const toggleIsMinting = useCallback((e: CustomEvent<boolean>) => {
+      setIsMinting(e.detail);
     }, []);
 
     const onScroll = useCallback(() => {
@@ -206,6 +205,7 @@ const CharacterCreator = memo(
       reportWindowSize,
       setLoaded,
       setProgress,
+      toggleIsMinting,
       unityContext,
     ]);
 
@@ -215,7 +215,7 @@ const CharacterCreator = memo(
           className="pixelated"
           style={{
             backgroundSize: height / 21,
-            backgroundImage: `url(${isMinting ? CharacterDarkBGImg: CharacterBGImg})`,
+            backgroundImage: `url(${isMinting ? CharacterDarkBGImg : CharacterBGImg})`,
             backgroundRepeat: 'repeat-x',
           }}
         >
