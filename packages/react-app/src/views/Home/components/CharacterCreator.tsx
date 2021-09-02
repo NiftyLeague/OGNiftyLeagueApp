@@ -7,7 +7,8 @@ import MetaMaskOnboarding from '@metamask/onboarding';
 import { useCachedSubgraph, useRemovedTraits } from 'hooks';
 import { submitTxWithGasEstimate } from 'helpers/Notifier';
 import { NetworkContext } from 'NetworkProvider';
-import CharacterBGImg from 'assets/images/backgrounds/character_creator.png';
+import CharacterBGImg from 'assets/images/backgrounds/character-creator-repeat.png';
+import CharacterDarkBGImg from 'assets/images/backgrounds/character-creator-repeat-dark.png';
 import { DEBUG, DEPLOYER_ADDRESS, NFT_CONTRACT, NETWORK_NAME } from '../../../constants';
 import CurrentPrice from './CurrentPrice';
 import MetaMaskOnboard from './MetaMaskOnboard';
@@ -98,6 +99,7 @@ const CharacterCreator = memo(
     const [width, setWidth] = useState(DEFAULT_WIDTH);
     const [height, setHeight] = useState(DEFAULT_HEIGHT);
     const [refreshKey, setRefreshKey] = useState(0);
+    const [isMinting, setIsMinting] = useState(false);
 
     const getRemovedTraits = useCallback((e: CustomEvent<{ callback: (removedTraits: string) => void }>) => {
       removedTraitsCallback.current = e.detail.callback;
@@ -138,6 +140,11 @@ const CharacterCreator = memo(
       [targetNetwork.chainId],
     );
 
+    const toggleIsMinting = useCallback(
+      (e: CustomEvent<boolean>) => {
+        setIsMinting(e.detail);
+    }, []);
+
     const onScroll = useCallback(() => {
       const content = Array.from(
         document.getElementsByClassName('character-canvas') as HTMLCollectionOf<HTMLElement>,
@@ -171,6 +178,7 @@ const CharacterCreator = memo(
         window.addEventListener('resize', reportWindowSize);
         window.addEventListener('GetConfiguration', getConfiguration);
         window.addEventListener('GetRemovedTraits', getRemovedTraits);
+        window.addEventListener('OnMintEffectToggle', toggleIsMinting);
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         window.addEventListener('SubmitTraits', onMintCharacter);
         document.addEventListener('wheel', onScroll, false);
@@ -182,6 +190,7 @@ const CharacterCreator = memo(
         window.removeEventListener('resize', reportWindowSize);
         window.removeEventListener('GetConfiguration', getConfiguration);
         window.removeEventListener('GetRemovedTraits', getRemovedTraits);
+        window.removeEventListener('OnMintEffectToggle', toggleIsMinting);
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         window.removeEventListener('SubmitTraits', onMintCharacter);
         document.removeEventListener('wheel', onScroll, false);
@@ -203,9 +212,10 @@ const CharacterCreator = memo(
     return (
       <>
         <div
+          className="pixelated"
           style={{
             backgroundSize: height / 21,
-            backgroundImage: `url(${CharacterBGImg})`,
+            backgroundImage: `url(${isMinting ? CharacterDarkBGImg: CharacterBGImg})`,
             backgroundRepeat: 'repeat-x',
           }}
         >

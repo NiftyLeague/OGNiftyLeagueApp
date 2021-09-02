@@ -6,13 +6,13 @@ import withWidth, { isWidthDown } from '@material-ui/core/withWidth';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import { Footer, NiftySmashersVideo, Preloader, SaleProgress } from 'components';
 
-import ApeImg from 'assets/gifs/ape.gif';
-import AlienImg from 'assets/gifs/alien1.gif';
+import ApeImg from 'assets/gifs/java.gif';
+import AlienImg from 'assets/gifs/aurora.gif';
 import DogeImg from 'assets/gifs/doge.gif';
-import HumanImg from 'assets/images/characters/human-ex.png';
-import CatImg from 'assets/gifs/cat1.gif';
-import FrogImg from 'assets/images/characters/frog-ex.png';
-import SatoshiImg from 'assets/images/characters/satoshi.png';
+import HumanImg from 'assets/gifs/finney.gif';
+import CatImg from 'assets/gifs/yoko.gif';
+import FrogImg from 'assets/gifs/cribbit.gif';
+import SatoshiImg from 'assets/gifs/satoshi.gif';
 import CharacterCreator from './components/CharacterCreator';
 import './home.css';
 
@@ -29,7 +29,7 @@ const ParallaxCharacter = ({
   image: string;
   text: string | JSX.Element;
 }): JSX.Element => (
-  <div className="parallax-row">
+  <div className="parallax-row pixelated">
     <Container className={`parallax-child-section ${direction}`}>
       <div className="col-sm-8 text-container">
         <Title className="title-hr">{title}</Title>
