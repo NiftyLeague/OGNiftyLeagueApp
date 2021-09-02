@@ -19,11 +19,13 @@ import './home.css';
 const { Title } = Typography;
 
 const ParallaxCharacter = ({
+  className,
   direction,
   title,
   image,
   text,
 }: {
+  className?: string;
   direction: string;
   title: string;
   image: string;
@@ -36,11 +38,13 @@ const ParallaxCharacter = ({
         <p>{text}</p>
       </div>
       <div className="col-sm-4 image-container">
-        <img src={image} alt={`${title} Character`} />
+        <img className={className} src={image} alt={`${title} Character`} />
       </div>
     </Container>
   </div>
 );
+
+ParallaxCharacter.defaultProps = { className: undefined };
 
 const Home = memo(({ width }: { width: Breakpoint }) => {
   const [isLoaded, setLoaded] = useState(false);
@@ -81,6 +85,7 @@ const Home = memo(({ width }: { width: Breakpoint }) => {
       </section>
       <section className="characters">
         <ParallaxCharacter
+          className="extra-margin"
           direction="left"
           title="Yoko"
           image={CatImg}
