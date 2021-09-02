@@ -1,12 +1,14 @@
 export { default as ScrollToTop } from './ScrollToTop';
 export { default as useBalance } from './useBalance';
 export { default as useCachedSubgraph } from './useCachedSubgraph';
+export { default as useCallbackDebugger } from './useCallbackDebugger';
 export { default as useClaimableNFTL } from './useClaimableNFTL';
 export { default as useContractExistsAtAddress } from './useContractExistsAtAddress';
 export { default as useContractLoader } from './useContractLoader';
 export { default as useContractReader } from './useContractReader';
 export { default as useCustomContractLoader } from './useCustomContractLoader';
 export { default as useDebounce } from './useDebounce';
+export { default as useEffectDebugger } from './useEffectDebugger';
 export { default as useEventListener } from './useEventListener';
 export { default as useExchangePrice } from './useExchangePrice';
 export { default as useExternalContractLoader } from './useExternalContractLoader';

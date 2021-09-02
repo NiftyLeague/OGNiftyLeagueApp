@@ -3,9 +3,11 @@
 }
 .preloader-overlay {
   position: fixed;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
   top: 0;
   left: 0;
-  display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
@@ -16,6 +18,9 @@
   transform: translateY(0);
   transition: all 0.7s cubic-bezier(0.86, 0, 0.07, 1) 0.55s;
   min-height: 180px;
+}
+.preloader {
+  width: 100%;
 }
 .preloader-is--active .preloader-overlay {
   transform: translateY(0);
