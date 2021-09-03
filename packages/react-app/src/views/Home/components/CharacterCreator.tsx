@@ -20,9 +20,9 @@ const buildVersion = process.env.REACT_APP_UNITY_CREATOR_BASE_VERSION as string;
 
 const creatorContext = new UnityContext({
   loaderUrl: `${baseUrl}/Build/${buildVersion}.loader.js`,
-  dataUrl: `${baseUrl}/Build/${buildVersion}.data.unityweb`,
-  frameworkUrl: `${baseUrl}/Build/${buildVersion}.framework.js.unityweb`,
-  codeUrl: `${baseUrl}/Build/${buildVersion}.wasm.unityweb`,
+  dataUrl: `${baseUrl}/Build/${buildVersion}.data.br`,
+  frameworkUrl: `${baseUrl}/Build/${buildVersion}.framework.js.br`,
+  codeUrl: `${baseUrl}/Build/${buildVersion}.wasm.br`,
   streamingAssetsUrl: `${baseUrl}/StreamingAssets`,
   companyName: 'NiftyLeague',
   productName: 'NiftyCreator',
