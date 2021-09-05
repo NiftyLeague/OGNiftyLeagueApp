@@ -3868,7 +3868,7 @@ tr > .ant-picker-cell-in-view.ant-picker-cell-range-hover:last-child::after {
 }
 .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item,
 .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu {
-  margin: -2px 20px 0;
+  margin: -3px 20px 0;
   padding: 0;
 }
 .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-active,
