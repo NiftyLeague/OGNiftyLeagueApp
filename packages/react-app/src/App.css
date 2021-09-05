@@ -54,10 +54,10 @@ h2 {
 
 .pixelated {
   image-rendering: crisp-edges;
-  image-rendering: -moz-crisp-edges;          /* Firefox */
-  image-rendering: -o-crisp-edges;            /* Opera */
+  image-rendering: -moz-crisp-edges; /* Firefox */
+  image-rendering: -o-crisp-edges; /* Opera */
   image-rendering: -webkit-optimize-contrast; /* Webkit (non-standard naming)*/
-  -ms-interpolation-mode: nearest-neighbor;   /* IE (non-standard property) */
+  -ms-interpolation-mode: nearest-neighbor; /* IE (non-standard property) */
   image-rendering: pixelated;
 }
 
@@ -110,18 +110,37 @@ a:active {
   background: transparent;
 }
 
-.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item,
-.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu {
-  margin: -2px 18px 0;
+.ant-menu-horizontal {
+  white-space: nowrap;
+  border: 0;
+  box-shadow: none;
 }
 
-.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item:hover::after,
-.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu:hover::after,
-.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-active::after,
-.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu-active::after,
-.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-open::after,
-.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu-open::after,
-.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-selected::after,
-.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu-selected::after {
-  border-bottom: none;
+.ant-menu-horizontal > .ant-menu-item,
+.ant-menu-horizontal > .ant-menu-submenu {
+  margin: -3px 20px 0 !important;
+  padding: 0;
+}
+
+.ant-menu-horizontal > .ant-menu-item-active,
+.ant-menu-horizontal > .ant-menu-item-open,
+.ant-menu-horizontal > .ant-menu-item-selected,
+.ant-menu-horizontal > .ant-menu-item:hover,
+.ant-menu-horizontal > .ant-menu-submenu-active,
+.ant-menu-horizontal > .ant-menu-submenu-open,
+.ant-menu-horizontal > .ant-menu-submenu-selected,
+.ant-menu-horizontal > .ant-menu-submenu:hover {
+  border-bottom: 2px solid #2caad9;
+}
+
+.ant-menu-horizontal > .ant-menu-item::after,
+.ant-menu-horizontal > .ant-menu-item:hover::after,
+.ant-menu-horizontal > .ant-menu-submenu:hover::after,
+.ant-menu-horizontal > .ant-menu-item-active::after,
+.ant-menu-horizontal > .ant-menu-submenu-active::after,
+.ant-menu-horizontal > .ant-menu-item-open::after,
+.ant-menu-horizontal > .ant-menu-submenu-open::after,
+.ant-menu-horizontal > .ant-menu-item-selected::after,
+.ant-menu-horizontal > .ant-menu-submenu-selected::after {
+  border-bottom: none !important;
 }

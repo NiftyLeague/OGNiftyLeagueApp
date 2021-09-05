@@ -10,7 +10,9 @@ const PrivacyPolicy = (): JSX.Element => (
   <>
     <Container style={{ textAlign: 'left', padding: '40px' }}>
       <Title level={2}>Privacy Policy</Title>
-      <p>Effective date: September 4th, 2021</p>
+      <p>
+        Effective date: <strong>September 4th, 2021</strong>
+      </p>
       <p>Nifty League ("us", "we", or "our") operates the website.</p>
       <p>
         This page informs you of our policies regarding the collection, use, and disclosure of personal data when you

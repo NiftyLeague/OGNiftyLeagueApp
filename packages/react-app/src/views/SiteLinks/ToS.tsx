@@ -10,7 +10,9 @@ const ToS = (): JSX.Element => (
   <>
     <Container style={{ textAlign: 'left', padding: '40px' }}>
       <Title level={2}>Terms and Conditions</Title>
-      <p>Last updated: September 4th, 2021</p>
+      <p>
+        Last updated: <strong>September 4th, 2021</strong>
+      </p>
       <p>Please read these terms and conditions carefully before using Our Service.</p>
       <Title level={3}>Interpretation and Definitions</Title>
       <Title level={4}>Interpretation</Title>
@@ -23,7 +25,7 @@ const ToS = (): JSX.Element => (
       <ul>
         <li>
           <strong>Company</strong> (referred to as either "the Nifty League", "We", "Us" or "Our" in this Agreement)
-          refers to AMA LLC
+          refers to AMA LLC.
         </li>
         <li>
           <strong>You</strong> (also referred to as "User") refers to the individual accessing or using the Service, or
