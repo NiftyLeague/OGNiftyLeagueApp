@@ -5,6 +5,7 @@ import { NetworkContext } from 'NetworkProvider';
 import { ScrollToTop } from './hooks';
 import { Contract, Faucet, Navigation, ThemeSwitch } from './components';
 import { About, Character, Characters, Games, Hints, Home, NotFound, Subgraph, Wallet } from './views';
+import { Disclaimer, PrivacyPolicy, ToS } from './views/SiteLinks';
 import { DEBUG, NFT_CONTRACT, NFTL_CONTRACT } from './constants';
 import './App.css';
 
@@ -47,6 +48,15 @@ export default function App(): JSX.Element {
           </Route>
           <Route exact path="/wallet">
             <Wallet />
+          </Route>
+          <Route exact path="/disclaimer">
+            <Disclaimer />
+          </Route>
+          <Route exact path="/privacy-policy">
+            <PrivacyPolicy />
+          </Route>
+          <Route exact path="/terms-of-service">
+            <ToS />
           </Route>
           {DEBUG && localConnection ? (
             <>
