@@ -1,6 +1,6 @@
 /* About section */
 .about-page-section {
-  padding: 100px 0px 120px;
+  padding: 64px 0px;
   position: relative;
 }
 
@@ -169,6 +169,7 @@
 }
 
 .parallax-child-section .image-container {
+  padding: 0;
   margin: auto auto 0 auto;
 }
 .parallax-child-section .image-container img {
@@ -187,7 +188,7 @@
   margin-bottom: -50px;
 }
 .parallax-row:nth-of-type(4) .parallax-child-section .image-container img {
-  margin-bottom: -92px;
+  margin-bottom: -94px;
 }
 .parallax-row:nth-of-type(5) .parallax-child-section .image-container img {
   margin-bottom: -83px;

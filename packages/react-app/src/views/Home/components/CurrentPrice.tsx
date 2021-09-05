@@ -1,10 +1,12 @@
 import React, { useMemo, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 
 export const useStyles = makeStyles({
   snackbar: {
-    width: 250,
+    width: 285,
     marginBottom: -15,
     marginRight: 80,
     '& > div': {
@@ -53,6 +55,11 @@ const CurrentPrice = ({
       }
       onClose={handleClose}
       open={Boolean(nftPrice && open && isLoaded && totalSupply >= 5)}
+      action={
+        <IconButton size="small" aria-label="close" color="inherit" onClick={handleClose}>
+          <CloseIcon fontSize="small" />
+        </IconButton>
+      }
     />
   );
 };

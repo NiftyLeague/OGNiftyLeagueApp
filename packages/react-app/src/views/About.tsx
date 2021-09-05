@@ -15,6 +15,7 @@ import CatSketch from 'assets/gifs/cat-sketch.gif';
 import GamesSketch from 'assets/images/games/games-sketch.png';
 import TennisSketch from 'assets/images/games/tennis-sketch.png';
 import SmashSketch from 'assets/images/games/smash-sketch.png';
+import ShreddersSketch from 'assets/images/games/nifty-shredders.png';
 import NiftyRacersSketch from 'assets/images/games/nifty-racers-sketch.png';
 import TokenDistributionLight from 'assets/images/nftl-distribution-light.png';
 import TokenDistributionDark from 'assets/images/nftl-distribution-dark.png';
@@ -58,11 +59,11 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
             <Link to="/games">Nifty Smashers</Link>
           </strong>
           ; an NFT brawler to battle it out with your friends and the crypto community! Going forward we have several
-          game options that we’ll develop based on communities input.
+          game options that we’ll develop based on community input.
         </p>
         <Title level={3}>Nifty DAO</Title>
         <p>
-          We will gradually be transfering ownership of the Nifty League to our DAO in order to decentralize the
+          We will gradually be transferring ownership of the Nifty League to our DAO in order to decentralize the
           platform and encourage devs to help us build! <strong>NFTL</strong> is our native governance token which
           provides voting rights and other other utilities (more info <a href="about#nftl">below</a>). Our treasury
           assets are held within a Polygon gnosis multi-sig wallet which will be used to handle distributions to future
@@ -251,12 +252,13 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
             😈
           </span>
         </p>
-        <div className="d-flex justify-content-around align-items-center flex-wrap">
+        <div className="d-flex align-items-center flex-wrap" style={{ justifyContent: 'space-evenly' }}>
           <Image.PreviewGroup>
-            <Image width={isWidthDown('md', width, false) ? '49%' : '24%'} src={TennisSketch} />
-            <Image width={isWidthDown('md', width, false) ? '49%' : '24%'} src={NiftyRacersSketch} />
-            <Image width={isWidthDown('md', width, false) ? '49%' : '24%'} src={GamesSketch} />
-            <Image width={isWidthDown('md', width, false) ? '49%' : '24%'} src={SmashSketch} />
+            <Image width={isWidthDown('md', width, false) ? '49%' : '32%'} src={TennisSketch} />
+            <Image width={isWidthDown('md', width, false) ? '49%' : '32%'} src={ShreddersSketch} />
+            <Image width={isWidthDown('md', width, false) ? '49%' : '32%'} src={SmashSketch} />
+            <Image width={isWidthDown('md', width, false) ? '49%' : '32%'} src={NiftyRacersSketch} />
+            <Image width={isWidthDown('md', width, false) ? '49%' : '32%'} src={GamesSketch} />
           </Image.PreviewGroup>
         </div>
         <br />
