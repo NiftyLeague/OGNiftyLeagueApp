@@ -2,6 +2,7 @@ import React from 'react';
 import { Typography } from 'antd';
 import { Container } from '@material-ui/core';
 import Footer from 'components/Footer';
+import Definitions from './Definitions';
 
 const { Title } = Typography;
 
@@ -9,6 +10,11 @@ const Disclaimer = (): JSX.Element => (
   <>
     <Container style={{ textAlign: 'left', padding: '40px' }}>
       <Title level={2}>Disclaimer</Title>
+      <p>
+        Effective date: <strong>September 6th, 2021</strong>
+      </p>
+      <Definitions />
+      <Title level={3}>Rights and Conditions</Title>
       <p>
         The content contained in this Site does not constitute an offer or sale of securities in or into the United
         States, or to or for the account or benefit of U.S. persons, or in any other jurisdictions where it is unlawful
@@ -24,15 +30,17 @@ const Disclaimer = (): JSX.Element => (
         product.
       </p>
       <p>
-        The NFTL token is solely to be used for governance within the Nifty DAO as well as for platform-wide expenses.
-        Accordingly, no information on this Site (or any other documents mentioned therein) is or may be considered to
-        be advice or an invitation to enter into an agreement for any investment purpose with AMA LLC (“Company”). By no
-        means will NFTL token holders gain from Company profits nor should expect any income from our team's
-        contributions or ownership of the Company in any way. Transfer of NFTL tokens may be subject to legal
-        restrictions under applicable laws. Under no circumstances shall NFTL tokens be reoffered, resold or transferred
-        within the United States or to, or for the account or benefit of, U.S. persons, except pursuant to an exemption
-        from, or in a transaction not subject to, the registration requirements of the U.S. Securities Act of 1933, as
-        amended.
+        The NFTL governance and utility token is solely to be used for governance within the Nifty DAO as well as for
+        platform-wide expenses. Accordingly, no information on this Site (or any other documents mentioned therein) is
+        or may be considered to be advice or an invitation to enter into an agreement for any investment purpose with
+        AMA LLC (“Company”). By no means should NFTL token holders expect any income from our team's contributions, gain
+        from Company profits, or ownership of the Company in any way. NFTL is not purchasable from our Company and will
+        always and only be distributed freely. Free distributions are not intended to be an offering of securities in
+        any jurisdiction nor does it constitute an offer or invitation for Company shares. Transfer of NFTL tokens may
+        be subject to legal restrictions under applicable laws. Under no circumstances shall NFTL tokens be reoffered,
+        resold or transferred within the United States or to, or for the account or benefit of, U.S. persons, except
+        pursuant to an exemption from, or in a transaction not subject to, the registration requirements of the U.S.
+        Securities Act of 1933, as amended.
       </p>
       <p>
         The information contained on this Site is not intended for individuals or entities who are ordinarily resident
@@ -64,14 +72,14 @@ const Disclaimer = (): JSX.Element => (
       <p>
         The Service is provided to You "AS IS" and "AS AVAILABLE" and with all faults and defects without warranty of
         any kind. To the maximum extent permitted under applicable law, the Company, on its own behalf and on behalf of
-        its Affiliates and its and their respective licensors and service providers, expressly disclaims all warranties,
-        whether express, implied, statutory or otherwise, with respect to the Service, including all implied warranties
-        of merchantability, fitness for a particular purpose, title and non-infringement, and warranties that may arise
-        out of course of dealing, course of performance, usage or trade practice. Without limitation to the foregoing,
-        the Company provides no warranty or undertaking, and makes no representation of any kind that the Service will
-        meet Your requirements, achieve any intended results, be compatible or work with any other software,
-        applications, systems or services, operate without interruption, meet any performance or reliability standards
-        or be error free or that any errors or defects can or will be corrected.
+        its affiliates and their respective licensors and service providers, expressly disclaims all warranties, whether
+        express, implied, statutory or otherwise, with respect to the Service, including all implied warranties of
+        merchantability, fitness for a particular purpose, title and non-infringement, and warranties that may arise out
+        of course of dealing, course of performance, usage or trade practice. Without limitation to the foregoing, the
+        Company provides no warranty or undertaking, and makes no representation of any kind that the Service will meet
+        Your requirements, achieve any intended results, be compatible or work with any other software, applications,
+        systems or services, operate without interruption, meet any performance or reliability standards or be error
+        free or that any errors or defects can or will be corrected.
       </p>
     </Container>
     <Footer />

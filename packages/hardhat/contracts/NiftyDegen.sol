@@ -61,7 +61,7 @@ contract NiftyDegen is NameableCharacter {
         uint256[2] memory items
     ) external payable {
         uint256 currentSupply = totalSupply.current();
-        require(currentSupply >= 5 || _msgSender() == owner(), "Sale has not started");
+        require(currentSupply >= 3 || _msgSender() == owner(), "Sale has not started");
         require(!paused(), "Purchases are paused");
         require(msg.value == getNFTPrice(), "Ether value incorrect");
         _validateTraits(character, head, clothing, accessories, items);
@@ -99,7 +99,7 @@ contract NiftyDegen is NameableCharacter {
     /**
      * @notice Fallback to set NFT price to static ether value if necessary
      * @param newPrice New price to set for remaining character sale
-     * @dev Minimum value of 0.05 ETH for this to be considered in getNFTPrice
+     * @dev Minimum value of 0.08 ETH for this to be considered in getNFTPrice
      */
     function overrideMintPrice(uint256 newPrice) external onlyOwner {
         _manualMintPrice = newPrice;
@@ -117,17 +117,17 @@ contract NiftyDegen is NameableCharacter {
             currentSupply < MAX_SUPPLY - SPECIAL_CHARACTERS || (_msgSender() == owner() && currentSupply < MAX_SUPPLY),
             "Sale has already ended"
         );
-        // 1 - 5 free for team players, 9956 - 10000 free special community giveaway characters
-        if (currentSupply < 5 || currentSupply >= 9955) return 0;
-        // fallback option to override price floors only if necessary. Minimum value of 0.05 ETH
-        if (_manualMintPrice > 50000000000000000) return _manualMintPrice;
-        if (currentSupply >= 9500) return 500000000000000000; // 9500 - 9900 0.5 ETH
-        if (currentSupply >= 8500) return 400000000000000000; // 8501 - 9500 0.4 ETH
-        if (currentSupply >= 6500) return 300000000000000000; // 6501 - 8500 0.3 ETH
-        if (currentSupply >= 4500) return 200000000000000000; // 4501 - 6500 0.2 ETH
-        if (currentSupply >= 2500) return 100000000000000000; // 2501 - 4500 0.1 ETH
-        if (currentSupply >= 1000) return 75000000000000000; // 1001 - 2500 0.075 ETH
-        return 50000000000000000; // 6 - 1000 0.05 ETH
+        // 1 - 3 free for core team members, 9956 - 10000 free special community giveaway characters
+        if (currentSupply < 3 || currentSupply >= 9955) return 0;
+        // fallback option to override price floors only if necessary. Minimum value of 0.08 ETH
+        if (_manualMintPrice > 80000000000000000) return _manualMintPrice;
+        if (currentSupply >= 9500) return 400000000000000000; // 9500 - 9900 0.4 ETH
+        if (currentSupply >= 8500) return 340000000000000000; // 8501 - 9500 0.34 ETH
+        if (currentSupply >= 6500) return 280000000000000000; // 6501 - 8500 0.28 ETH
+        if (currentSupply >= 4500) return 220000000000000000; // 4501 - 6500 0.22 ETH
+        if (currentSupply >= 2500) return 160000000000000000; // 2501 - 4500 0.16 ETH
+        if (currentSupply >= 1000) return 120000000000000000; // 1001 - 2500 0.12 ETH
+        return 80000000000000000; // 6 - 1000 0.08 ETH
     }
 
     /**
