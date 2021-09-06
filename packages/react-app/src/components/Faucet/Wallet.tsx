@@ -55,7 +55,6 @@ type WalletProps = OwnWalletProps & typeof Wallet.defaultProps;
 
 export default function Wallet({ address, color, ensProvider, provider, tx }: WalletProps): JSX.Element {
   const price = useExchangePrice();
-  // @ts-expect-error ts-migrate(2345) FIXME: Argument of type 'Provider' is not assignable to p... Remove this comment to see the full error message
   const signerAddress = useUserAddress(provider);
   const selectedAddress = address || signerAddress;
 

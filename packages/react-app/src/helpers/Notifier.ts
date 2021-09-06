@@ -89,7 +89,8 @@ export default function Notifier(providerOrSigner: Provider | Signer, targetNetw
             networkId: network.chainId,
             darkMode,
             transactionHandler: txInformation => {
-              if (DEBUG) console.log('HANDLE TX', txInformation);
+              if (DEBUG)
+                console.log(`HANDLE TX ${txInformation.transaction.status?.toUpperCase() as string}`, txInformation);
               const possibleFunction = txInformation.transaction.hash && callbacks[txInformation.transaction.hash];
               if (typeof possibleFunction === 'function') possibleFunction(txInformation.transaction);
             },

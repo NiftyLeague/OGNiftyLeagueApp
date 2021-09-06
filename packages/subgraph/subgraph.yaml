@@ -8,9 +8,9 @@ dataSources:
     name: NiftyDegen
     network: "rinkeby"
     source:
-      address: "0xA6a2D9A64F7777cCFe520361c2dCaf873743A58A"
+      address: "0x8bEF84C06C07A1B7D4D8d3Ff9a25FCD1C64494c4"
       abi: NiftyDegen
-      startBlock: 9198772
+      startBlock: 9245344
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4

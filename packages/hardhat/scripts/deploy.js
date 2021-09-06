@@ -7,22 +7,20 @@ const R = require('ramda');
 const { ALLOWED_COLORS } = require('../constants/allowedColors');
 const { NIFTY_DAO, NIFTY_MARKETING } = require('../constants/addresses');
 
-function calculateGasMargin(value) {
-  return value.mul(ethers.BigNumber.from(10000).add(ethers.BigNumber.from(1000))).div(ethers.BigNumber.from(10000));
-}
-
 const main = async () => {
   const targetNetwork = process.env.HARDHAT_NETWORK || config.defaultNetwork;
   console.log(`\n\n 📡 Deploying to ${targetNetwork}...\n`);
 
-  const storage = await deploy('AllowedColorsStorage');
-  // eslint-disable-next-line no-restricted-syntax
-  for (const [i, traits] of ALLOWED_COLORS.entries()) {
-    const args = [i + 1, traits, true];
-    // eslint-disable-next-line no-await-in-loop
-    await storage.estimateGas.setAllowedColorsOnTribe(...args, {}).then(async estimatedGasLimit => {
-      await storage.setAllowedColorsOnTribe(...args, { gasLimit: calculateGasMargin(estimatedGasLimit) });
-    });
+  const storage = await getOrCreateContract('AllowedColorsStorage');
+  if (!fs.existsSync(`./artifacts/${targetNetwork}/AllowedColorsStorage.address`)) {
+    // eslint-disable-next-line no-restricted-syntax
+    for (const [i, traits] of ALLOWED_COLORS.entries()) {
+      const args = [i + 1, traits, true];
+      // eslint-disable-next-line no-await-in-loop
+      await storage.estimateGas.setAllowedColorsOnTribe(...args, {}).then(async estimatedGasLimit => {
+        await storage.setAllowedColorsOnTribe(...args, { gasLimit: calculateGasMargin(estimatedGasLimit) });
+      });
+    }
   }
 
   const emissionStartTimestamp = Math.floor(Date.now() / 1000);
@@ -33,7 +31,16 @@ const main = async () => {
   await nftlToken.setNFTAddress(degen.address);
   await degen.initPoolSizes();
 
-  // const yourContract = await ethers.getContractAt('YourContract', "0xaAC799eC2d00C013f1F11c37E654e59B0429DF6A") //<-- if you want to instantiate a version of a contract at a specific address!
+  // if you want to instantiate a version of these contracts at a specific address
+  /*
+  const nftlToken = await getOrCreateContract('NFTLToken', [
+    emissionStartTimestamp,
+    ownerSupply,
+    treasurySupply,
+    NIFTY_DAO,
+  ]);
+  const degen = await getOrCreateContract('NiftyDegen', [nftlToken.address, storage.address]);
+  */
 
   // If you want to send ether to an address
   /*
@@ -84,15 +91,13 @@ const main = async () => {
     await tenderlyVerify({ contractName: 'NiftyDegen', contractAddress: degen.address });
 
     // If you want to verify your contract on etherscan
-    // console.log(chalk.blue("verifying on etherscan"));
-    // await run("verify:verify", {
-    //   address: nftlToken.address,
-    //   constructorArguments: [emissionStartTimestamp, initalSupply],
-    // });
-    // await run("verify:verify", {
-    //   address: degen.address,
-    //   constructorArguments: [nftlToken.address],
-    // });
+    console.log(chalk.blue('verifying on etherscan'));
+    await etherscanVerify({ address: storage.address });
+    await etherscanVerify({
+      address: nftlToken.address,
+      constructorArguments: [emissionStartTimestamp, ownerSupply, treasurySupply, NIFTY_DAO],
+    });
+    await etherscanVerify({ address: degen.address, constructorArguments: [nftlToken.address, storage.address] });
   }
 
   console.log(
@@ -114,6 +119,8 @@ const deploy = async (contractName, _args = [], overrides = {}, libraries = {}) 
   fs.writeFileSync(`${config.paths.artifacts}/${contractName}.address`, deployed.address);
   let extraGasInfo = '';
   if (deployed && deployed.deployTransaction) {
+    // wait for 5 confirmations
+    await deployed.deployTransaction.wait(5);
     const gasUsed = deployed.deployTransaction.gasLimit.mul(deployed.deployTransaction.gasPrice);
     extraGasInfo = `${ethers.utils.formatEther(gasUsed)} ETH, tx hash ${deployed.deployTransaction.hash}`;
   }
@@ -133,14 +140,31 @@ const deploy = async (contractName, _args = [], overrides = {}, libraries = {}) 
 
 // ------ utils -------
 
-function send(signer, txparams) {
+// Add 15% gas margin to transaction
+function calculateGasMargin(value) {
+  return value.mul(ethers.BigNumber.from(10000).add(ethers.BigNumber.from(1500))).div(ethers.BigNumber.from(10000));
+}
+
+const getOrCreateContract = async (contractName, args = [], overrides = {}, libraries = {}) => {
+  const targetNetwork = process.env.HARDHAT_NETWORK || config.defaultNetwork;
+  const contractAddress = `./artifacts/${targetNetwork}/${contractName}.address`;
+  if (fs.existsSync(contractAddress)) {
+    console.log(` 📁 ${contractName} on ${targetNetwork} already exists`);
+    const contract = await ethers.getContractAt(contractName, fs.readFileSync(contractAddress).toString());
+    await contract.deployed();
+    return contract;
+  }
+  return deploy(contractName, args, overrides, libraries);
+};
+
+const send = (signer, txparams) => {
   return signer.sendTransaction(txparams, (error, transactionHash) => {
     if (error) {
       console.log(`Error: ${error}`);
     }
     console.log(`sendTransactionHash: ${transactionHash}`);
   });
-}
+};
 
 // abi encodes contract arguments
 // useful when you want to manually verify the contracts
@@ -198,6 +222,17 @@ const tenderlyVerify = async ({ contractName, contractAddress }) => {
     return verification;
   }
   console.log(chalk.grey(` 🧐 Contract verification not supported on ${targetNetwork}`));
+};
+
+// If you want to verify on https://etherscan.io/
+const etherscanVerify = async ({ address, constructorArguments = [] }) => {
+  try {
+    const targetNetwork = process.env.HARDHAT_NETWORK || config.defaultNetwork;
+    console.log(chalk.blue(` 📁 Attempting etherscan verification of ${address} on ${targetNetwork}`));
+    return await run('verify:verify', { address, constructorArguments });
+  } catch (e) {
+    return e;
+  }
 };
 
 main()

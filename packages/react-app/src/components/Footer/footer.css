@@ -14,3 +14,32 @@ footer .anticon.discord {
 footer .anticon.discord:hover {
   color: #7289dad4;
 }
+
+footer .siteLinks {
+  width: 95%;
+}
+footer .siteLinks a {
+  color: inherit;
+}
+footer .siteLinks a:hover {
+  color: rgb(44, 170, 217);
+}
+
+@media screen and (max-width: 992px) {
+  footer .siteLinks {
+    width: 90%;
+  }
+}
+@media screen and (max-width: 768px) {
+  footer .siteLinks {
+    width: 85%;
+  }
+}
+@media screen and (max-width: 600px) {
+  footer .siteLinks {
+    width: 78%;
+  }
+  footer .siteLinks a {
+    font-size: 14px;
+  }
+}

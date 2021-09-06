@@ -13,10 +13,10 @@ const SaleLocked = ({ totalSupply, saleLocked }: { totalSupply: number; saleLock
       }}
     >
       <Alert
-        message={totalSupply < 5 ? '⚠️ The sale has not started yet' : '✅ ALL DEGENS HAVE SOLD OUT!'}
+        message={totalSupply < 3 ? '⚠️ The sale has not started yet' : '✅ ALL DEGENS HAVE SOLD OUT!'}
         description={
-          totalSupply < 5 ? (
-            <div>We will officially launch as soon as the 5th NFT is minted!</div>
+          totalSupply < 3 ? (
+            <div>We will officially launch as soon as the 3rd NFT is minted!</div>
           ) : (
             <div>Thank you all for the support!</div>
           )
