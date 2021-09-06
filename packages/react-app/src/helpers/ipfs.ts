@@ -17,6 +17,7 @@ export async function ResolveImageURL(tokenId: number | string): Promise<string 
   } catch (error) {
     console.log(`ERROR occured fetching metadata for token #${tokenId}`);
     console.log(error);
+    return null;
   }
   return null;
 }

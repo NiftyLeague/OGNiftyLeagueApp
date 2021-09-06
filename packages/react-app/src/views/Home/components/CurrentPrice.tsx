@@ -54,7 +54,7 @@ const CurrentPrice = ({
         </>
       }
       onClose={handleClose}
-      open={Boolean(nftPrice && open && isLoaded && totalSupply >= 5)}
+      open={Boolean(nftPrice && open && isLoaded && totalSupply >= 3)}
       action={
         <IconButton size="small" aria-label="close" color="inherit" onClick={handleClose}>
           <CloseIcon fontSize="small" />
