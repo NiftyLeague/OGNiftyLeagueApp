@@ -17,6 +17,7 @@ import {
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import EditIcon from '@material-ui/icons/Edit';
 import { makeStyles } from '@material-ui/core/styles';
+import Skeleton from '@material-ui/lab/Skeleton';
 
 import Tooltip from 'components/Tooltip';
 import UnavailableImg from 'assets/images/unavailable-image.jpeg';
@@ -58,6 +59,7 @@ const CharacterCard = ({ character, ownerOwned }: { character: Character; ownerO
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
   const [image, setImage] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const handleExpandClick = () => {
@@ -67,6 +69,7 @@ const CharacterCard = ({ character, ownerOwned }: { character: Character; ownerO
   useEffect(() => {
     async function setImageURL() {
       const ipfsImageURL = await ResolveImageURL(tokenId);
+      setLoading(false);
       if (ipfsImageURL) setImage(ipfsImageURL);
     }
     if (tokenId) void setImageURL();
@@ -95,7 +98,17 @@ const CharacterCard = ({ character, ownerOwned }: { character: Character; ownerO
           subheader={`Created: ${formatDateTime(createdAt as unknown as number)}`}
         />
         <Link to={`degens/${tokenId}`}>
-          <CardMedia className={classes.media} image={image ?? UnavailableImg} title="NFT image" />
+          {loading ? (
+            <Skeleton variant="rect" width="100%">
+              <div className={classes.media} />
+            </Skeleton>
+          ) : (
+            <CardMedia
+              className={clsx(classes.media, { pixelated: image })}
+              image={image ?? UnavailableImg}
+              title="NFT image"
+            />
+          )}
         </Link>
         <CardActions disableSpacing>
           {ownerOwned && (

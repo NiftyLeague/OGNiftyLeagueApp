@@ -46,9 +46,17 @@
   text-align: right;
 }
 
+.games .ant-card-meta-title {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.games .ant-card-meta-description {
+  color: rgba(255, 255, 255, 0.75);
+}
+
 .games .thumb {
-  width: 55px;
-  height: 53px;
+  width: 67px;
+  height: 60px;
   box-shadow: 0px 12px 13px 0px rgb(26 15 63 / 32%);
   border-radius: 15px;
   -webkit-border-radius: 15px;
@@ -58,7 +66,7 @@
   overflow: hidden;
 }
 .games .thumb img {
-  height: 53px;
+  height: inherit;
   object-fit: cover;
   -o-object-fit: cover;
   object-position: center;

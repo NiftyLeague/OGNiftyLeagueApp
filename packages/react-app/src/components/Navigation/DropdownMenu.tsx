@@ -22,13 +22,13 @@ const DropdownMenu = ({ hideNav, navItems }: { hideNav: boolean; navItems: () =>
       <Menu.Item key="discord">
         <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/4bmTHYWjhe">
           <IconFont type="icon-discord" />
-          Discord
+          <span style={{ marginLeft: 8 }}>Discord</span>
         </a>
       </Menu.Item>
       <Menu.Item key="twitter">
         <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/NiftyLeague">
           <TwitterOutlined />
-          Twitter
+          <span style={{ marginLeft: 8 }}>Twitter</span>
         </a>
       </Menu.Item>
       {DEBUG && localConnection ? (

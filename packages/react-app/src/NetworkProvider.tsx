@@ -104,7 +104,6 @@ const NetworkProvider = ({ children }: { children: React.ReactElement | React.Re
 
   // Use your injected provider from 🦊 Metamask or if you don't have it then instantly generate a 🔥 burner wallet.
   const userProvider = useUserProvider(injectedProvider, localProvider as providers.JsonRpcProvider, targetNetwork);
-  // @ts-expect-error ts-migrate(2345) FIXME: Argument of type 'Web3Provider | undefined' is not... Remove this comment to see the full error message
   const address = useUserAddress(userProvider);
   const signer = userProvider?.getSigner();
 

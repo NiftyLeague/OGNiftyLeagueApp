@@ -1,6 +1,6 @@
 /* About section */
 .about-page-section {
-  padding: 100px 0px 120px;
+  padding: 64px 0px;
   position: relative;
 }
 
@@ -169,13 +169,35 @@
 }
 
 .parallax-child-section .image-container {
+  padding: 0;
   margin: auto auto 0 auto;
 }
 .parallax-child-section .image-container img {
-  height: 420px;
+  height: 500px;
   max-width: 100%;
-  margin-bottom: 50px;
   z-index: 1;
+}
+
+.parallax-row:nth-of-type(1) .parallax-child-section .image-container img {
+  margin-bottom: -66px;
+}
+.parallax-row:nth-of-type(2) .parallax-child-section .image-container img {
+  margin-bottom: -62px;
+}
+.parallax-row:nth-of-type(3) .parallax-child-section .image-container img {
+  margin-bottom: -50px;
+}
+.parallax-row:nth-of-type(4) .parallax-child-section .image-container img {
+  margin-bottom: -94px;
+}
+.parallax-row:nth-of-type(5) .parallax-child-section .image-container img {
+  margin-bottom: -83px;
+}
+.parallax-row:nth-of-type(6) .parallax-child-section .image-container img {
+  margin-bottom: -50px;
+}
+.parallax-row:nth-of-type(7) .parallax-child-section .image-container img {
+  margin-bottom: -47px;
 }
 
 @media (max-width: 1200px) {
@@ -210,9 +232,6 @@
   .parallax-child-section.left .text-container,
   .parallax-child-section.right .text-container {
     padding: 110px 0 110px 0;
-  }
-  .parallax-child-section .image-container img {
-    height: 400px;
   }
 }
 
