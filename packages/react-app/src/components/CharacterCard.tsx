@@ -103,7 +103,11 @@ const CharacterCard = ({ character, ownerOwned }: { character: Character; ownerO
               <div className={classes.media} />
             </Skeleton>
           ) : (
-            <CardMedia className={clsx(classes.media, 'pixelated')} image={image ?? UnavailableImg} title="NFT image" />
+            <CardMedia
+              className={clsx(classes.media, { pixelated: image })}
+              image={image ?? UnavailableImg}
+              title="NFT image"
+            />
           )}
         </Link>
         <CardActions disableSpacing>

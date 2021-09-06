@@ -5,7 +5,7 @@ export * from './contracts';
 export * from './networks';
 export * from './tokens';
 
-export const DEPLOYER_ADDRESS = '0x6ac131D20eEc5D396030CB6D8b3FD34476e74C78';
+export const DEPLOYER_ADDRESS = process.env.REACT_APP_DEPLOYER_ADDRESS as string;
 
 // MY INFURA_ID, SWAP IN YOURS FROM https://infura.io/dashboard/ethereum
 export const INFURA_ID = process.env.REACT_APP_INFURA_PROJECT_ID as string;
@@ -48,4 +48,4 @@ export const AXS_AIRDROP_TIMESTAMP = 1627768200;
 
 export const CACHE_URL = `https://odgwhiwhzb.execute-api.us-east-1.amazonaws.com/prod/info?network=${
   process.env.REACT_APP_NETWORK as string
-}&version=0.0.5&characters=false`;
+}&version=${process.env.REACT_APP_SUBGRAPH_VERSION as string}&characters=false`;
