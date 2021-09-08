@@ -15,8 +15,12 @@ import MetaMaskOnboard from './MetaMaskOnboard';
 import SaleLocked from './SaleLocked';
 import { getMintableTraits, TraitArray } from '../helpers';
 
-const baseUrl = process.env.REACT_APP_UNITY_CREATOR_BASE_URL as string;
-const buildVersion = process.env.REACT_APP_UNITY_CREATOR_BASE_VERSION as string;
+const baseUrl = isMobileOnly
+  ? (process.env.REACT_APP_UNITY_MOBILE_CREATOR_BASE_URL as string)
+  : (process.env.REACT_APP_UNITY_CREATOR_BASE_URL as string);
+const buildVersion = isMobileOnly
+  ? (process.env.REACT_APP_UNITY_MOBILE_CREATOR_BASE_VERSION as string)
+  : (process.env.REACT_APP_UNITY_CREATOR_BASE_VERSION as string);
 
 const creatorContext = new UnityContext({
   loaderUrl: `${baseUrl}/Build/${buildVersion}.loader.js`,
