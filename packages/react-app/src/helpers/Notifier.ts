@@ -54,15 +54,17 @@ export const submitTxWithGasEstimate = (
   args: unknown[],
   config = {},
   extraGasNeeded = false,
+  callback?: NotifyCallback,
 ): Promise<BigNumber | any> => {
   return contract.estimateGas[fn](...args, config)
     .then(async estimatedGasLimit => {
       if (DEBUG) console.log('estimatedGasLimit:', estimatedGasLimit);
-      await tx(
+      return tx(
         (contract[fn] as ContractFunction)(...args, {
           ...config,
           gasLimit: calculateGasMargin(estimatedGasLimit, extraGasNeeded),
         }),
+        callback,
       );
     })
     .catch(error => {
