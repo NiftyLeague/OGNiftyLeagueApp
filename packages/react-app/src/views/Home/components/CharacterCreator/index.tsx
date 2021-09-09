@@ -1,19 +1,21 @@
 import React, { memo, useCallback, useContext, useEffect, useState, useRef } from 'react';
 import Unity, { UnityContext } from 'react-unity-webgl';
-import { isMobileOnly, withOrientationChange } from 'react-device-detect';
+import { isMobileOnly, isSafari, withOrientationChange } from 'react-device-detect';
 import { BigNumber } from 'ethers';
 import MetaMaskOnboarding from '@metamask/onboarding';
 
 import { useCachedSubgraph, useRemovedTraits } from 'hooks';
 import { submitTxWithGasEstimate } from 'helpers/Notifier';
+import { NotifyCallback } from 'types/notify';
 import { NetworkContext } from 'NetworkProvider';
 import CharacterBGImg from 'assets/images/backgrounds/character-creator-repeat.png';
 import CharacterDarkBGImg from 'assets/images/backgrounds/character-creator-repeat-dark.png';
-import { DEBUG, DEPLOYER_ADDRESS, NFT_CONTRACT, NETWORK_NAME } from '../../../constants';
+import { DEBUG, DEPLOYER_ADDRESS, NFT_CONTRACT, NETWORK_NAME } from '../../../../constants';
 import CurrentPrice from './CurrentPrice';
 import MetaMaskOnboard from './MetaMaskOnboard';
+import MetaMaskPrompt from './MetaMaskPrompt';
 import SaleLocked from './SaleLocked';
-import { getMintableTraits, TraitArray } from '../helpers';
+import { getMintableTraits, TraitArray } from './helpers';
 
 const baseUrl = isMobileOnly
   ? (process.env.REACT_APP_UNITY_MOBILE_CREATOR_BASE_URL as string)
@@ -247,6 +249,7 @@ const CharacterCreatorContainer = memo(
     const { nftPrice, totalSupply } = useCachedSubgraph();
     const [saleLocked, setSaleLocked] = useState(false);
     const [onboardUser, setOnboardUser] = useState(false);
+    const [promptMetaMask, setPromptMetaMask] = useState(false);
 
     useEffect(() => {
       const count = totalSupply ?? 0;
@@ -284,8 +287,22 @@ const CharacterCreatorContainer = memo(
         // eslint-disable-next-line @typescript-eslint/no-unsafe-call
         const value = (await nftContract.getNFTPrice()) as BigNumber;
         const extraGasNeeded = true;
-        void submitTxWithGasEstimate(tx, nftContract, 'purchase', args, { value }, extraGasNeeded);
-        setTimeout(() => e.detail.callback('true'), 4000);
+        if (isSafari) setPromptMetaMask(true);
+        const txCallback: NotifyCallback = mintTx => {
+          console.log('mintTx', mintTx);
+          if (mintTx.status === 'pending') e.detail.callback('true');
+        };
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        const res = await submitTxWithGasEstimate(
+          tx,
+          nftContract,
+          'purchase',
+          args,
+          { value },
+          extraGasNeeded,
+          txCallback,
+        );
+        if (!res) e.detail.callback('false');
       },
       [writeContracts, tx],
     );
@@ -305,6 +322,7 @@ const CharacterCreatorContainer = memo(
         <CurrentPrice nftPrice={nftPrice} isLoaded={isLoaded} totalSupply={totalSupply ?? 0} />
         <SaleLocked totalSupply={totalSupply ?? 0} saleLocked={saleLocked} />
         <MetaMaskOnboard open={onboardUser} />
+        <MetaMaskPrompt open={promptMetaMask} />
       </>
     );
   },
