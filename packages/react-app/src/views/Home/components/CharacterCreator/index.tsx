@@ -288,8 +288,13 @@ const CharacterCreatorContainer = memo(
         const value = (await nftContract.getNFTPrice()) as BigNumber;
         const extraGasNeeded = true;
         if (isSafari) setPromptMetaMask(true);
+        if (isMobileOnly || isSafari) {
+          setTimeout(() => {
+            e.detail.callback('true');
+            setPromptMetaMask(false);
+          }, 4000);
+        }
         const txCallback: NotifyCallback = mintTx => {
-          console.log('mintTx', mintTx);
           if (mintTx.status === 'pending') e.detail.callback('true');
         };
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
