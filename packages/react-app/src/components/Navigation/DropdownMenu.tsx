@@ -45,9 +45,6 @@ const DropdownMenu = ({ hideNav, navItems }: { hideNav: boolean; navItems: () =>
           <Menu.Item key="/merkle-distributor">
             <Link to="/merkle-distributor">Merkle Distributor</Link>
           </Menu.Item>
-          <Menu.Item key="/hints">
-            <Link to="/hints">Hints</Link>
-          </Menu.Item>
           <Menu.Item key="/subgraph">
             <Link to="/subgraph">Subgraph</Link>
           </Menu.Item>
