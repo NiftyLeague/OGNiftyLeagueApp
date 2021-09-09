@@ -9,8 +9,3 @@ html {
 .ant-menu {
   background: #fff;
 }
-
-.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item,
-.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu {
-  padding: 0;
-}

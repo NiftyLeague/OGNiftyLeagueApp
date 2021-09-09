@@ -7,7 +7,6 @@ import { useLookupAddress } from 'eth-hooks';
 import { NetworkContext } from 'NetworkProvider';
 import Tooltip from 'components/Tooltip';
 import Notifier from 'helpers/Notifier';
-import Wallet from './Wallet';
 
 // improved a bit by converting address to ens if it exists
 // added option to directly input ens name
@@ -96,7 +95,6 @@ export default function Faucet(): JSX.Element {
                 shape="circle"
                 icon={<SendOutlined />}
               />
-              <Wallet color="#888888" ensProvider={mainnetProvider} provider={localProvider} tx={tx} />
             </>
           </Tooltip>
         }

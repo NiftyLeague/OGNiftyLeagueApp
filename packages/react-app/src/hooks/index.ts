@@ -22,4 +22,5 @@ export { default as usePolledFetch } from './usePolledFetch';
 export { default as useRemovedTraits } from './useRemovedTraits';
 export { default as useResolveName } from './useResolveName';
 export { default as useSingleCallResult } from './useSingleCallResult';
+export { default as useStopwatch } from './useStopwatch';
 export { default as useUserProvider } from './useUserProvider';

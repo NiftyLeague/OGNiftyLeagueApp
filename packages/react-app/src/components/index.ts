@@ -6,6 +6,7 @@ export { default as Blockie } from './Blockie';
 export { default as BytesStringInput } from './BytesStringInput';
 export { default as CharacterCard } from './CharacterCard';
 export { default as Contract } from './Contract';
+export { default as ErrorBoundary } from './ErrorBoundary';
 export { default as Faucet } from './Faucet';
 export { default as Footer } from './Footer';
 export { default as Navigation } from './Navigation';
