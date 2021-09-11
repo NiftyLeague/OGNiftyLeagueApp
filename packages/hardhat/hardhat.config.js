@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable no-undef */
 /* eslint-disable global-require */
 require('dotenv').config();
@@ -43,18 +44,8 @@ module.exports = {
         mnemonic: getMnemonic(),
       },
     },
-    mainnet: {
-      url: `https://mainnet.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
-      accounts: {
-        mnemonic: getMnemonic(),
-      },
-    },
-    ropsten: {
-      url: `https://ropsten.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
-      accounts: {
-        mnemonic: getMnemonic(),
-      },
-    },
+    mainnet: { url: `https://mainnet.infura.io/v3/${process.env.INFURA_PROJECT_ID}` },
+    ropsten: { url: `https://ropsten.infura.io/v3/${process.env.INFURA_PROJECT_ID}` },
     rinkeby: {
       url: `https://rinkeby.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
       accounts: {
@@ -88,7 +79,7 @@ module.exports = {
         settings: {
           optimizer: {
             enabled: true,
-            runs: 200,
+            runs: 10000,
           },
         },
       },
@@ -172,6 +163,7 @@ task('fundedwallet', 'Create a wallet (pk) link and fund it with deployer?')
     // SEND USING LOCAL DEPLOYER MNEMONIC IF THERE IS ONE
     // IF NOT SEND USING LOCAL HARDHAT NODE:
     if (localDeployerMnemonic) {
+      // eslint-disable-next-line new-cap
       let deployerWallet = new ethers.Wallet.fromMnemonic(localDeployerMnemonic);
       deployerWallet = deployerWallet.connect(ethers.provider);
       console.log('💵 Sending ' + amount + ' ETH to ' + randomWallet.address + ' using deployer account');
@@ -181,6 +173,7 @@ task('fundedwallet', 'Create a wallet (pk) link and fund it with deployer?')
     }
     console.log('💵 Sending ' + amount + ' ETH to ' + randomWallet.address + ' using local node');
     console.log('\n' + url + '/pk#' + privateKey + '\n');
+    // eslint-disable-next-line consistent-return
     return send(ethers.provider.getSigner(), tx);
   });
 

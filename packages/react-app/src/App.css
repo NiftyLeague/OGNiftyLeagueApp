@@ -1,4 +1,4 @@
-@import '~antd/dist/antd.css';
+@import '~antd/dist/antd.min.css';
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Ubuntu:300,400,500,700');
 
 .App {
@@ -110,6 +110,22 @@ a:active {
   background: transparent;
 }
 
+.ant-alert-message {
+  font-size: 18px !important;
+}
+.ant-alert-description {
+  font-size: 16px !important;
+}
+
+@media screen and (max-device-width: 768px) {
+  .ant-alert-message {
+    font-size: 22px !important;
+  }
+  .ant-alert-description {
+    font-size: 18px !important;
+  }
+}
+
 .ant-menu-horizontal {
   white-space: nowrap;
   border: 0;
@@ -117,7 +133,9 @@ a:active {
 }
 
 .ant-menu-horizontal > .ant-menu-item,
-.ant-menu-horizontal > .ant-menu-submenu {
+.ant-menu-horizontal > .ant-menu-submenu,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu {
   margin: -3px 20px 0 !important;
   padding: 0;
 }

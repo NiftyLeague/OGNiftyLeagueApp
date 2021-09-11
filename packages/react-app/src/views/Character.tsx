@@ -79,7 +79,7 @@ const Character = ({ width }) => {
       };
       setCharacter(characterData);
     }
-    if (tokenId && readContracts) void getCharacter();
+    if (tokenId && readContracts && readContracts[NFT_CONTRACT]) void getCharacter();
   }, [tokenId, readContracts]);
 
   useEffect(() => {

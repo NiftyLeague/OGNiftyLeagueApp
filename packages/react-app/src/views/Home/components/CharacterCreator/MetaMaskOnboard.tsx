@@ -26,10 +26,7 @@ const MetaMaskOnboard = ({ open }: { open: boolean }): JSX.Element | null => {
         showIcon
         type="warning"
         afterClose={() => {
-          if (onboarding.current) {
-            console.log('try onboarding');
-            onboarding.current.startOnboarding();
-          }
+          if (onboarding.current) onboarding.current.startOnboarding();
         }}
       />
     </div>
