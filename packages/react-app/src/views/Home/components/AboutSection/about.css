@@ -69,7 +69,7 @@
   transform: translateY(-2px);
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1280px) {
   .about-page-section .section-heading .text {
     font-size: 20px;
   }
