@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
-import React, { useContext, useState } from 'react';
+import React, { useContext, useMemo, useState } from 'react';
 import { useQuery, gql } from '@apollo/client';
 import { utils } from 'ethers';
 import { Button, Input, Table, Typography } from 'antd';
@@ -80,7 +80,7 @@ function Subgraph(): JSX.Element {
   );
   const nftPrice = useNFTPrice(readContracts);
 
-  function graphQLFetcher(graphQLParams) {
+  const graphQLFetcher = graphQLParams => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
     return fetch(SUBGRAPH_URI, {
       method: 'post',
@@ -88,29 +88,32 @@ function Subgraph(): JSX.Element {
       body: JSON.stringify(graphQLParams),
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     }).then((response: { json: () => any }) => response.json());
-  }
+  };
 
-  const columns = [
-    {
-      title: 'Token Id',
-      dataIndex: 'id',
-      key: 'id',
-    },
-    {
-      title: 'owner',
-      key: 'owner',
-      render: ({ owner }: { owner: { id: string } }) => <Address address={owner.id} ensProvider={mainnetProvider} />,
-    },
-    {
-      title: 'Traits',
-      key: 'traits',
-      dataIndex: 'traits',
-      render: (traits: Character['traits']) =>
-        Object.entries(traits)
-          .map(([key, value]) => (key !== '__typename' ? `${key}: ${value} \n` : ''))
-          .toString(),
-    },
-  ];
+  const columns = useMemo(
+    () => [
+      {
+        title: 'Token Id',
+        dataIndex: 'id',
+        key: 'id',
+      },
+      {
+        title: 'owner',
+        key: 'owner',
+        render: ({ owner }: { owner: { id: string } }) => <Address address={owner.id} ensProvider={mainnetProvider} />,
+      },
+      {
+        title: 'Traits',
+        key: 'traits',
+        dataIndex: 'traits',
+        render: (traits: Character['traits']) =>
+          Object.entries(traits)
+            .map(([key, value]) => (key !== '__typename' ? `${key}: ${value} \n` : ''))
+            .toString(),
+      },
+    ],
+    [mainnetProvider],
+  );
 
   const [character, setCharacter] = useState([1, 0, 0, 0, 0]);
   const [head, setHead] = useState([0, 0, 0]);
