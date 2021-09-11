@@ -195,7 +195,7 @@ export const SUPPORTED_CHAIN_IDS: number[] = [
   LOCAL_CHAIN_ID,
   ChainId.MAINNET,
   ChainId.RINKEBY,
-  // ChainId.ROPSTEN,
+  ChainId.ROPSTEN,
   // ChainId.GÖRLI,
   // ChainId.KOVAN,
   // ChainId.FANTOM,
