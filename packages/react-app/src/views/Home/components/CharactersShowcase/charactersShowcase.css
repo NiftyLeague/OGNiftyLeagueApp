@@ -1,0 +1,184 @@
+.charactersShowcase p,
+.charactersShowcase h1 {
+  color: #fff !important;
+}
+.charactersShowcase p,
+.charactersShowcase a {
+  font-size: 22px;
+  margin-bottom: 0;
+}
+
+.parallax-row {
+  height: 475px;
+  border-bottom: 2px solid #000;
+  background-attachment: fixed;
+  transform: translateZ(0);
+  will-change: transform;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.parallax-row:nth-of-type(1) {
+  background-position-y: 46%;
+  background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.4) 100%),
+    url(assets/gifs/sushi-level.gif);
+}
+.parallax-row:nth-of-type(2) {
+  background-position-y: 55%;
+  background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.4) 100%),
+    url(assets/gifs/doge-moon.gif);
+}
+.parallax-row:nth-of-type(3) {
+  background-position-y: 80%;
+  background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.9) 100%),
+    url(assets/gifs/dj-aurora.gif);
+}
+.parallax-row:nth-of-type(4) {
+  background-position-y: 60%;
+  background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.4) 100%),
+    url(assets/gifs/mars-level.gif);
+}
+.parallax-row:nth-of-type(5) {
+  background-position-y: 60%;
+  background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.4) 100%),
+    url(assets/gifs/ape-level.gif);
+}
+.parallax-row:nth-of-type(6) {
+  background-position-y: 90%;
+  background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.4) 100%),
+    url(assets/gifs/train-level.gif);
+}
+.parallax-row:nth-of-type(7) {
+  background-position-y: 95%;
+  background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.4) 100%),
+    url(assets/gifs/satoshi-level.gif);
+}
+
+.parallax-child-section {
+  height: inherit;
+  display: flex !important;
+  flex-wrap: nowrap;
+  overflow-y: hidden;
+}
+.parallax-child-section.left {
+  flex-direction: row-reverse;
+}
+.parallax-child-section.right {
+  flex-direction: row;
+}
+
+.parallax-child-section .text-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.parallax-child-section.left .text-container {
+  text-align: left;
+  padding: 110px 15% 110px 10px;
+}
+.parallax-child-section.right .text-container {
+  text-align: right;
+  padding: 110px 10px 110px 15%;
+}
+
+.title-hr::after {
+  border-top: 2px solid;
+  border-color: #d71414;
+  content: '';
+  display: block;
+  height: 1px;
+  width: 100px;
+}
+.parallax-child-section.left .title-hr::after {
+  margin: 13px 0 0 0;
+}
+.parallax-child-section.right .title-hr::after {
+  margin: 10px 0 0 auto;
+}
+
+.parallax-child-section .image-container {
+  height: 100%;
+  padding: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.parallax-child-section .image-container img {
+  height: 80%;
+  max-width: 100%;
+  z-index: 1;
+}
+
+.parallax-row:nth-of-type(2) .parallax-child-section .image-container img,
+.parallax-row:nth-of-type(6) .parallax-child-section .image-container img {
+  height: 90%;
+}
+
+@media (min-width: 1280px) {
+  .parallax-child-section {
+    max-width: 100% !important;
+  }
+}
+
+@media (max-width: 1280px) {
+  .parallax-row {
+    height: 420px;
+  }
+  .parallax-child-section .image-container img {
+    height: 75%;
+  }
+  .parallax-row:nth-of-type(2) .parallax-child-section .image-container img,
+  .parallax-row:nth-of-type(6) .parallax-child-section .image-container img {
+    max-width: 110%;
+  }
+  .charactersShowcase p,
+  .charactersShowcase a {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 992px) {
+  .parallax-row {
+    height: 400px;
+  }
+  .parallax-child-section .image-container img {
+    height: 75%;
+  }
+  .parallax-row:nth-of-type(2) .parallax-child-section .image-container img,
+  .parallax-row:nth-of-type(6) .parallax-child-section .image-container img {
+    height: 85%;
+  }
+  .charactersShowcase p,
+  .charactersShowcase a {
+    font-size: 18px;
+  }
+  .parallax-child-section.left .text-container {
+    padding: 100px 0 100px 24px;
+  }
+  .parallax-child-section.right .text-container {
+    padding: 100px 24px 100px 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .parallax-row {
+    height: 380px;
+  }
+  .parallax-child-section .image-container img {
+    height: 70%;
+    max-width: 110%;
+  }
+  .parallax-row:nth-of-type(2) .parallax-child-section .image-container img,
+  .parallax-row:nth-of-type(6) .parallax-child-section .image-container img {
+    height: 80%;
+    max-width: 120%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .parallax-row {
+    background-size: auto;
+    background-attachment: unset;
+    background-position-x: unset !important;
+  }
+}

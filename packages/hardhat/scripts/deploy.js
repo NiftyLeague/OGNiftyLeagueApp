@@ -1,18 +1,22 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-use-before-define */
-const fs = require('fs');
 const chalk = require('chalk');
-const { config, ethers, tenderly, run } = require('hardhat');
+const fs = require('fs');
 const R = require('ramda');
+const { config, ethers, network, run, tenderly } = require('hardhat');
+const ethProvider = require('eth-provider');
+
 const { ALLOWED_COLORS } = require('../constants/allowedColors');
 const { NIFTY_DAO, NIFTY_MARKETING } = require('../constants/addresses');
 
+const targetNetwork = network.name;
+
 const main = async () => {
-  const targetNetwork = process.env.HARDHAT_NETWORK || config.defaultNetwork;
   console.log(`\n\n 📡 Deploying to ${targetNetwork}...\n`);
 
-  const storage = await getOrCreateContract('AllowedColorsStorage');
-  if (!fs.existsSync(`./artifacts/${targetNetwork}/AllowedColorsStorage.address`)) {
+  const [storage, newContract] = await getOrCreateContract('AllowedColorsStorage');
+  if (newContract) {
+    console.log(' 👾 Setting Allowed Colors');
     // eslint-disable-next-line no-restricted-syntax
     for (const [i, traits] of ALLOWED_COLORS.entries()) {
       const args = [i + 1, traits, true];
@@ -33,13 +37,13 @@ const main = async () => {
 
   // if you want to instantiate a version of these contracts at a specific address
   /*
-  const nftlToken = await getOrCreateContract('NFTLToken', [
+  const [nftlToken] = await getOrCreateContract('NFTLToken', [
     emissionStartTimestamp,
     ownerSupply,
     treasurySupply,
     NIFTY_DAO,
   ]);
-  const degen = await getOrCreateContract('NiftyDegen', [nftlToken.address, storage.address]);
+  const [degen] = await getOrCreateContract('NiftyDegen', [nftlToken.address, storage.address]);
   */
 
   // If you want to send ether to an address
@@ -107,54 +111,87 @@ const main = async () => {
   );
 };
 
+// const deployFromLedger = async (contractName, contractFactory, contractArgs = [], overrides = {}) => {
+//   // Get deploy transaction data
+//   const tx = await contractFactory.getDeployTransaction(...contractArgs, overrides);
+//   // Set `tx.from` to current Frame account
+//   const ledgerSigner = (await frame.request({ method: 'eth_requestAccounts' }))[0];
+//   tx.from = ledgerSigner;
+//   // Sign and send the transaction using Frame
+//   const txHash = await frame.request({ method: 'eth_sendTransaction', params: [tx] });
+//   // Get deploy tx details
+//   const { Web3Provider } = ethers.providers;
+//   const provider = new Web3Provider(frame);
+//   const deployTransaction = await provider.getTransaction(txHash);
+//   // Get contract and assign ledger signer
+//   let contract = await ethers.getContractAt(contractName, deployTransaction.creates);
+//   const signer = await provider.getSigner(ledgerSigner);
+//   contract = await contract.connect(signer);
+
+//   return {
+//     ...contract,
+//     deployTransaction,
+//   };
+// };
+
+const getLedgerSigner = async () => {
+  const frame = ethProvider('frame');
+  const ledgerSigner = (await frame.request({ method: 'eth_requestAccounts' }))[0];
+  const { Web3Provider } = ethers.providers;
+  const provider = new Web3Provider(frame);
+  return provider.getSigner(ledgerSigner);
+};
+
 const deploy = async (contractName, _args = [], overrides = {}, libraries = {}) => {
-  console.log(` 🛰  Deploying: ${contractName}`);
+  console.log(` 🛰  Deploying: ${contractName} to ${targetNetwork}`);
 
   const contractArgs = _args || [];
-  const contractArtifacts = await ethers.getContractFactory(contractName, {
+  const useSigner = targetNetwork === 'ropsten' || targetNetwork === 'mainnet';
+  const contractFactory = await ethers.getContractFactory(contractName, {
     libraries,
+    signer: useSigner ? await getLedgerSigner() : undefined,
   });
-  const deployed = await contractArtifacts.deploy(...contractArgs, overrides);
-  const encoded = abiEncodeArgs(deployed, contractArgs);
-  fs.writeFileSync(`${config.paths.artifacts}/${contractName}.address`, deployed.address);
+  const deployedContract = await contractFactory.deploy(...contractArgs, overrides);
+  const encoded = abiEncodeArgs(deployedContract, contractArgs);
+  fs.writeFileSync(`${config.paths.artifacts}/${contractName}.address`, deployedContract.address);
   let extraGasInfo = '';
-  if (deployed && deployed.deployTransaction) {
-    // wait for 5 confirmations
-    await deployed.deployTransaction.wait(5);
-    const gasUsed = deployed.deployTransaction.gasLimit.mul(deployed.deployTransaction.gasPrice);
-    extraGasInfo = `${ethers.utils.formatEther(gasUsed)} ETH, tx hash ${deployed.deployTransaction.hash}`;
+  if (deployedContract && deployedContract.deployTransaction) {
+    // wait for 5 confirmations for byte data to populate
+    await deployedContract.deployTransaction.wait(5);
+    const gasUsed = deployedContract.deployTransaction.gasLimit.mul(deployedContract.deployTransaction.gasPrice);
+    extraGasInfo = `${ethers.utils.formatEther(gasUsed)} ETH, tx hash ${deployedContract.deployTransaction.hash}`;
   }
 
-  console.log(' 📄', chalk.cyan(contractName), 'deployed to:', chalk.magenta(deployed.address));
+  console.log(' 📄', chalk.cyan(contractName), 'deployed to:', chalk.magenta(deployedContract.address));
   console.log(' ⛽', chalk.grey(extraGasInfo));
 
   await tenderly.persistArtifacts({
     name: contractName,
-    address: deployed.address,
+    address: deployedContract.address,
   });
 
-  if (!encoded || encoded.length <= 2) return deployed;
+  if (!encoded || encoded.length <= 2) return deployedContract;
   fs.writeFileSync(`${config.paths.artifacts}/${contractName}.args`, encoded.slice(2));
-  return deployed;
+  return deployedContract;
 };
 
 // ------ utils -------
 
-// Add 15% gas margin to transaction
+// Add 10% gas margin to transaction
 function calculateGasMargin(value) {
-  return value.mul(ethers.BigNumber.from(10000).add(ethers.BigNumber.from(1500))).div(ethers.BigNumber.from(10000));
+  return value.mul(ethers.BigNumber.from(10000).add(ethers.BigNumber.from(1000))).div(ethers.BigNumber.from(10000));
 }
 
 const getOrCreateContract = async (contractName, args = [], overrides = {}, libraries = {}) => {
-  const targetNetwork = process.env.HARDHAT_NETWORK || config.defaultNetwork;
   const contractAddress = `./artifacts/${targetNetwork}/${contractName}.address`;
   if (fs.existsSync(contractAddress)) {
     console.log(` 📁 ${contractName} on ${targetNetwork} already exists`);
     const contract = await ethers.getContractAt(contractName, fs.readFileSync(contractAddress).toString());
     await contract.deployed();
-    return contract;
+    return [contract, false];
   }
-  return deploy(contractName, args, overrides, libraries);
+  const contract = await deploy(contractName, args, overrides, libraries);
+  return [contract, true];
 };
 
 const send = (signer, txparams) => {
@@ -185,7 +222,6 @@ const isSolidity = fileName =>
 const readArgsFile = contractName => {
   let args = [];
   try {
-    const targetNetwork = process.env.HARDHAT_NETWORK || config.defaultNetwork;
     const argsFile = `./contracts/${targetNetwork}/${contractName}.args`;
     if (!fs.existsSync(argsFile)) return args;
     args = JSON.parse(fs.readFileSync(argsFile));
@@ -203,22 +239,18 @@ function sleep(ms) {
 // eslint-disable-next-line consistent-return
 const tenderlyVerify = async ({ contractName, contractAddress }) => {
   const tenderlyNetworks = ['kovan', 'goerli', 'mainnet', 'rinkeby', 'ropsten', 'matic', 'mumbai', 'xDai', 'POA'];
-  const targetNetwork = process.env.HARDHAT_NETWORK || config.defaultNetwork;
 
   if (tenderlyNetworks.includes(targetNetwork)) {
     console.log(chalk.blue(` 📁 Attempting tenderly verification of ${contractName} on ${targetNetwork}`));
-
     await tenderly.persistArtifacts({
       name: contractName,
       address: contractAddress,
     });
-
     const verification = await tenderly.verify({
       name: contractName,
       address: contractAddress,
       network: targetNetwork,
     });
-
     return verification;
   }
   console.log(chalk.grey(` 🧐 Contract verification not supported on ${targetNetwork}`));
@@ -227,7 +259,6 @@ const tenderlyVerify = async ({ contractName, contractAddress }) => {
 // If you want to verify on https://etherscan.io/
 const etherscanVerify = async ({ address, constructorArguments = [] }) => {
   try {
-    const targetNetwork = process.env.HARDHAT_NETWORK || config.defaultNetwork;
     console.log(chalk.blue(` 📁 Attempting etherscan verification of ${address} on ${targetNetwork}`));
     return await run('verify:verify', { address, constructorArguments });
   } catch (e) {

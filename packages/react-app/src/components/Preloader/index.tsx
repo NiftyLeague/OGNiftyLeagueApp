@@ -1,10 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { Progress } from 'antd';
+import { isMobileOnly } from 'react-device-detect';
 import { ReactComponent as PreloaderSVG } from 'assets/svg/preloader.svg';
+import useStopwatch from 'hooks/useStopwatch';
 import './preloader.css';
 
 export default function Preloader({ ready, progress }: { ready: boolean; progress: number }): JSX.Element {
   const [percent, setPercent] = useState(progress);
+  const { milliseconds, start, stop } = useStopwatch({ interval: 100 });
+
+  useEffect(() => {
+    if (!ready) start();
+    return function cleanup() {
+      stop();
+    };
+  }, [start, stop, ready]);
 
   useEffect(() => {
     if (progress !== 90) {
@@ -16,7 +26,7 @@ export default function Preloader({ ready, progress }: { ready: boolean; progres
       return () => clearInterval(id);
     }
     return undefined;
-  }, [progress]);
+  }, [progress, stop]);
 
   useEffect(() => {
     const htmlElement = document.querySelector('html') as HTMLElement;
@@ -24,11 +34,12 @@ export default function Preloader({ ready, progress }: { ready: boolean; progres
       htmlElement.style.overflow = 'hidden';
     } else {
       htmlElement.style.overflow = 'auto';
+      stop();
     }
     return function cleanup() {
       htmlElement.style.overflow = 'auto';
     };
-  }, [ready]);
+  }, [ready, stop]);
 
   return (
     <div
@@ -53,6 +64,7 @@ export default function Preloader({ ready, progress }: { ready: boolean; progres
         strokeColor="#a3ff12"
         style={{ width: 160, marginLeft: 32 }}
       />
+      {isMobileOnly && milliseconds > 12000 ? 'For a better experience try us out on desktop!' : null}
     </div>
   );
 }
