@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { Contract, Signer } from 'ethers';
 import { Contracts, NetworkName, Provider } from 'types/web3';
 import { getProviderAndSigner } from 'helpers';
-import { NETWORK_NAME } from '../constants';
+import { NETWORK_NAME, SUPPORTED_CHAIN_IDS } from '../constants';
 import EXTERNAL_CONTRACTS from '../constants/externalContracts';
 
 /*
@@ -67,6 +67,7 @@ export default function useContractLoader(
 
           const { chainId } = await (provider as Provider).getNetwork();
           const _chainId = config.chainId || chainId;
+          if (!SUPPORTED_CHAIN_IDS.includes(_chainId)) return;
           const networkName = NETWORK_NAME[_chainId];
           const contractList = require(`../contracts/${networkName}/contracts.js`) as string[];
           const hardhatContracts = contractList.reduce((accumulator, contractName) => {
