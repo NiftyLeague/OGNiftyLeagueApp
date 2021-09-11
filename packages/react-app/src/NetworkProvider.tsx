@@ -7,7 +7,15 @@ import { ChainId } from '@sushiswap/sdk';
 import Web3Modal from 'web3modal';
 import isEmpty from 'lodash/isEmpty';
 
-import { Contracts, Ethereumish, LocalProvider, MainnetProvider, Network, UserProvider } from 'types/web3';
+import {
+  Contracts,
+  Ethereumish,
+  LocalProvider,
+  MainnetProvider,
+  Network,
+  UserProvider,
+  Web3ModalProvider,
+} from 'types/web3';
 import { Tx } from 'types/notify';
 import useNetworkInfo from 'hooks/useNetworkInfo';
 import useContractLoader from 'hooks/useContractLoader';
@@ -25,13 +33,16 @@ const targetNetwork = NETWORKS[process.env.REACT_APP_NETWORK as 'localhost' | 'r
 // 🛰 providers
 if (DEBUG) console.log('📡 Connecting to Mainnet Ethereum');
 const providerOptions = { infura: INFURA_ID, etherscan: ETHERSCAN_KEY, alchemy: ALCHEMY_ID[ChainId.MAINNET] };
-const mainnetProvider = getDefaultProvider(NETWORKS.mainnet.name, providerOptions) as MainnetProvider;
+// @ts-expect-error ts-migrate(2345) FIXME: Ethers incorrectly typed. Should be Networkish allowing number
+const mainnetProvider = getDefaultProvider(NETWORKS.mainnet.chainId, providerOptions) as MainnetProvider;
 
 // 🏠 Your local provider is usually pointed at your local blockchain
 if (DEBUG) console.log('🏠 Connecting to local provider:', targetNetwork.rpcUrl);
 const localProviderOptions = { ...providerOptions, alchemy: ALCHEMY_ID[targetNetwork.chainId] as string | undefined };
+console.log('localProviderOptions', localProviderOptions);
 const localProvider = getDefaultProvider(
-  targetNetwork.name || targetNetwork.rpcUrl,
+  // @ts-expect-error ts-migrate(2345) FIXME: Ethers incorrectly typed. Should be Networkish allowing number
+  targetNetwork.chainId || targetNetwork.rpcUrl,
   localProviderOptions,
 ) as LocalProvider;
 
@@ -104,6 +115,7 @@ const NetworkProvider = ({ children }: { children: React.ReactElement | React.Re
 
   // Use your injected provider from 🦊 Metamask or if you don't have it then instantly generate a 🔥 burner wallet.
   const userProvider = useUserProvider(injectedProvider, localProvider as providers.JsonRpcProvider, targetNetwork);
+  // @ts-expect-error ts-migrate(2345) FIXME: Argument of type 'Web3Provider | undefined' is not... Remove this comment to see the full error message
   const address = useUserAddress(userProvider);
   const signer = userProvider?.getSigner();
 
@@ -113,7 +125,6 @@ const NetworkProvider = ({ children }: { children: React.ReactElement | React.Re
 
   // The Notifier wraps transactions and provides notificiations
   const { currentTheme } = useThemeSwitcher();
-  // @ts-expect-error ts-migrate(2345) FIXME: Argument of type 'Web3Provider | undefined' is not... Remove this comment to see the full error message
   const tx = Notifier(userProvider, targetNetwork, currentTheme === 'dark');
 
   // Load in your local 📝 contract and read a value from it:
@@ -123,30 +134,25 @@ const NetworkProvider = ({ children }: { children: React.ReactElement | React.Re
   const writeContracts = useContractLoader(userProvider);
 
   const updateWeb3ModalTheme = useCallback(async () => {
-    // @ts-expect-error ts-migrate(2345) FIXME: Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
-    await web3Modal.updateTheme(currentTheme);
+    const web3Theme = currentTheme ?? 'dark';
+    await web3Modal.updateTheme(web3Theme);
   }, [currentTheme]);
 
   const loadWeb3Modal = useCallback(async () => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const provider = await web3Modal.connect();
+    const provider = (await web3Modal.connect()) as Web3ModalProvider;
     await updateWeb3ModalTheme();
     setInjectedProvider(new Web3Provider(provider));
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
     provider.on('accountsChanged', accounts => {
       if (DEBUG) console.log('web3 accountsChanged:', accounts);
       setInjectedProvider(new Web3Provider(provider));
     });
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
     provider.on('chainChanged', chainId => {
       if (DEBUG) console.log('web3 chainChanged:', chainId);
       setInjectedProvider(new Web3Provider(provider));
     });
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
     provider.on('connect', info => {
       if (DEBUG) console.log('web3 info:', info);
     });
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
     provider.on('disconnect', error => {
       if (DEBUG) console.log('web3 error:', error);
     });

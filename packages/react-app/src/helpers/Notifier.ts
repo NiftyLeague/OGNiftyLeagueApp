@@ -73,7 +73,13 @@ export const submitTxWithGasEstimate = (
     });
 };
 
-export default function Notifier(providerOrSigner: Provider | Signer, targetNetwork: Network, darkMode = false): Tx {
+const unknownTarget = { blockExplorer: '', chainId: 0, label: 'unknown', rpcUrl: '' };
+
+export default function Notifier(
+  providerOrSigner?: Provider | Signer,
+  targetNetwork: Network = unknownTarget,
+  darkMode = false,
+): Tx {
   return useCallback(
     async (tx, callback) => {
       if (typeof providerOrSigner !== 'undefined') {
