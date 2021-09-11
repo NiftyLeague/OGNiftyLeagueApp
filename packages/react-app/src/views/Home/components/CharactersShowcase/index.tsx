@@ -46,7 +46,6 @@ const CharacterShowcase = memo(() => {
   return (
     <section className="charactersShowcase">
       <ParallaxCharacter
-        className="extra-margin"
         direction="left"
         title="Yoko"
         image={CatImg}
