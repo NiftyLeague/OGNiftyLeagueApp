@@ -10,10 +10,10 @@ const Home = memo(() => {
   const [progress, setProgress] = useState(0);
   return (
     <div style={{ textAlign: 'center', overflowX: 'hidden' }}>
-      <ErrorBoundary>
+      {/* <ErrorBoundary>
         <Preloader ready={isLoaded} progress={progress} />
         <CharacterCreator isLoaded={isLoaded} setLoaded={setLoaded} setProgress={setProgress} />
-      </ErrorBoundary>
+      </ErrorBoundary> */}
       <Suspense fallback={<div />}>
         <AboutSection />
         <CharacterShowcase />

@@ -268,7 +268,6 @@ const CharacterCreatorContainer = memo(
 
     const stashMintState = useCallback(
       (e: MintEvent) => {
-        // TODO: handle connect to MetaMask
         setTimeout(() => e.detail.callback('false'), 1000);
         if (MetaMaskOnboarding.isMetaMaskInstalled()) {
           void loadWeb3Modal();
