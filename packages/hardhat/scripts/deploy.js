@@ -106,12 +106,17 @@ const main = async () => {
     await tenderlyVerify({ contractName: 'AllowedColorsStorage', contractAddress: storage.address });
     await tenderlyVerify({ contractName: 'NFTLToken', contractAddress: nftlToken.address });
     await tenderlyVerify({ contractName: 'NiftyDegen', contractAddress: degen.address });
+    await tenderlyVerify({ contractName: 'NFTLTimelock', contractAddress: timelock.address });
 
     // If you want to verify your contract on etherscan
     console.log(chalk.blue('verifying on etherscan'));
     await etherscanVerify({ address: storage.address });
     await etherscanVerify({ address: nftlToken.address, constructorArguments: [emissionStartTimestamp] });
     await etherscanVerify({ address: degen.address, constructorArguments: [nftlToken.address, storage.address] });
+    await etherscanVerify({
+      address: timelock.address,
+      constructorArguments: [nftlToken.address, NIFTY_TEAM_SAFE, releaseDate],
+    });
   }
 
   console.log(
