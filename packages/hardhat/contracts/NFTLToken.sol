@@ -87,18 +87,18 @@ contract NFTLToken is ERC20("Nifty League", "NFTL") {
 
         // If claim hasn't been done before for the index, add initial allotment (plus prereveal multiplier if applicable)
         if (lastClaimed == emissionStart) {
-            if (tokenIndex > 9500 && tokenIndex < 9956)
-                totalAccumulated = totalAccumulated + 20000e18; // 20000 NFTL
+            if (tokenIndex > 9500 && tokenIndex < 9901)
+                totalAccumulated = totalAccumulated + 21500e18; // 21500 NFTL
             else if (tokenIndex > 8500)
-                totalAccumulated = totalAccumulated + 16000e18; // 16000 NFTL
+                totalAccumulated = totalAccumulated + 15000e18; // 15000 NFTL
             else if (tokenIndex > 6500)
-                totalAccumulated = totalAccumulated + 12000e18; // 12000 NFTL
+                totalAccumulated = totalAccumulated + 10000e18; // 10000 NFTL
             else if (tokenIndex > 4500)
                 totalAccumulated = totalAccumulated + 8000e18; // 8000 NFTL
             else if (tokenIndex > 2500)
-                totalAccumulated = totalAccumulated + 4000e18; // 4000 NFTL
+                totalAccumulated = totalAccumulated + 6000e18; // 6000 NFTL
             else if (tokenIndex > 1000)
-                totalAccumulated = totalAccumulated + 3000e18; // 3000 NFTL
+                totalAccumulated = totalAccumulated + 4000e18; // 4000 NFTL
             else totalAccumulated = totalAccumulated + 2000e18; // 2000 NFTL
         }
         return totalAccumulated;

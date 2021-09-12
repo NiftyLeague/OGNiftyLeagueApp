@@ -253,7 +253,7 @@ const CharacterCreatorContainer = memo(
 
     useEffect(() => {
       const count = totalSupply ?? 0;
-      if ((count < 3 && address !== DEPLOYER_ADDRESS) || count >= 9955) {
+      if ((count < 3 && address !== DEPLOYER_ADDRESS) || count >= 9900) {
         setSaleLocked(true);
       } else {
         setSaleLocked(false);

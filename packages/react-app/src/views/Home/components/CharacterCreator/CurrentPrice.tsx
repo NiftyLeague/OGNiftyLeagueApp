@@ -34,12 +34,12 @@ const CurrentPrice = ({
   };
 
   const emissionAmount = useMemo(() => {
-    if (totalSupply >= 9500) return 20000;
-    if (totalSupply >= 8500) return 16000;
-    if (totalSupply >= 6500) return 12000;
+    if (totalSupply >= 9500) return 21500;
+    if (totalSupply >= 8500) return 15000;
+    if (totalSupply >= 6500) return 10000;
     if (totalSupply >= 4500) return 8000;
-    if (totalSupply >= 2500) return 4000;
-    if (totalSupply >= 1000) return 3000;
+    if (totalSupply >= 2500) return 6000;
+    if (totalSupply >= 1000) return 4000;
     return 2000;
   }, [totalSupply]);
 

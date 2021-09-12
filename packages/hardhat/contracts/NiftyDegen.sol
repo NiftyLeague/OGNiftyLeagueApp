@@ -22,7 +22,7 @@ contract NiftyDegen is NameableCharacter {
     uint256 public constant MAX_SUPPLY = 10000;
 
     /// @notice Special characters reserved for future giveaways
-    uint256 public constant SPECIAL_CHARACTERS = 45;
+    uint256 public constant SPECIAL_CHARACTERS = 100;
 
     /// @dev Available traits storage address
     address internal immutable _storageAddress;
@@ -117,10 +117,10 @@ contract NiftyDegen is NameableCharacter {
             currentSupply < MAX_SUPPLY - SPECIAL_CHARACTERS || (_msgSender() == owner() && currentSupply < MAX_SUPPLY),
             "Sale has already ended"
         );
-        // 1 - 3 free for core team members, 9956 - 10000 free special community giveaway characters
-        if (currentSupply < 3 || currentSupply >= 9955) return 0;
+        // 1 - 3 free for core team members, 9001 - 10000 free special community giveaway characters
+        if (currentSupply < 3 || currentSupply >= 9900) return 0;
         // fallback option to override price floors only if necessary. Minimum value of 0.08 ETH
-        if (_manualMintPrice > 80000000000000000) return _manualMintPrice;
+        if (_manualMintPrice >= 80000000000000000) return _manualMintPrice;
         if (currentSupply >= 9500) return 400000000000000000; // 9500 - 9900 0.4 ETH
         if (currentSupply >= 8500) return 340000000000000000; // 8501 - 9500 0.34 ETH
         if (currentSupply >= 6500) return 280000000000000000; // 6501 - 8500 0.28 ETH

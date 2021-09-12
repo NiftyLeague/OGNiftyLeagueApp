@@ -66,7 +66,7 @@ const SaleProgress = memo(({ className, handleClose, smallScreen }: ProgressProp
   const classes = useStyles();
   const { totalSupply } = useCachedSubgraph();
   const progress = totalSupply ?? 0;
-  const saleEnded = progress >= 9955;
+  const saleEnded = progress >= 9900;
   return (
     <Alert
       icon={
@@ -75,13 +75,13 @@ const SaleProgress = memo(({ className, handleClose, smallScreen }: ProgressProp
             <>
               {!saleEnded && (
                 <div style={{ marginBottom: 8 }}>
-                  While sale price may increase, additional NFTL tokens are given away at each sale level to each minted
-                  DEGEN.
+                  While sale price may increase, additional NFTL tokens are given away at each sale level to every newly
+                  minted DEGEN.
                 </div>
               )}
               <div>
-                The final 45 DEGENs are reserved for special edition tribes to be minted and given away to the
-                community!
+                The final 100 DEGENs are reserved for a special edition tribe to be minted and given away during
+                tournaments!
               </div>
             </>
           }
@@ -100,7 +100,7 @@ const SaleProgress = memo(({ className, handleClose, smallScreen }: ProgressProp
       ) : (
         <>
           <Typography variant="h6" gutterBottom className={classes.progressTitle}>
-            Progress: {`${progress}/10000 DEGENs Minted`}
+            Progress: {`${progress} / 10000 DEGENs Minted`}
           </Typography>
           <div className="row d-flex flex-nowrap">
             <div className={clsx(classes.progressLabels, classes.extraMarginBottom)}>
@@ -116,16 +116,16 @@ const SaleProgress = memo(({ className, handleClose, smallScreen }: ProgressProp
                 <div className={classes.col4}>{smallScreen ? '2K' : '2000'}</div>
                 <div className={classes.col5}>{smallScreen ? '2K' : '2000'}</div>
                 <div className={classes.col6}>{smallScreen ? '1K' : '1000'}</div>
-                <div className={classes.col7}>455</div>
+                <div className={classes.col7}>400</div>
               </div>
               <div className="row d-flex flex-nowrap">
                 <div className={classes.col1}>{smallScreen ? '2K' : '2000'}</div>
-                <div className={classes.col2}>{smallScreen ? '3K' : '3000'}</div>
-                <div className={classes.col3}>{smallScreen ? '4K' : '4000'}</div>
+                <div className={classes.col2}>{smallScreen ? '4K' : '4000'}</div>
+                <div className={classes.col3}>{smallScreen ? '6K' : '6000'}</div>
                 <div className={classes.col4}>{smallScreen ? '8K' : '8000'}</div>
-                <div className={classes.col5}>{smallScreen ? '12K' : '12000'}</div>
-                <div className={classes.col6}>{smallScreen ? '16K' : '16000'}</div>
-                <div className={classes.col7}>{smallScreen ? '20K' : '20000'}</div>
+                <div className={classes.col5}>{smallScreen ? '10K' : '10000'}</div>
+                <div className={classes.col6}>{smallScreen ? '15K' : '15000'}</div>
+                <div className={classes.col7}>{smallScreen ? '21.5K' : '21500'}</div>
               </div>
               <div className={clsx(classes.progressBar, 'row d-flex flex-nowrap')}>
                 <LinearProgress
