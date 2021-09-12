@@ -34,9 +34,15 @@ const main = async () => {
   await nftlToken.setNFTAddress(degen.address);
   await degen.initPoolSizes();
 
-  // Mint initial token allocations
+  // Timelock team allocation
+  const date = new Date();
+  date.setMonth(date.getMonth() + 6);
+  const releaseDate = Math.floor(date / 1000);
+  const timelock = await deploy('NFTLTimelock', [nftlToken.address, NIFTY_TEAM_SAFE, releaseDate]);
   const teamSupply = ethers.utils.parseEther('100000000');
-  await nftlToken.mint(NIFTY_TEAM_SAFE, teamSupply);
+  await nftlToken.mint(timelock.address, teamSupply);
+
+  // Mint DAO and marketing token allocations
   const treasurySupply = ethers.utils.parseEther('125000000');
   await nftlToken.mint(NIFTY_DAO, treasurySupply);
   const marketingSupply = ethers.utils.parseEther('11400000');
