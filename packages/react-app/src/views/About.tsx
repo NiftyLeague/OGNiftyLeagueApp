@@ -26,6 +26,7 @@ import Doge from 'assets/images/characters/doge.png';
 import Frog from 'assets/images/characters/frog.png';
 import Cat from 'assets/images/characters/cat.png';
 import Alien from 'assets/images/characters/alien.png';
+import Unknown from 'assets/images/characters/unknown.png';
 
 const { Title } = Typography;
 
@@ -46,7 +47,7 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
           customizable characters and tradable in-game assets.
         </p>
         <div className="d-flex justify-content-around align-items-center pixelated">
-          <Image width="65%" src={NiftyLeagueStory} preview={false} />
+          <Image width={isWidthDown('md', width, false) ? '100%' : '65%'} src={NiftyLeagueStory} preview={false} />
         </div>
         <br />
         <p>
@@ -66,13 +67,13 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
           We will gradually be transferring ownership of the Nifty League to our DAO in order to decentralize the
           platform and encourage devs to help us build! <strong>NFTL</strong> is our native governance token which
           provides voting rights and other other utilities (more info <a href="about#nftl">below</a>). Our treasury
-          assets are held within a Polygon gnosis multi-sig wallet which will be used to handle distributions to future
-          project contributors as well as tournaments and other activities. We plan on migrating everything over to
-          Arbitrum once their Gnosis integration is complete to benefit from true decentralization going forward. We are
-          actively looking for notable members of our community to join our DAO board of members and help control the
-          multi-sig wallet so get in touch if you think you would be a good fit!
+          assets are held within a <strong>Polygon</strong> gnosis multi-sig wallet which will be used to handle
+          distributions to future project contributors as well as tournaments and other activities. We plan on migrating
+          everything over to <strong>Arbitrum</strong> once their Gnosis integration is complete to benefit from true
+          decentralization going forward. We are actively looking for notable members of our community to join our DAO
+          board of members and help control the multi-sig wallet so get in touch if you think you would be a good fit!
         </p>
-        <Title level={2}>Characters</Title>
+        <Title level={2}>DEGENS</Title>
         <Title level={3}>Overview</Title>
         <p>
           There will be a max supply of <strong>10,000</strong> genesis <strong>DEGENS</strong> minted on Ethereum
@@ -110,13 +111,14 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
           <img src={Frog} alt="Frog" width={32} />
           <img src={Cat} alt="Cat" width={38} style={{ marginTop: -3 }} />
           <img src={Alien} alt="Alien" width={32} />
+          <img src={Unknown} alt="Unknown" width={25} />
         </Title>
         <p>
           The first step in designing your own <strong>DEGEN</strong> is deciding on 1 of the{' '}
-          <strong>6 available tribes</strong> which include apes, humans, dogs, frogs, cats, and aliens (Does not
+          <strong>6 available tribes</strong> which include apes, humans, dogs, frogs, cats, and aliens (does not
           include our special tribe reserved for tournament awards{' '}
-          <span role="img" aria-label="winky-face emoji">
-            😉
+          <span role="img" aria-label="zipper-mouth emoji">
+            🤐
           </span>
           ). This decision not only affects available character traits and accessories, but determines certain in-game
           mechanics and special moves. During the sale you can check our{' '}
@@ -181,12 +183,11 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
             </a>
           </strong>{' '}
           server to get access to random <strong>NFTL</strong> tips! We're always watching and keeping track of users
-          who provide the most value to our community.{' '}
-          <span role="img" aria-label="winky-face emoji">
-            😉
-          </span>{' '}
-          Help us onboard new members by answering questions or sharing advice and you may find even more tips coming
-          your way!
+          who provide the most value to our community. Help us onboard new members by answering questions or sharing
+          advice and you may find even more tips coming your way!{' '}
+          <span role="img" aria-label="raised hands emoji">
+            🙌
+          </span>
         </p>
         <Title level={3}>
           Tournaments{' '}
@@ -275,11 +276,11 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
         </p>
         <div className="d-flex align-items-center flex-wrap" style={{ justifyContent: 'space-evenly' }}>
           <Image.PreviewGroup>
-            <Image width={isWidthDown('md', width, false) ? '49%' : '32%'} src={TennisSketch} />
-            <Image width={isWidthDown('md', width, false) ? '49%' : '32%'} src={ShreddersSketch} />
-            <Image width={isWidthDown('md', width, false) ? '49%' : '32%'} src={SmashSketch} />
-            <Image width={isWidthDown('md', width, false) ? '49%' : '32%'} src={NiftyRacersSketch} />
-            <Image width={isWidthDown('md', width, false) ? '49%' : '32%'} src={GamesSketch} />
+            <Image className="p-2" width={isWidthDown('md', width, false) ? '50%' : '33%'} src={TennisSketch} />
+            <Image className="p-2" width={isWidthDown('md', width, false) ? '50%' : '33%'} src={ShreddersSketch} />
+            <Image className="p-2" width={isWidthDown('md', width, false) ? '50%' : '33%'} src={SmashSketch} />
+            <Image className="p-2" width={isWidthDown('md', width, false) ? '50%' : '33%'} src={NiftyRacersSketch} />
+            <Image className="p-2" width={isWidthDown('md', width, false) ? '50%' : '33%'} src={GamesSketch} />
           </Image.PreviewGroup>
         </div>
         <br />
