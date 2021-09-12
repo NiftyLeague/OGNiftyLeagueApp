@@ -76,12 +76,12 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
         <Title level={3}>Overview</Title>
         <p>
           There will be a max supply of <strong>10,000</strong> genesis <strong>DEGENS</strong> minted on Ethereum
-          mainnet, <strong>9,952</strong> of which are hand-created by members of our community based on available
-          traits and accessories. The initial 3 slots are reserved for our core team members to mint their personal{' '}
-          <strong>DEGENS</strong> and be able to join in our games. As soon as the 3rd <strong>DEGEN</strong> is minted
-          the public offering will officially start! The final <strong>45</strong> spots are set aside to mint special{' '}
-          <strong>DEGENS</strong> that will be given away for free as future community incentives from the{' '}
-          <strong>Nifty DAO</strong>!
+          mainnet, <strong>9,897</strong> of which are hand-created by members of our community based on available
+          traits and accessories. The initial <strong>3</strong> slots are reserved for our core team members to mint
+          their personal <strong>DEGENS</strong> and be able to join in on our games. As soon as the{' '}
+          <strong>3rd DEGEN</strong> is minted the public offering will officially start! The final <strong>100</strong>{' '}
+          spots are set aside to mint special <strong>DEGENS</strong> that will be given away for free as future
+          community incentives from the <strong>Nifty DAO</strong>!
         </p>
         <Title level={3}>Future Character Sales</Title>
         <p>
@@ -112,9 +112,14 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
           <img src={Alien} alt="Alien" width={32} />
         </Title>
         <p>
-          The first step in designing your own <strong>DEGEN</strong> is deciding on 1 of the 6 tribes available which
-          include apes, humans, dogs, frogs, cats, and aliens. This decision not only affects available character traits
-          and accessories, but determines certain in-game mechanics and special moves. During the sale you can check our{' '}
+          The first step in designing your own <strong>DEGEN</strong> is deciding on 1 of the{' '}
+          <strong>6 available tribes</strong> which include apes, humans, dogs, frogs, cats, and aliens (Does not
+          include our special tribe reserved for tournament awards{' '}
+          <span role="img" aria-label="winky-face emoji">
+            😉
+          </span>
+          ). This decision not only affects available character traits and accessories, but determines certain in-game
+          mechanics and special moves. During the sale you can check our{' '}
           <Link to="/degens">
             <strong>DEGENS</strong> page
           </Link>{' '}
@@ -222,9 +227,17 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
           as input (couch multiplayer works too!). From the game lobby you'll be able to select from any of your
           previously minted <strong>DEGENs</strong> you own in your wallet to show off your cool creations! Each tribe
           has a unique special move so experiment with different tribes and find the moveset that suits your playstyle
-          best. As noted, this is a beta release of our initial game so lag and issues with pesky bots are to be
-          expected. Our immediate plan is to continue development on <strong>Nifty Smashers</strong> and to introduce
-          more features such as additional combo moves and a progression system. Hop in our{' '}
+          best. Hold down the attack button for a charged-up bat attack, some special moves can also be charged. When
+          you bonk another player, they’re worth 1 point. The more they’re successively bonked, the faster they bounce
+          around and the more points they’re worth. Land the final mega-bonk to hit them off the map and claim all the
+          points!
+        </p>
+        <p>
+          <strong>
+            As noted, this is a beta release of our initial game so lag and issues with pesky bots are to be expected.
+          </strong>{' '}
+          Our immediate plan is to continue development on <strong>Nifty Smashers</strong> and to introduce more
+          features such as additional combo moves and a progression system. Hop in our{' '}
           <strong>
             <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/4bmTHYWjhe">
               Discord

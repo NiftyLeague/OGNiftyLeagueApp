@@ -139,7 +139,7 @@ const NetworkProvider = ({ children }: { children: React.ReactElement | React.Re
   }, [currentTheme]);
 
   const loadWeb3Modal = useCallback(async () => {
-    const provider = (await web3Modal.connect()) as Web3ModalProvider;
+    const provider: Web3ModalProvider = (await web3Modal.connect()) as Web3ModalProvider;
     await updateWeb3ModalTheme();
     setInjectedProvider(new Web3Provider(provider));
     provider.on('accountsChanged', accounts => {
