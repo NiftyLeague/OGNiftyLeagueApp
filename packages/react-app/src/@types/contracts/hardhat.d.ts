@@ -61,6 +61,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ERC20PresetMinterPauser__factory>;
     getContractFactory(
+      name: "TokenTimelock",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.TokenTimelock__factory>;
+    getContractFactory(
       name: "ERC721",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ERC721__factory>;
@@ -104,6 +108,10 @@ declare module "hardhat/types/runtime" {
       name: "NameableCharacter",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.NameableCharacter__factory>;
+    getContractFactory(
+      name: "NFTLTimelock",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.NFTLTimelock__factory>;
     getContractFactory(
       name: "NFTLToken",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -169,6 +177,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ERC20PresetMinterPauser__factory>;
     getContractFactory(
+      name: "TokenTimelock",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.TokenTimelock__factory>;
+    getContractFactory(
       name: "ERC721",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ERC721__factory>;
@@ -212,6 +224,10 @@ declare module "hardhat/types/runtime" {
       name: "NameableCharacter",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.NameableCharacter__factory>;
+    getContractFactory(
+      name: "NFTLTimelock",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.NFTLTimelock__factory>;
     getContractFactory(
       name: "NFTLToken",
       signerOrOptions?: ethers.Signer | FactoryOptions
