@@ -96,11 +96,18 @@ function Subgraph(): JSX.Element {
         title: 'Token Id',
         dataIndex: 'id',
         key: 'id',
+        width: 100,
       },
       {
-        title: 'owner',
+        title: 'Owner',
         key: 'owner',
-        render: ({ owner }: { owner: { id: string } }) => <Address address={owner.id} ensProvider={mainnetProvider} />,
+        width: 150,
+        render: (params: { owner: { id: string } }) => (
+          <div className="d-flex">
+            {/* eslint-disable-next-line react/destructuring-assignment */}
+            <Address address={params.owner.id} ensProvider={mainnetProvider} />
+          </div>
+        ),
       },
       {
         title: 'Traits',
@@ -123,7 +130,7 @@ function Subgraph(): JSX.Element {
 
   return (
     <>
-      <div style={{ margin: 'auto', marginTop: 32 }}>
+      <div style={{ margin: 'auto', paddingTop: 32 }}>
         You will find that parsing/tracking events with the{' '}
         {/* @ts-expect-error ts-migrate(2322) FIXME: Type '{ marginLeft: number; marginRight: number; p... Remove this comment to see the full error message */}
         <span className="highlight" style={highlight}>
@@ -248,7 +255,7 @@ function Subgraph(): JSX.Element {
           </Typography>
         )}
 
-        <div style={{ margin: 32, height: 400, border: '1px solid #888888', textAlign: 'left' }}>
+        <div style={{ margin: '32px 0', height: 600, border: '1px solid #888888', textAlign: 'left' }}>
           <GraphiQL fetcher={graphQLFetcher} docExplorerOpen query={CHARACTERS_QUERY} />
         </div>
       </div>

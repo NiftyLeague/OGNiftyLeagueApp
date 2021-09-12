@@ -39,7 +39,6 @@ const mainnetProvider = getDefaultProvider(NETWORKS.mainnet.chainId, providerOpt
 // 🏠 Your local provider is usually pointed at your local blockchain
 if (DEBUG) console.log('🏠 Connecting to local provider:', targetNetwork.rpcUrl);
 const localProviderOptions = { ...providerOptions, alchemy: ALCHEMY_ID[targetNetwork.chainId] as string | undefined };
-console.log('localProviderOptions', localProviderOptions);
 const localProvider = getDefaultProvider(
   // @ts-expect-error ts-migrate(2345) FIXME: Ethers incorrectly typed. Should be Networkish allowing number
   targetNetwork.chainId || targetNetwork.rpcUrl,
@@ -115,7 +114,6 @@ const NetworkProvider = ({ children }: { children: React.ReactElement | React.Re
 
   // Use your injected provider from 🦊 Metamask or if you don't have it then instantly generate a 🔥 burner wallet.
   const userProvider = useUserProvider(injectedProvider, localProvider as providers.JsonRpcProvider, targetNetwork);
-  // @ts-expect-error ts-migrate(2345) FIXME: Argument of type 'Web3Provider | undefined' is not... Remove this comment to see the full error message
   const address = useUserAddress(userProvider);
   const signer = userProvider?.getSigner();
 

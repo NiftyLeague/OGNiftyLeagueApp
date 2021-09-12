@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { BigNumber, utils } from 'ethers';
-import { useTokenBalance } from 'eth-hooks';
+import { useTokenBalance } from 'eth-hooks/erc/erc-20/useTokenBalance';
 import { Contracts } from 'types/web3';
 
 interface TokenBalanceProps {
