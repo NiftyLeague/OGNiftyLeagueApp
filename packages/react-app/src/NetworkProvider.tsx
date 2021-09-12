@@ -21,7 +21,7 @@ import useNetworkInfo from 'hooks/useNetworkInfo';
 import useContractLoader from 'hooks/useContractLoader';
 import useUserProvider from 'hooks/useUserProvider';
 import Notifier from 'helpers/Notifier';
-import { ALCHEMY_ID, DEBUG, ETHERSCAN_KEY, INFURA_ID, NETWORKS } from './constants';
+import { ALCHEMY_ID, DEBUG, ETHERSCAN_KEY, INFURA_ID, NETWORKS, VALID_ETHERS_NETWORKS } from './constants';
 
 const { getDefaultProvider, Web3Provider } = providers;
 
@@ -41,7 +41,7 @@ if (DEBUG) console.log('🏠 Connecting to local provider:', targetNetwork.rpcUr
 const localProviderOptions = { ...providerOptions, alchemy: ALCHEMY_ID[targetNetwork.chainId] as string | undefined };
 const localProvider = getDefaultProvider(
   // @ts-expect-error ts-migrate(2345) FIXME: Ethers incorrectly typed. Should be Networkish allowing number
-  targetNetwork.chainId || targetNetwork.rpcUrl,
+  VALID_ETHERS_NETWORKS.includes(targetNetwork.chainId) ? targetNetwork.chainId : targetNetwork.rpcUrl,
   localProviderOptions,
 ) as LocalProvider;
 

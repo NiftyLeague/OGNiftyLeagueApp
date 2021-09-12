@@ -213,6 +213,19 @@ export const SUPPORTED_CHAIN_IDS: number[] = [
   // ChainId.FANTOM_TESTNET,
 ];
 
+export const VALID_ETHERS_NETWORKS: number[] = [
+  ChainId.MAINNET,
+  ChainId.ROPSTEN,
+  ChainId.RINKEBY,
+  ChainId.GÖRLI,
+  ChainId.KOVAN,
+  ChainId.MATIC,
+  ChainId.MATIC_TESTNET,
+  ChainId.BSC,
+  ChainId.BSC_TESTNET,
+  ChainId.XDAI,
+];
+
 export const VALID_NOTIFY_NETWORKS: number[] = [
   ChainId.MAINNET,
   ChainId.ROPSTEN,

@@ -67,11 +67,11 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
           We will gradually be transferring ownership of the Nifty League to our DAO in order to decentralize the
           platform and encourage devs to help us build! <strong>NFTL</strong> is our native governance token which
           provides voting rights and other other utilities (more info <a href="about#nftl">below</a>). Our treasury
-          assets are held within a <strong>Polygon</strong> gnosis multi-sig wallet which will be used to handle
-          distributions to future project contributors as well as tournaments and other activities. We plan on migrating
-          everything over to <strong>Arbitrum</strong> once their Gnosis integration is complete to benefit from true
-          decentralization going forward. We are actively looking for notable members of our community to join our DAO
-          board of members and help control the multi-sig wallet so get in touch if you think you would be a good fit!
+          assets are held within a Gnosis multi-sig wallet which will be used to handle distributions to future project
+          contributors as well as tournaments and other activities. We plan on migrating everything over to{' '}
+          <strong>Arbitrum</strong> once their Gnosis integration is complete to benefit from lower fees going forward.
+          We are actively looking for notable members of our community to join our DAO board of members and help control
+          the multi-sig wallet so get in touch if you think you would be a good fit!
         </p>
         <Title level={2}>DEGENS</Title>
         <Title level={3}>Overview</Title>

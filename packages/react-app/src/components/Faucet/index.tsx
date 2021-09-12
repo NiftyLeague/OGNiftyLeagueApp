@@ -3,8 +3,6 @@ import { Input, Button } from 'antd';
 import Blockies from 'react-blockies';
 import { SendOutlined } from '@ant-design/icons';
 import { utils } from 'ethers';
-import { useLookupAddress } from 'eth-hooks/dapps/ens';
-import { TEthersProvider } from 'eth-hooks/models/providerTypes';
 import { NetworkContext } from 'NetworkProvider';
 import Tooltip from 'components/Tooltip';
 import Notifier from 'helpers/Notifier';
@@ -30,14 +28,12 @@ import Notifier from 'helpers/Notifier';
   ~ Features ~
 
   - Provide localProvider={localProvider} to be able to send ETH to given address
-  - Provide ensProvider={mainnetProvider} and your address will be replaced by ENS name
-              (ex. "0xa870" => "user.eth") or you can enter directly ENS name instead of address
-              works both in input field & wallet
   - Provide placeholder="Send local faucet" value for the input
 */
 
 export default function Faucet(): JSX.Element {
-  const { localProvider, mainnetProvider, targetNetwork } = useContext(NetworkContext);
+  const { localProvider, targetNetwork } = useContext(NetworkContext);
+  const tx = Notifier(localProvider, targetNetwork);
   const [address, setAddress] = useState('');
 
   let blockie: JSX.Element;
@@ -46,29 +42,6 @@ export default function Faucet(): JSX.Element {
   } else {
     blockie = <div />;
   }
-
-  const ens = useLookupAddress(mainnetProvider as TEthersProvider, address);
-
-  const updateAddress = useCallback(
-    async (newValue: string) => {
-      if (typeof newValue !== 'undefined') {
-        let thisAddress = newValue;
-        if (thisAddress.indexOf('.eth') > 0 || thisAddress.indexOf('.xyz') > 0) {
-          try {
-            const possibleAddress = await mainnetProvider.resolveName(thisAddress);
-            if (possibleAddress) {
-              thisAddress = possibleAddress;
-            }
-            // eslint-disable-next-line no-empty
-          } catch (e) {}
-        }
-        setAddress(thisAddress);
-      }
-    },
-    [mainnetProvider],
-  );
-
-  const tx = Notifier(localProvider, targetNetwork);
 
   return (
     <div
@@ -81,16 +54,17 @@ export default function Faucet(): JSX.Element {
     >
       <Input
         size="large"
+        key={address}
         placeholder="local faucet"
         prefix={blockie}
-        value={ens || address}
-        onChange={e => updateAddress(e.target.value)}
+        value={address}
+        onChange={e => setAddress(e.target.value)}
         suffix={
           <Tooltip text="Faucet: Send local ether to an address.">
             <>
               <Button
                 onClick={async () => {
-                  await tx({ to: address, value: utils.parseEther('1.00') });
+                  await tx({ to: address, value: utils.parseEther('5.00') });
                   setAddress('');
                 }}
                 shape="circle"

@@ -38,7 +38,7 @@ const Definitions = (): JSX.Element => (
       </li>
       <li>
         <strong>Smart Contracts</strong> mean digital contracts used with our Service on the Ethereum Blockchain,
-        Polygon (or any other applicable network) which are immutable to any alteration.
+        Arbitrum (or any other applicable network) which are immutable to any alteration.
       </li>
       <li>
         <strong>Application</strong> (also referred to as "App") collectively refers to the Smart Contracts, Site, and
