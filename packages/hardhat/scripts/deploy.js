@@ -10,6 +10,7 @@ const { ALLOWED_COLORS } = require('../constants/allowedColors');
 const { NIFTY_DAO, NIFTY_MARKETING } = require('../constants/addresses');
 
 const targetNetwork = network.name;
+const localNetwork = targetNetwork === 'localhost';
 
 const main = async () => {
   console.log(`\n\n 📡 Deploying to ${targetNetwork}...\n`);
@@ -87,7 +88,7 @@ const main = async () => {
   });
   */
 
-  if (targetNetwork !== 'localhost') {
+  if (!localNetwork) {
     // If you want to verify your contract on tenderly.co
     console.log(chalk.blue('verifying on tenderly'));
     await tenderlyVerify({ contractName: 'AllowedColorsStorage', contractAddress: storage.address });
@@ -149,7 +150,7 @@ const deploy = async (contractName, _args = [], overrides = {}, libraries = {}) 
   const useSigner = targetNetwork === 'ropsten' || targetNetwork === 'mainnet';
   const contractFactory = await ethers.getContractFactory(contractName, {
     libraries,
-    signer: useSigner ? await getLedgerSigner() : undefined,
+    ...(useSigner && { signer: await getLedgerSigner() }),
   });
   const deployedContract = await contractFactory.deploy(...contractArgs, overrides);
   const encoded = abiEncodeArgs(deployedContract, contractArgs);
@@ -157,7 +158,7 @@ const deploy = async (contractName, _args = [], overrides = {}, libraries = {}) 
   let extraGasInfo = '';
   if (deployedContract && deployedContract.deployTransaction) {
     // wait for 5 confirmations for byte data to populate
-    await deployedContract.deployTransaction.wait(5);
+    if (!localNetwork) await deployedContract.deployTransaction.wait(5);
     const gasUsed = deployedContract.deployTransaction.gasLimit.mul(deployedContract.deployTransaction.gasPrice);
     extraGasInfo = `${ethers.utils.formatEther(gasUsed)} ETH, tx hash ${deployedContract.deployTransaction.hash}`;
   }
@@ -184,7 +185,7 @@ function calculateGasMargin(value) {
 
 const getOrCreateContract = async (contractName, args = [], overrides = {}, libraries = {}) => {
   const contractAddress = `./artifacts/${targetNetwork}/${contractName}.address`;
-  if (fs.existsSync(contractAddress)) {
+  if (fs.existsSync(contractAddress) && !localNetwork) {
     console.log(` 📁 ${contractName} on ${targetNetwork} already exists`);
     const contract = await ethers.getContractAt(contractName, fs.readFileSync(contractAddress).toString());
     await contract.deployed();

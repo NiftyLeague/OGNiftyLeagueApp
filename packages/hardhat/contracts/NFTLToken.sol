@@ -6,31 +6,31 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 
 /**
- * @title NFTL Token (The native token of Nifty League)
+ * @title NFTL Token (The native ecosystem token of Nifty League)
  * @dev Extends standard ERC20 contract from OpenZeppelin
  */
 contract NFTLToken is ERC20("Nifty League", "NFTL") {
-    /// @notice NFTL tokens calaimable per day for each NFT holder
+    /// @notice NFTL tokens calaimable per day for each DEGEN NFT holder
     uint256 public constant EMISSION_PER_DAY = 68.49315e18; // ~68.5 NFTL
 
     /// @notice Start timestamp from contract deployment
     uint256 public immutable emissionStart;
 
-    /// @notice End date for NFTL emissions to NFT holders
+    /// @notice End date for NFTL emissions to DEGEN NFT holders
     uint256 public immutable emissionEnd;
 
-    /// @dev A record of last claimed timestamp for NFTs
+    /// @dev A record of last claimed timestamp for DEGEN NFTs
     mapping(uint256 => uint256) private _lastClaim;
 
-    /// @dev Contract address for ___ NFT
+    /// @dev Contract address for DEGEN NFT
     address private _nftAddress;
 
     /**
      * @notice Construct the NFTL token
      * @param emissionStartTimestamp Timestamp of deployment
      * @param ownerSupply The initial supply minted and transferred to contract owner
-     * @param treasurySupply The initial supply minted and transferred to community treasury
-     * @param treasuryAddress Community Treasury wallet address
+     * @param treasurySupply The initial supply minted and transferred to the Nifty DAO
+     * @param treasuryAddress Nifty DAO community treasury (multi-sig Gnosis safe)
      */
     constructor(
         uint256 emissionStartTimestamp,
@@ -47,8 +47,8 @@ contract NFTLToken is ERC20("Nifty League", "NFTL") {
     // External functions
 
     /**
-     * @notice Sets the contract address to Nifty League ____ NFTs upon deployment
-     * @param nftAddress Address of verified NFT contract
+     * @notice Sets the contract address to Nifty League DEGEN NFTs upon deployment
+     * @param nftAddress Address of verified DEGEN NFT contract
      * @dev Permissioning not added because it is only callable once
      */
     function setNFTAddress(address nftAddress) external {
@@ -59,8 +59,8 @@ contract NFTLToken is ERC20("Nifty League", "NFTL") {
     // Public functions
 
     /**
-     * @notice Check last claim timestamp of accumulated NFTL for given NFT
-     * @param tokenIndex Index of NFT to check
+     * @notice Check last claim timestamp of accumulated NFTL for given DEGEN NFT
+     * @param tokenIndex Index of DEGEN NFT to check
      * @return Last claim timestamp
      */
     function getLastClaim(uint256 tokenIndex) public view returns (uint256) {
@@ -71,8 +71,8 @@ contract NFTLToken is ERC20("Nifty League", "NFTL") {
     }
 
     /**
-     * @notice Check accumulated NFTL tokens for an NFT
-     * @param tokenIndex Index of NFT to check balance
+     * @notice Check accumulated NFTL tokens for a DEGEN NFT
+     * @param tokenIndex Index of DEGEN NFT to check balance
      * @return Total NFTL accumulated and ready to claim
      */
     function accumulated(uint256 tokenIndex) public view returns (uint256) {
@@ -105,7 +105,7 @@ contract NFTLToken is ERC20("Nifty League", "NFTL") {
     }
 
     /**
-     * @notice Check total accumulated NFTL tokens for all NFTs
+     * @notice Check total accumulated NFTL tokens for all DEGEN NFTs
      * @param tokenIndices Indexes of NFTs to check balance
      * @return Total NFTL accumulated and ready to claim
      */
@@ -123,7 +123,7 @@ contract NFTLToken is ERC20("Nifty League", "NFTL") {
     }
 
     /**
-     * @notice Mint and claim available NFTL for each NFT
+     * @notice Mint and claim available NFTL for each DEGEN NFT
      * @param tokenIndices Indexes of NFTs to claim for
      * @return Total NFTL claimed
      */
