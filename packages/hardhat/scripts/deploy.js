@@ -7,7 +7,7 @@ const { config, ethers, network, run, tenderly } = require('hardhat');
 const ethProvider = require('eth-provider');
 
 const { ALLOWED_COLORS } = require('../constants/allowedColors');
-const { NIFTY_DAO, NIFTY_MARKETING } = require('../constants/addresses');
+const { NIFTY_DAO, NIFTY_MARKETING, NIFTY_TEAM_SAFE } = require('../constants/addresses');
 
 const targetNetwork = network.name;
 const localNetwork = targetNetwork === 'localhost';
@@ -29,12 +29,18 @@ const main = async () => {
   }
 
   const emissionStartTimestamp = Math.floor(Date.now() / 1000);
-  const ownerSupply = ethers.utils.parseEther('111400000');
-  const treasurySupply = ethers.utils.parseEther('125000000');
-  const nftlToken = await deploy('NFTLToken', [emissionStartTimestamp, ownerSupply, treasurySupply, NIFTY_DAO]);
+  const nftlToken = await deploy('NFTLToken', [emissionStartTimestamp]);
   const degen = await deploy('NiftyDegen', [nftlToken.address, storage.address]);
   await nftlToken.setNFTAddress(degen.address);
   await degen.initPoolSizes();
+
+  // Mint initial token allocations
+  const teamSupply = ethers.utils.parseEther('100000000');
+  await nftlToken.mint(NIFTY_TEAM_SAFE, teamSupply);
+  const treasurySupply = ethers.utils.parseEther('125000000');
+  await nftlToken.mint(NIFTY_DAO, treasurySupply);
+  const marketingSupply = ethers.utils.parseEther('11400000');
+  await nftlToken.mint(NIFTY_MARKETING, marketingSupply);
 
   // if you want to instantiate a version of these contracts at a specific address
   /*
@@ -98,10 +104,7 @@ const main = async () => {
     // If you want to verify your contract on etherscan
     console.log(chalk.blue('verifying on etherscan'));
     await etherscanVerify({ address: storage.address });
-    await etherscanVerify({
-      address: nftlToken.address,
-      constructorArguments: [emissionStartTimestamp, ownerSupply, treasurySupply, NIFTY_DAO],
-    });
+    await etherscanVerify({ address: nftlToken.address, constructorArguments: [emissionStartTimestamp] });
     await etherscanVerify({ address: degen.address, constructorArguments: [nftlToken.address, storage.address] });
   }
 
