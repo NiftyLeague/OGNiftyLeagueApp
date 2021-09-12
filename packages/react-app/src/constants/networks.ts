@@ -170,9 +170,17 @@ export const NETWORKS: { [network: string]: Network } = {
     label: NETWORK_LABEL[ChainId.BSC_TESTNET],
     rpcUrl: RPC[ChainId.BSC_TESTNET],
   },
+  localAvalanche: {
+    blockExplorer: '',
+    chainId: 43112,
+    gasPrice: BigNumber.from(225000000000),
+    label: 'Avalanche localhost',
+    rpcUrl: `http://localhost:9650/ext/bc/C/rpc`,
+  },
   avalanche: {
     blockExplorer: 'https://explorer.avax.network/',
     chainId: ChainId.AVALANCHE,
+    gasPrice: BigNumber.from(225000000000),
     label: NETWORK_LABEL[ChainId.AVALANCHE],
     rpcUrl: RPC[ChainId.AVALANCHE],
   },
@@ -180,6 +188,7 @@ export const NETWORKS: { [network: string]: Network } = {
     blockExplorer: 'https://cchain.explorer.avax-test.network/',
     chainId: ChainId.AVALANCHE_TESTNET,
     faucet: 'https://faucet.avax-test.network/',
+    gasPrice: BigNumber.from(225000000000),
     label: NETWORK_LABEL[ChainId.AVALANCHE_TESTNET],
     rpcUrl: RPC[ChainId.AVALANCHE_TESTNET],
   },
@@ -198,10 +207,10 @@ export const SUPPORTED_CHAIN_IDS: number[] = [
   ChainId.ROPSTEN,
   // ChainId.GÖRLI,
   // ChainId.KOVAN,
-  // ChainId.FANTOM,
+  // ChainId.AVALANCHE,
+  // ChainId.AVALANCHE_TESTNET,
   // ChainId.FANTOM_TESTNET,
-  // ChainId.BSC,
-  // ChainId.BSC_TESTNET,
+  // ChainId.FANTOM_TESTNET,
 ];
 
 export const VALID_NOTIFY_NETWORKS: number[] = [

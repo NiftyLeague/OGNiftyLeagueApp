@@ -2,7 +2,8 @@ import React, { useState, useCallback } from 'react';
 import QrReader from 'react-qr-reader';
 import { CameraOutlined, QrcodeOutlined } from '@ant-design/icons';
 import { Input, Badge } from 'antd';
-import { useLookupAddress } from 'eth-hooks';
+import { useLookupAddress } from 'eth-hooks/dapps/ens';
+import { TEthersProvider } from 'eth-hooks/models/providerTypes';
 import { MainnetProvider } from 'types/web3';
 import Blockie from './Blockie';
 
@@ -50,7 +51,7 @@ export default function AddressInput({
   const [scan, setScan] = useState(false);
 
   const currentValue = typeof address !== 'undefined' ? address : value;
-  const ens = useLookupAddress(ensProvider, currentValue);
+  const ens = useLookupAddress(ensProvider as TEthersProvider, currentValue);
 
   const scannerButton = (
     <div style={{ marginTop: 4, cursor: 'pointer' }} onClick={() => setScan(!scan)}>

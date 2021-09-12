@@ -3,7 +3,8 @@ import { Input, Button } from 'antd';
 import Blockies from 'react-blockies';
 import { SendOutlined } from '@ant-design/icons';
 import { utils } from 'ethers';
-import { useLookupAddress } from 'eth-hooks';
+import { useLookupAddress } from 'eth-hooks/dapps/ens';
+import { TEthersProvider } from 'eth-hooks/models/providerTypes';
 import { NetworkContext } from 'NetworkProvider';
 import Tooltip from 'components/Tooltip';
 import Notifier from 'helpers/Notifier';
@@ -46,7 +47,7 @@ export default function Faucet(): JSX.Element {
     blockie = <div />;
   }
 
-  const ens = useLookupAddress(mainnetProvider, address);
+  const ens = useLookupAddress(mainnetProvider as TEthersProvider, address);
 
   const updateAddress = useCallback(
     async (newValue: string) => {

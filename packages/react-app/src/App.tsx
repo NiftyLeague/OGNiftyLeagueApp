@@ -67,7 +67,7 @@ export default function App(): JSX.Element {
             <Route exact path="/terms-of-service">
               <ToS />
             </Route>
-            {DEBUG && localConnection ? (
+            {DEBUG ? (
               <>
                 <Route exact path="/NFTL">
                   <Contract name={NFTL_CONTRACT} />
