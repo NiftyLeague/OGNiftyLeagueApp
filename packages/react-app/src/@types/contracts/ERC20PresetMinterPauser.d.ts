@@ -19,25 +19,18 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
-interface NFTLTokenInterface extends ethers.utils.Interface {
+interface ERC20PresetMinterPauserInterface extends ethers.utils.Interface {
   functions: {
     "DEFAULT_ADMIN_ROLE()": FunctionFragment;
-    "EMISSION_PER_DAY()": FunctionFragment;
     "MINTER_ROLE()": FunctionFragment;
     "PAUSER_ROLE()": FunctionFragment;
-    "accumulated(uint256)": FunctionFragment;
-    "accumulatedMultiCheck(uint256[])": FunctionFragment;
     "allowance(address,address)": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
     "burn(uint256)": FunctionFragment;
     "burnFrom(address,uint256)": FunctionFragment;
-    "claim(uint256[])": FunctionFragment;
     "decimals()": FunctionFragment;
     "decreaseAllowance(address,uint256)": FunctionFragment;
-    "emissionEnd()": FunctionFragment;
-    "emissionStart()": FunctionFragment;
-    "getLastClaim(uint256)": FunctionFragment;
     "getRoleAdmin(bytes32)": FunctionFragment;
     "getRoleMember(bytes32,uint256)": FunctionFragment;
     "getRoleMemberCount(bytes32)": FunctionFragment;
@@ -50,7 +43,6 @@ interface NFTLTokenInterface extends ethers.utils.Interface {
     "paused()": FunctionFragment;
     "renounceRole(bytes32,address)": FunctionFragment;
     "revokeRole(bytes32,address)": FunctionFragment;
-    "setNFTAddress(address)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "symbol()": FunctionFragment;
     "totalSupply()": FunctionFragment;
@@ -64,24 +56,12 @@ interface NFTLTokenInterface extends ethers.utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "EMISSION_PER_DAY",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
     functionFragment: "MINTER_ROLE",
     values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "PAUSER_ROLE",
     values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "accumulated",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "accumulatedMultiCheck",
-    values: [BigNumberish[]]
   ): string;
   encodeFunctionData(
     functionFragment: "allowance",
@@ -97,26 +77,10 @@ interface NFTLTokenInterface extends ethers.utils.Interface {
     functionFragment: "burnFrom",
     values: [string, BigNumberish]
   ): string;
-  encodeFunctionData(
-    functionFragment: "claim",
-    values: [BigNumberish[]]
-  ): string;
   encodeFunctionData(functionFragment: "decimals", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "decreaseAllowance",
     values: [string, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "emissionEnd",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "emissionStart",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getLastClaim",
-    values: [BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "getRoleAdmin",
@@ -158,10 +122,6 @@ interface NFTLTokenInterface extends ethers.utils.Interface {
     values: [BytesLike, string]
   ): string;
   encodeFunctionData(
-    functionFragment: "setNFTAddress",
-    values: [string]
-  ): string;
-  encodeFunctionData(
     functionFragment: "supportsInterface",
     values: [BytesLike]
   ): string;
@@ -185,10 +145,6 @@ interface NFTLTokenInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "EMISSION_PER_DAY",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "MINTER_ROLE",
     data: BytesLike
   ): Result;
@@ -196,35 +152,14 @@ interface NFTLTokenInterface extends ethers.utils.Interface {
     functionFragment: "PAUSER_ROLE",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(
-    functionFragment: "accumulated",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "accumulatedMultiCheck",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "allowance", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "burn", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "burnFrom", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "claim", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "decimals", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "decreaseAllowance",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "emissionEnd",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "emissionStart",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getLastClaim",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -254,10 +189,6 @@ interface NFTLTokenInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "revokeRole", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "setNFTAddress",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(
     functionFragment: "supportsInterface",
     data: BytesLike
@@ -293,7 +224,7 @@ interface NFTLTokenInterface extends ethers.utils.Interface {
   getEvent(nameOrSignatureOrTopic: "Unpaused"): EventFragment;
 }
 
-export class NFTLToken extends BaseContract {
+export class ERC20PresetMinterPauser extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
@@ -334,26 +265,14 @@ export class NFTLToken extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TypedEvent<EventArgsArray & EventArgsObject>>>;
 
-  interface: NFTLTokenInterface;
+  interface: ERC20PresetMinterPauserInterface;
 
   functions: {
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<[string]>;
 
-    EMISSION_PER_DAY(overrides?: CallOverrides): Promise<[BigNumber]>;
-
     MINTER_ROLE(overrides?: CallOverrides): Promise<[string]>;
 
     PAUSER_ROLE(overrides?: CallOverrides): Promise<[string]>;
-
-    accumulated(
-      tokenIndex: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
-    accumulatedMultiCheck(
-      tokenIndices: BigNumberish[],
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
 
     allowance(
       owner: string,
@@ -380,11 +299,6 @@ export class NFTLToken extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    claim(
-      tokenIndices: BigNumberish[],
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     decimals(overrides?: CallOverrides): Promise<[number]>;
 
     decreaseAllowance(
@@ -392,15 +306,6 @@ export class NFTLToken extends BaseContract {
       subtractedValue: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
-
-    emissionEnd(overrides?: CallOverrides): Promise<[BigNumber]>;
-
-    emissionStart(overrides?: CallOverrides): Promise<[BigNumber]>;
-
-    getLastClaim(
-      tokenIndex: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
 
     getRoleAdmin(role: BytesLike, overrides?: CallOverrides): Promise<[string]>;
 
@@ -459,11 +364,6 @@ export class NFTLToken extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    setNFTAddress(
-      nftAddress: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     supportsInterface(
       interfaceId: BytesLike,
       overrides?: CallOverrides
@@ -493,21 +393,9 @@ export class NFTLToken extends BaseContract {
 
   DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
 
-  EMISSION_PER_DAY(overrides?: CallOverrides): Promise<BigNumber>;
-
   MINTER_ROLE(overrides?: CallOverrides): Promise<string>;
 
   PAUSER_ROLE(overrides?: CallOverrides): Promise<string>;
-
-  accumulated(
-    tokenIndex: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
-
-  accumulatedMultiCheck(
-    tokenIndices: BigNumberish[],
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
 
   allowance(
     owner: string,
@@ -534,11 +422,6 @@ export class NFTLToken extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  claim(
-    tokenIndices: BigNumberish[],
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   decimals(overrides?: CallOverrides): Promise<number>;
 
   decreaseAllowance(
@@ -546,15 +429,6 @@ export class NFTLToken extends BaseContract {
     subtractedValue: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
-
-  emissionEnd(overrides?: CallOverrides): Promise<BigNumber>;
-
-  emissionStart(overrides?: CallOverrides): Promise<BigNumber>;
-
-  getLastClaim(
-    tokenIndex: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
 
   getRoleAdmin(role: BytesLike, overrides?: CallOverrides): Promise<string>;
 
@@ -613,11 +487,6 @@ export class NFTLToken extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  setNFTAddress(
-    nftAddress: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   supportsInterface(
     interfaceId: BytesLike,
     overrides?: CallOverrides
@@ -647,21 +516,9 @@ export class NFTLToken extends BaseContract {
   callStatic: {
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
 
-    EMISSION_PER_DAY(overrides?: CallOverrides): Promise<BigNumber>;
-
     MINTER_ROLE(overrides?: CallOverrides): Promise<string>;
 
     PAUSER_ROLE(overrides?: CallOverrides): Promise<string>;
-
-    accumulated(
-      tokenIndex: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    accumulatedMultiCheck(
-      tokenIndices: BigNumberish[],
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
 
     allowance(
       owner: string,
@@ -685,11 +542,6 @@ export class NFTLToken extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    claim(
-      tokenIndices: BigNumberish[],
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     decimals(overrides?: CallOverrides): Promise<number>;
 
     decreaseAllowance(
@@ -697,15 +549,6 @@ export class NFTLToken extends BaseContract {
       subtractedValue: BigNumberish,
       overrides?: CallOverrides
     ): Promise<boolean>;
-
-    emissionEnd(overrides?: CallOverrides): Promise<BigNumber>;
-
-    emissionStart(overrides?: CallOverrides): Promise<BigNumber>;
-
-    getLastClaim(
-      tokenIndex: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
 
     getRoleAdmin(role: BytesLike, overrides?: CallOverrides): Promise<string>;
 
@@ -761,8 +604,6 @@ export class NFTLToken extends BaseContract {
       account: string,
       overrides?: CallOverrides
     ): Promise<void>;
-
-    setNFTAddress(nftAddress: string, overrides?: CallOverrides): Promise<void>;
 
     supportsInterface(
       interfaceId: BytesLike,
@@ -843,21 +684,9 @@ export class NFTLToken extends BaseContract {
   estimateGas: {
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
 
-    EMISSION_PER_DAY(overrides?: CallOverrides): Promise<BigNumber>;
-
     MINTER_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
 
     PAUSER_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
-
-    accumulated(
-      tokenIndex: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    accumulatedMultiCheck(
-      tokenIndices: BigNumberish[],
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
 
     allowance(
       owner: string,
@@ -884,26 +713,12 @@ export class NFTLToken extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    claim(
-      tokenIndices: BigNumberish[],
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     decimals(overrides?: CallOverrides): Promise<BigNumber>;
 
     decreaseAllowance(
       spender: string,
       subtractedValue: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    emissionEnd(overrides?: CallOverrides): Promise<BigNumber>;
-
-    emissionStart(overrides?: CallOverrides): Promise<BigNumber>;
-
-    getLastClaim(
-      tokenIndex: BigNumberish,
-      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     getRoleAdmin(
@@ -966,11 +781,6 @@ export class NFTLToken extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    setNFTAddress(
-      nftAddress: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     supportsInterface(
       interfaceId: BytesLike,
       overrides?: CallOverrides
@@ -1003,21 +813,9 @@ export class NFTLToken extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    EMISSION_PER_DAY(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     MINTER_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     PAUSER_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    accumulated(
-      tokenIndex: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    accumulatedMultiCheck(
-      tokenIndices: BigNumberish[],
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
 
     allowance(
       owner: string,
@@ -1047,26 +845,12 @@ export class NFTLToken extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    claim(
-      tokenIndices: BigNumberish[],
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
     decimals(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     decreaseAllowance(
       spender: string,
       subtractedValue: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    emissionEnd(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    emissionStart(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    getLastClaim(
-      tokenIndex: BigNumberish,
-      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     getRoleAdmin(
@@ -1126,11 +910,6 @@ export class NFTLToken extends BaseContract {
     revokeRole(
       role: BytesLike,
       account: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setNFTAddress(
-      nftAddress: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

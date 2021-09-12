@@ -102,7 +102,7 @@ contract NiftyLeagueCharacter is ERC721, Ownable, Pausable {
      */
     function withdraw() external onlyOwner {
         uint256 balance = address(this).balance;
-        payable(msg.sender).transfer(balance);
+        payable(_msgSender()).transfer(balance);
     }
 
     /**

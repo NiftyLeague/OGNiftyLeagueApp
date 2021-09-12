@@ -48,7 +48,7 @@ abstract contract NameableCharacter is NiftyLeagueCharacter {
         require(validateName(newName), "Name is not allowed");
         require(!isNameReserved(newName), "Name already reserved");
 
-        INFTL(_nftlAddress).transferFrom(msg.sender, address(this), NAME_CHANGE_PRICE);
+        INFTL(_nftlAddress).transferFrom(_msgSender(), address(this), NAME_CHANGE_PRICE);
         if (bytes(_characters[tokenId].name).length > 0) {
             _toggleReserveName(_characters[tokenId].name, false);
         }

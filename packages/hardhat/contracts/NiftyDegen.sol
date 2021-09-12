@@ -172,7 +172,7 @@ contract NiftyDegen is NameableCharacter {
         uint256[2] memory items
     ) private view {
         uint256 tribe = char[0];
-        require(tribe > 0 && (tribe <= 6 || (tribe <= 9 && msg.sender == owner())), "Tribe incorrect");
+        require(tribe > 0 && (tribe <= 6 || (tribe <= 9 && _msgSender() == owner())), "Tribe incorrect");
         require(_isTraitInRange(char[1], 10, 69) || _isTraitInRange(char[1], 119, 149), "Skin color incorrect");
         require(_isTraitInRange(char[2], 70, 100) || _isTraitInRange(char[2], 119, 149), "Fur color incorrect");
         require(_isTraitInRange(char[3], 101, 109) || _isTraitInRange(char[3], 119, 149), "Eye color incorrect");
@@ -231,7 +231,7 @@ contract NiftyDegen is NameableCharacter {
         newChar.traits = traitCombo;
         _characters[newCharId] = newChar;
         _removeRandomTrait(newCharId, traitCombo);
-        _safeMint(msg.sender, newCharId);
+        _safeMint(_msgSender(), newCharId);
     }
 
     /**

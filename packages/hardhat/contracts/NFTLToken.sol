@@ -2,14 +2,14 @@
 
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/presets/ERC20PresetMinterPauser.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 
 /**
  * @title NFTL Token (The native ecosystem token of Nifty League)
  * @dev Extends standard ERC20 contract from OpenZeppelin
  */
-contract NFTLToken is ERC20("Nifty League", "NFTL") {
+contract NFTLToken is ERC20PresetMinterPauser("Nifty League", "NFTL") {
     /// @notice NFTL tokens calaimable per day for each DEGEN NFT holder
     uint256 public constant EMISSION_PER_DAY = 68.49315e18; // ~68.5 NFTL
 
@@ -28,20 +28,10 @@ contract NFTLToken is ERC20("Nifty League", "NFTL") {
     /**
      * @notice Construct the NFTL token
      * @param emissionStartTimestamp Timestamp of deployment
-     * @param ownerSupply The initial supply minted and transferred to contract owner
-     * @param treasurySupply The initial supply minted and transferred to the Nifty DAO
-     * @param treasuryAddress Nifty DAO community treasury (multi-sig Gnosis safe)
      */
-    constructor(
-        uint256 emissionStartTimestamp,
-        uint256 ownerSupply,
-        uint256 treasurySupply,
-        address treasuryAddress
-    ) {
+    constructor(uint256 emissionStartTimestamp) {
         emissionStart = emissionStartTimestamp;
         emissionEnd = emissionStartTimestamp + (1 days * 365 * 3);
-        _mint(msg.sender, ownerSupply);
-        _mint(treasuryAddress, treasurySupply);
     }
 
     // External functions
@@ -49,9 +39,9 @@ contract NFTLToken is ERC20("Nifty League", "NFTL") {
     /**
      * @notice Sets the contract address to Nifty League DEGEN NFTs upon deployment
      * @param nftAddress Address of verified DEGEN NFT contract
-     * @dev Permissioning not added because it is only callable once
+     * @dev Only callable once
      */
-    function setNFTAddress(address nftAddress) external {
+    function setNFTAddress(address nftAddress) external onlyRole(DEFAULT_ADMIN_ROLE) {
         require(_nftAddress == address(0), "Already set");
         _nftAddress = nftAddress;
     }
@@ -140,7 +130,7 @@ contract NFTLToken is ERC20("Nifty League", "NFTL") {
             }
 
             uint256 tokenIndex = tokenIndices[i];
-            require(ERC721Enumerable(_nftAddress).ownerOf(tokenIndex) == msg.sender, "Sender is not the owner");
+            require(ERC721Enumerable(_nftAddress).ownerOf(tokenIndex) == _msgSender(), "Sender is not the owner");
 
             uint256 claimQty = accumulated(tokenIndex);
             if (claimQty != 0) {
@@ -150,17 +140,7 @@ contract NFTLToken is ERC20("Nifty League", "NFTL") {
         }
 
         require(totalClaimQty != 0, "No accumulated NFTL");
-        _mint(msg.sender, totalClaimQty);
+        _mint(_msgSender(), totalClaimQty);
         return totalClaimQty;
-    }
-
-    /**
-     * @notice Burns a quantity of tokens held by the caller, reducing total supply
-     * @param burnQuantity Amount of tokens to burn
-     * @dev Emits an {Transfer} event to 0 address
-     */
-    function burn(uint256 burnQuantity) public virtual returns (bool) {
-        _burn(msg.sender, burnQuantity);
-        return true;
     }
 }
