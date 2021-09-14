@@ -70,21 +70,6 @@ const main = async () => {
   });
   */
 
-  // If you want to send an ERC-20 token to an address
-  /*
-  const treasuryTx = await nftlToken.methods.transfer(toAddress, amount);
-  const treasuryTxRequest = {
-    from: deployerAddress,
-    to: NIFTY_MARKETING,
-    data: treasuryTx.encodeABI(),
-    nonce,
-  gasPrice: parseUnits(taskArgs.gasPrice ? taskArgs.gasPrice : "1.001", "gwei").toHexString(),
-  gasLimit: taskArgs.gasLimit ? taskArgs.gasLimit : 24000,
-  chainId: network.config.chainId,
-  };
-  send(treasuryTxRequest);
-  */
-
   // If you want to send some ETH to a contract on deploy (make your constructor payable!)
   /*
   const yourContract = await deploy("YourContract", [], {

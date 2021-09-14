@@ -269,13 +269,15 @@ const CharacterCreatorContainer = memo(
     const stashMintState = useCallback(
       (e: MintEvent) => {
         setTimeout(() => e.detail.callback('false'), 1000);
-        if (MetaMaskOnboarding.isMetaMaskInstalled()) {
-          void loadWeb3Modal();
-        } else {
-          setOnboardUser(true);
+        if (!saleLocked) {
+          if (MetaMaskOnboarding.isMetaMaskInstalled()) {
+            void loadWeb3Modal();
+          } else {
+            setOnboardUser(true);
+          }
         }
       },
-      [loadWeb3Modal],
+      [loadWeb3Modal, saleLocked],
     );
 
     const mintCharacter = useCallback(

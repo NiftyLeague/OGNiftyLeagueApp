@@ -70,8 +70,8 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
           assets are held within a Gnosis multi-sig wallet which will be used to handle distributions to future project
           contributors as well as tournaments and other activities. We plan on migrating everything over to{' '}
           <strong>Arbitrum</strong> once their Gnosis integration is complete to benefit from lower fees going forward.
-          We are actively looking for notable members of our community to join our DAO board of members and help control
-          the multi-sig wallet so get in touch if you think you would be a good fit!
+          We are actively looking for notable members of our community to join our DAO board of directors and help
+          control the multi-sig wallet so get in touch if you think you would be a good fit!
         </p>
         <Title level={2}>DEGENS</Title>
         <Title level={3}>Overview</Title>

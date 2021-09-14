@@ -58,7 +58,6 @@ export const submitTxWithGasEstimate = (
 ): Promise<BigNumber | any> => {
   return contract.estimateGas[fn](...args, config)
     .then(async estimatedGasLimit => {
-      if (DEBUG) console.log('estimatedGasLimit:', estimatedGasLimit);
       return tx(
         (contract[fn] as ContractFunction)(...args, {
           ...config,
@@ -109,6 +108,7 @@ export default function Notifier(
           notify = Notify(options);
         }
 
+        // TODO: Should replace this with targetNetwork.blockExplorer
         let etherscanNetwork = '';
         if (network.name && network.chainId > 1) etherscanNetwork = `${network.name}.`;
         const etherscanTxUrl = `https://${etherscanNetwork}etherscan.io/tx/`;
@@ -120,6 +120,7 @@ export default function Notifier(
             result = await tx;
           } else {
             const safeTx = { ...tx };
+            // TODO: Replace gasPrice with EIP-1559 specifications if non-promise txs are needed
             if (!tx.gasPrice) safeTx.gasPrice = await loadGasPrice(targetNetwork);
             if (!tx.gasLimit) safeTx.gasLimit = utils.hexlify(120000);
             if (DEBUG) console.log('RUNNING TX', safeTx);
