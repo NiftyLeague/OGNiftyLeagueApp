@@ -25,9 +25,9 @@ const About = memo(({ width }: { width: Breakpoint }) => {
                 Welcome to the Nifty League
               </Title>
               <p className="text">
-                Our mission is to create an interactive and community-governed NFT gaming platform.{' '}
-                <em>Nifty League</em> prides itself on being one of the first platforms offering competitive games
-                utilizing customizable characters and tradable in-game assets.
+                Our mission is to create a leading <em>NFT</em> gaming platform through community governance and
+                development. <em>Nifty League</em> prides itself on being one of the first <em>GameFi</em> platforms
+                offering interactive <em>play-to-earn</em> games with customizable characters.
               </p>
               <p className="text">
                 Advance your gaming skills and join our community to earn daily <em>NFTL</em> rewards from the{' '}
