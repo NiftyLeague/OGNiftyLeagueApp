@@ -42,9 +42,12 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
           </span>
         </Title>
         <p>
-          Welcome to the Nifty League! Our mission is to create an interactive and community-governed NFT gaming
-          platform. Nifty League prides itself on being one of the first platforms offering competitive games utilizing
-          customizable characters and tradable in-game assets.
+          Welcome to the Nifty League! Our mission is to create a leading NFT gaming platform through community
+          governance and development. Nifty League prides itself on being one of the first GameFi platforms offering
+          interactive play-to-earn games with customizable characters; not just another pfp drop...{' '}
+          <span role="img" aria-label="upside-down face emoji">
+            🙃
+          </span>
         </p>
         <div className="d-flex justify-content-around align-items-center pixelated">
           <Image width={isWidthDown('md', width, false) ? '100%' : '65%'} src={NiftyLeagueStory} preview={false} />
@@ -52,26 +55,60 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
         <br />
         <p>
           Users design, mint, and play as their personal character(s) to compete and earn rewards within our community
-          including our ecosystem's token; <strong>NFTL</strong>. Purchasing an Ethereum character not only provides you
-          with <strong>NFTL</strong> tokens, but unlocks multiplayer modes within our games granting you admission to
-          public tournaments. We strive to make our games highly competitive and packed full of nostalgia from the
-          halcyon days of retro gaming! At launch we’ll release our first game{' '}
+          including our ecosystem's token; <strong>NFTL</strong>. Purchasing an Ethereum <strong>DEGEN</strong> not only
+          provides you with <strong>NFTL</strong> tokens, but unlocks multiplayer modes within our games granting you
+          admission to public tournaments.
+        </p>
+        <p>
+          Our team strives to make our games highly competitive and packed full of nostalgia from the halcyon days of
+          retro gaming! At launch we’ll release our first game{' '}
           <strong>
             <Link to="/games">Nifty Smashers</Link>
           </strong>
-          ; an NFT brawler where you battle it out with your friends and the crypto community! Going forward we have
-          several game options that we’ll develop based on community input.
+          ; an NFT brawler for you to battle it out with your friends and the crypto community! Going forward we have
+          several game options that we’ll develop based on community input, but our platform’s growth can be limitless
+          with the support of community devs (more info below).
         </p>
-        <Title level={3}>Nifty DAO</Title>
+        <Title level={3}>
+          Nifty DAO{' '}
+          <span role="img" aria-label="classical building emoji">
+            🏛️
+          </span>
+        </Title>
         <p>
           We will gradually be transferring ownership of the Nifty League to our DAO in order to decentralize the
-          platform and encourage devs to help us build! <strong>NFTL</strong> is our native governance token which
-          provides voting rights and other other utilities (more info <a href="about#nftl">below</a>). Our treasury
-          assets are held within a Gnosis multi-sig wallet which will be used to handle distributions to future project
-          contributors as well as tournaments and other activities. We plan on migrating everything over to{' '}
-          <strong>Arbitrum</strong> once their Gnosis integration is complete to benefit from lower fees going forward.
-          We are actively looking for notable members of our community to join our DAO board of directors and help
-          control the multi-sig wallet so get in touch if you think you would be a good fit!
+          platform and encourage devs to help us build! Our vision is power rapid growth and development through
+          community contributions enabling us to build a gaming platform like no other. Simply put, DAOs are the future.
+          We see only one route to becoming the world's leading GameFi platform and that’s by building together.{' '}
+          <span role="img" aria-label="purple heart emoji">
+            💜
+          </span>
+        </p>
+        <p>
+          <strong>NFTL</strong> is our native governance token which provides voting rights and other other utilities
+          (more info <a href="about#nftl">below</a>). Our DAO's treasury assets are held within a Gnosis multi-sig
+          wallet which will be used to handle distributions to future project contributors as well as tournaments and
+          other activities. We plan on migrating everything over to <strong>Arbitrum</strong> once their Gnosis
+          integration is complete to benefit from lower fees going forward.
+        </p>
+        <p>
+          <strong>
+            We are actively looking for notable members of our community to join our DAO board of directors and help
+            control the multi-sig wallet so get in touch if you think you would be a good fit!
+          </strong>
+        </p>
+        <Title level={3}>
+          Community Developers{' '}
+          <span role="img" aria-label="technologist emoji">
+            🧑‍💻
+          </span>
+        </Title>
+        <p>
+          Our goal is to expand this platform with as many fun and exciting games as possible and that is only possible
+          with the help of our community. We encourage developers to create games utilizing our characters which - if
+          selected - will go live on our platform, and in return developers will be rewarded from the{' '}
+          <strong>Nifty DAO</strong> for their contributions. Get creative and send us your ideas! If your game shows
+          promise and viability we’d love to share it with the community.
         </p>
         <Title level={2}>DEGENS</Title>
         <Title level={3}>Overview</Title>
@@ -221,7 +258,7 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
           Battle it out amongst the community and get in as many <em>bat bonks</em>{' '}
           <span role="img" aria-label="baguette emoji">
             🥖
-          </span>{' '}
+          </span>
           on your friends as you can! <strong>Nifty Smashers</strong> takes inspiration from the classic Super Smash
           Bros game where the objective is to knock your opponents off the map to score points. In order to play you'll
           need a <strong>DEGEN</strong> to select for battle, and then use your keyboard, Playstation or Xbox controller
@@ -284,19 +321,6 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
           </Image.PreviewGroup>
         </div>
         <br />
-        <Title level={3}>
-          Community Developers{' '}
-          <span role="img" aria-label="technologist emoji">
-            🧑‍💻
-          </span>
-        </Title>
-        <p>
-          Our goal is to expand this platform with as many fun and exciting games as possible and that is only possible
-          with the help of our community. We encourage developers to create games utilizing our characters which - if
-          selected - will go live on our platform, and in return developers will be rewarded from the{' '}
-          <strong>Nifty DAO</strong> for their contributions. Get creative and send us your ideas! If your game shows
-          promise and viability we’d love to share it with the community.
-        </p>
         <span id="nftl" />
         <Title level={2}>
           NFTL Token <img src={NFTL} alt="NFTL logo" width={32} style={{ marginTop: -4 }} />
