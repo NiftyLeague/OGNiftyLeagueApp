@@ -12,7 +12,6 @@ export { default as useEffectDebugger } from './useEffectDebugger';
 export { default as useEventListener } from './useEventListener';
 export { default as useExchangePrice } from './useExchangePrice';
 export { default as useExternalContractLoader } from './useExternalContractLoader';
-export { default as useGasPrice } from './useGasPrice';
 export { default as useInterval } from './useInterval';
 export { default as useLocalStorage } from './useLocalStorage';
 export { default as useNetworkInfo } from './useNetworkInfo';
