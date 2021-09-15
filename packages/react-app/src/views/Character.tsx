@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/media-has-caption */
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {
@@ -99,11 +100,15 @@ const Character = ({ width }) => {
 
   return (
     <Container className={classes.container}>
-      <Image
-        style={{ borderRadius: 30 }}
-        width={isWidthDown('sm', width) ? '100%' : '40%'}
-        src={image ?? UnavailableImg}
-      />
+      {image?.endsWith('mp4') ? (
+        <video src={image} title="Legendary Degen" width={isWidthDown('sm', width) ? '100%' : '40%'} autoPlay loop />
+      ) : (
+        <Image
+          style={{ borderRadius: 30 }}
+          width={isWidthDown('sm', width) ? '100%' : '40%'}
+          src={image ?? UnavailableImg}
+        />
+      )}
       <Card className={classes.cardRoot} style={{ width: isWidthDown('sm', width) ? '100%' : '58%' }}>
         <CardHeader
           classes={{ title: classes.cardTitle, avatar: classes.avatar }}

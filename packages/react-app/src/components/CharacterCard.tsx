@@ -44,7 +44,7 @@ export const useStyles = makeStyles(theme => ({
   cardTitle: { display: 'flex', alignItems: 'center' },
   cardTitleLink: { fontSize: 18, marginRight: 6, color: '#fff', '&:hover': { color: '#fff' } },
   cardSubheader: { fontSize: 14, textAlign: 'left', color: '#ffffff66' },
-  media: { height: 280, paddingTop: '56.25%' },
+  media: { height: 338 },
   actionButtons: { color: '#fff', borderRadius: '50%', '&:focus': { outline: 'none' } },
   traitsHeader: { color: '#fff', paddingLeft: 8 },
   cardContent: { padding: 0, paddingBottom: 0 },
@@ -105,8 +105,18 @@ const CharacterCard = ({ character, ownerOwned }: { character: Character; ownerO
           ) : (
             <CardMedia
               className={clsx(classes.media, { pixelated: image })}
-              image={image ?? UnavailableImg}
-              title="NFT image"
+              {...(image?.endsWith('mp4')
+                ? {
+                    title: 'Legendary DEGEN mp4',
+                    component: 'video',
+                    autoPlay: true,
+                    loop: true,
+                    src: image,
+                  }
+                : {
+                    title: 'DEGEN image',
+                    image: image ?? UnavailableImg,
+                  })}
             />
           )}
         </Link>
