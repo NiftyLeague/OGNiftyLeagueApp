@@ -188,9 +188,9 @@ contract NiftyDegen is NameableCharacter {
         require(_isTraitInRange(cloth[5], 695, 706), "Belt incorrect");
         require(_isTraitInRange(acc[0], 707, 749), "Hat incorrect");
         require(_isTraitInRange(acc[1], 750, 799), "Eyewear incorrect");
-        require(_isTraitInRange(acc[2], 800, 809), "Piercings incorrect");
+        require(_isTraitInRange(acc[2], 800, 809), "Piercing incorrect");
         require(_isTraitInRange(acc[3], 810, 821), "Wist accessory incorrect");
-        require(_isTraitInRange(acc[4], 822, 846), "Hand accessory incorrect");
+        require(_isTraitInRange(acc[4], 822, 846), "Hands accessory incorrect");
         require(_isTraitInRange(acc[5], 847, 883), "Neckwear incorrect");
         require(_isTraitInRange(items[0], 884, 975), "Left item incorrect");
         require(_isTraitInRange(items[1], 976, 1023), "Right item incorrect");
@@ -210,7 +210,7 @@ contract NiftyDegen is NameableCharacter {
         require(isAvailableAndAllowedTrait(tribe, cloth[5]), "Belt unavailable");
         require(isAvailableAndAllowedTrait(tribe, acc[0]), "Hat unavailable");
         require(isAvailableAndAllowedTrait(tribe, acc[1]), "Eyewear unavailable");
-        require(isAvailableAndAllowedTrait(tribe, acc[2]), "Piercings unavailable");
+        require(isAvailableAndAllowedTrait(tribe, acc[2]), "Piercing unavailable");
         require(isAvailableAndAllowedTrait(tribe, acc[3]), "Wrist accessory unavailable");
         require(isAvailableAndAllowedTrait(tribe, acc[4]), "Hand accessory unavailable");
         require(isAvailableAndAllowedTrait(tribe, acc[5]), "Neckwear unavailable");

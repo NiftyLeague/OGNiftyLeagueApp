@@ -46,8 +46,8 @@ const CHARACTERS_QUERY = `
         belt
         hat
         eyewear
-        piercings
-        wrists
+        piercing
+        wrist
         hands
         neckwear
         leftItem

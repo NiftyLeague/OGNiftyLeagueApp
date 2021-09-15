@@ -36,17 +36,20 @@ function generateImageURL(traits, rarity) {
     ['Eyewear', traits[15]],
     ['Piercing', traits[16]],
     ['Wrist', traits[17]],
-    ['Hand', traits[18]],
+    ['Hands', traits[18]],
     ['Neckwear', traits[19]],
     ['Left Item', traits[20]],
     ['Right Item', traits[21]],
   ];
+  console.log('traits', traits);
+  console.log('traitArray', traitArray);
   const params = new URLSearchParams({
     version: 92,
     traits: JSON.stringify(traitArray),
     secret: process.env.UNITY_IMAGE_GENERATOR_SECRET,
     rarity,
   });
+  console.log('url', `${baseURL}?${params.toString()}`);
   return `${baseURL}?${params.toString()}`;
 }
 
