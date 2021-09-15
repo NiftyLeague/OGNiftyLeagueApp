@@ -75,7 +75,7 @@ contract NFTLToken is ERC20PresetMinterPauser("Nifty League", "NFTL") {
         uint256 accumulationPeriod = block.timestamp < emissionEnd ? block.timestamp : emissionEnd; // Getting the min value of both
         uint256 totalAccumulated = ((accumulationPeriod - lastClaimed) * EMISSION_PER_DAY) / 1 days;
 
-        // If claim hasn't been done before for the index, add initial allotment (plus prereveal multiplier if applicable)
+        // If claim hasn't been done before for the index, add initial allotment
         if (lastClaimed == emissionStart) {
             if (tokenIndex > 9500 && tokenIndex < 9901)
                 totalAccumulated = totalAccumulated + 21500e18; // 21500 NFTL
