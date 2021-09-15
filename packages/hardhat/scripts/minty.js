@@ -193,7 +193,7 @@ class Minty {
    */
   // eslint-disable-next-line class-methods-use-this
   async generateImage(tokenId, traits, rarity) {
-    const filePath = `${this.dir}/images/${tokenId}.png`;
+    const filePath = `${this.dir}/images/${tokenId}.${rarity < 3 ? 'png' : 'mp4'}`;
     if (config.avoidImageOverride === 'true' && fs.existsSync(filePath)) {
       console.log(`Image already exists at ${filePath}`);
     } else {
