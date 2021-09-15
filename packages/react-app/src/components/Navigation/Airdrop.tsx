@@ -69,7 +69,7 @@ function ClaimDialog({
       <DialogTitle id="airdrop-claim-title">{availableNFTL} NFTL Claimable</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          Claimable until September 15th, 2021. Learn more about <strong>NFTL</strong>{' '}
+          Claimable until January 1st, 2022. Learn more about <strong>NFTL</strong>{' '}
           <Link onClick={() => onClose()} to="/about/#nftl">
             here
           </Link>
