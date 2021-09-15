@@ -405,7 +405,7 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
         <p>
           Any remaining future emissions will either be for daily in-game rewards or funding for the{' '}
           <strong>Nifty DAO</strong>. We will grant the <strong>Nifty DAO</strong> the ability to mint up to{' '}
-          <strong>330M NFTL</strong> over the first year after we get a minimum of <strong>10 signers</strong>{' '}
+          <strong>330M NFTL</strong> over the first year after we get a minimum of <strong>7 signers</strong>{' '}
           controlling the multi-sig wallet. We foresee most of these tokens going to community contributors as well as
           being used for competition rewards, but ultimately the DAO will make that decision when the time comes.
         </p>

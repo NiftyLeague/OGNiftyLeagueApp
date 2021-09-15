@@ -76,41 +76,21 @@ module.exports = {
     compilers: [
       {
         version: '0.8.4',
-        settings: {
-          optimizer: {
-            enabled: true,
-            runs: 10000,
-          },
-        },
+        settings: { optimizer: { enabled: true, runs: 200 } },
       },
       {
         version: '0.7.6',
-        settings: {
-          optimizer: {
-            enabled: true,
-            runs: 200,
-          },
-        },
+        settings: { optimizer: { enabled: true, runs: 200 } },
       },
       {
         version: '0.6.7',
-        settings: {
-          optimizer: {
-            enabled: true,
-            runs: 200,
-          },
-        },
+        settings: { optimizer: { enabled: true, runs: 200 } },
       },
     ],
     overrides: {
-      'contracts/AllowedColorsStorage.sol': {
+      'contracts/NiftyDegen.sol': {
         version: '0.8.4',
-        settings: {
-          optimizer: {
-            enabled: true,
-            runs: 200,
-          },
-        },
+        settings: { optimizer: { enabled: true, runs: 10000 } },
       },
       'contracts/NFTLTimelock.sol': {
         version: '0.8.4',

@@ -42,7 +42,7 @@ function generateImageURL(traits, rarity) {
     ['Right Item', traits[21]],
   ];
   const params = new URLSearchParams({
-    version: 91,
+    version: 92,
     traits: JSON.stringify(traitArray),
     secret: process.env.UNITY_IMAGE_GENERATOR_SECRET,
     rarity,
