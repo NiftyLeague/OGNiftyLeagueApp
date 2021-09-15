@@ -253,7 +253,7 @@ const CharacterCreatorContainer = memo(
 
     useEffect(() => {
       const count = totalSupply ?? 0;
-      if ((count < 3 && address !== DEPLOYER_ADDRESS) || count >= 9955) {
+      if ((count < 3 && address !== DEPLOYER_ADDRESS) || count >= 9900) {
         setSaleLocked(true);
       } else {
         setSaleLocked(false);
@@ -269,13 +269,15 @@ const CharacterCreatorContainer = memo(
     const stashMintState = useCallback(
       (e: MintEvent) => {
         setTimeout(() => e.detail.callback('false'), 1000);
-        if (MetaMaskOnboarding.isMetaMaskInstalled()) {
-          void loadWeb3Modal();
-        } else {
-          setOnboardUser(true);
+        if (!saleLocked) {
+          if (MetaMaskOnboarding.isMetaMaskInstalled()) {
+            void loadWeb3Modal();
+          } else {
+            setOnboardUser(true);
+          }
         }
       },
-      [loadWeb3Modal],
+      [loadWeb3Modal, saleLocked],
     );
 
     const mintCharacter = useCallback(

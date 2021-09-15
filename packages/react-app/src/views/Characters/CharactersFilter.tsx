@@ -154,31 +154,31 @@ const CharactersFilter = ({
         </AccordionSummary>
         <AccordionDetails className={classes.accDetails}>
           <MultiSelect
-            label="Tribe"
+            label="Tribes"
             selectedOptions={filterState.tribes}
             setSelectedOptions={values => handleFilterStateUpdate('tribes', values)}
             options={FILTER_STATE_MAPPING.tribes}
           />
           <MultiSelect
-            label="Skin Color"
+            label="Skin Colors"
             selectedOptions={filterState.skinColors}
             setSelectedOptions={values => handleFilterStateUpdate('skinColors', values)}
             options={FILTER_STATE_MAPPING.skinColors}
           />
           <MultiSelect
-            label="Fur Color"
+            label="Fur Colors"
             selectedOptions={filterState.furColors}
             setSelectedOptions={values => handleFilterStateUpdate('furColors', values)}
             options={FILTER_STATE_MAPPING.furColors}
           />
           <MultiSelect
-            label="Eye Color"
+            label="Eye Colors"
             selectedOptions={filterState.eyeColors}
             setSelectedOptions={values => handleFilterStateUpdate('eyeColors', values)}
             options={FILTER_STATE_MAPPING.eyeColors}
           />
           <MultiSelect
-            label="Pupil Color"
+            label="Pupil Colors"
             selectedOptions={filterState.pupilColors}
             setSelectedOptions={values => handleFilterStateUpdate('pupilColors', values)}
             options={FILTER_STATE_MAPPING.pupilColors}
@@ -190,19 +190,19 @@ const CharactersFilter = ({
             options={FILTER_STATE_MAPPING.hair}
           />
           <MultiSelect
-            label="Mouth"
+            label="Mouths"
             selectedOptions={filterState.mouths}
             setSelectedOptions={values => handleFilterStateUpdate('mouths', values)}
             options={FILTER_STATE_MAPPING.mouths}
           />
           <MultiSelect
-            label="Beard"
+            label="Beards"
             selectedOptions={filterState.beards}
             setSelectedOptions={values => handleFilterStateUpdate('beards', values)}
             options={FILTER_STATE_MAPPING.beards}
           />
           <MultiSelect
-            label="Top"
+            label="Tops"
             selectedOptions={filterState.tops}
             setSelectedOptions={values => handleFilterStateUpdate('tops', values)}
             options={FILTER_STATE_MAPPING.tops}
@@ -214,13 +214,13 @@ const CharactersFilter = ({
             options={FILTER_STATE_MAPPING.outerwear}
           />
           <MultiSelect
-            label="Top Print"
+            label="Prints"
             selectedOptions={filterState.prints}
             setSelectedOptions={values => handleFilterStateUpdate('prints', values)}
             options={FILTER_STATE_MAPPING.prints}
           />
           <MultiSelect
-            label="Bottom"
+            label="Bottoms"
             selectedOptions={filterState.bottoms}
             setSelectedOptions={values => handleFilterStateUpdate('bottoms', values)}
             options={FILTER_STATE_MAPPING.bottoms}
@@ -232,13 +232,13 @@ const CharactersFilter = ({
             options={FILTER_STATE_MAPPING.footwear}
           />
           <MultiSelect
-            label="Belt"
+            label="Belts"
             selectedOptions={filterState.belts}
             setSelectedOptions={values => handleFilterStateUpdate('belts', values)}
             options={FILTER_STATE_MAPPING.belts}
           />
           <MultiSelect
-            label="Hat"
+            label="Hats"
             selectedOptions={filterState.hats}
             setSelectedOptions={values => handleFilterStateUpdate('hats', values)}
             options={FILTER_STATE_MAPPING.hats}
@@ -274,13 +274,13 @@ const CharactersFilter = ({
             options={FILTER_STATE_MAPPING.neckwear}
           />
           <MultiSelect
-            label="Left Item"
+            label="Left Items"
             selectedOptions={filterState.leftItems}
             setSelectedOptions={values => handleFilterStateUpdate('leftItems', values)}
             options={FILTER_STATE_MAPPING.leftItems}
           />
           <MultiSelect
-            label="Right Item"
+            label="Right Items"
             selectedOptions={filterState.rightItems}
             setSelectedOptions={values => handleFilterStateUpdate('rightItems', values)}
             options={FILTER_STATE_MAPPING.rightItems}

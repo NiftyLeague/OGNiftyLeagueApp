@@ -342,12 +342,12 @@ const _abi = [
           },
           {
             internalType: "uint16",
-            name: "piercings",
+            name: "piercing",
             type: "uint16",
           },
           {
             internalType: "uint16",
-            name: "wrists",
+            name: "wrist",
             type: "uint16",
           },
           {

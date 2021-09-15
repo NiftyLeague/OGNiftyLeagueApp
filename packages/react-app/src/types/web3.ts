@@ -8,6 +8,10 @@ export type UserProvider = providers.Web3Provider;
 
 export type Provider = LocalProvider | UserProvider | providers.Provider;
 
+export interface Web3ModalProvider extends providers.ExternalProvider {
+  on: (type: string, callback: (value: string | number) => void) => void;
+}
+
 export interface Ethereumish {
   autoRefreshOnNetworkChange?: boolean;
   chainId?: string;

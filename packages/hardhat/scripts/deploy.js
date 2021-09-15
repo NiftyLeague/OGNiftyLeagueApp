@@ -7,9 +7,10 @@ const { config, ethers, network, run, tenderly } = require('hardhat');
 const ethProvider = require('eth-provider');
 
 const { ALLOWED_COLORS } = require('../constants/allowedColors');
-const { NIFTY_DAO, NIFTY_MARKETING } = require('../constants/addresses');
+const { NIFTY_DAO, NIFTY_MARKETING, NIFTY_TEAM_SAFE } = require('../constants/addresses');
 
 const targetNetwork = network.name;
+const localNetwork = targetNetwork === 'localhost';
 
 const main = async () => {
   console.log(`\n\n 📡 Deploying to ${targetNetwork}...\n`);
@@ -28,12 +29,24 @@ const main = async () => {
   }
 
   const emissionStartTimestamp = Math.floor(Date.now() / 1000);
-  const ownerSupply = ethers.utils.parseEther('111400000');
-  const treasurySupply = ethers.utils.parseEther('125000000');
-  const nftlToken = await deploy('NFTLToken', [emissionStartTimestamp, ownerSupply, treasurySupply, NIFTY_DAO]);
+  const nftlToken = await deploy('NFTLToken', [emissionStartTimestamp]);
   const degen = await deploy('NiftyDegen', [nftlToken.address, storage.address]);
   await nftlToken.setNFTAddress(degen.address);
   await degen.initPoolSizes();
+
+  // Timelock team allocation
+  const date = new Date();
+  date.setMonth(date.getMonth() + 6);
+  const releaseDate = Math.floor(date / 1000);
+  const timelock = await deploy('NFTLTimelock', [nftlToken.address, NIFTY_TEAM_SAFE, releaseDate]);
+  const teamSupply = ethers.utils.parseEther('100000000');
+  await nftlToken.mint(timelock.address, teamSupply);
+
+  // Mint DAO and marketing token allocations
+  const treasurySupply = ethers.utils.parseEther('125000000');
+  await nftlToken.mint(NIFTY_DAO, treasurySupply);
+  const marketingSupply = ethers.utils.parseEther('11400000');
+  await nftlToken.mint(NIFTY_MARKETING, marketingSupply);
 
   // if you want to instantiate a version of these contracts at a specific address
   /*
@@ -57,21 +70,6 @@ const main = async () => {
   });
   */
 
-  // If you want to send an ERC-20 token to an address
-  /*
-  const treasuryTx = await nftlToken.methods.transfer(toAddress, amount);
-  const treasuryTxRequest = {
-    from: deployerAddress,
-    to: NIFTY_MARKETING,
-    data: treasuryTx.encodeABI(),
-    nonce,
-  gasPrice: parseUnits(taskArgs.gasPrice ? taskArgs.gasPrice : "1.001", "gwei").toHexString(),
-  gasLimit: taskArgs.gasLimit ? taskArgs.gasLimit : 24000,
-  chainId: network.config.chainId,
-  };
-  send(treasuryTxRequest);
-  */
-
   // If you want to send some ETH to a contract on deploy (make your constructor payable!)
   /*
   const yourContract = await deploy("YourContract", [], {
@@ -87,21 +85,23 @@ const main = async () => {
   });
   */
 
-  if (targetNetwork !== 'localhost') {
+  if (!localNetwork) {
     // If you want to verify your contract on tenderly.co
     console.log(chalk.blue('verifying on tenderly'));
     await tenderlyVerify({ contractName: 'AllowedColorsStorage', contractAddress: storage.address });
     await tenderlyVerify({ contractName: 'NFTLToken', contractAddress: nftlToken.address });
     await tenderlyVerify({ contractName: 'NiftyDegen', contractAddress: degen.address });
+    await tenderlyVerify({ contractName: 'NFTLTimelock', contractAddress: timelock.address });
 
     // If you want to verify your contract on etherscan
     console.log(chalk.blue('verifying on etherscan'));
     await etherscanVerify({ address: storage.address });
-    await etherscanVerify({
-      address: nftlToken.address,
-      constructorArguments: [emissionStartTimestamp, ownerSupply, treasurySupply, NIFTY_DAO],
-    });
+    await etherscanVerify({ address: nftlToken.address, constructorArguments: [emissionStartTimestamp] });
     await etherscanVerify({ address: degen.address, constructorArguments: [nftlToken.address, storage.address] });
+    await etherscanVerify({
+      address: timelock.address,
+      constructorArguments: [nftlToken.address, NIFTY_TEAM_SAFE, releaseDate],
+    });
   }
 
   console.log(
@@ -149,7 +149,7 @@ const deploy = async (contractName, _args = [], overrides = {}, libraries = {}) 
   const useSigner = targetNetwork === 'ropsten' || targetNetwork === 'mainnet';
   const contractFactory = await ethers.getContractFactory(contractName, {
     libraries,
-    signer: useSigner ? await getLedgerSigner() : undefined,
+    ...(useSigner && { signer: await getLedgerSigner() }),
   });
   const deployedContract = await contractFactory.deploy(...contractArgs, overrides);
   const encoded = abiEncodeArgs(deployedContract, contractArgs);
@@ -157,7 +157,7 @@ const deploy = async (contractName, _args = [], overrides = {}, libraries = {}) 
   let extraGasInfo = '';
   if (deployedContract && deployedContract.deployTransaction) {
     // wait for 5 confirmations for byte data to populate
-    await deployedContract.deployTransaction.wait(5);
+    if (!localNetwork) await deployedContract.deployTransaction.wait(5);
     const gasUsed = deployedContract.deployTransaction.gasLimit.mul(deployedContract.deployTransaction.gasPrice);
     extraGasInfo = `${ethers.utils.formatEther(gasUsed)} ETH, tx hash ${deployedContract.deployTransaction.hash}`;
   }
@@ -184,7 +184,7 @@ function calculateGasMargin(value) {
 
 const getOrCreateContract = async (contractName, args = [], overrides = {}, libraries = {}) => {
   const contractAddress = `./artifacts/${targetNetwork}/${contractName}.address`;
-  if (fs.existsSync(contractAddress)) {
+  if (fs.existsSync(contractAddress) && !localNetwork) {
     console.log(` 📁 ${contractName} on ${targetNetwork} already exists`);
     const contract = await ethers.getContractAt(contractName, fs.readFileSync(contractAddress).toString());
     await contract.deployed();

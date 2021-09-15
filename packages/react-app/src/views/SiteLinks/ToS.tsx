@@ -41,7 +41,7 @@ const ToS = (): JSX.Element => (
       </p>
       <p>
         Transactions on the App are managed and confirmed via the Ethereum blockchain and other networks such as
-        Polygon. We neither own nor control MetaMask, Google Chrome, the Ethereum network, Polygon, or any other
+        Arbitrum. We neither own nor control MetaMask, Google Chrome, the Ethereum network, Arbitrum, or any other
         third-party site, product, or service that You might access, visit, or use for the purpose of enabling You to
         use the various features of the App. We will not be liable for the acts or omissions of any such third parties,
         nor will we be liable for any damage that You may suffer as a result of Your transactions or any other
