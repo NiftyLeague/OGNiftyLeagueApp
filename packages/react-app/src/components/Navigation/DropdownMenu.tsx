@@ -1,10 +1,9 @@
-import React, { useContext } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { providers } from 'ethers';
+import { isMobile } from 'react-device-detect';
 import { Button, Dropdown, Menu } from 'antd';
 import { createFromIconfontCN, TwitterOutlined } from '@ant-design/icons';
 import { Menu as MenuIcon, MoreVert } from '@material-ui/icons';
-import { NetworkContext } from 'NetworkProvider';
 import { DEBUG } from '../../constants';
 
 const IconFont = createFromIconfontCN({
@@ -12,10 +11,8 @@ const IconFont = createFromIconfontCN({
 });
 
 const DropdownMenu = ({ hideNav, navItems }: { hideNav: boolean; navItems: () => void }): JSX.Element => {
-  const { localProvider, targetNetwork } = useContext(NetworkContext);
-  const localConnection = Boolean(
-    targetNetwork.label === 'localhost' && (localProvider as providers.JsonRpcProvider)?.connection,
-  );
+  const [visible, setVisible] = useState(false);
+
   const menu = (
     <Menu style={{ padding: 10 }}>
       {hideNav && navItems()}
@@ -31,7 +28,7 @@ const DropdownMenu = ({ hideNav, navItems }: { hideNav: boolean; navItems: () =>
           <span style={{ marginLeft: 8 }}>Twitter</span>
         </a>
       </Menu.Item>
-      {DEBUG && localConnection ? (
+      {DEBUG ? (
         <>
           <Menu.Item key="/NFTL">
             <Link to="/NFTL">NFTL Token</Link>
@@ -54,9 +51,18 @@ const DropdownMenu = ({ hideNav, navItems }: { hideNav: boolean; navItems: () =>
   );
 
   const btnStyle = { fontSize: 20, verticalAlign: 'top', margin: 'auto 4px' };
+  const trigger: ('contextMenu' | 'click' | 'hover')[] = isMobile ? ['click'] : ['hover'];
 
   return (
-    <Dropdown key="more" overlay={menu} overlayStyle={{ minWidth: 200, top: 66 }} placement="bottomRight">
+    <Dropdown
+      key="more"
+      overlay={menu}
+      overlayStyle={{ minWidth: 200, top: 66 }}
+      placement="bottomRight"
+      trigger={trigger}
+      visible={visible}
+      onVisibleChange={setVisible}
+    >
       <Button
         style={{
           border: 'none',

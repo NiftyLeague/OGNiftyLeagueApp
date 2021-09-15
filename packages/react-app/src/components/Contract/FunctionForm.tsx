@@ -31,7 +31,7 @@ export default function FunctionForm({
   triggerRefresh,
 }: FunctionFormProps): JSX.Element {
   const [form, setForm] = useState<{ [key: string]: utils.BytesLike | BigNumber }>({});
-  const [txValue, setTxValue] = useState<string>('0.00');
+  const [txValue, setTxValue] = useState<string | undefined>();
   const [returnValue, setReturnValue] = useState<string>();
   const { currentTheme } = useThemeSwitcher();
 
@@ -136,7 +136,7 @@ export default function FunctionForm({
                   <div
                     style={{ cursor: 'pointer' }}
                     onClick={() => {
-                      const value = utils.parseEther(txValue).toString();
+                      const value = txValue && utils.parseEther(txValue).toString();
                       if (value) setTxValue(value);
                     }}
                   >
@@ -211,6 +211,7 @@ export default function FunctionForm({
                 if (txValue) {
                   overrides.value = txValue; // ethers.utils.parseEther()
                 }
+                console.log('call', args, overrides);
                 const returned = (await tx(contractFunction(...args, overrides))) as unknown;
                 result = tryToDisplay(returned as BigNumber | string);
               }

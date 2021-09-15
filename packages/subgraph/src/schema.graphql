@@ -37,8 +37,8 @@ type TraitMap @entity {
   belt: Int!
   hat: Int!
   eyewear: Int!
-  piercings: Int!
-  wrists: Int!
+  piercing: Int!
+  wrist: Int!
   hands: Int!
   neckwear: Int!
   leftItem: Int!

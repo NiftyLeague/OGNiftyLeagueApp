@@ -1,1 +1,1 @@
-module.exports = ["AllowedColorsStorage"];
+module.exports = ["AllowedColorsStorage","NFTLTimelock","NFTLToken"];

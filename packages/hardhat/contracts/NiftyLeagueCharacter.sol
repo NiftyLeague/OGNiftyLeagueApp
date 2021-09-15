@@ -41,8 +41,8 @@ contract NiftyLeagueCharacter is ERC721, Ownable, Pausable {
         //  accessories
         uint16 hat;
         uint16 eyewear;
-        uint16 piercings;
-        uint16 wrists;
+        uint16 piercing;
+        uint16 wrist;
         uint16 hands;
         uint16 neckwear;
         //  items
@@ -102,7 +102,7 @@ contract NiftyLeagueCharacter is ERC721, Ownable, Pausable {
      */
     function withdraw() external onlyOwner {
         uint256 balance = address(this).balance;
-        payable(msg.sender).transfer(balance);
+        payable(_msgSender()).transfer(balance);
     }
 
     /**
@@ -138,8 +138,8 @@ contract NiftyLeagueCharacter is ERC721, Ownable, Pausable {
         _characterTraits.belt = _unpackUint10(character.traits >> 130);
         _characterTraits.hat = _unpackUint10(character.traits >> 140);
         _characterTraits.eyewear = _unpackUint10(character.traits >> 150);
-        _characterTraits.piercings = _unpackUint10(character.traits >> 160);
-        _characterTraits.wrists = _unpackUint10(character.traits >> 170);
+        _characterTraits.piercing = _unpackUint10(character.traits >> 160);
+        _characterTraits.wrist = _unpackUint10(character.traits >> 170);
         _characterTraits.hands = _unpackUint10(character.traits >> 180);
         _characterTraits.neckwear = _unpackUint10(character.traits >> 190);
         _characterTraits.leftItem = _unpackUint10(character.traits >> 200);

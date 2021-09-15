@@ -3,7 +3,8 @@ import Blockies from 'react-blockies';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
 import { Typography, Skeleton } from 'antd';
 import { MainnetProvider } from 'types/web3';
-import { useLookupAddress } from 'eth-hooks';
+import { useLookupAddress } from 'eth-hooks/dapps/ens';
+import { TEthersProvider } from 'eth-hooks/models/providerTypes';
 import { DEBUG } from '../constants';
 
 /*
@@ -50,8 +51,7 @@ export default function Address({
   mobileView,
   size,
 }: AddressProps): JSX.Element {
-  const ens = useLookupAddress(ensProvider as MainnetProvider, address);
-
+  const ens = useLookupAddress(ensProvider as TEthersProvider, address);
   const { currentTheme } = useThemeSwitcher();
 
   if (!address) {

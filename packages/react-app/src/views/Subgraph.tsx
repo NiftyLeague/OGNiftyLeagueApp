@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
-import React, { useContext, useState } from 'react';
+import React, { useContext, useMemo, useState } from 'react';
 import { useQuery, gql } from '@apollo/client';
 import { utils } from 'ethers';
 import { Button, Input, Table, Typography } from 'antd';
@@ -46,8 +46,8 @@ const CHARACTERS_QUERY = `
         belt
         hat
         eyewear
-        piercings
-        wrists
+        piercing
+        wrist
         hands
         neckwear
         leftItem
@@ -80,7 +80,7 @@ function Subgraph(): JSX.Element {
   );
   const nftPrice = useNFTPrice(readContracts);
 
-  function graphQLFetcher(graphQLParams) {
+  const graphQLFetcher = graphQLParams => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
     return fetch(SUBGRAPH_URI, {
       method: 'post',
@@ -88,29 +88,39 @@ function Subgraph(): JSX.Element {
       body: JSON.stringify(graphQLParams),
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     }).then((response: { json: () => any }) => response.json());
-  }
+  };
 
-  const columns = [
-    {
-      title: 'Token Id',
-      dataIndex: 'id',
-      key: 'id',
-    },
-    {
-      title: 'owner',
-      key: 'owner',
-      render: ({ owner }: { owner: { id: string } }) => <Address address={owner.id} ensProvider={mainnetProvider} />,
-    },
-    {
-      title: 'Traits',
-      key: 'traits',
-      dataIndex: 'traits',
-      render: (traits: Character['traits']) =>
-        Object.entries(traits)
-          .map(([key, value]) => (key !== '__typename' ? `${key}: ${value} \n` : ''))
-          .toString(),
-    },
-  ];
+  const columns = useMemo(
+    () => [
+      {
+        title: 'Token Id',
+        dataIndex: 'id',
+        key: 'id',
+        width: 100,
+      },
+      {
+        title: 'Owner',
+        key: 'owner',
+        width: 150,
+        render: (params: { owner: { id: string } }) => (
+          <div className="d-flex">
+            {/* eslint-disable-next-line react/destructuring-assignment */}
+            <Address address={params.owner.id} ensProvider={mainnetProvider} />
+          </div>
+        ),
+      },
+      {
+        title: 'Traits',
+        key: 'traits',
+        dataIndex: 'traits',
+        render: (traits: Character['traits']) =>
+          Object.entries(traits)
+            .map(([key, value]) => (key !== '__typename' ? `${key}: ${value} \n` : ''))
+            .toString(),
+      },
+    ],
+    [mainnetProvider],
+  );
 
   const [character, setCharacter] = useState([1, 0, 0, 0, 0]);
   const [head, setHead] = useState([0, 0, 0]);
@@ -120,7 +130,7 @@ function Subgraph(): JSX.Element {
 
   return (
     <>
-      <div style={{ margin: 'auto', marginTop: 32 }}>
+      <div style={{ margin: 'auto', paddingTop: 32 }}>
         You will find that parsing/tracking events with the{' '}
         {/* @ts-expect-error ts-migrate(2322) FIXME: Type '{ marginLeft: number; marginRight: number; p... Remove this comment to see the full error message */}
         <span className="highlight" style={highlight}>
@@ -245,7 +255,7 @@ function Subgraph(): JSX.Element {
           </Typography>
         )}
 
-        <div style={{ margin: 32, height: 400, border: '1px solid #888888', textAlign: 'left' }}>
+        <div style={{ margin: '32px 0', height: 600, border: '1px solid #888888', textAlign: 'left' }}>
           <GraphiQL fetcher={graphQLFetcher} docExplorerOpen query={CHARACTERS_QUERY} />
         </div>
       </div>

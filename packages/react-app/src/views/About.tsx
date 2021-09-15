@@ -26,6 +26,7 @@ import Doge from 'assets/images/characters/doge.png';
 import Frog from 'assets/images/characters/frog.png';
 import Cat from 'assets/images/characters/cat.png';
 import Alien from 'assets/images/characters/alien.png';
+import Unknown from 'assets/images/characters/unknown.png';
 
 const { Title } = Typography;
 
@@ -41,47 +42,84 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
           </span>
         </Title>
         <p>
-          Welcome to the Nifty League! Our mission is to create an interactive and community-governed NFT gaming
-          platform. Nifty League prides itself on being one of the first platforms offering competitive games utilizing
-          customizable characters and tradable in-game assets.
+          Welcome to the Nifty League! Our mission is to create a leading NFT gaming platform through community
+          governance and development. Nifty League prides itself on being one of the first GameFi platforms offering
+          interactive play-to-earn games with customizable characters; not just another pfp drop...{' '}
+          <span role="img" aria-label="upside-down face emoji">
+            🙃
+          </span>
         </p>
         <div className="d-flex justify-content-around align-items-center pixelated">
-          <Image width="65%" src={NiftyLeagueStory} preview={false} />
+          <Image width={isWidthDown('md', width, false) ? '100%' : '65%'} src={NiftyLeagueStory} preview={false} />
         </div>
         <br />
         <p>
           Users design, mint, and play as their personal character(s) to compete and earn rewards within our community
-          including our ecosystem's token; <strong>NFTL</strong>. Purchasing an Ethereum character not only provides you
-          with <strong>NFTL</strong> tokens, but unlocks multiplayer modes within our games granting you admission to
-          public tournaments. We strive to make our games highly competitive and packed full of nostalgia from the
-          halcyon days of retro gaming! At launch we’ll release our first game{' '}
+          including our ecosystem's token; <strong>NFTL</strong>. Purchasing an Ethereum <strong>DEGEN</strong> not only
+          provides you with <strong>NFTL</strong> tokens, but unlocks multiplayer modes within our games granting you
+          admission to public tournaments.
+        </p>
+        <p>
+          Our team strives to make our games highly competitive and packed full of nostalgia from the halcyon days of
+          retro gaming! At launch we’ll release our first game{' '}
           <strong>
             <Link to="/games">Nifty Smashers</Link>
           </strong>
-          ; an NFT brawler where you battle it out with your friends and the crypto community! Going forward we have
-          several game options that we’ll develop based on community input.
+          ; an NFT brawler for you to battle it out with your friends and the crypto community! Going forward we have
+          several game options that we’ll develop based on community input, but our platform’s growth can be limitless
+          with the support of community devs (more info below).
         </p>
-        <Title level={3}>Nifty DAO</Title>
+        <Title level={3}>
+          Nifty DAO{' '}
+          <span role="img" aria-label="classical building emoji">
+            🏛️
+          </span>
+        </Title>
         <p>
           We will gradually be transferring ownership of the Nifty League to our DAO in order to decentralize the
-          platform and encourage devs to help us build! <strong>NFTL</strong> is our native governance token which
-          provides voting rights and other other utilities (more info <a href="about#nftl">below</a>). Our treasury
-          assets are held within a Polygon gnosis multi-sig wallet which will be used to handle distributions to future
-          project contributors as well as tournaments and other activities. We plan on migrating everything over to
-          Arbitrum once their Gnosis integration is complete to benefit from true decentralization going forward. We are
-          actively looking for notable members of our community to join our DAO board of members and help control the
-          multi-sig wallet so get in touch if you think you would be a good fit!
+          platform and encourage devs to help us build! Our vision is power rapid growth and development through
+          community contributions enabling us to build a gaming platform like no other. Simply put, DAOs are the future.
+          We see only one route to becoming the world's leading GameFi platform and that’s by building together.{' '}
+          <span role="img" aria-label="purple heart emoji">
+            💜
+          </span>
         </p>
-        <Title level={2}>Characters</Title>
+        <p>
+          <strong>NFTL</strong> is our native governance token which provides voting rights and other other utilities
+          (more info <a href="about#nftl">below</a>). Our DAO's treasury assets are held within a Gnosis multi-sig
+          wallet which will be used to handle distributions to future project contributors as well as tournaments and
+          other activities. We plan on migrating everything over to <strong>Arbitrum</strong> once their Gnosis
+          integration is complete to benefit from lower fees going forward.
+        </p>
+        <p>
+          <strong>
+            We are actively looking for notable members of our community to join our DAO board of directors and help
+            control the multi-sig wallet so get in touch if you think you would be a good fit!
+          </strong>
+        </p>
+        <Title level={3}>
+          Community Developers{' '}
+          <span role="img" aria-label="technologist emoji">
+            🧑‍💻
+          </span>
+        </Title>
+        <p>
+          Our goal is to expand this platform with as many fun and exciting games as possible and that is only possible
+          with the help of our community. We encourage developers to create games utilizing our characters which - if
+          selected - will go live on our platform, and in return developers will be rewarded from the{' '}
+          <strong>Nifty DAO</strong> for their contributions. Get creative and send us your ideas! If your game shows
+          promise and viability we’d love to share it with the community.
+        </p>
+        <Title level={2}>DEGENS</Title>
         <Title level={3}>Overview</Title>
         <p>
           There will be a max supply of <strong>10,000</strong> genesis <strong>DEGENS</strong> minted on Ethereum
-          mainnet, <strong>9,952</strong> of which are hand-created by members of our community based on available
-          traits and accessories. The initial 3 slots are reserved for our core team members to mint their personal{' '}
-          <strong>DEGENS</strong> and be able to join in our games. As soon as the 3rd <strong>DEGEN</strong> is minted
-          the public offering will officially start! The final <strong>45</strong> spots are set aside to mint special{' '}
-          <strong>DEGENS</strong> that will be given away for free as future community incentives from the{' '}
-          <strong>Nifty DAO</strong>!
+          mainnet, <strong>9,897</strong> of which are hand-created by members of our community based on available
+          traits and accessories. The initial <strong>3</strong> slots are reserved for our core team members to mint
+          their personal <strong>DEGENS</strong> and be able to join in on our games. As soon as the{' '}
+          <strong>3rd DEGEN</strong> is minted the public offering will officially start! The final <strong>100</strong>{' '}
+          spots are set aside to mint special <strong>DEGENS</strong> that will be given away for free as future
+          community incentives from the <strong>Nifty DAO</strong>!
         </p>
         <Title level={3}>Future Character Sales</Title>
         <p>
@@ -110,11 +148,17 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
           <img src={Frog} alt="Frog" width={32} />
           <img src={Cat} alt="Cat" width={38} style={{ marginTop: -3 }} />
           <img src={Alien} alt="Alien" width={32} />
+          <img src={Unknown} alt="Unknown" width={25} />
         </Title>
         <p>
-          The first step in designing your own <strong>DEGEN</strong> is deciding on 1 of the 6 tribes available which
-          include apes, humans, dogs, frogs, cats, and aliens. This decision not only affects available character traits
-          and accessories, but determines certain in-game mechanics and special moves. During the sale you can check our{' '}
+          The first step in designing your own <strong>DEGEN</strong> is deciding on 1 of the{' '}
+          <strong>6 available tribes</strong> which include apes, humans, dogs, frogs, cats, and aliens (does not
+          include our special tribe reserved for tournament awards{' '}
+          <span role="img" aria-label="zipper-mouth emoji">
+            🤐
+          </span>
+          ). This decision not only affects available character traits and accessories, but determines certain in-game
+          mechanics and special moves. During the sale you can check our{' '}
           <Link to="/degens">
             <strong>DEGENS</strong> page
           </Link>{' '}
@@ -176,12 +220,11 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
             </a>
           </strong>{' '}
           server to get access to random <strong>NFTL</strong> tips! We're always watching and keeping track of users
-          who provide the most value to our community.{' '}
-          <span role="img" aria-label="winky-face emoji">
-            😉
-          </span>{' '}
-          Help us onboard new members by answering questions or sharing advice and you may find even more tips coming
-          your way!
+          who provide the most value to our community. Help us onboard new members by answering questions or sharing
+          advice and you may find even more tips coming your way!{' '}
+          <span role="img" aria-label="raised hands emoji">
+            🙌
+          </span>
         </p>
         <Title level={3}>
           Tournaments{' '}
@@ -215,16 +258,24 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
           Battle it out amongst the community and get in as many <em>bat bonks</em>{' '}
           <span role="img" aria-label="baguette emoji">
             🥖
-          </span>{' '}
+          </span>
           on your friends as you can! <strong>Nifty Smashers</strong> takes inspiration from the classic Super Smash
           Bros game where the objective is to knock your opponents off the map to score points. In order to play you'll
           need a <strong>DEGEN</strong> to select for battle, and then use your keyboard, Playstation or Xbox controller
           as input (couch multiplayer works too!). From the game lobby you'll be able to select from any of your
           previously minted <strong>DEGENs</strong> you own in your wallet to show off your cool creations! Each tribe
           has a unique special move so experiment with different tribes and find the moveset that suits your playstyle
-          best. As noted, this is a beta release of our initial game so lag and issues with pesky bots are to be
-          expected. Our immediate plan is to continue development on <strong>Nifty Smashers</strong> and to introduce
-          more features such as additional combo moves and a progression system. Hop in our{' '}
+          best. Hold down the attack button for a charged-up bat attack, some special moves can also be charged. When
+          you bonk another player, they’re worth 1 point. The more they’re successively bonked, the faster they bounce
+          around and the more points they’re worth. Land the final mega-bonk to hit them off the map and claim all the
+          points!
+        </p>
+        <p>
+          <strong>
+            As noted, this is a beta release of our initial game so lag and issues with pesky bots are to be expected.
+          </strong>{' '}
+          Our immediate plan is to continue development on <strong>Nifty Smashers</strong> and to introduce more
+          features such as additional combo moves and a progression system. Hop in our{' '}
           <strong>
             <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/4bmTHYWjhe">
               Discord
@@ -262,27 +313,14 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
         </p>
         <div className="d-flex align-items-center flex-wrap" style={{ justifyContent: 'space-evenly' }}>
           <Image.PreviewGroup>
-            <Image width={isWidthDown('md', width, false) ? '49%' : '32%'} src={TennisSketch} />
-            <Image width={isWidthDown('md', width, false) ? '49%' : '32%'} src={ShreddersSketch} />
-            <Image width={isWidthDown('md', width, false) ? '49%' : '32%'} src={SmashSketch} />
-            <Image width={isWidthDown('md', width, false) ? '49%' : '32%'} src={NiftyRacersSketch} />
-            <Image width={isWidthDown('md', width, false) ? '49%' : '32%'} src={GamesSketch} />
+            <Image className="p-2" width={isWidthDown('md', width, false) ? '50%' : '33%'} src={TennisSketch} />
+            <Image className="p-2" width={isWidthDown('md', width, false) ? '50%' : '33%'} src={ShreddersSketch} />
+            <Image className="p-2" width={isWidthDown('md', width, false) ? '50%' : '33%'} src={SmashSketch} />
+            <Image className="p-2" width={isWidthDown('md', width, false) ? '50%' : '33%'} src={NiftyRacersSketch} />
+            <Image className="p-2" width={isWidthDown('md', width, false) ? '50%' : '33%'} src={GamesSketch} />
           </Image.PreviewGroup>
         </div>
         <br />
-        <Title level={3}>
-          Community Developers{' '}
-          <span role="img" aria-label="technologist emoji">
-            🧑‍💻
-          </span>
-        </Title>
-        <p>
-          Our goal is to expand this platform with as many fun and exciting games as possible and that is only possible
-          with the help of our community. We encourage developers to create games utilizing our characters which - if
-          selected - will go live on our platform, and in return developers will be rewarded from the{' '}
-          <strong>Nifty DAO</strong> for their contributions. Get creative and send us your ideas! If your game shows
-          promise and viability we’d love to share it with the community.
-        </p>
         <span id="nftl" />
         <Title level={2}>
           NFTL Token <img src={NFTL} alt="NFTL logo" width={32} style={{ marginTop: -4 }} />
@@ -367,7 +405,7 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
         <p>
           Any remaining future emissions will either be for daily in-game rewards or funding for the{' '}
           <strong>Nifty DAO</strong>. We will grant the <strong>Nifty DAO</strong> the ability to mint up to{' '}
-          <strong>330M NFTL</strong> over the first year after we get a minimum of <strong>10 signers</strong>{' '}
+          <strong>330M NFTL</strong> over the first year after we get a minimum of <strong>7 signers</strong>{' '}
           controlling the multi-sig wallet. We foresee most of these tokens going to community contributors as well as
           being used for competition rewards, but ultimately the DAO will make that decision when the time comes.
         </p>

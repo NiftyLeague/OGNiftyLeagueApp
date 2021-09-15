@@ -64,8 +64,8 @@ export function handleTransfer(event: Transfer): void {
     traits.belt = traitList.belt;
     traits.hat = traitList.hat;
     traits.eyewear = traitList.eyewear;
-    traits.piercings = traitList.piercings;
-    traits.wrists = traitList.wrists;
+    traits.piercing = traitList.piercing;
+    traits.wrist = traitList.wrist;
     traits.hands = traitList.hands;
     traits.neckwear = traitList.neckwear;
     traits.leftItem = traitList.leftItem;
