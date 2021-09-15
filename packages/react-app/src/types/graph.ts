@@ -22,8 +22,8 @@ export interface Character {
     belt: number;
     hat: number;
     eyewear: number;
-    piercings: number;
-    wrists: number;
+    piercing: number;
+    wrist: number;
     hands: number;
     neckwear: number;
     leftItem: number;
@@ -72,7 +72,7 @@ export interface TraitMap {
   belt: number;
   hat: number;
   eyewear: number;
-  piercings: number;
+  piercing: number;
   wrists: number;
   hands: number;
   neckwear: number;

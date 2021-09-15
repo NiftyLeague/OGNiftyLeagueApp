@@ -31,8 +31,8 @@ export const OWNER_QUERY = gql`
           belt
           hat
           eyewear
-          piercings
-          wrists
+          piercing
+          wrist
           hands
           neckwear
           leftItem

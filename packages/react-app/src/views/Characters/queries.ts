@@ -28,8 +28,8 @@ export const DEFAULT_QUERY = gql`
         belt
         hat
         eyewear
-        piercings
-        wrists
+        piercing
+        wrist
         hands
         neckwear
         leftItem
@@ -64,8 +64,8 @@ export const ID_SEARCH_QUERY = gql`
         belt
         hat
         eyewear
-        piercings
-        wrists
+        piercing
+        wrist
         hands
         neckwear
         leftItem
@@ -100,8 +100,8 @@ export const NAME_SEARCH_QUERY = gql`
         belt
         hat
         eyewear
-        piercings
-        wrists
+        piercing
+        wrist
         hands
         neckwear
         leftItem
@@ -155,8 +155,8 @@ export const FILTER_SEARCH_QUERY = gql`
         belt_in: $belts
         hat_in: $hats
         eyewear_in: $eyewear
-        piercings_in: $piercings
-        wrists_in: $wrists
+        piercing_in: $piercings
+        wrist_in: $wrists
         hands_in: $hands
         neckwear_in: $neckwear
         leftItem_in: $leftItems
@@ -187,8 +187,8 @@ export const FILTER_SEARCH_QUERY = gql`
           belt
           hat
           eyewear
-          piercings
-          wrists
+          piercing
+          wrist
           hands
           neckwear
           leftItem

@@ -303,8 +303,8 @@ export class NiftyLeagueCharacter extends BaseContract {
           belt: number;
           hat: number;
           eyewear: number;
-          piercings: number;
-          wrists: number;
+          piercing: number;
+          wrist: number;
           hands: number;
           neckwear: number;
           leftItem: number;
@@ -351,8 +351,8 @@ export class NiftyLeagueCharacter extends BaseContract {
           belt: number;
           hat: number;
           eyewear: number;
-          piercings: number;
-          wrists: number;
+          piercing: number;
+          wrist: number;
           hands: number;
           neckwear: number;
           leftItem: number;
@@ -509,8 +509,8 @@ export class NiftyLeagueCharacter extends BaseContract {
       belt: number;
       hat: number;
       eyewear: number;
-      piercings: number;
-      wrists: number;
+      piercing: number;
+      wrist: number;
       hands: number;
       neckwear: number;
       leftItem: number;
@@ -660,8 +660,8 @@ export class NiftyLeagueCharacter extends BaseContract {
         belt: number;
         hat: number;
         eyewear: number;
-        piercings: number;
-        wrists: number;
+        piercing: number;
+        wrist: number;
         hands: number;
         neckwear: number;
         leftItem: number;
