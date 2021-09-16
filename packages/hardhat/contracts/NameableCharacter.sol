@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "./NiftyLeagueCharacter.sol";
 
 interface INFTL is IERC20 {
-    function burn(uint256 burnQuantity) external returns (bool);
+    function burnFrom(address account, uint256 amount) external;
 }
 
 /**
@@ -48,13 +48,12 @@ abstract contract NameableCharacter is NiftyLeagueCharacter {
         require(validateName(newName), "Name is not allowed");
         require(!isNameReserved(newName), "Name already reserved");
 
-        INFTL(_nftlAddress).transferFrom(_msgSender(), address(this), NAME_CHANGE_PRICE);
+        INFTL(_nftlAddress).burnFrom(_msgSender(), NAME_CHANGE_PRICE);
         if (bytes(_characters[tokenId].name).length > 0) {
             _toggleReserveName(_characters[tokenId].name, false);
         }
         _toggleReserveName(newName, true);
         _characters[tokenId].name = newName;
-        INFTL(_nftlAddress).burn(NAME_CHANGE_PRICE);
         emit NameUpdated(tokenId, prevName, newName);
         return newName;
     }
