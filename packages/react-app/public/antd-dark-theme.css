@@ -1485,14 +1485,6 @@ html {
 .ant-menu-horizontal > .ant-menu-submenu .ant-menu-submenu-title:hover {
   background-color: transparent;
 }
-.ant-menu-item-selected,
-.ant-menu-item-selected a,
-.ant-menu-item-selected a:hover {
-  color: #2caad9;
-}
-.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
-  background-color: #1e2b31;
-}
 .ant-menu-vertical-right {
   border-left: 1px solid #424242;
 }
@@ -1853,10 +1845,6 @@ html {
 .ant-progress-steps-item-active {
   background: #197fde;
 }
-.ant-progress-small.ant-progress-line,
-.ant-progress-small.ant-progress-line .ant-progress-text .anticon {
-  font-size: 14px;
-}
 .ant-progress-outer {
   display: inline-block;
   width: 100%;
@@ -1866,15 +1854,6 @@ html {
 .ant-progress-show-info .ant-progress-outer {
   margin-right: calc(-2em - 8px);
   padding-right: calc(2em + 8px);
-}
-.ant-progress-inner {
-  position: relative;
-  display: inline-block;
-  width: 100%;
-  overflow: hidden;
-  vertical-align: middle;
-  background-color: rgba(255, 255, 255, 0.08);
-  border-radius: 100px;
 }
 .ant-progress-circle-trail {
   stroke: rgba(255, 255, 255, 0.08);
@@ -1899,21 +1878,6 @@ html {
   top: 0;
   left: 0;
   background-color: #4bac1b;
-}
-.ant-progress-text {
-  display: inline-block;
-  width: 2em;
-  margin-left: 8px;
-  color: rgba(255, 255, 255, 0.45);
-  font-size: 1em;
-  line-height: 1;
-  white-space: nowrap;
-  text-align: left;
-  vertical-align: middle;
-  word-break: normal;
-}
-.ant-progress-text .anticon {
-  font-size: 16px;
 }
 .ant-progress-status-active .ant-progress-bg::before {
   position: absolute;

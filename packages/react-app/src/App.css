@@ -100,7 +100,9 @@ a:active {
   margin: 0 auto 1.75em;
 }
 
-/* Antd Global Fixes */
+/* =================
+   Antd Global Fixes 
+   ================= */
 
 .ant-btn {
   line-height: 0;
@@ -109,6 +111,30 @@ a:active {
 .ant-layout {
   background: transparent;
 }
+
+.ant-switch-checked {
+  background-color: #620edf;
+}
+
+/* Progress Bar */
+.ant-progress-inner {
+  background-color: rgba(145, 137, 137, 0.08);
+}
+.ant-progress-text {
+  color: #5e627e;
+}
+.ant-progress-text .anticon {
+  font-size: 16px;
+}
+.ant-progress-outer {
+  vertical-align: middle;
+}
+.ant-progress-small.ant-progress-line,
+.ant-progress-small.ant-progress-line .ant-progress-text .anticon {
+  font-size: 14px;
+}
+
+/* Alerts */
 
 .ant-alert-message {
   font-size: 18px !important;
@@ -125,6 +151,8 @@ a:active {
     font-size: 18px !important;
   }
 }
+
+/* Navbar */
 
 .ant-menu-horizontal {
   white-space: nowrap;
@@ -161,4 +189,22 @@ a:active {
 .ant-menu-horizontal > .ant-menu-item-selected::after,
 .ant-menu-horizontal > .ant-menu-submenu-selected::after {
   border-bottom: none !important;
+}
+
+/* Sidebar */
+
+.ant-menu-inline,
+.ant-menu-vertical,
+.ant-menu-vertical-left {
+  border-right: none;
+}
+
+.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+  background-color: #5e72eb30;
+}
+
+.ant-menu-item-selected,
+.ant-menu-item-selected a,
+.ant-menu-item-selected a:hover {
+  color: #5e72eb;
 }
