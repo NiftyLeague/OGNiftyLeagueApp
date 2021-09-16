@@ -30,7 +30,7 @@ import ShareCharacter from './ShareCharacter';
 import { TRAIT_NAME_MAP, TRAIT_VALUE_MAP } from '../constants/characters';
 
 export const useStyles = makeStyles(theme => ({
-  cardRoot: { borderRadius: 30, background: '-webkit-linear-gradient(89deg, #620edf 0%, #5e72eb 100%)' },
+  cardRoot: { borderRadius: 30, background: '-webkit-linear-gradient(89deg, #620edf 75%, #5e72eb 100%)' },
   expand: {
     transform: 'rotate(0deg)',
     marginLeft: 'auto',
@@ -77,6 +77,12 @@ const CharacterCard = ({ character, ownerOwned }: { character: Character; ownerO
 
   const displayName = name || 'No Name Degen';
 
+  const tokenIdNum = parseInt(tokenId, 10);
+  let fontSize = '1.25rem';
+  if (tokenIdNum === 10000) fontSize = '.8rem';
+  if (tokenIdNum >= 1000) fontSize = '.85rem';
+  else if (tokenIdNum >= 100) fontSize = '1rem';
+
   return (
     <>
       <Card className={classes.cardRoot}>
@@ -84,7 +90,9 @@ const CharacterCard = ({ character, ownerOwned }: { character: Character; ownerO
           classes={{ title: classes.cardTitle, subheader: classes.cardSubheader, avatar: classes.avatar }}
           avatar={
             <Link to={`degens/${tokenId}`}>
-              <Avatar aria-label="Character ID">{tokenId}</Avatar>
+              <Avatar aria-label="Character ID" style={{ width: 45, height: 45, fontSize }}>
+                {tokenIdNum}
+              </Avatar>
             </Link>
           }
           title={
