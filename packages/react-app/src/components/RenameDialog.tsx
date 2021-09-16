@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useState } from 'react';
-import { constants } from 'ethers';
+import { utils } from 'ethers';
 import {
   Button,
   Dialog,
@@ -10,6 +10,7 @@ import {
   TextField,
 } from '@material-ui/core';
 import { NetworkContext } from 'NetworkProvider';
+import { submitTxWithGasEstimate } from 'helpers/Notifier';
 import { DEBUG, NFT_CONTRACT, NFTL_CONTRACT } from '../constants';
 
 const RenameDialog = ({
@@ -55,19 +56,21 @@ const RenameDialog = ({
 
   const handleRename = useCallback(async () => {
     const hasError = validateName(input);
-    if (!hasError && writeContracts) {
+    if (!hasError && writeContracts && writeContracts[NFT_CONTRACT] && writeContracts[NFTL_CONTRACT]) {
       handleClose();
       if (DEBUG) console.log('Rename NFT to:', input);
-      const NFTAddress = writeContracts[NFT_CONTRACT].address;
+      const degen = writeContracts[NFT_CONTRACT];
+      const DEGENAddress = degen.address;
+      const nftl = writeContracts[NFTL_CONTRACT];
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,  @typescript-eslint/no-unsafe-call
-      const allowance = await writeContracts[NFTL_CONTRACT].allowance(address, NFTAddress);
+      const allowance = await nftl.allowance(address, DEGENAddress);
       if (allowance < 1000) {
-        if (DEBUG) console.log('Allowance:', allowance);
+        if (DEBUG) console.log('Current allowance too low:', allowance);
         // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-        const result = await tx(writeContracts[NFTL_CONTRACT].approve(NFTAddress, constants.MaxUint256));
+        await tx(nftl.increaseAllowance(DEGENAddress, utils.parseEther('1000')));
       }
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      await tx(writeContracts[NFT_CONTRACT].changeName(parseInt(tokenId, 10), input));
+      const args = [parseInt(tokenId, 10), input];
+      await submitTxWithGasEstimate(tx, degen, 'changeName', args);
     }
   }, [address, handleClose, input, tokenId, tx, writeContracts]);
 

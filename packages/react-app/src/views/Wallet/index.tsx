@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useMemo, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useQuery } from '@apollo/client';
 import { Button } from 'antd';
 import { makeStyles } from '@material-ui/core/styles';
@@ -22,16 +22,22 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const ClaimNFTL = ({ tokenIndices }) => {
-  const { tx, writeContracts } = useContext(NetworkContext);
   const classes = useStyles();
+  const { tx, writeContracts } = useContext(NetworkContext);
+  const [mockAccumulated, setMockAccumulated] = useState(0);
   const [refreshKey, setRefreshKey] = useState(0);
   const totalAccumulated = useClaimableNFTL(writeContracts, tokenIndices, refreshKey);
+
+  useEffect(() => {
+    if (totalAccumulated) setMockAccumulated(totalAccumulated);
+  }, [totalAccumulated]);
 
   const handleClaimNFTL = useCallback(async () => {
     if (DEBUG) console.log('claim', tokenIndices, totalAccumulated);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    const result = await tx(writeContracts[NFTL_CONTRACT].claim(tokenIndices));
-    setRefreshKey(Math.random() + 1);
+    await tx(writeContracts[NFTL_CONTRACT].claim(tokenIndices));
+    setMockAccumulated(0);
+    setTimeout(() => setRefreshKey(Math.random() + 1), 5000);
   }, [tokenIndices, totalAccumulated, tx, writeContracts]);
 
   const btnStyles = {
@@ -43,14 +49,14 @@ const ClaimNFTL = ({ tokenIndices }) => {
     borderColor: '#6f6c6c',
   };
 
-  return totalAccumulated ? (
+  return mockAccumulated ? (
     <div className={classes.claimContainer}>
-      {totalAccumulated.toLocaleString(undefined, {
+      {mockAccumulated.toLocaleString(undefined, {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
       })}{' '}
       NFTL Claimable
-      {totalAccumulated > 0.0 && writeContracts[NFTL_CONTRACT] && (
+      {mockAccumulated > 0.0 && writeContracts[NFTL_CONTRACT] && (
         <Button style={btnStyles} shape="round" size="large" onClick={handleClaimNFTL}>
           Claim
         </Button>
