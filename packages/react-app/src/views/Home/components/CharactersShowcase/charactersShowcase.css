@@ -183,7 +183,7 @@
   }
   .parallax-row:nth-of-type(2) .parallax-child-section .image-container img,
   .parallax-row:nth-of-type(6) .parallax-child-section .image-container img {
-    height: 95%;
-    max-width: 130%;
+    height: 92%;
+    max-width: 135%;
   }
 }
