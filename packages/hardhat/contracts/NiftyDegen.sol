@@ -33,6 +33,9 @@ contract NiftyDegen is NameableCharacter {
     /// @dev Set if we want to override semi-fomo ramp pricing
     uint256 private _manualMintPrice;
 
+    /// @dev Base URI used for token metadata
+    string private _baseTokenUri = "";
+
     /**
      * @notice Construct the Nifty League NFTs
      * @param nftlAddress Address of verified Nifty League NFTL contract
@@ -105,6 +108,14 @@ contract NiftyDegen is NameableCharacter {
         _manualMintPrice = newPrice;
     }
 
+    /**
+     * @notice Option to set _baseUri for transfering Heroku to IPFS
+     * @param baseURI New base URI for NFT metadata
+     */
+    function setBaseURI(string memory baseURI) public onlyOwner {
+        _baseTokenUri = baseURI;
+    }
+
     // Public functions
 
     /**
@@ -121,12 +132,12 @@ contract NiftyDegen is NameableCharacter {
         if (currentSupply < 3 || currentSupply >= 9900) return 0;
         // fallback option to override price floors only if necessary. Minimum value of 0.08 ETH
         if (_manualMintPrice >= 80000000000000000) return _manualMintPrice;
-        if (currentSupply >= 9500) return 400000000000000000; // 9500 - 9900 0.4 ETH
-        if (currentSupply >= 8500) return 340000000000000000; // 8501 - 9500 0.34 ETH
-        if (currentSupply >= 6500) return 280000000000000000; // 6501 - 8500 0.28 ETH
-        if (currentSupply >= 4500) return 220000000000000000; // 4501 - 6500 0.22 ETH
-        if (currentSupply >= 2500) return 160000000000000000; // 2501 - 4500 0.16 ETH
-        if (currentSupply >= 1000) return 120000000000000000; // 1001 - 2500 0.12 ETH
+        if (currentSupply >= 9500) return 280000000000000000; // 9500 - 9900 0.28 ETH
+        if (currentSupply >= 8500) return 240000000000000000; // 8501 - 9500 0.24 ETH
+        if (currentSupply >= 6500) return 200000000000000000; // 6501 - 8500 0.20 ETH
+        if (currentSupply >= 4500) return 160000000000000000; // 4501 - 6500 0.16 ETH
+        if (currentSupply >= 2500) return 120000000000000000; // 2501 - 4500 0.12 ETH
+        if (currentSupply >= 1000) return 100000000000000000; // 1001 - 2500 0.10 ETH
         return 80000000000000000; // 6 - 1000 0.08 ETH
     }
 
@@ -151,7 +162,7 @@ contract NiftyDegen is NameableCharacter {
      * @return Base token URI linked to IPFS metadata
      */
     function _baseURI() internal view virtual override returns (string memory) {
-        return "https://nifty-league.com/ipfs/metadata/degens";
+        return _baseTokenUri;
     }
 
     // Private functions

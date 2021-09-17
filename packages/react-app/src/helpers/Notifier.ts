@@ -53,7 +53,7 @@ export const submitTxWithGasEstimate = (
   fn: string,
   args: unknown[],
   config = {},
-  extraGasNeeded = false,
+  minimumGas?: BigNumber,
   callback?: NotifyCallback,
 ): Promise<BigNumber | any> => {
   return contract.estimateGas[fn](...args, config)
@@ -61,7 +61,7 @@ export const submitTxWithGasEstimate = (
       return tx(
         (contract[fn] as ContractFunction)(...args, {
           ...config,
-          gasLimit: calculateGasMargin(estimatedGasLimit, extraGasNeeded),
+          gasLimit: calculateGasMargin(estimatedGasLimit, minimumGas),
         }),
         callback,
       );

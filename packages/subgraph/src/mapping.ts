@@ -84,8 +84,8 @@ export function handleTransfer(event: Transfer): void {
   contractEntity.removedTraits = contract.getRemovedTraits();
 
   newOwner.save();
-  traits.save();
-  character.save();
+  if (traits !== null) traits.save();
+  if (character !== null) character.save();
   contractEntity.save();
 }
 
@@ -100,9 +100,12 @@ export function handleCharacterNameChange(event: NameUpdated): void {
   ]);
 
   let character = Character.load(tokenId);
-  character.name = newName;
+  if (character !== null) character.name = newName;
   let nameHistory = character.nameHistory || [];
-  if (previousName.length) nameHistory.push(previousName);
-  character.nameHistory = nameHistory;
-  character.save();
+  if (previousName.length && nameHistory !== null)
+    nameHistory.push(previousName);
+  if (character !== null) {
+    character.nameHistory = nameHistory;
+    character.save();
+  }
 }
