@@ -256,11 +256,16 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
           </span>
         </Title>
         <p>
-          Get ready to brawl! The local-multiplayer beta version of{' '}
+          Get ready to brawl! The local-multiplayer version of{' '}
           <strong>
             <Link to="/games">Nifty Smashers</Link>
           </strong>{' '}
-          will be available at launch followed by the online multiplayer!
+          will be available at launch followed by the online multiplayer! So grab a few controllers
+          <span role="img" aria-label="controller emoji">
+            {' '}
+            🎮{' '}
+          </span>
+          and play with friends.
         </p>
         <p>
           Battle it out amongst the community and get in as many <em>bat bonks</em>{' '}
@@ -292,10 +297,53 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
           to provide feedback and ideas on how we can improve <strong>Nifty Smashers</strong> and take it to the next
           level!
         </p>
-        <div className="col-md-8 col-lg-6 d-flex align-self-center">
+        <div className="col-md-8 col-lg-6 d-flex align-self-center" style={{ margin: '20px 25%' }}>
           <NiftySmashersVideo />
         </div>
         <br />
+        <Title level={3}>
+          Online Multiplayer Lag{' '}
+          <span role="img" aria-label="cloud emoji">
+            ☁️
+          </span>
+        </Title>
+        <p>
+          As we are getting ready to launch the online multiplayer in a few weeks, let's talk about lag in fast-paced
+          and snappy brawler games like <strong>Nifty Smashers</strong>.
+        </p>
+        <p>
+          Generally speaking, lag is always present whenever there is physical distance between the players on the
+          internet. The greater the distance, the greater the lag. There are different techniques {'&'} tricks that
+          developers use to compensate and hide the lag. We have implemented a number of these lag compensation
+          techniques that veil the lag for the best experience possible. We have also incorporated solutions with
+          servers all around the world so that we can match players closest to each other to minimize the lag as much as
+          possible.
+        </p>
+        <p>
+          Nonetheless, considering the level of responsiveness fast-paced brawlers require{' '}
+          <span role="img" aria-label="cloud emoji">
+            ⚡
+          </span>
+          , we are expecting some lag when we launch the online multiplayer.
+        </p>
+        <p>
+          We are excited to share our progress with you as soon as possible. Following the launch, with your feedback,
+          we will do everything in our power to make the lag as unnoticeable as possible.
+        </p>
+        <p>
+          If you are interested in learning more about these techniques, here is a great read by Gabriel Gambetta about
+          <strong>
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://www.gabrielgambetta.com/client-side-prediction-server-reconciliation.html"
+            >
+              {' '}
+              Lag Compensation
+            </a>
+          </strong>
+          .
+        </p>
         <Title level={3}>
           Future Game Ideas{' '}
           <span role="img" aria-label="light bulb emoji">
