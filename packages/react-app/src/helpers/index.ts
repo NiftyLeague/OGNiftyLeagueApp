@@ -50,9 +50,12 @@ export const shortenAddress = (address: string, chars = 4): string => {
   return `${parsed.substring(0, chars + 2)}...${parsed.substring(42 - chars)}`;
 };
 
-// add 10% margin, set double to true for 20% on complex calls
-export const calculateGasMargin = (value: BigNumber, double = false): BigNumber => {
-  if (double) return value.mul(BigNumber.from(10000).add(BigNumber.from(2000))).div(BigNumber.from(10000));
+// add 10% margin, set minimumGas for greater of 20% margin or minumum on complex calls
+export const calculateGasMargin = (value: BigNumber, minimumGas?: BigNumber): BigNumber => {
+  if (minimumGas) {
+    const calculatedWithMargin = value.mul(BigNumber.from(10000).add(BigNumber.from(2000))).div(BigNumber.from(10000));
+    return calculatedWithMargin < minimumGas ? minimumGas : calculatedWithMargin;
+  }
   return value.mul(BigNumber.from(10000).add(BigNumber.from(1000))).div(BigNumber.from(10000));
 };
 

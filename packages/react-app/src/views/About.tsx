@@ -134,14 +134,20 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
           ). Another option is to monitor demand and make a decision whether to expand to another EVM-compatible
           blockchain to onboard new users and enable cross-chain gaming. This may also become a requirement if we
           introduce games which require frequent user transactions. If so, <strong>50%</strong> of all proceeds from
-          future character sales will be sent to the <strong>Nifty DAO</strong> and current Ethereum{' '}
-          <strong>DEGEN</strong> holders should expect a free NFT on the new blockchain. It is important to note that
-          the unique trait combinations from our genesis <strong>DEGENS</strong> will never be mintable again and any
-          new generation of characters will either be designed with a unique twist on the original tribes, or completely
-          new tribes and traits altogether. While all Nifty League NFTs will have the chance to earn daily rewards by
-          playing our games and contributing to the community, only Ethereum <strong>DEGEN</strong> holders will earn
-          daily <strong>NFTL</strong> tokens for the <strong>first 3 years</strong> as described in our token emissions{' '}
-          <a href="about#emissions">below</a>.
+          future character sales will be sent to the <strong>Nifty DAO</strong> with the remainder going to our team for
+          putting the infrastructure in place and preparing new contracts and characters for the new blockchain(s). and
+          current Ethereum <strong>DEGEN</strong> holders should expect a free NFT on the new blockchain(s).
+        </p>
+        <p>
+          It is important to note that the unique trait combinations from our genesis <strong>DEGENS</strong> will{' '}
+          <strong>
+            <em>never</em>
+          </strong>{' '}
+          be mintable again and any new generation of characters will either be designed with a unique twist on the
+          original tribes, or completely new tribes and traits altogether. While all Nifty League NFTs will have the
+          chance to earn daily rewards by playing our games and contributing to the community, only Ethereum{' '}
+          <strong>DEGEN</strong> holders will earn daily <strong>NFTL</strong> tokens for the{' '}
+          <strong>first 3 years</strong> as described in our token emissions <a href="about#emissions">below</a>.
         </p>
         <Title level={3}>
           Tribes <img src={Ape} alt="ape" width={32} />

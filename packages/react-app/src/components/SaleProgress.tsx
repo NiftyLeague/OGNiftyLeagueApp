@@ -166,12 +166,12 @@ const SaleProgress = memo(({ className, handleClose, smallScreen }: ProgressProp
               </div>
               <div className="row d-flex flex-nowrap">
                 <div className={classes.col1}>0.08</div>
-                <div className={classes.col2}>0.12</div>
-                <div className={classes.col3}>0.16</div>
-                <div className={classes.col4}>0.22</div>
-                <div className={classes.col5}>0.28</div>
-                <div className={classes.col6}>0.34</div>
-                <div className={classes.col7}>0.4</div>
+                <div className={classes.col2}>0.1</div>
+                <div className={classes.col3}>0.12</div>
+                <div className={classes.col4}>0.16</div>
+                <div className={classes.col5}>0.2</div>
+                <div className={classes.col6}>0.24</div>
+                <div className={classes.col7}>0.28</div>
               </div>
             </div>
           </div>
