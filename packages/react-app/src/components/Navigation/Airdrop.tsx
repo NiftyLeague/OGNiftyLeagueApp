@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from 'antd';
 import MuiButton from '@material-ui/core/Button';
+import Checkbox from '@material-ui/core/Checkbox';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -55,9 +56,14 @@ function ClaimDialog({
 }): JSX.Element {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const [checked, setChecked] = useState(false);
   const { claimCallback } = useClaimCallback();
 
   const onClose = () => setDialogOpen(false);
+
+  const handleToggleChecked = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked(event.target.checked);
+  };
 
   const handleClaim = async () => {
     await claimCallback();
@@ -75,9 +81,19 @@ function ClaimDialog({
           </Link>
           !
         </DialogContentText>
+        <DialogContentText>
+          <Checkbox
+            checked={checked}
+            color="primary"
+            inputProps={{ 'aria-label': 'primary checkbox' }}
+            onChange={handleToggleChecked}
+            style={{ marginTop: -3 }}
+          />
+          Please accept our <Link to="/terms-of-service">Terms of Service</Link> before claiming.
+        </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <MuiButton onClick={handleClaim} color="primary" autoFocus>
+        <MuiButton onClick={handleClaim} color="primary" autoFocus disabled={!checked}>
           Claim
         </MuiButton>
       </DialogActions>
