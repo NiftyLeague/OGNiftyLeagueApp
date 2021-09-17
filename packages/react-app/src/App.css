@@ -17,6 +17,19 @@
   width: 300px !important;
 }
 
+:root {
+  --linear-color-theme: {
+    background: -webkit-linear-gradient(to left, #5e72eb, #620edf);
+    background: -moz-linear-gradient(to left, #5e72eb, #620edf);
+    background: -ms-linear-gradient(to left, #5e72eb, #620edf);
+    background: -o-linear-gradient(to left, #5e72eb, #620edf);
+    background: -webkit-gradient(linear, right top, left top, from(#5e72eb), to(#620edf));
+    background: -webkit-linear-gradient(right, #5e72eb, #620edf);
+    background: -o-linear-gradient(right, #5e72eb, #620edf);
+    background: linear-gradient(to left, #5e72eb, #620edf);
+  }
+}
+
 /* Typography */
 
 html,
@@ -86,6 +99,20 @@ a:active {
 
 /* Util Classes */
 
+.colorPrimary {
+  background-color: #3f51b5;
+}
+
+.colorLinear {
+  background: -moz-linear-gradient(89deg, #620edf 0%, #5e72eb 100%);
+  background: -ms-linear-gradient(89deg, #620edf 0%, #5e72eb 100%);
+  background: -o-linear-gradient(89deg, #620edf 0%, #5e72eb 100%);
+  background: -webkit-linear-gradient(right, #5e72eb, #620edf);
+  background: -o-linear-gradient(right, #5e72eb, #620edf);
+  background: linear-gradient(89deg, #620edf 0%, #5e72eb 100%);
+  background: -webkit-linear-gradient(89deg, #620edf 0%, #5e72eb 100%);
+}
+
 .alignleft {
   float: left;
 }
@@ -100,7 +127,9 @@ a:active {
   margin: 0 auto 1.75em;
 }
 
-/* Antd Global Fixes */
+/* =================
+   Antd Global Fixes 
+   ================= */
 
 .ant-btn {
   line-height: 0;
@@ -109,6 +138,30 @@ a:active {
 .ant-layout {
   background: transparent;
 }
+
+.ant-switch-checked {
+  background-color: #3f51b5;
+}
+
+/* Progress Bar */
+.ant-progress-inner {
+  background-color: rgba(145, 137, 137, 0.08);
+}
+.ant-progress-text {
+  color: #5e627e;
+}
+.ant-progress-text .anticon {
+  font-size: 16px;
+}
+.ant-progress-outer {
+  vertical-align: middle;
+}
+.ant-progress-small.ant-progress-line,
+.ant-progress-small.ant-progress-line .ant-progress-text .anticon {
+  font-size: 14px;
+}
+
+/* Alerts */
 
 .ant-alert-message {
   font-size: 18px !important;
@@ -125,6 +178,8 @@ a:active {
     font-size: 18px !important;
   }
 }
+
+/* Navbar */
 
 .ant-menu-horizontal {
   white-space: nowrap;
@@ -161,4 +216,22 @@ a:active {
 .ant-menu-horizontal > .ant-menu-item-selected::after,
 .ant-menu-horizontal > .ant-menu-submenu-selected::after {
   border-bottom: none !important;
+}
+
+/* Sidebar */
+
+.ant-menu-inline,
+.ant-menu-vertical,
+.ant-menu-vertical-left {
+  border-right: none;
+}
+
+.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+  background-color: #5e72eb30;
+}
+
+.ant-menu-item-selected,
+.ant-menu-item-selected a,
+.ant-menu-item-selected a:hover {
+  color: #5e72eb;
 }

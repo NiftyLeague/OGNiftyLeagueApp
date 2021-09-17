@@ -17,7 +17,7 @@ const NiftySmashersVideo = (): JSX.Element => {
         channel="youtube"
         autoplay
         isOpen={isVideoOpen}
-        videoId="Ji78ea2FAHc"
+        videoId="L-0b3yTVA2k"
         onClose={() => setVideoOpen(false)}
       />
     </div>
