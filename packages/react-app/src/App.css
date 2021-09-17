@@ -17,6 +17,19 @@
   width: 300px !important;
 }
 
+:root {
+  --linear-color-theme: {
+    background: -webkit-linear-gradient(to left, #5e72eb, #620edf);
+    background: -moz-linear-gradient(to left, #5e72eb, #620edf);
+    background: -ms-linear-gradient(to left, #5e72eb, #620edf);
+    background: -o-linear-gradient(to left, #5e72eb, #620edf);
+    background: -webkit-gradient(linear, right top, left top, from(#5e72eb), to(#620edf));
+    background: -webkit-linear-gradient(right, #5e72eb, #620edf);
+    background: -o-linear-gradient(right, #5e72eb, #620edf);
+    background: linear-gradient(to left, #5e72eb, #620edf);
+  }
+}
+
 /* Typography */
 
 html,
@@ -86,6 +99,20 @@ a:active {
 
 /* Util Classes */
 
+.colorPrimary {
+  background-color: #3f51b5;
+}
+
+.colorLinear {
+  background: -moz-linear-gradient(89deg, #620edf 0%, #5e72eb 100%);
+  background: -ms-linear-gradient(89deg, #620edf 0%, #5e72eb 100%);
+  background: -o-linear-gradient(89deg, #620edf 0%, #5e72eb 100%);
+  background: -webkit-linear-gradient(right, #5e72eb, #620edf);
+  background: -o-linear-gradient(right, #5e72eb, #620edf);
+  background: linear-gradient(89deg, #620edf 0%, #5e72eb 100%);
+  background: -webkit-linear-gradient(89deg, #620edf 0%, #5e72eb 100%);
+}
+
 .alignleft {
   float: left;
 }
@@ -113,7 +140,7 @@ a:active {
 }
 
 .ant-switch-checked {
-  background-color: #620edf;
+  background-color: #3f51b5;
 }
 
 /* Progress Bar */

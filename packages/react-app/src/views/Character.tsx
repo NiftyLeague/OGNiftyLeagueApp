@@ -21,7 +21,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import withWidth, { isWidthDown } from '@material-ui/core/withWidth';
 
 import { NetworkContext } from 'NetworkProvider';
-import { Address, OpenSeaLink, RenameDialog, ShareCharacter, Tooltip } from 'components';
+import { Address, Tooltip } from 'components';
+import OpenSeaLink from 'components/CharacterCard/OpenSeaLink';
+import RenameDialog from 'components/CharacterCard/RenameDialog';
+import ShareCharacter from 'components/CharacterCard/ShareCharacter';
 import { ResolveImageURL } from 'helpers/ipfs';
 import UnavailableImg from 'assets/images/unavailable-image.jpeg';
 import { TRAIT_INDEXES, TRAIT_NAME_MAP, TRAIT_VALUE_MAP } from '../constants/characters';
