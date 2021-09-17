@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/media-has-caption */
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {
@@ -20,7 +21,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import withWidth, { isWidthDown } from '@material-ui/core/withWidth';
 
 import { NetworkContext } from 'NetworkProvider';
-import { Address, OpenSeaLink, RenameDialog, ShareCharacter, Tooltip } from 'components';
+import { Address, Tooltip } from 'components';
+import OpenSeaLink from 'components/CharacterCard/OpenSeaLink';
+import RenameDialog from 'components/CharacterCard/RenameDialog';
+import ShareCharacter from 'components/CharacterCard/ShareCharacter';
 import { ResolveImageURL } from 'helpers/ipfs';
 import UnavailableImg from 'assets/images/unavailable-image.jpeg';
 import { TRAIT_INDEXES, TRAIT_NAME_MAP, TRAIT_VALUE_MAP } from '../constants/characters';
@@ -99,11 +103,15 @@ const Character = ({ width }) => {
 
   return (
     <Container className={classes.container}>
-      <Image
-        style={{ borderRadius: 30 }}
-        width={isWidthDown('sm', width) ? '100%' : '40%'}
-        src={image ?? UnavailableImg}
-      />
+      {image?.endsWith('mp4') ? (
+        <video src={image} title="Legendary Degen" width={isWidthDown('sm', width) ? '100%' : '40%'} autoPlay loop />
+      ) : (
+        <Image
+          style={{ borderRadius: 30 }}
+          width={isWidthDown('sm', width) ? '100%' : '40%'}
+          src={image ?? UnavailableImg}
+        />
+      )}
       <Card className={classes.cardRoot} style={{ width: isWidthDown('sm', width) ? '100%' : '58%' }}>
         <CardHeader
           classes={{ title: classes.cardTitle, avatar: classes.avatar }}

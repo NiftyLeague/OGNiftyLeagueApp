@@ -1,5 +1,5 @@
-import React, { useCallback, useContext, useState } from 'react';
-import { constants } from 'ethers';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { BigNumber, BigNumberish, utils } from 'ethers';
 import {
   Button,
   Dialog,
@@ -10,7 +10,9 @@ import {
   TextField,
 } from '@material-ui/core';
 import { NetworkContext } from 'NetworkProvider';
-import { DEBUG, NFT_CONTRACT, NFTL_CONTRACT } from '../constants';
+import { submitTxWithGasEstimate } from 'helpers/Notifier';
+import RenameStepper from './RenameStepper';
+import { DEBUG, NFT_CONTRACT, NFTL_CONTRACT } from '../../constants';
 
 const RenameDialog = ({
   displayName,
@@ -27,6 +29,22 @@ const RenameDialog = ({
   const [input, setInput] = useState('');
   const [error, setError] = useState(false);
   const [helperText, setHelperText] = useState('');
+  const [allowance, setAllowance] = useState<BigNumberish>(BigNumber.from('0'));
+  const [renameSuccess, setRenameSuccess] = useState(false);
+  const insufficientAllowance = allowance < 1000;
+
+  useEffect(() => {
+    const getAllowance = async () => {
+      const degen = writeContracts[NFT_CONTRACT];
+      const DEGENAddress = degen.address;
+      const nftl = writeContracts[NFTL_CONTRACT];
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      const allowanceBN = (await nftl.allowance(address, DEGENAddress)) as BigNumberish;
+      setAllowance(allowanceBN);
+    };
+    setRenameSuccess(false);
+    if (open && writeContracts && writeContracts[NFTL_CONTRACT] && writeContracts[NFT_CONTRACT]) void getAllowance();
+  }, [address, open, writeContracts]);
 
   const handleClose = useCallback(() => setOpen(false), [setOpen]);
 
@@ -55,21 +73,26 @@ const RenameDialog = ({
 
   const handleRename = useCallback(async () => {
     const hasError = validateName(input);
-    if (!hasError && writeContracts) {
-      handleClose();
+    if (!hasError && writeContracts && writeContracts[NFT_CONTRACT] && writeContracts[NFTL_CONTRACT]) {
       if (DEBUG) console.log('Rename NFT to:', input);
-      const NFTAddress = writeContracts[NFT_CONTRACT].address;
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,  @typescript-eslint/no-unsafe-call
-      const allowance = await writeContracts[NFTL_CONTRACT].allowance(address, NFTAddress);
-      if (allowance < 1000) {
-        if (DEBUG) console.log('Allowance:', allowance);
+      const degen = writeContracts[NFT_CONTRACT];
+      const nftl = writeContracts[NFTL_CONTRACT];
+      if (insufficientAllowance) {
+        if (DEBUG) console.log('Current allowance too low');
+        const DEGENAddress = degen.address;
         // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-        const result = await tx(writeContracts[NFTL_CONTRACT].approve(NFTAddress, constants.MaxUint256));
+        await tx(nftl.increaseAllowance(DEGENAddress, utils.parseEther('1000')));
+        setAllowance(BigNumber.from('1000'));
       }
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      await tx(writeContracts[NFT_CONTRACT].changeName(parseInt(tokenId, 10), input));
+      const args = [parseInt(tokenId, 10), input];
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      const result = await submitTxWithGasEstimate(tx, degen, 'changeName', args);
+      if (result) {
+        setRenameSuccess(true);
+        setTimeout(handleClose, 2000);
+      }
     }
-  }, [address, handleClose, input, tokenId, tx, writeContracts]);
+  }, [handleClose, input, insufficientAllowance, setAllowance, tokenId, tx, writeContracts]);
 
   return (
     <Dialog open={open} onClose={handleClose} aria-labelledby="rename-form-dialog">
@@ -91,12 +114,11 @@ const RenameDialog = ({
           onChange={({ target: { value } }) => validateName(value)}
           value={input}
         />
+        <RenameStepper insufficientAllowance={insufficientAllowance} renameSuccess={renameSuccess} />
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose} color="primary">
-          Cancel
-        </Button>
-        <Button onClick={handleRename} color="primary" disabled={error}>
+        <Button onClick={handleClose}>Cancel</Button>
+        <Button onClick={handleRename} color="primary" variant="contained" disabled={error}>
           Rename
         </Button>
       </DialogActions>
