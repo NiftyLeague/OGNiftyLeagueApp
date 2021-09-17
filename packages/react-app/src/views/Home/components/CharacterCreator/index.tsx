@@ -287,7 +287,7 @@ const CharacterCreatorContainer = memo(
         const args = [character, head, clothing, accessories, items];
         // eslint-disable-next-line @typescript-eslint/no-unsafe-call
         const value = (await nftContract.getNFTPrice()) as BigNumber;
-        const extraGasNeeded = true;
+        const minimumGas = BigNumber.from('250000');
         if (isSafari) setPromptMetaMask(true);
         if (isMobileOnly || isSafari) {
           setTimeout(() => {
@@ -299,15 +299,7 @@ const CharacterCreatorContainer = memo(
           if (mintTx.status === 'pending') e.detail.callback('true');
         };
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        const res = await submitTxWithGasEstimate(
-          tx,
-          nftContract,
-          'purchase',
-          args,
-          { value },
-          extraGasNeeded,
-          txCallback,
-        );
+        const res = await submitTxWithGasEstimate(tx, nftContract, 'purchase', args, { value }, minimumGas, txCallback);
         if (!res) e.detail.callback('false');
       },
       [writeContracts, tx],
