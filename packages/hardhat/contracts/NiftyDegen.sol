@@ -33,6 +33,9 @@ contract NiftyDegen is NameableCharacter {
     /// @dev Set if we want to override semi-fomo ramp pricing
     uint256 private _manualMintPrice;
 
+    /// @dev Base URI used for token metadata
+    string private _baseTokenUri = "";
+
     /**
      * @notice Construct the Nifty League NFTs
      * @param nftlAddress Address of verified Nifty League NFTL contract
@@ -105,6 +108,14 @@ contract NiftyDegen is NameableCharacter {
         _manualMintPrice = newPrice;
     }
 
+    /**
+     * @notice Option to set _baseUri for transfering Heroku to IPFS
+     * @param baseURI New base URI for NFT metadata
+     */
+    function setBaseURI(string memory baseURI) public onlyOwner {
+        _baseTokenUri = baseURI;
+    }
+
     // Public functions
 
     /**
@@ -151,7 +162,7 @@ contract NiftyDegen is NameableCharacter {
      * @return Base token URI linked to IPFS metadata
      */
     function _baseURI() internal view virtual override returns (string memory) {
-        return "https://nifty-league.com/ipfs/metadata/degens";
+        return _baseTokenUri;
     }
 
     // Private functions
