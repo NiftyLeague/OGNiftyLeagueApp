@@ -32,6 +32,7 @@ const main = async () => {
   const nftlToken = await deploy('NFTLToken', [emissionStartTimestamp]);
   const degen = await deploy('NiftyDegen', [nftlToken.address, storage.address]);
   await nftlToken.setNFTAddress(degen.address);
+  await degen.setBaseURI('https://nifty-league.herokuapp.com/api/degen/');
   await degen.initPoolSizes();
 
   // Timelock team allocation
