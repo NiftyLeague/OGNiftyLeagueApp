@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import Tooltip from 'components/Tooltip';
 import { NetworkContext } from 'NetworkProvider';
 import OpenSeaIcon from 'assets/images/opensea.png';
-import { NFT_CONTRACT } from '../constants';
+import { NFT_CONTRACT } from '../../constants';
 
 export default function OpenSeaLink({ tokenId }: { tokenId: string | number }): JSX.Element {
   const { readContracts } = useContext(NetworkContext);

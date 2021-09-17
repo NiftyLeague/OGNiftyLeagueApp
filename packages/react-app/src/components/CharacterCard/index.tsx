@@ -27,7 +27,7 @@ import { Character } from 'types/graph';
 import RenameDialog from './RenameDialog';
 import OpenSeaLink from './OpenSeaLink';
 import ShareCharacter from './ShareCharacter';
-import { TRAIT_NAME_MAP, TRAIT_VALUE_MAP } from '../constants/characters';
+import { TRAIT_NAME_MAP, TRAIT_VALUE_MAP } from '../../constants/characters';
 
 export const useStyles = makeStyles(theme => ({
   cardRoot: { borderRadius: 30, background: '-webkit-linear-gradient(89deg, #620edf 75%, #5e72eb 100%)' },
