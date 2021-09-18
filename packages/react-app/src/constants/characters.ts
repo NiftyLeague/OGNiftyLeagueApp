@@ -1,3 +1,6 @@
+export const DEGEN_BASE_API_URL = 'https://api.nifty-league.com';
+export const DEGEN_BASE_IMAGE_URL = `${DEGEN_BASE_API_URL}/images`;
+
 export const TRAIT_INDEXES = {
   0: 'tribe',
   1: 'skinColor',
