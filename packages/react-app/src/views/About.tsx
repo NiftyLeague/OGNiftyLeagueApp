@@ -297,8 +297,10 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
           to provide feedback and ideas on how we can improve <strong>Nifty Smashers</strong> and take it to the next
           level!
         </p>
-        <div className="col-md-8 col-lg-6 d-flex align-self-center" style={{ margin: '20px 25%' }}>
-          <NiftySmashersVideo />
+        <div style={{ width: '100%', minWidth: '100%' }}>
+          <div className="col-md-8 col-lg-6 d-flex align-self-center" style={{ margin: 'auto' }}>
+            <NiftySmashersVideo />
+          </div>
         </div>
         <br />
         <Title level={3}>
@@ -313,7 +315,7 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
         </p>
         <p>
           Generally speaking, lag is always present whenever there is physical distance between the players on the
-          internet. The greater the distance, the greater the lag. There are different techniques {'&'} tricks that
+          internet. The greater the distance, the greater the lag. There are different techniques & tricks that
           developers use to compensate and hide the lag. We have implemented a number of these lag compensation
           techniques that veil the lag for the best experience possible. We have also incorporated solutions with
           servers all around the world so that we can match players closest to each other to minimize the lag as much as
