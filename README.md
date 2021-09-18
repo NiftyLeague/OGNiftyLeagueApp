@@ -48,28 +48,6 @@ yarn deploy-and-graph-local
 
 ---
 
-If you wish to turn on the image and metadata generator:
-
-> if there's no local ipfs repo at `$HOME/.ipfs`, initialize one:
-
-```bash
-npx go-ipfs init
-```
-
-> run local ipfs daemon
-
-```bash
-npx go-ipfs daemon
-```
-
-> in a fifth terminal window, run our NFT task runner
-
-```bash
-yarn nft-task-runner
-```
-
----
-
 🔏 Edit your smart contracts in `packages/hardhat/contracts`
 
 📝 Edit your frontend in `packages/react-app/src`
