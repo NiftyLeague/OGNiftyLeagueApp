@@ -64,7 +64,7 @@ export default function Preloader({ ready, progress }: { ready: boolean; progres
         strokeColor="#a3ff12"
         style={{ width: 160, marginLeft: 32 }}
       />
-      {isMobileOnly && milliseconds > 12000 ? 'For a better experience try us out on desktop!' : null}
+      {isMobileOnly && milliseconds > 12000 ? 'For the best experience try us out on desktop!' : null}
     </div>
   );
 }
