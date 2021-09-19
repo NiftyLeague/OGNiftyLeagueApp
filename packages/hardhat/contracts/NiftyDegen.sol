@@ -134,7 +134,7 @@ contract NiftyDegen is NameableCharacter {
         if (currentSupply >= 4500) return 160000000000000000; // 4501 - 6500 0.16 ETH
         if (currentSupply >= 2500) return 120000000000000000; // 2501 - 4500 0.12 ETH
         if (currentSupply >= 1000) return 100000000000000000; // 1001 - 2500 0.10 ETH
-        return 80000000000000000; // 6 - 1000 0.08 ETH
+        return 80000000000000000; // 4 - 1000 0.08 ETH
     }
 
     /**
