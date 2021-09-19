@@ -65,9 +65,9 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
           <strong>
             <Link to="/games">Nifty Smashers</Link>
           </strong>
-          ; an NFT brawler for you to battle it out with your friends and the crypto community! Going forward we have
-          several game options that we’ll develop based on community input, but our platform’s growth can be limitless
-          with the support of community devs (more info below).
+          ; an NFT brawler for you to battle it out with your friends and <em>Crypto Twitter</em>! We have several
+          upcoming game options that we’ll develop based on community input but ultimately hope to see our platform’s
+          growth reach limits unseen with the support of community devs (more info below).
         </p>
         <Title level={3}>
           Nifty DAO{' '}
@@ -313,7 +313,7 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
         </p>
         <p>
           Generally speaking, lag is always present whenever there is physical distance between the players on the
-          internet. The greater the distance, the greater the lag. There are different techniques {'&'} tricks that
+          internet. The greater the distance, the greater the lag. There are different techniques &amp; tricks that
           developers use to compensate and hide the lag. We have implemented a number of these lag compensation
           techniques that veil the lag for the best experience possible. We have also incorporated solutions with
           servers all around the world so that we can match players closest to each other to minimize the lag as much as

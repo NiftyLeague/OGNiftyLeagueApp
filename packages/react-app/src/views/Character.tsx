@@ -15,19 +15,20 @@ import {
   Typography,
 } from '@material-ui/core';
 import { Image } from 'antd';
+import Skeleton from '@material-ui/lab/Skeleton';
 import EditIcon from '@material-ui/icons/Edit';
-
 import { makeStyles } from '@material-ui/core/styles';
 import withWidth, { isWidthDown } from '@material-ui/core/withWidth';
+import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 
 import { NetworkContext } from 'NetworkProvider';
 import { Address, Tooltip } from 'components';
 import OpenSeaLink from 'components/CharacterCard/OpenSeaLink';
 import RenameDialog from 'components/CharacterCard/RenameDialog';
 import ShareCharacter from 'components/CharacterCard/ShareCharacter';
-import { ResolveImageURL } from 'helpers/ipfs';
+import useRarity from 'hooks/useRarity';
 import UnavailableImg from 'assets/images/unavailable-image.jpeg';
-import { TRAIT_INDEXES, TRAIT_NAME_MAP, TRAIT_VALUE_MAP } from '../constants/characters';
+import { DEGEN_BASE_IMAGE_URL, TRAIT_INDEXES, TRAIT_NAME_MAP, TRAIT_VALUE_MAP } from '../constants/characters';
 import { NFT_CONTRACT } from '../constants';
 
 export const useStyles = makeStyles({
@@ -58,7 +59,45 @@ export const useStyles = makeStyles({
   actionButtons: { color: '#fff', borderRadius: '50%', '&:focus': { outline: 'none' } },
 });
 
-const Character = ({ width }) => {
+const DegenImage = ({
+  network = 'rinkeby',
+  tokenId,
+  width,
+}: {
+  network?: string;
+  tokenId: string;
+  width: Breakpoint;
+}) => {
+  const [loading, error, rarity] = useRarity(tokenId);
+  const size = isWidthDown('sm', width) ? '100%' : '40%';
+  if (error) return <Image style={{ borderRadius: 30 }} width={size} src={UnavailableImg} />;
+  if (loading)
+    return (
+      <Skeleton variant="rect" width="100%">
+        <div style={{ width: size }} />
+      </Skeleton>
+    );
+
+  const imageURL = `${DEGEN_BASE_IMAGE_URL}/${network}/${tokenId}`;
+  if (rarity === 'Legendary')
+    return (
+      <video
+        src={`${imageURL}.mp4`}
+        title="Legendary Degen"
+        width={isWidthDown('sm', width) ? '100%' : '40%'}
+        autoPlay
+        loop
+      />
+    );
+
+  return (
+    <Image style={{ borderRadius: 30 }} width={isWidthDown('sm', width) ? '100%' : '40%'} src={`${imageURL}.png`} />
+  );
+};
+
+DegenImage.defaultProps = { network: 'rinkeby' };
+
+const Character = ({ width }: { width: Breakpoint }) => {
   const { address, readContracts, targetNetwork, mainnetProvider } = useContext(NetworkContext);
   const classes = useStyles();
   const { tokenId } = useParams<{ tokenId: string }>();
@@ -86,15 +125,7 @@ const Character = ({ width }) => {
     if (tokenId && readContracts && readContracts[NFT_CONTRACT]) void getCharacter();
   }, [tokenId, readContracts]);
 
-  useEffect(() => {
-    async function setImageURL() {
-      const ipfsImageURL = await ResolveImageURL(tokenId);
-      if (ipfsImageURL) setImage(ipfsImageURL);
-    }
-    void setImageURL();
-  }, [tokenId]);
-
-  const displayName = name || 'No Name Degen';
+  const displayName = name || 'No Name DEGEN';
   const ownerOwned = address === owner;
 
   const traits: { [traitType: string]: number } = traitList.reduce((acc, trait, i) => {
@@ -103,15 +134,7 @@ const Character = ({ width }) => {
 
   return (
     <Container className={classes.container}>
-      {image?.endsWith('mp4') ? (
-        <video src={image} title="Legendary Degen" width={isWidthDown('sm', width) ? '100%' : '40%'} autoPlay loop />
-      ) : (
-        <Image
-          style={{ borderRadius: 30 }}
-          width={isWidthDown('sm', width) ? '100%' : '40%'}
-          src={image ?? UnavailableImg}
-        />
-      )}
+      <DegenImage network={targetNetwork.name} tokenId={tokenId} width={width} />
       <Card className={classes.cardRoot} style={{ width: isWidthDown('sm', width) ? '100%' : '58%' }}>
         <CardHeader
           classes={{ title: classes.cardTitle, avatar: classes.avatar }}

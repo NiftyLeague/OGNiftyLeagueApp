@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import {
@@ -19,15 +19,16 @@ import EditIcon from '@material-ui/icons/Edit';
 import { makeStyles } from '@material-ui/core/styles';
 import Skeleton from '@material-ui/lab/Skeleton';
 
+import { NetworkContext } from 'NetworkProvider';
 import Tooltip from 'components/Tooltip';
 import UnavailableImg from 'assets/images/unavailable-image.jpeg';
 import { formatDateTime } from 'helpers/dateTime';
-import { ResolveImageURL } from 'helpers/ipfs';
+import useRarity from 'hooks/useRarity';
 import { Character } from 'types/graph';
 import RenameDialog from './RenameDialog';
 import OpenSeaLink from './OpenSeaLink';
 import ShareCharacter from './ShareCharacter';
-import { TRAIT_NAME_MAP, TRAIT_VALUE_MAP } from '../../constants/characters';
+import { DEGEN_BASE_IMAGE_URL, TRAIT_NAME_MAP, TRAIT_VALUE_MAP } from '../../constants/characters';
 
 export const useStyles = makeStyles(theme => ({
   cardRoot: { borderRadius: 30, background: '-webkit-linear-gradient(89deg, #620edf 75%, #5e72eb 100%)' },
@@ -54,28 +55,47 @@ export const useStyles = makeStyles(theme => ({
   traitListTextSecondary: { color: '#aaa0a0', fontSize: 14 },
 }));
 
+const DegenImage = ({ tokenId }: { tokenId: string }) => {
+  const classes = useStyles();
+  const { targetNetwork } = useContext(NetworkContext);
+  const [loading, error, rarity] = useRarity(tokenId);
+  if (error) return <CardMedia className={classes.media} title="Unavailable image" image={UnavailableImg} />;
+
+  if (loading)
+    return (
+      <Skeleton variant="rect" width="100%">
+        <div className={classes.media} />
+      </Skeleton>
+    );
+
+  const imageURL = `${DEGEN_BASE_IMAGE_URL}/${targetNetwork.name || 'rinkeby'}/${tokenId}`;
+  if (rarity === 'Legendary')
+    return (
+      <CardMedia
+        className={clsx(classes.media, 'pixelated')}
+        title="Legendary DEGEN mp4"
+        component="video"
+        autoPlay
+        loop
+        src={`${imageURL}.mp4`}
+      />
+    );
+
+  return <CardMedia className={clsx(classes.media, 'pixelated')} title="DEGEN image" image={`${imageURL}.png`} />;
+};
+
 const CharacterCard = ({ character, ownerOwned }: { character: Character; ownerOwned?: boolean }): JSX.Element => {
   const { createdAt, id: tokenId, name, traits } = character;
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
   const [image, setImage] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
-  useEffect(() => {
-    async function setImageURL() {
-      const ipfsImageURL = await ResolveImageURL(tokenId);
-      setLoading(false);
-      if (ipfsImageURL) setImage(ipfsImageURL);
-    }
-    if (tokenId) void setImageURL();
-  }, [tokenId]);
-
-  const displayName = name || 'No Name Degen';
+  const displayName = name || 'No Name DEGEN';
 
   const tokenIdNum = parseInt(tokenId, 10);
   let fontSize = '1.25rem';
@@ -106,27 +126,7 @@ const CharacterCard = ({ character, ownerOwned }: { character: Character; ownerO
           subheader={`Created: ${formatDateTime(createdAt as unknown as number)}`}
         />
         <Link to={`degens/${tokenId}`}>
-          {loading ? (
-            <Skeleton variant="rect" width="100%">
-              <div className={classes.media} />
-            </Skeleton>
-          ) : (
-            <CardMedia
-              className={clsx(classes.media, { pixelated: image })}
-              {...(image?.endsWith('mp4')
-                ? {
-                    title: 'Legendary DEGEN mp4',
-                    component: 'video',
-                    autoPlay: true,
-                    loop: true,
-                    src: image,
-                  }
-                : {
-                    title: 'DEGEN image',
-                    image: image ?? UnavailableImg,
-                  })}
-            />
-          )}
+          <DegenImage tokenId={tokenId} />
         </Link>
         <CardActions disableSpacing>
           {ownerOwned && (
