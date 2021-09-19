@@ -7,20 +7,11 @@ export * from './tokens';
 
 export const DEPLOYER_ADDRESS = process.env.REACT_APP_DEPLOYER_ADDRESS as string;
 
-// MY INFURA_ID, SWAP IN YOURS FROM https://infura.io/dashboard/ethereum
-export const INFURA_ID = process.env.REACT_APP_INFURA_PROJECT_ID as string;
-
 // MY ALCHEMY_ID, SWAP IN YOURS FROM https://dashboard.alchemyapi.io/
 export const ALCHEMY_ID: { [key in ChainId]?: string } = {
   [ChainId.MAINNET]: process.env.REACT_APP_ALCHEMY_MAINNET_API as string,
   [ChainId.RINKEBY]: process.env.REACT_APP_ALCHEMY_RINKEBY_API as string,
 };
-
-// MY ETHERSCAN_ID, SWAP IN YOURS FROM https://etherscan.io/myapikey
-export const ETHERSCAN_KEY = process.env.REACT_APP_ETHERSCAN_KEY as string;
-
-// BLOCKNATIVE ID FOR Notify.js:
-export const BLOCKNATIVE_DAPPID = process.env.REACT_APP_BLOCKNATIVE_DAPPID as string;
 
 export const SUBGRAPH_URI = `${process.env.REACT_APP_SUBGRAPH_URI as string}${
   process.env.REACT_APP_SUBGRAPH_VERSION as string

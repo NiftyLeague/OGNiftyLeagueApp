@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { providers } from 'ethers';
 import BurnerProvider from 'burner-provider';
 import { Network, UserProvider } from 'types/web3';
-import { INFURA_ID, DEBUG, LOCAL_CHAIN_ID } from '../constants';
+import { DEBUG, LOCAL_CHAIN_ID } from '../constants';
 
 /*
   ~ What it does? ~
@@ -65,7 +65,9 @@ const useUserProvider = (
       return new providers.Web3Provider(new BurnerProvider(burnerConfig));
     }
     const networkName = localProvider._network?.name;
-    burnerConfig.rpcUrl = `https://${networkName || 'mainnet'}.infura.io/v3/${INFURA_ID}`;
+    burnerConfig.rpcUrl = `https://${networkName || 'mainnet'}.infura.io/v3/${
+      process.env.REACT_APP_INFURA_PROJECT_ID as string
+    }`;
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     return new providers.Web3Provider(new BurnerProvider(burnerConfig));
   }, [injectedProvider, localProvider, targetNetwork.chainId]);
