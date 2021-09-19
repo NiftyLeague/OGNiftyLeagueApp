@@ -62,10 +62,9 @@ contract NiftyDegen is NameableCharacter {
         uint256[6] memory clothing,
         uint256[6] memory accessories,
         uint256[2] memory items
-    ) external payable {
+    ) external payable whenNotPaused {
         uint256 currentSupply = totalSupply.current();
         require(currentSupply >= 3 || _msgSender() == owner(), "Sale has not started");
-        require(!paused(), "Purchases are paused");
         require(msg.value == getNFTPrice(), "Ether value incorrect");
         _validateTraits(character, head, clothing, accessories, items);
         uint256 traitCombo = _generateTraitCombo(character, head, clothing, accessories, items);
@@ -74,12 +73,9 @@ contract NiftyDegen is NameableCharacter {
 
     /**
      * @notice Set pool size for each trait index called on deploy
+     * @dev Unable to init mapping at declaration :/
      */
     function initPoolSizes() external onlyOwner {
-        _originalPoolSizes[1] = 60;
-        _originalPoolSizes[2] = 31;
-        _originalPoolSizes[3] = 9;
-        _originalPoolSizes[4] = 9;
         _originalPoolSizes[5] = 113;
         _originalPoolSizes[6] = 14;
         _originalPoolSizes[7] = 63;
@@ -128,7 +124,7 @@ contract NiftyDegen is NameableCharacter {
             currentSupply < MAX_SUPPLY - SPECIAL_CHARACTERS || (_msgSender() == owner() && currentSupply < MAX_SUPPLY),
             "Sale has already ended"
         );
-        // 1 - 3 free for core team members, 9001 - 10000 free special community giveaway characters
+        // 1 - 3 free for core team members, 9901 - 10000 free special community giveaway characters
         if (currentSupply < 3 || currentSupply >= 9900) return 0;
         // fallback option to override price floors only if necessary. Minimum value of 0.08 ETH
         if (_manualMintPrice >= 80000000000000000) return _manualMintPrice;
@@ -152,7 +148,7 @@ contract NiftyDegen is NameableCharacter {
         if (trait == EMPTY_TRAIT) return true;
         if (trait >= 150) return isAvailableTrait(trait);
         AllowedColorsStorage colorsStorage = AllowedColorsStorage(_storageAddress);
-        return isAvailableTrait(trait) && colorsStorage.isAllowedColor(tribe, trait);
+        return colorsStorage.isAllowedColor(tribe, trait);
     }
 
     // Internal functions
@@ -200,7 +196,7 @@ contract NiftyDegen is NameableCharacter {
         require(_isTraitInRange(acc[0], 707, 749), "Hat incorrect");
         require(_isTraitInRange(acc[1], 750, 799), "Eyewear incorrect");
         require(_isTraitInRange(acc[2], 800, 809), "Piercing incorrect");
-        require(_isTraitInRange(acc[3], 810, 821), "Wist accessory incorrect");
+        require(_isTraitInRange(acc[3], 810, 821), "Wrist accessory incorrect");
         require(_isTraitInRange(acc[4], 822, 846), "Hands accessory incorrect");
         require(_isTraitInRange(acc[5], 847, 883), "Neckwear incorrect");
         require(_isTraitInRange(items[0], 884, 975), "Left item incorrect");
@@ -249,32 +245,19 @@ contract NiftyDegen is NameableCharacter {
      * @notice Attempts to remove a random trait from availability
      * @param newCharId ID of newly generated NFT
      * @param traitCombo Trait combo provided from _generateTraitCombo
-     * @dev Any trait id besides 0 or tribe ids can be removed
+     * @dev Any trait id besides 0, tribe ids, or body/eye colors can be removed
      */
     function _removeRandomTrait(uint256 newCharId, uint256 traitCombo) private {
+        uint256 numRemoved = removedTraits.length;
         if (
-            (removedTraits.length < 200 && newCharId % 4 == 0) ||
-            (removedTraits.length < 400 && newCharId % 6 == 0) ||
-            (removedTraits.length < 600 && newCharId % 8 == 0) ||
-            (removedTraits.length < 800 && newCharId % 10 == 0)
+            (numRemoved < 100 && newCharId % 7 == 0) ||
+            (numRemoved >= 100 && numRemoved < 200 && newCharId % 9 == 0) ||
+            (numRemoved >= 200 && numRemoved < 300 && newCharId % 11 == 0) ||
+            (numRemoved >= 300 && numRemoved < 400 && newCharId % 13 == 0)
         ) {
             uint256 randomIndex = _rngIndex(newCharId);
             uint16 randomTrait = _unpackUint10(traitCombo >> (randomIndex * 10));
-            // Base character colors cannot be removed
-            if (
-                randomTrait != 0 &&
-                randomTrait != 10 &&
-                randomTrait != 22 &&
-                randomTrait != 29 &&
-                randomTrait != 37 &&
-                randomTrait != 48 &&
-                randomTrait != 59 &&
-                randomTrait != 70 &&
-                randomTrait != 82 &&
-                randomTrait != 90 &&
-                randomTrait != 101 &&
-                randomTrait != 110
-            ) {
+            if (randomTrait != 0) {
                 uint256 poolSize = _originalPoolSizes[randomIndex];
                 bool skip = _rngSkip(poolSize);
                 if (!skip) {
@@ -286,14 +269,14 @@ contract NiftyDegen is NameableCharacter {
     }
 
     /**
-     * @notice Simulate randomness for token index to attempt to remove
+     * @notice Simulate randomness for token index to attempt to remove excluding tribes and colors
      * @param tokenId ID of newly generated NFT
      * @dev Randomness can be anticipated and exploited but is not crucial to NFT sale
-     * @return Number from 1-21
+     * @return Number from 5-21
      */
     function _rngIndex(uint256 tokenId) private view returns (uint256) {
         uint256 randomHash = uint256(keccak256(abi.encodePacked(tokenId, block.timestamp, block.difficulty)));
-        return (randomHash % 21) + 1;
+        return (randomHash % 17) + 5;
     }
 
     /**
@@ -304,8 +287,8 @@ contract NiftyDegen is NameableCharacter {
      */
     function _rngSkip(uint256 poolSize) private view returns (bool) {
         uint256 randomHash = uint256(keccak256(abi.encodePacked(poolSize, block.timestamp, block.difficulty)));
-        int256 odds = 13 - int256(randomHash % 26);
-        return odds < int256(100 / poolSize);
+        int256 odds = 70 - int256(randomHash % 61);
+        return odds < int256(500 / poolSize);
     }
 
     /**

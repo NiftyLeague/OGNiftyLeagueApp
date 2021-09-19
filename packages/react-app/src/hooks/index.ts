@@ -18,6 +18,7 @@ export { default as useNetworkInfo } from './useNetworkInfo';
 export { default as useNFTPrice } from './useNFTPrice';
 export { default as useNonce } from './useNonce';
 export { default as usePolledFetch } from './usePolledFetch';
+export { default as useRarity } from './useRarity';
 export { default as useRemovedTraits } from './useRemovedTraits';
 export { default as useResolveName } from './useResolveName';
 export { default as useSingleCallResult } from './useSingleCallResult';
