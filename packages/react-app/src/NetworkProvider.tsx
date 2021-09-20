@@ -35,7 +35,7 @@ if (DEBUG) console.log('📡 Connecting to Mainnet Ethereum');
 const providerOptions = {
   infura: {
     projectId: process.env.REACT_APP_INFURA_PROJECT_ID,
-    projectSecret: process.env.REACT_APP_INFURA_SECRET || undefined,
+    projectSecret: process.env.REACT_APP_INFURA_SECRET,
   },
   etherscan: process.env.REACT_APP_ETHERSCAN_KEY,
   alchemy: ALCHEMY_ID[ChainId.MAINNET],
