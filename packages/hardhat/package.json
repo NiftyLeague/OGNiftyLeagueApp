@@ -19,6 +19,7 @@
     "ethereum-waffle": "^3.4.0",
     "ethereumjs-util": "^7.1.0",
     "ethereumjs-wallet": "^1.0.1",
+    "ethers": "^5.4.7",
     "hardhat": "^2.6.2",
     "node-watch": "^0.7.1",
     "qrcode-terminal": "^0.12.0",
