@@ -33,10 +33,7 @@ const targetNetwork = NETWORKS[process.env.REACT_APP_NETWORK as 'localhost' | 'r
 // 🛰 providers
 if (DEBUG) console.log('📡 Connecting to Mainnet Ethereum');
 const providerOptions = {
-  infura: {
-    projectId: process.env.REACT_APP_INFURA_PROJECT_ID,
-    projectSecret: process.env.REACT_APP_INFURA_SECRET,
-  },
+  infura: process.env.REACT_APP_INFURA_PROJECT_ID,
   etherscan: process.env.REACT_APP_ETHERSCAN_KEY,
   alchemy: ALCHEMY_ID[ChainId.MAINNET],
 };
