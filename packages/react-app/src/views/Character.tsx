@@ -78,7 +78,7 @@ const DegenImage = ({
       </Skeleton>
     );
 
-  const imageURL = `${DEGEN_BASE_IMAGE_URL}/${network}/${tokenId}`;
+  const imageURL = `${DEGEN_BASE_IMAGE_URL}/${network}/images/${tokenId}`;
   if (rarity === 'Legendary')
     return (
       <video
