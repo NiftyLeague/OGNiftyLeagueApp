@@ -68,7 +68,7 @@ const DegenImage = ({ tokenId }: { tokenId: string }) => {
       </Skeleton>
     );
 
-  const imageURL = `${DEGEN_BASE_IMAGE_URL}/${targetNetwork.name || 'rinkeby'}/${tokenId}`;
+  const imageURL = `${DEGEN_BASE_IMAGE_URL}/${targetNetwork.name || 'rinkeby'}/images/${tokenId}`;
   if (rarity === 'Legendary')
     return (
       <CardMedia
