@@ -27,7 +27,7 @@ import OpenSeaLink from 'components/CharacterCard/OpenSeaLink';
 import RenameDialog from 'components/CharacterCard/RenameDialog';
 import ShareCharacter from 'components/CharacterCard/ShareCharacter';
 import useRarity from 'hooks/useRarity';
-import UnavailableImg from 'assets/images/unavailable-image.jpeg';
+import UnavailableImg from 'assets/images/unavailable-image.png';
 import { DEGEN_BASE_IMAGE_URL, TRAIT_INDEXES, TRAIT_NAME_MAP, TRAIT_VALUE_MAP } from '../constants/characters';
 import { NFT_CONTRACT } from '../constants';
 
