@@ -315,7 +315,7 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
         </p>
         <p>
           Generally speaking, lag is always present whenever there is physical distance between the players on the
-          internet. The greater the distance, the greater the lag. There are different techniques & tricks that
+          internet. The greater the distance, the greater the lag. There are different techniques &amp; tricks that
           developers use to compensate and hide the lag. We have implemented a number of these lag compensation
           techniques that veil the lag for the best experience possible. We have also incorporated solutions with
           servers all around the world so that we can match players closest to each other to minimize the lag as much as
