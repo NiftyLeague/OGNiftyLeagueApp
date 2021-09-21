@@ -15,7 +15,6 @@ import {
   Typography,
 } from '@material-ui/core';
 import { Image } from 'antd';
-import Skeleton from '@material-ui/lab/Skeleton';
 import EditIcon from '@material-ui/icons/Edit';
 import { makeStyles } from '@material-ui/core/styles';
 import withWidth, { isWidthDown } from '@material-ui/core/withWidth';
@@ -28,6 +27,7 @@ import RenameDialog from 'components/CharacterCard/RenameDialog';
 import ShareCharacter from 'components/CharacterCard/ShareCharacter';
 import useRarity from 'hooks/useRarity';
 import UnavailableImg from 'assets/images/unavailable-image.png';
+import LoadingGif from 'assets/gifs/loading.gif';
 import { DEGEN_BASE_IMAGE_URL, TRAIT_INDEXES, TRAIT_NAME_MAP, TRAIT_VALUE_MAP } from '../constants/characters';
 import { NFT_CONTRACT } from '../constants';
 
@@ -49,6 +49,8 @@ export const useStyles = makeStyles({
     '& div': { marginLeft: '8px !important', color: '#fff' },
     '& a': { color: '#fff !important' },
   },
+  loadingContainer: { height: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'center' },
+  loading: { width: 100, height: 100 },
   traitsHeader: { color: '#fff', paddingLeft: 8 },
   cardContent: { padding: 0, paddingBottom: 0, color: '#fff' },
   traitList: { padding: 16, display: 'flex', flexWrap: 'wrap', flexDirection: 'row' },
@@ -68,14 +70,15 @@ const DegenImage = ({
   tokenId: string;
   width: Breakpoint;
 }) => {
+  const classes = useStyles();
   const [loading, error, rarity] = useRarity(tokenId);
   const size = isWidthDown('sm', width) ? '100%' : '40%';
   if (error) return <Image style={{ borderRadius: 30 }} width={size} src={UnavailableImg} />;
   if (loading)
     return (
-      <Skeleton variant="rect" width="100%">
-        <div style={{ width: size }} />
-      </Skeleton>
+      <div className={classes.loadingContainer} style={{ width: size }}>
+        <Image className={classes.loading} src={LoadingGif} />
+      </div>
     );
 
   const imageURL = `${DEGEN_BASE_IMAGE_URL}/${network}/images/${tokenId}`;
@@ -91,7 +94,12 @@ const DegenImage = ({
     );
 
   return (
-    <Image style={{ borderRadius: 30 }} width={isWidthDown('sm', width) ? '100%' : '40%'} src={`${imageURL}.png`} />
+    <Image
+      style={{ borderRadius: 30 }}
+      width={isWidthDown('sm', width) ? '100%' : '40%'}
+      height="auto"
+      src={`${imageURL}.png`}
+    />
   );
 };
 

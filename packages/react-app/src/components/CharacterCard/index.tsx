@@ -14,14 +14,15 @@ import {
   ListItem,
   ListItemText,
 } from '@material-ui/core';
+import { Image } from 'antd';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import EditIcon from '@material-ui/icons/Edit';
 import { makeStyles } from '@material-ui/core/styles';
-import Skeleton from '@material-ui/lab/Skeleton';
 
 import { NetworkContext } from 'NetworkProvider';
 import Tooltip from 'components/Tooltip';
 import UnavailableImg from 'assets/images/unavailable-image.png';
+import LoadingGif from 'assets/gifs/loading.gif';
 import { formatDateTime } from 'helpers/dateTime';
 import useRarity from 'hooks/useRarity';
 import { Character } from 'types/graph';
@@ -45,7 +46,8 @@ export const useStyles = makeStyles(theme => ({
   cardTitle: { display: 'flex', alignItems: 'center' },
   cardTitleLink: { fontSize: 18, marginRight: 6, color: '#fff', '&:hover': { color: '#fff' } },
   cardSubheader: { fontSize: 14, textAlign: 'left', color: '#ffffff66' },
-  media: { height: 338 },
+  media: { height: 338, display: 'flex', alignItems: 'center', justifyContent: 'center' },
+  loading: { width: 80, height: 80 },
   actionButtons: { color: '#fff', borderRadius: '50%', '&:focus': { outline: 'none' } },
   traitsHeader: { color: '#fff', paddingLeft: 8 },
   cardContent: { padding: 0, paddingBottom: 0 },
@@ -60,12 +62,11 @@ const DegenImage = ({ tokenId }: { tokenId: string }) => {
   const { targetNetwork } = useContext(NetworkContext);
   const [loading, error, rarity] = useRarity(tokenId);
   if (error) return <CardMedia className={classes.media} title="Unavailable image" image={UnavailableImg} />;
-
   if (loading)
     return (
-      <Skeleton variant="rect" width="100%">
-        <div className={classes.media} />
-      </Skeleton>
+      <div className={classes.media}>
+        <Image className={classes.loading} src={LoadingGif} />
+      </div>
     );
 
   const imageURL = `${DEGEN_BASE_IMAGE_URL}/${targetNetwork.name || 'rinkeby'}/images/${tokenId}`;
