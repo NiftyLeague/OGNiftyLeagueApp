@@ -21,7 +21,7 @@ import Skeleton from '@material-ui/lab/Skeleton';
 
 import { NetworkContext } from 'NetworkProvider';
 import Tooltip from 'components/Tooltip';
-import UnavailableImg from 'assets/images/unavailable-image.jpeg';
+import UnavailableImg from 'assets/images/unavailable-image.png';
 import { formatDateTime } from 'helpers/dateTime';
 import useRarity from 'hooks/useRarity';
 import { Character } from 'types/graph';
