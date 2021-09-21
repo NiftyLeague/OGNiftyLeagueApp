@@ -109,8 +109,9 @@ const Game = ({ unityContext }: { unityContext: UnityContext }) => {
         className="game-canvas"
         unityContext={unityContext}
         style={{
-          width: 1120,
-          height: 840,
+          width: 'calc(90vh * 1.33)',
+          height: '90vh',
+          marginTop: 5,
           visibility: isLoaded ? 'visible' : 'hidden',
         }}
       />
