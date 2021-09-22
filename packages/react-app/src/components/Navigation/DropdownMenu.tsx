@@ -16,6 +16,9 @@ const DropdownMenu = ({ hideNav, navItems }: { hideNav: boolean; navItems: () =>
   const menu = (
     <Menu style={{ padding: 10 }}>
       {hideNav && navItems()}
+      <Menu.Item key="contracts">
+        <Link to="/contracts">Verified Contracts</Link>
+      </Menu.Item>
       <Menu.Item key="discord">
         <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/4bmTHYWjhe">
           <IconFont type="icon-discord" />

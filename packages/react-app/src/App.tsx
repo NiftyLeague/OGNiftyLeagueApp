@@ -4,7 +4,7 @@ import { providers } from 'ethers';
 import { NetworkContext } from 'NetworkProvider';
 import { ScrollToTop } from './hooks';
 import { Contract, Faucet, Navigation, ThemeSwitch } from './components';
-import { Disclaimer, PrivacyPolicy, ToS } from './views/SiteLinks';
+import { ContractAddresses, Disclaimer, PrivacyPolicy, ToS } from './views/SiteLinks';
 import { DEBUG, NFT_CONTRACT, NFTL_CONTRACT } from './constants';
 import './App.css';
 
@@ -66,6 +66,9 @@ export default function App(): JSX.Element {
             </Route>
             <Route exact path="/terms-of-service">
               <ToS />
+            </Route>
+            <Route exact path="/contracts">
+              <ContractAddresses />
             </Route>
             {DEBUG ? (
               <>
