@@ -242,6 +242,42 @@ interface NameableCharacterInterface extends ethers.utils.Interface {
   getEvent(nameOrSignatureOrTopic: "Unpaused"): EventFragment;
 }
 
+export type ApprovalEvent = TypedEvent<
+  [string, string, BigNumber] & {
+    owner: string;
+    approved: string;
+    tokenId: BigNumber;
+  }
+>;
+
+export type ApprovalForAllEvent = TypedEvent<
+  [string, string, boolean] & {
+    owner: string;
+    operator: string;
+    approved: boolean;
+  }
+>;
+
+export type NameUpdatedEvent = TypedEvent<
+  [BigNumber, string, string] & {
+    tokenId: BigNumber;
+    previousName: string;
+    newName: string;
+  }
+>;
+
+export type OwnershipTransferredEvent = TypedEvent<
+  [string, string] & { previousOwner: string; newOwner: string }
+>;
+
+export type PausedEvent = TypedEvent<[string] & { account: string }>;
+
+export type TransferEvent = TypedEvent<
+  [string, string, BigNumber] & { from: string; to: string; tokenId: BigNumber }
+>;
+
+export type UnpausedEvent = TypedEvent<[string] & { account: string }>;
+
 export class NameableCharacter extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
@@ -845,6 +881,15 @@ export class NameableCharacter extends BaseContract {
   };
 
   filters: {
+    "Approval(address,address,uint256)"(
+      owner?: string | null,
+      approved?: string | null,
+      tokenId?: BigNumberish | null
+    ): TypedEventFilter<
+      [string, string, BigNumber],
+      { owner: string; approved: string; tokenId: BigNumber }
+    >;
+
     Approval(
       owner?: string | null,
       approved?: string | null,
@@ -852,6 +897,15 @@ export class NameableCharacter extends BaseContract {
     ): TypedEventFilter<
       [string, string, BigNumber],
       { owner: string; approved: string; tokenId: BigNumber }
+    >;
+
+    "ApprovalForAll(address,address,bool)"(
+      owner?: string | null,
+      operator?: string | null,
+      approved?: null
+    ): TypedEventFilter<
+      [string, string, boolean],
+      { owner: string; operator: string; approved: boolean }
     >;
 
     ApprovalForAll(
@@ -863,6 +917,15 @@ export class NameableCharacter extends BaseContract {
       { owner: string; operator: string; approved: boolean }
     >;
 
+    "NameUpdated(uint256,string,string)"(
+      tokenId?: BigNumberish | null,
+      previousName?: null,
+      newName?: null
+    ): TypedEventFilter<
+      [BigNumber, string, string],
+      { tokenId: BigNumber; previousName: string; newName: string }
+    >;
+
     NameUpdated(
       tokenId?: BigNumberish | null,
       previousName?: null,
@@ -870,6 +933,14 @@ export class NameableCharacter extends BaseContract {
     ): TypedEventFilter<
       [BigNumber, string, string],
       { tokenId: BigNumber; previousName: string; newName: string }
+    >;
+
+    "OwnershipTransferred(address,address)"(
+      previousOwner?: string | null,
+      newOwner?: string | null
+    ): TypedEventFilter<
+      [string, string],
+      { previousOwner: string; newOwner: string }
     >;
 
     OwnershipTransferred(
@@ -880,7 +951,20 @@ export class NameableCharacter extends BaseContract {
       { previousOwner: string; newOwner: string }
     >;
 
+    "Paused(address)"(
+      account?: null
+    ): TypedEventFilter<[string], { account: string }>;
+
     Paused(account?: null): TypedEventFilter<[string], { account: string }>;
+
+    "Transfer(address,address,uint256)"(
+      from?: string | null,
+      to?: string | null,
+      tokenId?: BigNumberish | null
+    ): TypedEventFilter<
+      [string, string, BigNumber],
+      { from: string; to: string; tokenId: BigNumber }
+    >;
 
     Transfer(
       from?: string | null,
@@ -890,6 +974,10 @@ export class NameableCharacter extends BaseContract {
       [string, string, BigNumber],
       { from: string; to: string; tokenId: BigNumber }
     >;
+
+    "Unpaused(address)"(
+      account?: null
+    ): TypedEventFilter<[string], { account: string }>;
 
     Unpaused(account?: null): TypedEventFilter<[string], { account: string }>;
   };

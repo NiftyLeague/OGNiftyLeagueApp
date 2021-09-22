@@ -62,6 +62,14 @@ interface MerkleDistributorInterface extends ethers.utils.Interface {
   getEvent(nameOrSignatureOrTopic: "Claimed"): EventFragment;
 }
 
+export type ClaimedEvent = TypedEvent<
+  [BigNumber, string, BigNumber] & {
+    index: BigNumber;
+    account: string;
+    amount: BigNumber;
+  }
+>;
+
 export class MerkleDistributor extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
@@ -170,6 +178,15 @@ export class MerkleDistributor extends BaseContract {
   };
 
   filters: {
+    "Claimed(uint256,address,uint256)"(
+      index?: null,
+      account?: null,
+      amount?: null
+    ): TypedEventFilter<
+      [BigNumber, string, BigNumber],
+      { index: BigNumber; account: string; amount: BigNumber }
+    >;
+
     Claimed(
       index?: null,
       account?: null,

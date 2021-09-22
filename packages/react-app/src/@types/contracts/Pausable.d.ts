@@ -36,6 +36,10 @@ interface PausableInterface extends ethers.utils.Interface {
   getEvent(nameOrSignatureOrTopic: "Unpaused"): EventFragment;
 }
 
+export type PausedEvent = TypedEvent<[string] & { account: string }>;
+
+export type UnpausedEvent = TypedEvent<[string] & { account: string }>;
+
 export class Pausable extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
@@ -90,7 +94,15 @@ export class Pausable extends BaseContract {
   };
 
   filters: {
+    "Paused(address)"(
+      account?: null
+    ): TypedEventFilter<[string], { account: string }>;
+
     Paused(account?: null): TypedEventFilter<[string], { account: string }>;
+
+    "Unpaused(address)"(
+      account?: null
+    ): TypedEventFilter<[string], { account: string }>;
 
     Unpaused(account?: null): TypedEventFilter<[string], { account: string }>;
   };

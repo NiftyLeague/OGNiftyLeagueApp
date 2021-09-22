@@ -21,7 +21,7 @@ import useNetworkInfo from 'hooks/useNetworkInfo';
 import useContractLoader from 'hooks/useContractLoader';
 import useUserProvider from 'hooks/useUserProvider';
 import Notifier from 'helpers/Notifier';
-import { ALCHEMY_ID, DEBUG, ETHERSCAN_KEY, INFURA_ID, NETWORKS, VALID_ETHERS_NETWORKS } from './constants';
+import { ALCHEMY_ID, DEBUG, NETWORKS, VALID_ETHERS_NETWORKS } from './constants';
 
 const { getDefaultProvider, Web3Provider } = providers;
 
@@ -32,7 +32,11 @@ const targetNetwork = NETWORKS[process.env.REACT_APP_NETWORK as 'localhost' | 'r
 
 // 🛰 providers
 if (DEBUG) console.log('📡 Connecting to Mainnet Ethereum');
-const providerOptions = { infura: INFURA_ID, etherscan: ETHERSCAN_KEY, alchemy: ALCHEMY_ID[ChainId.MAINNET] };
+const providerOptions = {
+  infura: process.env.REACT_APP_INFURA_PROJECT_ID,
+  etherscan: process.env.REACT_APP_ETHERSCAN_KEY,
+  alchemy: ALCHEMY_ID[ChainId.MAINNET],
+};
 // @ts-expect-error ts-migrate(2345) FIXME: Ethers incorrectly typed. Should be Networkish allowing number
 const mainnetProvider = getDefaultProvider(NETWORKS.mainnet.chainId, providerOptions) as MainnetProvider;
 
@@ -58,7 +62,7 @@ const web3Modal = new Web3Modal({
     walletconnect: {
       package: WalletConnectProvider, // required
       options: {
-        infuraId: INFURA_ID,
+        infuraId: process.env.REACT_APP_INFURA_PROJECT_ID,
       },
     },
   },
