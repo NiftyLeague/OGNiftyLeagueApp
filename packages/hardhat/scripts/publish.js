@@ -14,7 +14,7 @@ function publishContract(contractName, startBlock) {
       .toString();
     const address = fs.readFileSync(`${config.paths.artifacts}/${contractName}.address`).toString();
     contract = JSON.parse(contract);
-    const graphConfigPath = `${graphDir}/config/config${targetNetwork === 'localhost' ? '.dev' : ''}.json`;
+    const graphConfigPath = `${graphDir}/config/config${targetNetwork !== 'mainnet' ? '.dev' : ''}.json`;
     let graphConfig;
     try {
       if (fs.existsSync(graphConfigPath)) {
@@ -37,7 +37,7 @@ function publishContract(contractName, startBlock) {
       `module.exports = "${contract.bytecode}";`,
     );
 
-    const folderPath = graphConfigPath.replace(`config${targetNetwork === 'localhost' ? '.dev' : ''}.json`, '');
+    const folderPath = graphConfigPath.replace(`config${targetNetwork !== 'mainnet' ? '.dev' : ''}.json`, '');
     if (!fs.existsSync(folderPath)) {
       fs.mkdirSync(folderPath);
     }

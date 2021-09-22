@@ -129,12 +129,12 @@ contract NiftyDegen is NameableCharacter {
         // fallback option to override price floors only if necessary. Minimum value of 0.08 ETH
         if (_manualMintPrice >= 80000000000000000) return _manualMintPrice;
         if (currentSupply >= 9500) return 280000000000000000; // 9500 - 9900 0.28 ETH
-        if (currentSupply >= 8500) return 240000000000000000; // 8501 - 9500 0.24 ETH
-        if (currentSupply >= 6500) return 200000000000000000; // 6501 - 8500 0.20 ETH
-        if (currentSupply >= 4500) return 160000000000000000; // 4501 - 6500 0.16 ETH
-        if (currentSupply >= 2500) return 120000000000000000; // 2501 - 4500 0.12 ETH
-        if (currentSupply >= 1000) return 100000000000000000; // 1001 - 2500 0.10 ETH
-        return 80000000000000000; // 6 - 1000 0.08 ETH
+        if (currentSupply >= 8500) return 250000000000000000; // 8501 - 9500 0.25 ETH
+        if (currentSupply >= 6500) return 220000000000000000; // 6501 - 8500 0.22 ETH
+        if (currentSupply >= 4500) return 190000000000000000; // 4501 - 6500 0.18 ETH
+        if (currentSupply >= 2500) return 160000000000000000; // 2501 - 4500 0.15 ETH
+        if (currentSupply >= 1000) return 130000000000000000; // 1001 - 2500 0.13 ETH
+        return 100000000000000000; // 4 - 1000 0.1 ETH
     }
 
     /**

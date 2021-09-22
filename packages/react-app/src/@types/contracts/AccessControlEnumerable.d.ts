@@ -108,6 +108,22 @@ interface AccessControlEnumerableInterface extends ethers.utils.Interface {
   getEvent(nameOrSignatureOrTopic: "RoleRevoked"): EventFragment;
 }
 
+export type RoleAdminChangedEvent = TypedEvent<
+  [string, string, string] & {
+    role: string;
+    previousAdminRole: string;
+    newAdminRole: string;
+  }
+>;
+
+export type RoleGrantedEvent = TypedEvent<
+  [string, string, string] & { role: string; account: string; sender: string }
+>;
+
+export type RoleRevokedEvent = TypedEvent<
+  [string, string, string] & { role: string; account: string; sender: string }
+>;
+
 export class AccessControlEnumerable extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
@@ -288,6 +304,15 @@ export class AccessControlEnumerable extends BaseContract {
   };
 
   filters: {
+    "RoleAdminChanged(bytes32,bytes32,bytes32)"(
+      role?: BytesLike | null,
+      previousAdminRole?: BytesLike | null,
+      newAdminRole?: BytesLike | null
+    ): TypedEventFilter<
+      [string, string, string],
+      { role: string; previousAdminRole: string; newAdminRole: string }
+    >;
+
     RoleAdminChanged(
       role?: BytesLike | null,
       previousAdminRole?: BytesLike | null,
@@ -297,7 +322,25 @@ export class AccessControlEnumerable extends BaseContract {
       { role: string; previousAdminRole: string; newAdminRole: string }
     >;
 
+    "RoleGranted(bytes32,address,address)"(
+      role?: BytesLike | null,
+      account?: string | null,
+      sender?: string | null
+    ): TypedEventFilter<
+      [string, string, string],
+      { role: string; account: string; sender: string }
+    >;
+
     RoleGranted(
+      role?: BytesLike | null,
+      account?: string | null,
+      sender?: string | null
+    ): TypedEventFilter<
+      [string, string, string],
+      { role: string; account: string; sender: string }
+    >;
+
+    "RoleRevoked(bytes32,address,address)"(
       role?: BytesLike | null,
       account?: string | null,
       sender?: string | null

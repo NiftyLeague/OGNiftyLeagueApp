@@ -297,8 +297,10 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
           to provide feedback and ideas on how we can improve <strong>Nifty Smashers</strong> and take it to the next
           level!
         </p>
-        <div className="col-md-8 col-lg-6 d-flex align-self-center" style={{ margin: '20px 25%' }}>
-          <NiftySmashersVideo />
+        <div style={{ width: '100%', minWidth: '100%' }}>
+          <div className="col-md-8 col-lg-6 d-flex align-self-center" style={{ margin: 'auto' }}>
+            <NiftySmashersVideo />
+          </div>
         </div>
         <br />
         <Title level={3}>

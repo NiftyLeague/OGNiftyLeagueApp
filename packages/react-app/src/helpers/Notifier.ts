@@ -8,7 +8,7 @@ import { serializeError } from 'eth-rpc-errors';
 import { GasStationResponse, Network, Provider } from 'types/web3';
 import { NotifyCallback, NotifyError, Tx } from 'types/notify';
 import { calculateGasMargin, getProviderAndSigner } from 'helpers';
-import { BLOCKNATIVE_DAPPID, DEBUG, VALID_NOTIFY_NETWORKS } from '../constants';
+import { DEBUG, VALID_NOTIFY_NETWORKS } from '../constants';
 
 // Wrapper around BlockNative's wonderful Notify.js
 // https://docs.blocknative.com/notify
@@ -91,7 +91,7 @@ export default function Notifier(
         let notify: API | null = null;
         if (navigator.onLine) {
           options = {
-            dappId: BLOCKNATIVE_DAPPID, // GET YOUR OWN KEY AT https://account.blocknative.com
+            dappId: process.env.REACT_APP_BLOCKNATIVE_DAPPID, // GET YOUR OWN KEY AT https://account.blocknative.com
             system: 'ethereum',
             networkId: network.chainId,
             darkMode,

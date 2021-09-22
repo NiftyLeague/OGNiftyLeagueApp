@@ -41,34 +41,38 @@ const HEIGHT_SCALE = 210;
 let DEFAULT_WIDTH = WIDTH_SCALE * 4;
 let DEFAULT_HEIGHT = HEIGHT_SCALE * 4;
 
-const getWindowRatio = (e: Event) => {
+const getMobileSize = (e: Event, isPortrait: boolean) => {
   const { innerWidth } = e.currentTarget as Window;
-  let ratio = 4;
-  if (innerWidth < WIDTH_SCALE * 2) {
-    ratio = 1;
-  } else if (innerWidth < WIDTH_SCALE * 3) {
-    ratio = 2;
-  } else if (innerWidth < WIDTH_SCALE * 4) {
-    ratio = 3;
+  const width = innerWidth > 0 ? innerWidth : window.screen.width;
+  let height = width;
+  if (!isPortrait) {
+    height = width / 1.333333;
   }
-  return ratio;
+  return { width, height };
+};
+
+const getBrowserGameSize = (e: Event) => {
+  const { innerWidth, innerHeight } = e.currentTarget as Window;
+  const scale = 1.333333;
+  const percent = 93;
+  let height = Math.floor((innerHeight * percent) / 100);
+  let width = height * scale;
+  if (width > innerWidth) {
+    width = innerWidth;
+    height = innerWidth / scale;
+  }
+  return { width, height };
 };
 
 window.onload = (e: Event) => {
   if (isMobileOnly) {
-    const { innerWidth } = e.currentTarget as Window;
-    DEFAULT_WIDTH = innerWidth > 0 ? innerWidth : window.screen.width;
-    DEFAULT_HEIGHT = DEFAULT_WIDTH;
+    const { width, height } = getMobileSize(e, true);
+    DEFAULT_WIDTH = width;
+    DEFAULT_HEIGHT = height;
   } else {
-    const ratio = getWindowRatio(e);
-    if (ratio >= 3) {
-      DEFAULT_WIDTH = WIDTH_SCALE * ratio;
-      DEFAULT_HEIGHT = HEIGHT_SCALE * ratio;
-    } else {
-      const { innerWidth } = e.currentTarget as Window;
-      DEFAULT_WIDTH = innerWidth * 0.95;
-      DEFAULT_HEIGHT = innerWidth * 0.7125;
-    }
+    const { width, height } = getBrowserGameSize(e);
+    DEFAULT_WIDTH = width;
+    DEFAULT_HEIGHT = height;
   }
 };
 
@@ -118,24 +122,21 @@ const CharacterCreator = memo(
       }
     }, [isPortrait, isLoaded, unityContext]);
 
-    const reportWindowSize = useCallback((e: UIEvent) => {
-      if (isMobileOnly) {
-        const { innerWidth } = e.currentTarget as Window;
-        const size = innerWidth && innerWidth > 0 ? innerWidth : window.screen.width;
-        setWidth(size);
-        setHeight(size);
-      } else {
-        const ratio = getWindowRatio(e);
-        if (ratio >= 3) {
-          setWidth(ratio * WIDTH_SCALE);
-          setHeight(ratio * HEIGHT_SCALE);
+    const reportWindowSize = useCallback(
+      (e: UIEvent) => {
+        if (isMobileOnly) {
+          const safeIsPortrait = isPortrait ?? true;
+          const { width: newWidth, height: newHeight } = getMobileSize(e, safeIsPortrait);
+          setWidth(newWidth);
+          setHeight(newHeight);
         } else {
-          const { innerWidth } = e.currentTarget as Window;
-          setWidth(innerWidth * 0.95);
-          setHeight(innerWidth * 0.7125);
+          const { width: newWidth, height: newHeight } = getBrowserGameSize(e);
+          setWidth(newWidth);
+          setHeight(newHeight);
         }
-      }
-    }, []);
+      },
+      [isPortrait],
+    );
 
     const getConfiguration = useCallback(
       (e: CustomEvent<{ callback: (network: string) => void }>) => {
