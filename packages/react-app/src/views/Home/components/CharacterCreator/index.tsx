@@ -35,14 +35,8 @@ const creatorContext = new UnityContext({
   productVersion: buildVersion,
 });
 
-const WIDTH_SCALE = 280;
-const HEIGHT_SCALE = 210;
-
-let DEFAULT_WIDTH = WIDTH_SCALE * 4;
-let DEFAULT_HEIGHT = HEIGHT_SCALE * 4;
-
-const getMobileSize = (e: Event, isPortrait: boolean) => {
-  const { innerWidth } = e.currentTarget as Window;
+const getMobileSize = (isPortrait: boolean) => {
+  const { innerWidth } = window;
   const width = innerWidth > 0 ? innerWidth : window.screen.width;
   let height = width;
   if (!isPortrait) {
@@ -51,8 +45,8 @@ const getMobileSize = (e: Event, isPortrait: boolean) => {
   return { width, height };
 };
 
-const getBrowserGameSize = (e: Event) => {
-  const { innerWidth, innerHeight } = e.currentTarget as Window;
+const getBrowserGameSize = () => {
+  const { innerWidth, innerHeight } = window;
   const scale = 1.333333;
   const percent = 93;
   let height = Math.floor((innerHeight * percent) / 100);
@@ -64,17 +58,20 @@ const getBrowserGameSize = (e: Event) => {
   return { width, height };
 };
 
-window.onload = (e: Event) => {
-  if (isMobileOnly) {
-    const { width, height } = getMobileSize(e, true);
-    DEFAULT_WIDTH = width;
-    DEFAULT_HEIGHT = height;
-  } else {
-    const { width, height } = getBrowserGameSize(e);
-    DEFAULT_WIDTH = width;
-    DEFAULT_HEIGHT = height;
-  }
-};
+const WIDTH_SCALE = 280;
+const HEIGHT_SCALE = 210;
+let DEFAULT_WIDTH = WIDTH_SCALE * 3;
+let DEFAULT_HEIGHT = HEIGHT_SCALE * 3;
+
+if (isMobileOnly) {
+  const { width, height } = getMobileSize(true);
+  DEFAULT_WIDTH = width;
+  DEFAULT_HEIGHT = height;
+} else {
+  const { width, height } = getBrowserGameSize();
+  DEFAULT_WIDTH = width;
+  DEFAULT_HEIGHT = height;
+}
 
 const RemovedTraits = ({ callback, refreshKey }: { callback: (string) => void; refreshKey: number }) => {
   const { readContracts } = useContext(NetworkContext);
@@ -119,6 +116,10 @@ const CharacterCreator = memo(
     useEffect(() => {
       if (isMobileOnly && isLoaded && unityContext?.send) {
         unityContext.send('CharacterCreatorLevel', 'UI_SetPortrait', isPortrait ? 'true' : 'false');
+        const safeIsPortrait = isPortrait ?? true;
+        const { width: newWidth, height: newHeight } = getMobileSize(safeIsPortrait);
+        setWidth(newWidth);
+        setHeight(newHeight);
       }
     }, [isPortrait, isLoaded, unityContext]);
 
@@ -126,11 +127,11 @@ const CharacterCreator = memo(
       (e: UIEvent) => {
         if (isMobileOnly) {
           const safeIsPortrait = isPortrait ?? true;
-          const { width: newWidth, height: newHeight } = getMobileSize(e, safeIsPortrait);
+          const { width: newWidth, height: newHeight } = getMobileSize(safeIsPortrait);
           setWidth(newWidth);
           setHeight(newHeight);
         } else {
-          const { width: newWidth, height: newHeight } = getBrowserGameSize(e);
+          const { width: newWidth, height: newHeight } = getBrowserGameSize();
           setWidth(newWidth);
           setHeight(newHeight);
         }
