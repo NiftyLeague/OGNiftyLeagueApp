@@ -1,12 +1,18 @@
 @import '~antd/dist/antd.min.css';
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Ubuntu:300,400,500,700');
 
+#root {
+  height: 100%;
+}
+
 .App {
   text-align: center;
+  height: inherit;
 }
 
 .AppBody {
-  margin-top: 65px;
+  padding-top: 65px;
+  height: calc(100% - 55px);
 }
 
 .blockies {
