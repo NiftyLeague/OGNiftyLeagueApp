@@ -111,6 +111,7 @@ const SaleProgress = memo(({ className, handleClose, smallScreen }: ProgressProp
                 <div className={classes.col7}>{smallScreen ? '7K' : '7000'}</div>
                 <div className={classes.col8}>{smallScreen ? '8K' : '8000'}</div>
                 <div className={classes.col9}>{smallScreen ? '9K' : '9000'}</div>
+                <div className={classes.col9}>{smallScreen ? '10K' : '10000'}</div>
               </div>
               <div className={clsx(classes.progressBar, 'row d-flex flex-nowrap')}>
                 <LinearProgress
@@ -144,17 +145,17 @@ const SaleProgress = memo(({ className, handleClose, smallScreen }: ProgressProp
                   value={normalise(progress, 5000, 6000)}
                 />
                 <LinearProgress
-                  className={classes.col7}
+                  className={clsx(classes.col7, classes.borderRight)}
                   variant="determinate"
                   value={normalise(progress, 6000, 7000)}
                 />
                 <LinearProgress
-                  className={classes.col8}
+                  className={clsx(classes.col8, classes.borderRight)}
                   variant="determinate"
                   value={normalise(progress, 7000, 8000)}
                 />
                 <LinearProgress
-                  className={classes.col9}
+                  className={clsx(classes.col9, classes.borderRight)}
                   variant="determinate"
                   value={normalise(progress, 8000, 9000)}
                 />
