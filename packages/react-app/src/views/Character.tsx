@@ -25,7 +25,7 @@ import { Address, Tooltip } from 'components';
 import OpenSeaLink from 'components/CharacterCard/OpenSeaLink';
 import RenameDialog from 'components/CharacterCard/RenameDialog';
 import ShareCharacter from 'components/CharacterCard/ShareCharacter';
-import useRarity from 'hooks/useRarity';
+import useBackgroundType from 'hooks/useBackgroundType';
 import UnavailableImg from 'assets/images/unavailable-image.png';
 import LoadingGif from 'assets/gifs/loading.gif';
 import { DEGEN_BASE_IMAGE_URL, TRAIT_INDEXES, TRAIT_NAME_MAP, TRAIT_VALUE_MAP } from '../constants/characters';
@@ -71,7 +71,7 @@ const DegenImage = ({
   width: Breakpoint;
 }) => {
   const classes = useStyles();
-  const [loading, error, rarity] = useRarity(tokenId);
+  const [loading, error, background] = useBackgroundType(tokenId);
   const size = isWidthDown('sm', width) ? '100%' : '40%';
   if (error) return <Image style={{ borderRadius: 30 }} width={size} src={UnavailableImg} />;
   if (loading)
@@ -82,7 +82,7 @@ const DegenImage = ({
     );
 
   const imageURL = `${DEGEN_BASE_IMAGE_URL}/${network}/images/${tokenId}`;
-  if (rarity === 'Legendary')
+  if (background === 'Legendary')
     return (
       <video
         src={`${imageURL}.mp4`}
