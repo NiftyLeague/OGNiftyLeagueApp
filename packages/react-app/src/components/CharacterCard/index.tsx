@@ -24,7 +24,7 @@ import Tooltip from 'components/Tooltip';
 import UnavailableImg from 'assets/images/unavailable-image.png';
 import LoadingGif from 'assets/gifs/loading.gif';
 import { formatDateTime } from 'helpers/dateTime';
-import useRarity from 'hooks/useRarity';
+import useBackgroundType from 'hooks/useBackgroundType';
 import { Character } from 'types/graph';
 import RenameDialog from './RenameDialog';
 import OpenSeaLink from './OpenSeaLink';
@@ -60,7 +60,7 @@ export const useStyles = makeStyles(theme => ({
 const DegenImage = ({ tokenId }: { tokenId: string }) => {
   const classes = useStyles();
   const { targetNetwork } = useContext(NetworkContext);
-  const [loading, error, rarity] = useRarity(tokenId);
+  const [loading, error, background] = useBackgroundType(tokenId);
   if (error) return <CardMedia className={classes.media} title="Unavailable image" image={UnavailableImg} />;
   if (loading)
     return (
@@ -70,7 +70,7 @@ const DegenImage = ({ tokenId }: { tokenId: string }) => {
     );
 
   const imageURL = `${DEGEN_BASE_IMAGE_URL}/${targetNetwork.name || 'rinkeby'}/images/${tokenId}`;
-  if (rarity === 'Legendary')
+  if (background === 'Legendary')
     return (
       <CardMedia
         className={clsx(classes.media, 'pixelated')}

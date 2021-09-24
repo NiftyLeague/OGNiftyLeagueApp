@@ -2,9 +2,9 @@ import { useContext, useEffect, useState } from 'react';
 import { NetworkContext } from 'NetworkProvider';
 import { DEGEN_BASE_API_URL } from '../constants/characters';
 
-const useRarity = (tokenId: string | number): [boolean, boolean, string] => {
+const useRarity = (tokenId: string | number): [boolean, boolean, number] => {
   const [loading, setLoading] = useState(true);
-  const [rarity, setRarity] = useState('Not Found');
+  const [rarity, setRarity] = useState(0);
   const [error, setError] = useState(false);
   const { targetNetwork } = useContext(NetworkContext);
   const rarityAPI = `${DEGEN_BASE_API_URL}/${targetNetwork.name || 'rinkeby'}/degen/${tokenId}/rarity`;
@@ -20,7 +20,7 @@ const useRarity = (tokenId: string | number): [boolean, boolean, string] => {
         .catch(() => {
           setError(true);
         });
-      if (result) setRarity(result);
+      if (result) setRarity(parseInt(result, 10));
     }
     if (tokenId) void resolveRarity();
   }, [tokenId, rarityAPI]);

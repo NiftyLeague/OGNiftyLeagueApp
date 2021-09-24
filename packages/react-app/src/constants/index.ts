@@ -37,6 +37,6 @@ export const CACHED_SUBGRAPH_INTERVAL = DEBUG ? 300000 : 10000;
 // July 31, 2021 at 9:50 PM GMT
 export const AXS_AIRDROP_TIMESTAMP = 1627768200;
 
-export const CACHE_URL = `https://odgwhiwhzb.execute-api.us-east-1.amazonaws.com/prod/info?network=${
+export const CACHE_URL = `${process.env.REACT_APP_CACHE_SUBGRAPH_URL as string}?network=${
   process.env.REACT_APP_NETWORK as string
 }&version=${process.env.REACT_APP_SUBGRAPH_VERSION as string}&characters=false`;
