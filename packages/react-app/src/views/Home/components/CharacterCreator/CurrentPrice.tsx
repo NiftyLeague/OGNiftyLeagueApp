@@ -6,7 +6,7 @@ import CloseIcon from '@material-ui/icons/Close';
 
 export const useStyles = makeStyles({
   snackbar: {
-    width: 285,
+    width: 260,
     marginBottom: -15,
     marginRight: 80,
     '& > div': {
@@ -33,24 +33,13 @@ const CurrentPrice = ({
     setOpen(false);
   };
 
-  const emissionAmount = useMemo(() => {
-    if (totalSupply >= 9500) return 21500;
-    if (totalSupply >= 8500) return 15000;
-    if (totalSupply >= 6500) return 10000;
-    if (totalSupply >= 4500) return 8000;
-    if (totalSupply >= 2500) return 6000;
-    if (totalSupply >= 1000) return 4000;
-    return 2000;
-  }, [totalSupply]);
-
   return (
     <Snackbar
       anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       classes={{ root: classes.snackbar }}
       message={
         <>
-          <div>Current mint price: {nftPrice} ETH</div>
-          <div>includes {emissionAmount} NFTL tokens</div>
+          <div style={{ fontSize: 22 }}>Mint price: {nftPrice} ETH</div>
         </>
       }
       onClose={handleClose}
