@@ -1,4 +1,5 @@
 export { default as ScrollToTop } from './ScrollToTop';
+export { default as useBackgroundType } from './useBackgroundType';
 export { default as useBalance } from './useBalance';
 export { default as useCachedSubgraph } from './useCachedSubgraph';
 export { default as useCallbackDebugger } from './useCallbackDebugger';
