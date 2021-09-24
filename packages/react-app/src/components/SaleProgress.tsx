@@ -34,12 +34,15 @@ const useStyles = makeStyles(theme => ({
     progress: { width: '78%', fontSize: 14 },
   },
   col1: { width: '10%' },
-  col2: { width: '15%' },
-  col3: { width: '20%' },
-  col4: { width: '20%' },
-  col5: { width: '20%' },
+  col2: { width: '10%' },
+  col3: { width: '10%' },
+  col4: { width: '10%' },
+  col5: { width: '10%' },
   col6: { width: '10%' },
-  col7: { width: '5%' },
+  col7: { width: '10%' },
+  col8: { width: '10%' },
+  col9: { width: '10%' },
+  col10: { width: '10%' },
   borderRight: { borderRight: 'solid white' },
 }));
 
@@ -72,18 +75,9 @@ const SaleProgress = memo(({ className, handleClose, smallScreen }: ProgressProp
       icon={
         <Tooltip
           text={
-            <>
-              {!saleEnded && (
-                <div style={{ marginBottom: 8 }}>
-                  While sale price may increase, additional NFTL tokens are given away at each sale level to every newly
-                  minted DEGEN.
-                </div>
-              )}
-              <div>
-                The final 100 DEGENs are reserved for a special edition tribe to be minted and given away during
-                tournaments!
-              </div>
-            </>
+            <div>
+              The final 45 DEGENs are reserved for special edition tribes to be minted and given away to the community!
+            </div>
           }
         >
           <InfoIcon fontSize="inherit" />
@@ -105,27 +99,18 @@ const SaleProgress = memo(({ className, handleClose, smallScreen }: ProgressProp
           <div className="row d-flex flex-nowrap">
             <div className={clsx(classes.progressLabels, classes.extraMarginBottom)}>
               <div className={classes.col0}>NFTs:</div>
-              <div className={classes.col0}>NFTL/NFT:</div>
-              <div className={clsx(classes.col0, classes.extraMarginTop)}>ETH:</div>
             </div>
             <div className={clsx(classes.progress, classes.extraMarginBottom)}>
               <div className="row d-flex flex-nowrap">
                 <div className={classes.col1}>{smallScreen ? '1K' : '1000'}</div>
-                <div className={classes.col2}>{smallScreen ? '1.5K' : '1500'}</div>
-                <div className={classes.col3}>{smallScreen ? '2K' : '2000'}</div>
-                <div className={classes.col4}>{smallScreen ? '2K' : '2000'}</div>
-                <div className={classes.col5}>{smallScreen ? '2K' : '2000'}</div>
-                <div className={classes.col6}>{smallScreen ? '1K' : '1000'}</div>
-                <div className={classes.col7}>400</div>
-              </div>
-              <div className="row d-flex flex-nowrap">
-                <div className={classes.col1}>{smallScreen ? '2K' : '2000'}</div>
-                <div className={classes.col2}>{smallScreen ? '4K' : '4000'}</div>
-                <div className={classes.col3}>{smallScreen ? '6K' : '6000'}</div>
-                <div className={classes.col4}>{smallScreen ? '8K' : '8000'}</div>
-                <div className={classes.col5}>{smallScreen ? '10K' : '10000'}</div>
-                <div className={classes.col6}>{smallScreen ? '15K' : '15000'}</div>
-                <div className={classes.col7}>{smallScreen ? '21.5K' : '21500'}</div>
+                <div className={classes.col2}>{smallScreen ? '2K' : '2000'}</div>
+                <div className={classes.col3}>{smallScreen ? '3K' : '3000'}</div>
+                <div className={classes.col4}>{smallScreen ? '4K' : '4000'}</div>
+                <div className={classes.col5}>{smallScreen ? '5K' : '5000'}</div>
+                <div className={classes.col6}>{smallScreen ? '6K' : '6000'}</div>
+                <div className={classes.col7}>{smallScreen ? '7K' : '7000'}</div>
+                <div className={classes.col8}>{smallScreen ? '8K' : '8000'}</div>
+                <div className={classes.col9}>{smallScreen ? '9K' : '9000'}</div>
               </div>
               <div className={clsx(classes.progressBar, 'row d-flex flex-nowrap')}>
                 <LinearProgress
@@ -136,42 +121,48 @@ const SaleProgress = memo(({ className, handleClose, smallScreen }: ProgressProp
                 <LinearProgress
                   className={clsx(classes.col2, classes.borderRight)}
                   variant="determinate"
-                  value={normalise(progress, 1000, 2500)}
+                  value={normalise(progress, 1000, 2000)}
                 />
                 <LinearProgress
                   className={clsx(classes.col3, classes.borderRight)}
                   variant="determinate"
-                  value={normalise(progress, 2500, 4500)}
+                  value={normalise(progress, 2000, 3000)}
                 />
                 <LinearProgress
                   className={clsx(classes.col4, classes.borderRight)}
                   variant="determinate"
-                  value={normalise(progress, 4500, 6500)}
+                  value={normalise(progress, 3000, 4000)}
                 />
                 <LinearProgress
                   className={clsx(classes.col5, classes.borderRight)}
                   variant="determinate"
-                  value={normalise(progress, 6500, 8500)}
+                  value={normalise(progress, 4000, 5000)}
                 />
                 <LinearProgress
                   className={clsx(classes.col6, classes.borderRight)}
                   variant="determinate"
-                  value={normalise(progress, 8500, 9500)}
+                  value={normalise(progress, 5000, 6000)}
                 />
                 <LinearProgress
                   className={classes.col7}
                   variant="determinate"
-                  value={normalise(progress, 9500, 9900)}
+                  value={normalise(progress, 6000, 7000)}
                 />
-              </div>
-              <div className="row d-flex flex-nowrap">
-                <div className={classes.col1}>0.1</div>
-                <div className={classes.col2}>0.13</div>
-                <div className={classes.col3}>0.16</div>
-                <div className={classes.col4}>0.19</div>
-                <div className={classes.col5}>0.22</div>
-                <div className={classes.col6}>0.25</div>
-                <div className={classes.col7}>0.28</div>
+                <LinearProgress
+                  className={classes.col8}
+                  variant="determinate"
+                  value={normalise(progress, 7000, 8000)}
+                />
+                <LinearProgress
+                  className={classes.col9}
+                  variant="determinate"
+                  value={normalise(progress, 8000, 9000)}
+                />
+                <LinearProgress
+                  className={classes.col10}
+                  variant="determinate"
+                  value={normalise(progress, 9000, 9900)}
+                />
               </div>
             </div>
           </div>

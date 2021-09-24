@@ -6,9 +6,9 @@ import clsx from 'clsx';
 import { useQuery } from '@apollo/client';
 import withWidth, { isWidthDown } from '@material-ui/core/withWidth';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
-import { CircularProgress, Container, Grid, Snackbar } from '@material-ui/core';
+import { CircularProgress, Container, Grid } from '@material-ui/core';
 import Pagination from '@material-ui/lab/Pagination';
-import { CharacterCard, Footer, SaleProgress } from 'components';
+import { CharacterCard, Footer } from 'components';
 import { Characters, TraitMaps } from 'types/graph';
 import CharactersFilter from './CharactersFilter';
 import { CHARACTERS_SUBGRAPH_INTERVAL } from '../../constants';
@@ -123,9 +123,6 @@ const CharactersContainer = ({ width }: { width: Breakpoint }): JSX.Element => {
             variant="outlined"
           />
         ) : null}
-        <Snackbar open={open} autoHideDuration={null} onClose={handleClose} className={classes.snackbar}>
-          <SaleProgress handleClose={handleClose} smallScreen={smallScreen} />
-        </Snackbar>
       </Container>
       <Footer />
     </>
