@@ -142,8 +142,8 @@ const CharacterCreator = memo(
     const getConfiguration = useCallback(
       (e: CustomEvent<{ callback: (network: string) => void }>) => {
         const networkName = NETWORK_NAME[targetNetwork.chainId];
-        const version = process.env.REACT_APP_SUBGRAPH_VERSION;
-        setTimeout(() => e.detail.callback(`${networkName},${version ?? ''}`), 1000);
+        const version = process.env.REACT_APP_SUBGRAPH_VERSION ?? '';
+        setTimeout(() => e.detail.callback(`${networkName},${version}`), 1000);
       },
       [targetNetwork.chainId],
     );
