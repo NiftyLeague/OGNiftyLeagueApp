@@ -76,7 +76,7 @@ const SaleProgress = memo(({ className, handleClose, smallScreen }: ProgressProp
         <Tooltip
           text={
             <div>
-              The final 45 DEGENs are reserved for special edition tribes to be minted and given away to the community!
+              The final 100 DEGENs are reserved for special edition tribes to be minted and given away to the community!
             </div>
           }
         >

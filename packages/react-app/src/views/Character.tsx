@@ -140,13 +140,23 @@ const Character = ({ width }: { width: Breakpoint }) => {
     return { ...acc, [TRAIT_INDEXES[i]]: trait };
   }, {});
 
+  const tokenIdNum = parseInt(tokenId, 10);
+  let fontSize = '1.25rem';
+  if (tokenIdNum === 10000) fontSize = '.8rem';
+  if (tokenIdNum >= 1000) fontSize = '.85rem';
+  else if (tokenIdNum >= 100) fontSize = '1rem';
+
   return (
     <Container className={classes.container}>
       <DegenImage network={targetNetwork.name} tokenId={tokenId} width={width} />
       <Card className={classes.cardRoot} style={{ width: isWidthDown('sm', width) ? '100%' : '58%' }}>
         <CardHeader
           classes={{ title: classes.cardTitle, avatar: classes.avatar }}
-          avatar={<Avatar aria-label="Character ID">{tokenId}</Avatar>}
+          avatar={
+            <Avatar aria-label="Character ID" style={{ width: 45, height: 45, fontSize }}>
+              {tokenId}
+            </Avatar>
+          }
           title={
             <>
               <Typography variant="h6" className={classes.name}>
