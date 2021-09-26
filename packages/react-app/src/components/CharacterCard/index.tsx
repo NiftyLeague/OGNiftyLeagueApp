@@ -86,7 +86,15 @@ const DegenImage = ({ tokenId }: { tokenId: string }) => {
   return <CardMedia className={clsx(classes.media, 'pixelated')} title="DEGEN image" image={`${imageURL}.png`} />;
 };
 
-const CharacterCard = ({ character, ownerOwned }: { character: Character; ownerOwned?: boolean }): JSX.Element => {
+const CharacterCard = ({
+  character,
+  ownerOwned,
+  singleClaim,
+}: {
+  character: Character;
+  ownerOwned?: boolean;
+  singleClaim?: boolean;
+}): JSX.Element => {
   const { createdAt, id: tokenId, name, traits } = character;
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
@@ -141,7 +149,7 @@ const CharacterCard = ({ character, ownerOwned }: { character: Character; ownerO
             </>
           )}
           <ShareCharacter tokenId={tokenId} />
-          {ownerOwned && <ClaimNFTL tokenIndices={[tokenIdNum]} singleClaim />}
+          {ownerOwned && singleClaim && <ClaimNFTL tokenIndices={[tokenIdNum]} singleClaim />}
           <span className={classes.traitsHeader}>Traits:</span>
           <IconButton
             className={clsx(classes.actionButtons, classes.expand, {
@@ -185,6 +193,7 @@ const CharacterCard = ({ character, ownerOwned }: { character: Character; ownerO
 
 CharacterCard.defaultProps = {
   ownerOwned: undefined,
+  singleClaim: false,
 };
 
 export default CharacterCard;
