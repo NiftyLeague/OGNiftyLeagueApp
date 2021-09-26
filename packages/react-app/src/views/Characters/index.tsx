@@ -4,8 +4,6 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
 import clsx from 'clsx';
 import { useQuery } from '@apollo/client';
-import withWidth, { isWidthDown } from '@material-ui/core/withWidth';
-import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import { CircularProgress, Container, Grid } from '@material-ui/core';
 import Pagination from '@material-ui/lab/Pagination';
 import { CharacterCard, Footer } from 'components';
@@ -16,12 +14,14 @@ import { INITIAL_FILTER_STATE, FILTER_STATE_MAPPING, PAGE_SIZE } from './constan
 import { DEFAULT_QUERY, FILTER_SEARCH_QUERY, ID_SEARCH_QUERY, NAME_SEARCH_QUERY } from './queries';
 import { useStyles } from './styles';
 
-const CharactersContainer = ({ width }: { width: Breakpoint }): JSX.Element => {
+const PAGE_KEY = 'FILTER_PAGE';
+
+const CharactersContainer = (): JSX.Element => {
   const classes: any = useStyles();
-  const smallScreen = isWidthDown('sm', width);
   const { currentTheme } = useThemeSwitcher();
   const [open, setOpen] = useState(true);
-  const [page, setPage] = useState(1);
+  const storedPage = localStorage.getItem(PAGE_KEY);
+  const [page, setPage] = useState(storedPage ? parseInt(storedPage, 10) : 1);
   const [search, setSearch] = useState('');
   const [filterState, setFilterState] = useState(INITIAL_FILTER_STATE);
   const filterActive = useMemo(() => Object.values(filterState).some(v => v.length), [filterState]);
@@ -66,11 +66,13 @@ const CharactersContainer = ({ width }: { width: Breakpoint }): JSX.Element => {
 
   const handleSearch = value => {
     setPage(1);
+    localStorage.setItem(PAGE_KEY, '1');
     setSearch(value);
   };
 
   const handleFilter = (value: typeof filterState) => {
     setPage(1);
+    localStorage.setItem(PAGE_KEY, '1');
     setFilterState(value);
   };
 
@@ -117,7 +119,10 @@ const CharactersContainer = ({ width }: { width: Breakpoint }): JSX.Element => {
                 ? Math.ceil((data?.contracts[0]?.totalSupply as unknown as number) / PAGE_SIZE)
                 : Math.ceil(characters?.length / PAGE_SIZE)
             }
-            onChange={(_, value) => setPage(value)}
+            onChange={(_, value) => {
+              setPage(value);
+              localStorage.setItem(PAGE_KEY, value.toString());
+            }}
             page={page}
             size="large"
             variant="outlined"
@@ -129,4 +134,4 @@ const CharactersContainer = ({ width }: { width: Breakpoint }): JSX.Element => {
   );
 };
 
-export default withWidth()(CharactersContainer);
+export default CharactersContainer;
