@@ -29,6 +29,7 @@ import { Character } from 'types/graph';
 import RenameDialog from './RenameDialog';
 import OpenSeaLink from './OpenSeaLink';
 import ShareCharacter from './ShareCharacter';
+import ClaimNFTL from '../ClaimNFTL';
 import { DEGEN_BASE_IMAGE_URL, TRAIT_NAME_MAP, TRAIT_VALUE_MAP } from '../../constants/characters';
 
 export const useStyles = makeStyles(theme => ({
@@ -131,13 +132,16 @@ const CharacterCard = ({ character, ownerOwned }: { character: Character; ownerO
         </Link>
         <CardActions disableSpacing>
           {ownerOwned && (
-            <Tooltip text="Rename">
-              <IconButton aria-label="rename" className={classes.actionButtons} onClick={() => setDialogOpen(true)}>
-                <EditIcon />
-              </IconButton>
-            </Tooltip>
+            <>
+              <Tooltip text="Rename">
+                <IconButton aria-label="rename" className={classes.actionButtons} onClick={() => setDialogOpen(true)}>
+                  <EditIcon />
+                </IconButton>
+              </Tooltip>
+            </>
           )}
           <ShareCharacter tokenId={tokenId} />
+          {ownerOwned && <ClaimNFTL tokenIndices={[tokenIdNum]} singleClaim />}
           <span className={classes.traitsHeader}>Traits:</span>
           <IconButton
             className={clsx(classes.actionButtons, classes.expand, {

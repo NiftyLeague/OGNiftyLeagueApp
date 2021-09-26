@@ -5,6 +5,7 @@ export { default as Balance } from './Balance';
 export { default as Blockie } from './Blockie';
 export { default as BytesStringInput } from './BytesStringInput';
 export { default as CharacterCard } from './CharacterCard';
+export { default as ClaimNFTL } from './ClaimNFTL';
 export { default as Contract } from './Contract';
 export { default as ErrorBoundary } from './ErrorBoundary';
 export { default as Faucet } from './Faucet';
