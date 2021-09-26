@@ -16,9 +16,11 @@ const useStyles = makeStyles(theme => ({
 const ClaimNFTL = ({
   tokenIndices,
   singleClaim,
+  displayTooltip,
 }: {
   tokenIndices: number[];
   singleClaim?: boolean;
+  displayTooltip?: boolean;
 }): JSX.Element | null => {
   const classes = useStyles();
   const { tx, writeContracts } = useContext(NetworkContext);
@@ -66,7 +68,11 @@ const ClaimNFTL = ({
     <div className={classes.claimContainer}>
       {amountParsed} NFTL Claimable
       {mockAccumulated > 0.0 && writeContracts[NFTL_CONTRACT] && (
-        <Tooltip text="Claims for all owned DEGENS. If you own a lot you can save gas claiming individually below!">
+        <Tooltip
+          text={`Claims for all owned DEGENS.${
+            displayTooltip ? ' If you own a lot you can save gas claiming individually below!' : ''
+          }`}
+        >
           <Button
             style={{ ...btnStyles, marginLeft: 8, marginTop: 16 }}
             shape="round"
@@ -81,6 +87,6 @@ const ClaimNFTL = ({
   );
 };
 
-ClaimNFTL.defaultProps = { singleClaim: false };
+ClaimNFTL.defaultProps = { singleClaim: false, displayTooltip: false };
 
 export default ClaimNFTL;

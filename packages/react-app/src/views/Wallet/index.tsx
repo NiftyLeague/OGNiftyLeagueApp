@@ -37,6 +37,8 @@ const Wallet = (): JSX.Element => {
     return characters.map(char => parseInt(char.id, 10));
   }, [characters]);
 
+  const displaySingleClaim = tokenIndices?.length > 10;
+
   return address ? (
     <Container className={classes.container}>
       {loading ? (
@@ -44,12 +46,12 @@ const Wallet = (): JSX.Element => {
       ) : (
         <>
           <Typography variant="h4">Your Degens</Typography>
-          <ClaimNFTL tokenIndices={tokenIndices} singleClaim={false} />
+          <ClaimNFTL tokenIndices={tokenIndices} singleClaim={false} displayTooltip={displaySingleClaim} />
           {characters.length ? (
             <Grid container spacing={2} className={classes.grid}>
               {characters.map(character => (
                 <Grid item xs={12} sm={6} md={4} lg={3} key={character.id}>
-                  <CharacterCard character={character} ownerOwned />
+                  <CharacterCard character={character} ownerOwned singleClaim={displaySingleClaim} />
                 </Grid>
               ))}
             </Grid>
