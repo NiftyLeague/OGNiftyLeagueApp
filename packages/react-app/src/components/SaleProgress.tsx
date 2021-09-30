@@ -67,7 +67,8 @@ interface ProgressProps {
 
 const SaleProgress = memo(({ className, handleClose, smallScreen }: ProgressProps): JSX.Element => {
   const classes = useStyles();
-  const { totalSupply } = useCachedSubgraph();
+  // const { totalSupply } = useCachedSubgraph();
+  const totalSupply = 9900;
   const progress = totalSupply ?? 0;
   const saleEnded = progress >= 9900;
   return (
