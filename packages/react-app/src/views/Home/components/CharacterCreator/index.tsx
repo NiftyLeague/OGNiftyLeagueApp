@@ -11,7 +11,7 @@ import { NetworkContext } from 'NetworkProvider';
 import CharacterBGImg from 'assets/images/backgrounds/character-creator-repeat.png';
 import CharacterDarkBGImg from 'assets/images/backgrounds/character-creator-repeat-dark.png';
 import { DEBUG, DEPLOYER_ADDRESS, NFT_CONTRACT, NETWORK_NAME } from '../../../../constants';
-import CurrentPrice from './CurrentPrice';
+// import CurrentPrice from './CurrentPrice';
 import MetaMaskOnboard from './MetaMaskOnboard';
 import MetaMaskPrompt from './MetaMaskPrompt';
 import SaleLocked from './SaleLocked';
@@ -319,7 +319,7 @@ const CharacterCreatorContainer = memo(
             unityContext={creatorContext}
           />
         )}
-        <CurrentPrice nftPrice={nftPrice} isLoaded={isLoaded} totalSupply={totalSupply ?? 0} />
+        {/* <CurrentPrice nftPrice={nftPrice} isLoaded={isLoaded} totalSupply={totalSupply ?? 0} /> */}
         <SaleLocked totalSupply={totalSupply ?? 0} saleLocked={saleLocked} />
         <MetaMaskOnboard open={onboardUser} />
         <MetaMaskPrompt open={promptMetaMask} />

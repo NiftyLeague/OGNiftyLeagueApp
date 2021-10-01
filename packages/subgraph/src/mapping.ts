@@ -80,7 +80,6 @@ export function handleTransfer(event: Transfer): void {
     contractEntity = new Contract(event.address.toHexString());
   contractEntity.address = event.address;
   contractEntity.totalSupply = contract.totalSupply();
-  contractEntity.nftPrice = contract.getNFTPrice();
   contractEntity.removedTraits = contract.getRemovedTraits();
 
   newOwner.save();
