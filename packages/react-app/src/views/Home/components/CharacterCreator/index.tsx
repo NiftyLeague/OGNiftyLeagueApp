@@ -8,7 +8,6 @@ import { useCachedSubgraph, useRemovedTraits } from 'hooks';
 import { submitTxWithGasEstimate } from 'helpers/Notifier';
 import { NotifyCallback } from 'types/notify';
 import { NetworkContext } from 'NetworkProvider';
-import CharacterBGImg from 'assets/images/backgrounds/character-creator-repeat.png';
 import CharacterDarkBGImg from 'assets/images/backgrounds/character-creator-repeat-dark.png';
 import { DEBUG, DEPLOYER_ADDRESS, NFT_CONTRACT, NETWORK_NAME } from '../../../../constants';
 // import CurrentPrice from './CurrentPrice';
@@ -223,7 +222,7 @@ const CharacterCreator = memo(
           className="pixelated"
           style={{
             backgroundSize: height / 21,
-            backgroundImage: `url(${isMinting ? CharacterDarkBGImg : CharacterBGImg})`,
+            backgroundImage: `url(${CharacterDarkBGImg})`,
             backgroundRepeat: 'repeat-x',
           }}
         >
