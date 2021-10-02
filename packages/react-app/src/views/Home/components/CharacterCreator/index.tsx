@@ -13,7 +13,7 @@ import { DEBUG, DEPLOYER_ADDRESS, NFT_CONTRACT, NETWORK_NAME } from '../../../..
 // import CurrentPrice from './CurrentPrice';
 import MetaMaskOnboard from './MetaMaskOnboard';
 import MetaMaskPrompt from './MetaMaskPrompt';
-import SaleLocked from './SaleLocked';
+// import SaleLocked from './SaleLocked';
 import { getMintableTraits, TraitArray } from './helpers';
 
 const baseUrl = isMobileOnly
@@ -319,7 +319,7 @@ const CharacterCreatorContainer = memo(
           />
         )}
         {/* <CurrentPrice nftPrice={nftPrice} isLoaded={isLoaded} totalSupply={totalSupply ?? 0} /> */}
-        <SaleLocked totalSupply={totalSupply ?? 0} saleLocked={saleLocked} />
+        {/* <SaleLocked totalSupply={totalSupply ?? 0} saleLocked={saleLocked} /> */}
         <MetaMaskOnboard open={onboardUser} />
         <MetaMaskPrompt open={promptMetaMask} />
       </>
