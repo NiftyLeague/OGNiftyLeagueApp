@@ -5,6 +5,7 @@ import { CircularProgress, Container, Grid, Typography } from '@material-ui/core
 
 import { Owner } from 'types/graph';
 import { CharacterCard, ClaimNFTL, WalletConnectPrompt } from 'components';
+import useNFTLBalance from 'hooks/useNFTLBalance';
 import { NetworkContext } from 'NetworkProvider';
 import { CHARACTERS_SUBGRAPH_INTERVAL } from '../../constants';
 import { OWNER_QUERY } from './query';
@@ -22,6 +23,7 @@ const useStyles = makeStyles(theme => ({
 const Wallet = (): JSX.Element => {
   const classes = useStyles();
   const { address } = useContext(NetworkContext);
+  const userNFTLBalance = useNFTLBalance(address);
   const { loading, data }: { loading: boolean; data?: { owner: Owner } } = useQuery(OWNER_QUERY, {
     pollInterval: CHARACTERS_SUBGRAPH_INTERVAL,
     variables: { address: address?.toLowerCase() },
@@ -51,7 +53,12 @@ const Wallet = (): JSX.Element => {
             <Grid container spacing={2} className={classes.grid}>
               {characters.map(character => (
                 <Grid item xs={12} sm={6} md={4} lg={3} key={character.id}>
-                  <CharacterCard character={character} ownerOwned singleClaim={displaySingleClaim} />
+                  <CharacterCard
+                    character={character}
+                    ownerOwned
+                    singleClaim={displaySingleClaim}
+                    userNFTLBalance={userNFTLBalance}
+                  />
                 </Grid>
               ))}
             </Grid>

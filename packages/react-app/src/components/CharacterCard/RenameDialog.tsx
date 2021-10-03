@@ -11,6 +11,7 @@ import {
 } from '@material-ui/core';
 import { NetworkContext } from 'NetworkProvider';
 import { submitTxWithGasEstimate } from 'helpers/Notifier';
+import Tooltip from 'components/Tooltip';
 import RenameStepper from './RenameStepper';
 import { DEBUG, NFT_CONTRACT, NFTL_CONTRACT } from '../../constants';
 
@@ -19,11 +20,15 @@ const RenameDialog = ({
   open,
   setOpen,
   tokenId,
+  userNFTLBalance,
+  redirectToWallet,
 }: {
   displayName: string;
   open: boolean;
   setOpen: (boolean) => void;
   tokenId: string;
+  userNFTLBalance: number;
+  redirectToWallet?: boolean;
 }): JSX.Element => {
   const { address, tx, writeContracts } = useContext(NetworkContext);
   const [input, setInput] = useState('');
@@ -32,6 +37,7 @@ const RenameDialog = ({
   const [allowance, setAllowance] = useState<BigNumberish>(BigNumber.from('0'));
   const [renameSuccess, setRenameSuccess] = useState(false);
   const insufficientAllowance = allowance < 1000;
+  const insufficientBalance = userNFTLBalance < 1000;
 
   useEffect(() => {
     const getAllowance = async () => {
@@ -81,7 +87,7 @@ const RenameDialog = ({
         if (DEBUG) console.log('Current allowance too low');
         const DEGENAddress = degen.address;
         // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-        await tx(nftl.increaseAllowance(DEGENAddress, utils.parseEther('1000')));
+        await tx(nftl.increaseAllowance(DEGENAddress, utils.parseEther('100000')));
         setAllowance(BigNumber.from('1000'));
       }
       const args = [parseInt(tokenId, 10), input];
@@ -101,11 +107,12 @@ const RenameDialog = ({
       </DialogTitle>
       <DialogContent>
         <DialogContentText>
-          Renaming costs <strong>1000 NFTL</strong>. Each name must be unique (case insensitive) with a max character
-          length of 32 and may only include numbers, letters, or spaces.
+          Renaming costs <strong>1000 NFTL</strong> which is immediately burned by the contract. Each name must be
+          unique (case insensitive) with a max character length of 32 and may only include numbers, letters, or spaces.
         </DialogContentText>
         <TextField
           autoFocus
+          disabled={insufficientBalance}
           error={error}
           helperText={helperText}
           fullWidth
@@ -114,16 +121,34 @@ const RenameDialog = ({
           onChange={({ target: { value } }) => validateName(value)}
           value={input}
         />
-        <RenameStepper insufficientAllowance={insufficientAllowance} renameSuccess={renameSuccess} />
+        <RenameStepper
+          insufficientAllowance={insufficientAllowance}
+          redirectToWallet={redirectToWallet}
+          renameSuccess={renameSuccess}
+          insufficientBalance={insufficientBalance}
+        />
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Cancel</Button>
-        <Button onClick={handleRename} color="primary" variant="contained" disabled={error}>
-          Rename
-        </Button>
+        <Tooltip
+          text={
+            // eslint-disable-next-line no-nested-ternary
+            insufficientBalance
+              ? 'Please claim or purchase 1000 NFTL'
+              : insufficientAllowance
+              ? 'Will need to wait for approval and rename transactions to complete'
+              : 'Send rename transaction'
+          }
+        >
+          <Button onClick={handleRename} color="primary" variant="contained" disabled={error || insufficientBalance}>
+            Rename
+          </Button>
+        </Tooltip>
       </DialogActions>
     </Dialog>
   );
 };
+
+RenameDialog.defaultProps = { redirectToWallet: false };
 
 export default RenameDialog;
