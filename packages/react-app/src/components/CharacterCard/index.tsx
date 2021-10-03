@@ -90,15 +90,16 @@ const CharacterCard = ({
   character,
   ownerOwned,
   singleClaim,
+  userNFTLBalance,
 }: {
   character: Character;
   ownerOwned?: boolean;
   singleClaim?: boolean;
+  userNFTLBalance?: number;
 }): JSX.Element => {
   const { createdAt, id: tokenId, name, traits } = character;
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
-  const [image, setImage] = useState<string | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const handleExpandClick = () => {
@@ -185,7 +186,13 @@ const CharacterCard = ({
         </Collapse>
       </Card>
       {ownerOwned ? (
-        <RenameDialog displayName={displayName} open={dialogOpen} setOpen={setDialogOpen} tokenId={tokenId} />
+        <RenameDialog
+          displayName={displayName}
+          open={dialogOpen}
+          setOpen={setDialogOpen}
+          tokenId={tokenId}
+          userNFTLBalance={userNFTLBalance ?? 0}
+        />
       ) : null}
     </>
   );
@@ -194,6 +201,7 @@ const CharacterCard = ({
 CharacterCard.defaultProps = {
   ownerOwned: undefined,
   singleClaim: false,
+  userNFTLBalance: 0,
 };
 
 export default CharacterCard;

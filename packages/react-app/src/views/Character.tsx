@@ -26,6 +26,7 @@ import OpenSeaLink from 'components/CharacterCard/OpenSeaLink';
 import RenameDialog from 'components/CharacterCard/RenameDialog';
 import ShareCharacter from 'components/CharacterCard/ShareCharacter';
 import useBackgroundType from 'hooks/useBackgroundType';
+import useNFTLBalance from 'hooks/useNFTLBalance';
 import UnavailableImg from 'assets/images/unavailable-image.png';
 import LoadingGif from 'assets/gifs/loading.gif';
 import { DEGEN_BASE_IMAGE_URL, TRAIT_INDEXES, TRAIT_NAME_MAP, TRAIT_VALUE_MAP } from '../constants/characters';
@@ -107,6 +108,7 @@ DegenImage.defaultProps = { network: 'rinkeby' };
 
 const Character = ({ width }: { width: Breakpoint }) => {
   const { address, readContracts, targetNetwork, mainnetProvider } = useContext(NetworkContext);
+  const userNFTLBalance = useNFTLBalance(address);
   const classes = useStyles();
   const { tokenId } = useParams<{ tokenId: string }>();
   const [character, setCharacter] = useState({
@@ -115,7 +117,6 @@ const Character = ({ width }: { width: Breakpoint }) => {
     traitList: [],
   });
   const { name, owner, traitList } = character as unknown as { name: string; owner: string; traitList: number[] };
-  const [image, setImage] = useState<string | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
 
   useEffect(() => {
@@ -206,7 +207,14 @@ const Character = ({ width }: { width: Breakpoint }) => {
         </CardActions>
       </Card>
       {ownerOwned ? (
-        <RenameDialog displayName={displayName} tokenId={tokenId} open={dialogOpen} setOpen={setDialogOpen} />
+        <RenameDialog
+          displayName={displayName}
+          tokenId={tokenId}
+          open={dialogOpen}
+          setOpen={setDialogOpen}
+          userNFTLBalance={userNFTLBalance ?? 0}
+          redirectToWallet
+        />
       ) : null}
     </Container>
   );

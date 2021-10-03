@@ -16,6 +16,7 @@ export { default as useExternalContractLoader } from './useExternalContractLoade
 export { default as useInterval } from './useInterval';
 export { default as useLocalStorage } from './useLocalStorage';
 export { default as useNetworkInfo } from './useNetworkInfo';
+export { default as useNFTLBalance } from './useNFTLBalance';
 export { default as useNFTPrice } from './useNFTPrice';
 export { default as useNonce } from './useNonce';
 export { default as usePolledFetch } from './usePolledFetch';

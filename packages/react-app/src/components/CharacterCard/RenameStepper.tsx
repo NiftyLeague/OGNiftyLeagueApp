@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
 import clsx from 'clsx';
 
 import { makeStyles, Theme, createStyles, withStyles } from '@material-ui/core/styles';
 import { StepIconProps } from '@material-ui/core/StepIcon';
-import Button from '@material-ui/core/Button';
 import Step from '@material-ui/core/Step';
 import StepConnector from '@material-ui/core/StepConnector';
 import StepLabel from '@material-ui/core/StepLabel';
@@ -14,11 +14,13 @@ import Typography from '@material-ui/core/Typography';
 import DoneAll from '@material-ui/icons/DoneAll';
 import HowToReg from '@material-ui/icons/HowToReg';
 import VerifiedUser from '@material-ui/icons/VerifiedUser';
+import NFTL from 'assets/images/nl_logo_white.png';
 
 const icons: { [index: string]: React.ReactElement } = {
-  1: <VerifiedUser />,
-  2: <HowToReg />,
-  3: <DoneAll />,
+  1: <img src={NFTL} alt="NFTL" width={30} />,
+  2: <VerifiedUser />,
+  3: <HowToReg />,
+  4: <DoneAll />,
 };
 
 const ColorlibConnector = withStyles({
@@ -100,14 +102,27 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 function getSteps() {
-  return ['Approve contract as NFTL spender', 'Submit rename request', 'DEGEN Renamed!'];
+  return ['Claim/purchase 1000 NFTL', 'Approve contract as NFTL spender', 'Submit rename request', 'DEGEN Renamed!'];
 }
 
-function getStepContent(step: number) {
+function getStepContent(step: number, redirectToWallet: boolean) {
   switch (step) {
-    case 0:
-      return 'Note: renaming requires two transactions if the Nifty Degen contract is not already an approved spender.';
+    case 0: {
+      return redirectToWallet ? (
+        <span>
+          Please go to your <Link to="/wallet">wallet</Link> and claim at least 1000 NFTL or purchase some on Uniswap
+          using the contract address listed in <Link to="/contracts">contracts</Link>
+        </span>
+      ) : (
+        <span>
+          Please go back and claim at least 1000 NFTL or purchase some on Uniswap using the contract address listed in{' '}
+          <Link to="/contracts">contracts</Link>
+        </span>
+      );
+    }
     case 1:
+      return 'Note: renaming requires two transactions since the Nifty Degen contract is not already an approved spender.';
+    case 2:
       return 'Spender approved, submit rename request';
     default:
       return '';
@@ -116,10 +131,14 @@ function getStepContent(step: number) {
 
 export default function RenameStepper({
   insufficientAllowance,
+  redirectToWallet,
   renameSuccess,
+  insufficientBalance,
 }: {
   insufficientAllowance: boolean;
+  redirectToWallet?: boolean;
   renameSuccess: boolean;
+  insufficientBalance: boolean;
 }): JSX.Element {
   const classes = useStyles();
   const { currentTheme } = useThemeSwitcher();
@@ -127,9 +146,10 @@ export default function RenameStepper({
   const steps = getSteps();
 
   useEffect(() => {
-    if (renameSuccess) setActiveStep(2);
-    else setActiveStep(insufficientAllowance ? 0 : 1);
-  }, [insufficientAllowance, renameSuccess]);
+    if (renameSuccess) setActiveStep(3);
+    else if (insufficientBalance) setActiveStep(0);
+    else setActiveStep(insufficientAllowance ? 1 : 2);
+  }, [insufficientAllowance, insufficientBalance, renameSuccess]);
 
   return (
     <div className={classes.root}>
@@ -152,9 +172,13 @@ export default function RenameStepper({
       </Stepper>
       <div>
         {activeStep !== steps.length ? (
-          <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography>
+          <Typography className={classes.instructions}>
+            {getStepContent(activeStep, redirectToWallet ?? false)}
+          </Typography>
         ) : null}
       </div>
     </div>
   );
 }
+
+RenameStepper.defaultProps = { redirectToWallet: false };
