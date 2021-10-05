@@ -27,6 +27,9 @@ import Frog from 'assets/images/characters/frog.png';
 import Cat from 'assets/images/characters/cat.png';
 import Alien from 'assets/images/characters/alien.png';
 import Unknown from 'assets/images/characters/unknown.png';
+import ComicP1 from 'assets/images/comics/page1.png';
+import ComicP2 from 'assets/images/comics/page2.png';
+import ComicP3 from 'assets/images/comics/page3.png';
 
 const { Title } = Typography;
 
@@ -203,6 +206,29 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
           </strong>
           . We look forward to seeing what creative characters you design and we'll be sharing some of our favorites!
         </p>
+        <Title level={3}>
+          Nifty Comics{' '}
+          <span role="img" aria-label="books emoji">
+            📚
+          </span>
+        </Title>
+        <p>
+          As if our minting process wasn’t already fun enough for you guys... we surprised the community with a special
+          Nifty League launch comic collection! 😁 The comic consists of <strong>6 pages</strong>, each burnable to
+          receive an in-game wearable or weapon tied to each page. Satoshi told us he LOVES full collections in just
+          about everything so think twice before you make too many decisions here. Snapshots were taken throughout the
+          minting process for the first 4 pages at the following milestones:{' '}
+          <strong>Page 1 - 2500 | Page 2 - 3500 | Page 3 - 5000 | Page 4 - 7500</strong>. Pages 5 and 6 have yet to be
+          announced so stay tuned in our Discord for clues along the way!
+        </p>
+        <div className="d-flex align-items-center flex-wrap" style={{ justifyContent: 'space-evenly' }}>
+          <Image.PreviewGroup>
+            <Image className="p-2" width={isWidthDown('md', width, false) ? '50%' : '33%'} src={ComicP1} />
+            <Image className="p-2" width={isWidthDown('md', width, false) ? '50%' : '33%'} src={ComicP2} />
+            <Image className="p-2" width={isWidthDown('md', width, false) ? '50%' : '33%'} src={ComicP3} />
+          </Image.PreviewGroup>
+        </div>
+        <br />
         <Title level={2}>
           Games{' '}
           <span role="img" aria-label="controller emoji">
@@ -425,7 +451,7 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
         <p>
           We have decided to close our AXS holders airdrop early to reward our <strong>DEGEN</strong> holders instead
           with <strong>212.85M NFTL</strong> tokens in total; a portion being claimable along with the purchase of{' '}
-          <strong>DEGEN</strong> NFTs and the rest airdropped to holders prior to the sale based on a snapshot taken at
+          <strong>DEGEN</strong> NFTs and the rest airdropped to holders prior to the sale based on a snapshot taken at{' '}
           <strong>
             <a target="_blank" rel="noopener noreferrer" href="https://etherscan.io/block/13360120">
               Block #13360120
