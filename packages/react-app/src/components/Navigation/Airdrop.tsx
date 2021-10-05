@@ -75,8 +75,8 @@ function ClaimDialog({
       <DialogTitle id="airdrop-claim-title">{Math.round(parseFloat(availableNFTL))} NFTL Claimable</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          There is <strong>no deadline</strong> to claim so feel free to wait until more utility is added for <strong>NFTL</strong>.
-          Learn more about our governance/utility token{' '}
+          There is <strong>no deadline</strong> to claim so feel free to wait until more utility is added for{' '}
+          <strong>NFTL</strong>. Learn more about our governance/utility token{' '}
           <Link onClick={() => onClose()} to="/about/#nftl">
             here
           </Link>
@@ -88,16 +88,22 @@ function ClaimDialog({
             color="primary"
             inputProps={{ 'aria-label': 'primary checkbox' }}
             onChange={handleToggleChecked}
-            style={{ marginTop: -3 }}
           />
           Please accept our <Link to="/terms-of-service">Terms of Service</Link> before claiming.
         </DialogContentText>
+        {fullScreen && (
+          <MuiButton onClick={handleClaim} color="primary" autoFocus disabled={!checked}>
+            Claim
+          </MuiButton>
+        )}
       </DialogContent>
-      <DialogActions>
-        <MuiButton onClick={handleClaim} color="primary" autoFocus disabled={!checked}>
-          Claim
-        </MuiButton>
-      </DialogActions>
+      {!fullScreen && (
+        <DialogActions>
+          <MuiButton onClick={handleClaim} color="primary" autoFocus disabled={!checked}>
+            Claim
+          </MuiButton>
+        </DialogActions>
+      )}
     </Dialog>
   );
 }
