@@ -72,10 +72,10 @@ function ClaimDialog({
 
   return (
     <Dialog aria-labelledby="airdrop-claim-dialog" fullScreen={fullScreen} onClose={onClose} open={dialogOpen}>
-      <DialogTitle id="airdrop-claim-title">{availableNFTL} NFTL Claimable</DialogTitle>
+      <DialogTitle id="airdrop-claim-title">{Math.round(parseFloat(availableNFTL))} NFTL Claimable</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          There is no deadline to claim so feel free to wait until more utility is added for <strong>NFTL</strong>.
+          There is <strong>no deadline</strong> to claim so feel free to wait until more utility is added for <strong>NFTL</strong>.
           Learn more about our governance/utility token{' '}
           <Link onClick={() => onClose()} to="/about/#nftl">
             here
