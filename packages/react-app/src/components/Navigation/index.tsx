@@ -83,7 +83,7 @@ function Navigation({ width }: { width: Breakpoint }): JSX.Element {
           </nav>
         )}
         <div className="menu-right">
-          <Airdrop />
+          {/* <Airdrop /> */}
           <AddNFTL />
           <div className="network-label" style={{ padding: mobileView ? '0 5px' : '0 16px' }}>
             {targetNetwork.label}
