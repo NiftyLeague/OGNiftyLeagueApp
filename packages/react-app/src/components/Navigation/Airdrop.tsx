@@ -92,7 +92,7 @@ function ClaimDialog({
           Please accept our <Link to="/terms-of-service">Terms of Service</Link> before claiming.
         </DialogContentText>
         {fullScreen && (
-          <MuiButton onClick={handleClaim} color="primary" autoFocus disabled={!checked}>
+          <MuiButton onClick={handleClaim} color="primary" autoFocus disabled={!checked} fullWidth variant="contained">
             Claim
           </MuiButton>
         )}
