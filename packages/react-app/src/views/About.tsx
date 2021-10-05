@@ -17,8 +17,8 @@ import TennisSketch from 'assets/images/games/tennis-sketch.png';
 import SmashSketch from 'assets/images/games/smash-sketch.png';
 import ShreddersSketch from 'assets/images/games/nifty-shredders.png';
 import NiftyRacersSketch from 'assets/images/games/nifty-racers-sketch.png';
-import TokenDistributionLight from 'assets/images/nftl-distribution-light.png';
-import TokenDistributionDark from 'assets/images/nftl-distribution-dark.png';
+import TokenDistributionLight from 'assets/images/new-nftl-distribution-light.png';
+import TokenDistributionDark from 'assets/images/new-nftl-distribution-dark.png';
 import NFTL from 'assets/images/NFTL.png';
 import Ape from 'assets/images/characters/ape.png';
 import Human from 'assets/images/characters/human.png';
@@ -115,13 +115,12 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
         <Title level={2}>DEGENS</Title>
         <Title level={3}>Overview</Title>
         <p>
-          There will be a max supply of <strong>10,000</strong> genesis <strong>DEGENS</strong> minted on Ethereum
-          mainnet, <strong>9,897</strong> of which are hand-created by members of our community based on available
-          traits and accessories. The initial <strong>3</strong> slots are reserved for our core team members to mint
-          their personal <strong>DEGENS</strong> and be able to join in on our games. As soon as the{' '}
-          <strong>3rd DEGEN</strong> is minted the public offering will officially start! The final <strong>100</strong>{' '}
-          spots are set aside to mint special <strong>DEGENS</strong> that will be given away for free as future
-          community incentives from the <strong>Nifty DAO</strong>!
+          There is a max supply of <strong>10,000</strong> genesis <strong>DEGENS</strong> minted on Ethereum mainnet,{' '}
+          <strong>9,897</strong> of which were hand-created by members of our community based on available traits and
+          accessories. The initial <strong>3</strong> slots were reserved for our core team members to mint their
+          personal <strong>DEGENS</strong> and be able to join in on our games. The final <strong>100</strong> spots are
+          set aside to mint special <strong>DEGENS</strong> that will be given away for free as future community
+          incentives from the <strong>Nifty DAO</strong>!
         </p>
         <Title level={3}>Future Character Sales</Title>
         <p>
@@ -133,7 +132,7 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
           </span>
           ). Another option is to monitor demand and make a decision whether to expand to another EVM-compatible
           blockchain to onboard new users and enable cross-chain gaming. This may also become a requirement if we
-          introduce games which require frequent user transactions. If so, <strong>50%</strong> of all proceeds from
+          introduce games which require frequent user transactions. If so, <strong>60%</strong> of all proceeds from
           future character sales will be sent to the <strong>Nifty DAO</strong> with the remainder going to our team for
           putting the infrastructure in place and preparing new contracts and characters for the new blockchain(s). and
           current Ethereum <strong>DEGEN</strong> holders should expect a free NFT on the new blockchain(s).
@@ -260,7 +259,7 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
           <strong>
             <Link to="/games">Nifty Smashers</Link>
           </strong>{' '}
-          will be available at launch followed by the online multiplayer! So grab a few controllers
+          was made available immediately at launch followed by the online multiplayer! So grab a few controllers
           <span role="img" aria-label="controller emoji">
             {' '}
             🎮{' '}
@@ -386,8 +385,8 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
         <Title level={3}>Overview</Title>
         <p>
           <strong>NFTL</strong> acts as a way to decentralize our ecosystem by ensuring important decisions regarding
-          the direction of Nifty League are decided via the <strong>Nifty DAO</strong>. The sale of our characters will
-          coincide with the initial distribution of our ecosystem’s native utility and governance token;{' '}
+          the direction of Nifty League are decided via the <strong>Nifty DAO</strong>. The sale of our characters
+          kicked off the initial distribution of our ecosystem’s native utility and governance token;{' '}
           <strong>NFTL</strong>. <strong>NFTL</strong> serves a dual purpose of giving users voting rights on upcoming
           games and tournaments as well as being used for platform-wide expenses. For now, this only includes naming
           characters, but may be expanded to be used for purchasing additional in-game items, collectibles or even
@@ -407,51 +406,58 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
           width={isWidthDown('sm', width) ? '100%' : '75%'}
           style={{ marginLeft: isWidthDown('sm', width) ? '0' : '12.5%' }}
         />
-        <Title level={3}>
-          Airdrop{' '}
-          <span role="img" aria-label="present emoji">
-            🎁
-          </span>
-        </Title>
+        <Title level={3}>Community Giveaways</Title>
         <p>
-          We’re excited to announce that as part of our launch we will be air-dropping a total of{' '}
-          <strong>104M NFTL</strong> to all <strong>Ethereum Mainnet AXS</strong> token holders from our snapshot taken
-          at{' '}
-          <strong>
-            <a target="_blank" rel="noopener noreferrer" href="https://etherscan.io/block/13095547">
-              Block #13095547
-            </a>
-          </strong>{' '}
-          on <strong>August 25th, 2021 4:28 PM +UTC</strong>. Each address holding <strong>AXS</strong> at the time of
-          the snapshot will be eligible to claim <strong>4000 NFTL</strong> from our website as soon as we go live.
-          Eligible recipients will see a claim button on our navbar.
-          <br />
-          <strong>Note: Any tokens unclaimed after 2 months will be sent to the Nifty DAO</strong>.
-        </p>
-        <Title level={3}>Marketing</Title>
-        <p>
-          Every project needs quality memes! Within the first few weeks we will be awarding <strong>1M NFTL</strong> to
-          our community members who come up with the best memes or Discord stickers. Further details will be announced
-          in the{' '}
+          Every project needs quality memes! Join the{' '}
           <strong>
             <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/4bmTHYWjhe">
               Nifty League Discord
             </a>
-          </strong>
-          . We will also be randomly tipping Discord users a combined total of <strong>10.4M NFTL</strong> over the
-          first month. As noted earlier, these tips will remain available for active Discord members going forward but
-          the rate is expected to be much lower.
+          </strong>{' '}
+          for access to free <strong>NFTL</strong> distributions to community members who make us all laugh or go above
+          and beyond contributing to discussions. To facilitate this we’ll have a tip bot configured for our team and
+          moderators to tip Discord users a combined total of <strong>7M NFTL</strong> over the{' '}
+          <strong> first two months</strong>. As noted earlier, these tips will remain available for active Discord
+          members going forward but the rate is expected to be much lower.
         </p>
         <Title level={3}>Initial Supply</Title>
         <span id="emissions" />
         <p>
-          In addition to the airdrop and marketing expenses, <strong>79.6M</strong> tokens in total will be minted and
-          claimable along with the purchase of <strong>DEGEN</strong> NFTs. <strong>100M</strong> will go to a team
-          development fund which will be time-locked for <strong>6 months</strong> following launch.{' '}
-          <strong>125M NFTL</strong> will be minted and transferred to our community-controlled treasury under the{' '}
-          <strong>Nifty DAO</strong> for initial funding and future community incentives such as tournament rewards or
-          giveaways. This brings the initial supply to <strong>420M</strong> with daily emissions for all genesis NFT
-          owners starting immediately after each character sale.
+          We have decided to close our AXS holders airdrop early to reward our <strong>DEGEN</strong> holders instead
+          with <strong>212.85M NFTL</strong> tokens in total; a portion being claimable along with the purchase of{' '}
+          <strong>DEGEN</strong> NFTs and the rest airdropped to holders prior to the sale based on a snapshot taken at
+          <strong>
+            <a target="_blank" rel="noopener noreferrer" href="https://etherscan.io/block/13358250">
+              Block #13358250
+            </a>
+          </strong>
+          . While the AXS airdrop contract was open, a total of <strong>256K NFTL</strong> was claimed.
+        </p>
+        <p>
+          <strong>100M NFTL</strong> was allocated for a team development fund which is time-locked for{' '}
+          <strong>6 months</strong> from{' '}
+          <strong>
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://etherscan.io/tx/0x3649b00464903b78608f8de9308aec339ecd7446f1dc2de26a9913d2d5468ecf"
+            >
+              Block #13228502
+            </a>
+          </strong>
+          . Another <strong>100M NFTL</strong> was provided to the{' '}
+          <strong>
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://etherscan.io/address/0xd06ae6fb7eade890f3e295d69a6679380c9456c1"
+            >
+              Nifty DAO treasury
+            </a>
+          </strong>{' '}
+          to support early community plans such as liquidity incentives, tournament rewards, or giveaways. This brings
+          the initial supply to around <strong>420M</strong> with daily emissions for all genesis NFT owners starting
+          immediately after each character sale.
         </p>
         <Title level={3}>Emissions</Title>
         <p>

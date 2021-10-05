@@ -75,7 +75,8 @@ function ClaimDialog({
       <DialogTitle id="airdrop-claim-title">{availableNFTL} NFTL Claimable</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          Claimable until January 1st, 2022. Learn more about <strong>NFTL</strong>{' '}
+          There is no deadline to claim so feel free to wait until more utility is added for <strong>NFTL</strong>.
+          Learn more about our governance/utility token{' '}
           <Link onClick={() => onClose()} to="/about/#nftl">
             here
           </Link>
