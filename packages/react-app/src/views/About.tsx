@@ -427,8 +427,8 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
           with <strong>212.85M NFTL</strong> tokens in total; a portion being claimable along with the purchase of{' '}
           <strong>DEGEN</strong> NFTs and the rest airdropped to holders prior to the sale based on a snapshot taken at
           <strong>
-            <a target="_blank" rel="noopener noreferrer" href="https://etherscan.io/block/13358250">
-              Block #13358250
+            <a target="_blank" rel="noopener noreferrer" href="https://etherscan.io/block/13360120">
+              Block #13360120
             </a>
           </strong>
           . While the AXS airdrop contract was open, a total of <strong>256K NFTL</strong> was claimed.
