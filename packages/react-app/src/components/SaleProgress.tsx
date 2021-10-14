@@ -4,7 +4,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import { LinearProgress, Typography } from '@material-ui/core';
 import InfoIcon from '@material-ui/icons/InfoOutlined';
 import MuiAlert from '@material-ui/lab/Alert';
-import { useCachedSubgraph } from 'hooks';
 import Tooltip from 'components/Tooltip';
 
 const useStyles = makeStyles(theme => ({
@@ -67,7 +66,6 @@ interface ProgressProps {
 
 const SaleProgress = memo(({ className, handleClose, smallScreen }: ProgressProps): JSX.Element => {
   const classes = useStyles();
-  // const { totalSupply } = useCachedSubgraph();
   const totalSupply = 9900;
   const progress = totalSupply ?? 0;
   const saleEnded = progress >= 9900;

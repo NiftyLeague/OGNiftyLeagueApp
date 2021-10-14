@@ -4,7 +4,7 @@ import { isMobileOnly, isSafari, withOrientationChange } from 'react-device-dete
 import { BigNumber } from 'ethers';
 import MetaMaskOnboarding from '@metamask/onboarding';
 
-import { useCachedSubgraph, useRemovedTraits } from 'hooks';
+import { useRemovedTraits } from 'hooks';
 import { submitTxWithGasEstimate } from 'helpers/Notifier';
 import { NotifyCallback } from 'types/notify';
 import { NetworkContext } from 'NetworkProvider';
@@ -247,10 +247,10 @@ const CharacterCreator = memo(
 const CharacterCreatorContainer = memo(
   ({ isLoaded, isPortrait, setLoaded, setProgress }: CharacterCreatorContainerProps) => {
     const { address, loadWeb3Modal, tx, writeContracts } = useContext(NetworkContext);
-    const { nftPrice, totalSupply } = useCachedSubgraph();
     const [saleLocked, setSaleLocked] = useState(false);
     const [onboardUser, setOnboardUser] = useState(false);
     const [promptMetaMask, setPromptMetaMask] = useState(false);
+    const totalSupply = 9900;
 
     useEffect(() => {
       const count = totalSupply ?? 0;

@@ -30,6 +30,7 @@ import Unknown from 'assets/images/characters/unknown.png';
 import ComicP1 from 'assets/images/comics/page1.png';
 import ComicP2 from 'assets/images/comics/page2.png';
 import ComicP3 from 'assets/images/comics/page3.png';
+import ComicP4 from 'assets/images/comics/page4.png';
 
 const { Title } = Typography;
 
@@ -223,9 +224,10 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
         </p>
         <div className="d-flex align-items-center flex-wrap" style={{ justifyContent: 'space-evenly' }}>
           <Image.PreviewGroup>
-            <Image className="p-2" width={isWidthDown('md', width, false) ? '50%' : '33%'} src={ComicP1} />
-            <Image className="p-2" width={isWidthDown('md', width, false) ? '50%' : '33%'} src={ComicP2} />
-            <Image className="p-2" width={isWidthDown('md', width, false) ? '50%' : '33%'} src={ComicP3} />
+            <Image className="p-2" width={isWidthDown('md', width, false) ? '50%' : '25%'} src={ComicP1} />
+            <Image className="p-2" width={isWidthDown('md', width, false) ? '50%' : '25%'} src={ComicP2} />
+            <Image className="p-2" width={isWidthDown('md', width, false) ? '50%' : '25%'} src={ComicP3} />
+            <Image className="p-2" width={isWidthDown('md', width, false) ? '50%' : '25%'} src={ComicP4} />
           </Image.PreviewGroup>
         </div>
         <br />
