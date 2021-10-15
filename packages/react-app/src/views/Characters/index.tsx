@@ -9,7 +9,6 @@ import Pagination from '@material-ui/lab/Pagination';
 import { CharacterCard, Footer } from 'components';
 import { Characters, TraitMaps } from 'types/graph';
 import CharactersFilter from './CharactersFilter';
-import { CHARACTERS_SUBGRAPH_INTERVAL } from '../../constants';
 import { INITIAL_FILTER_STATE, FILTER_STATE_MAPPING, PAGE_SIZE } from './constants';
 import { DEFAULT_QUERY, FILTER_SEARCH_QUERY, ID_SEARCH_QUERY, NAME_SEARCH_QUERY } from './queries';
 import { useStyles } from './styles';
@@ -29,7 +28,6 @@ const CharactersContainer = (): JSX.Element => {
   let query = DEFAULT_QUERY;
   if (search) query = /^\d+$/.exec(search) ? ID_SEARCH_QUERY : NAME_SEARCH_QUERY;
   const { loading, data }: { loading: boolean; data?: Characters } = useQuery(query, {
-    pollInterval: CHARACTERS_SUBGRAPH_INTERVAL,
     variables: { size: PAGE_SIZE, lastID: (page - 1) * PAGE_SIZE, search },
   });
 
@@ -50,7 +48,6 @@ const CharactersContainer = (): JSX.Element => {
   const { loading: filterDataLoading, data: filterData }: { loading: boolean; data?: TraitMaps } = useQuery(
     FILTER_SEARCH_QUERY,
     {
-      pollInterval: CHARACTERS_SUBGRAPH_INTERVAL,
       variables: { ...filterParams },
       skip: !filterActive,
     },
