@@ -55,14 +55,9 @@ const Game = ({ unityContext }: { unityContext: UnityContext }) => {
     (e: CustomEvent<{ callback: (network: string) => void }>) => {
       const networkName = NETWORK_NAME[targetNetwork.chainId];
       const version = process.env.REACT_APP_SUBGRAPH_VERSION;
-      if (DEBUG) console.log(`${networkName},${version ?? ''}`);
-      setTimeout(
-        () =>
-          e.detail.callback(
-            `${networkName},${version ?? ''},Vitalik,${window.localStorage.getItem('FAV_DEGENS') || ''}`,
-          ),
-        1000,
-      );
+      const favs = window.localStorage.getItem('FAV_DEGENS') || '';
+      if (DEBUG) console.log(`${networkName},${version ?? ''},Vitalik,${favs}`);
+      setTimeout(() => e.detail.callback(`${networkName},${version ?? ''},Vitalik,${favs}`), 1000);
     },
     [targetNetwork.chainId],
   );
