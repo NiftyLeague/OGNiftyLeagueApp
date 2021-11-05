@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import {
@@ -17,6 +17,8 @@ import {
 import { Image } from 'antd';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import EditIcon from '@material-ui/icons/Edit';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { NetworkContext } from 'NetworkProvider';
@@ -88,11 +90,15 @@ const DegenImage = ({ tokenId }: { tokenId: string }) => {
 
 const CharacterCard = ({
   character,
+  favs,
+  handleToggleFavs,
   ownerOwned,
   singleClaim,
   userNFTLBalance,
 }: {
   character: Character;
+  favs?: string[];
+  handleToggleFavs?: (tokenId: string) => void;
   ownerOwned?: boolean;
   singleClaim?: boolean;
   userNFTLBalance?: number;
@@ -147,6 +153,17 @@ const CharacterCard = ({
                   <EditIcon />
                 </IconButton>
               </Tooltip>
+              <Tooltip text="Favorite">
+                <IconButton
+                  aria-label="favorite"
+                  className={classes.actionButtons}
+                  onClick={() => {
+                    if (handleToggleFavs) handleToggleFavs(tokenId);
+                  }}
+                >
+                  {favs?.includes(tokenId) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                </IconButton>
+              </Tooltip>
             </>
           )}
           <ShareCharacter tokenId={tokenId} />
@@ -199,6 +216,8 @@ const CharacterCard = ({
 };
 
 CharacterCard.defaultProps = {
+  favs: [],
+  handleToggleFavs: () => {},
   ownerOwned: undefined,
   singleClaim: false,
   userNFTLBalance: 0,
