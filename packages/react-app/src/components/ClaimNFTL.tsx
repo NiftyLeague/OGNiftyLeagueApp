@@ -58,7 +58,7 @@ const ClaimNFTL = ({
     <>
       {mockAccumulated > 0.0 && writeContracts[NFTL_CONTRACT] && (
         <Tooltip text={`${amountParsed} claimable for this DEGEN`}>
-          <Button style={{ ...btnStyles }} shape="round" size="large" onClick={handleClaimNFTL}>
+          <Button style={{ ...btnStyles, padding: '0 16px' }} shape="round" size="large" onClick={handleClaimNFTL}>
             Claim
           </Button>
         </Tooltip>
