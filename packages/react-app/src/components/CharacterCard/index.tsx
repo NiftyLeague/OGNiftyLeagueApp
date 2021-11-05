@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import {
@@ -17,6 +17,8 @@ import {
 import { Image } from 'antd';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import EditIcon from '@material-ui/icons/Edit';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { NetworkContext } from 'NetworkProvider';
@@ -50,6 +52,7 @@ export const useStyles = makeStyles(theme => ({
   media: { height: 338, display: 'flex', alignItems: 'center', justifyContent: 'center' },
   loading: { width: 80, height: 80 },
   actionButtons: { color: '#fff', borderRadius: '50%', '&:focus': { outline: 'none' } },
+  reduceSize: { padding: 8, '& svg': { fontSize: 22 } },
   traitsHeader: { color: '#fff', paddingLeft: 8 },
   cardContent: { padding: 0, paddingBottom: 0 },
   traitList: { paddingTop: 0, display: 'flex', flexWrap: 'wrap', flexDirection: 'row' },
@@ -88,11 +91,15 @@ const DegenImage = ({ tokenId }: { tokenId: string }) => {
 
 const CharacterCard = ({
   character,
+  favs,
+  handleToggleFavs,
   ownerOwned,
   singleClaim,
   userNFTLBalance,
 }: {
   character: Character;
+  favs?: string[];
+  handleToggleFavs?: (tokenId: string) => void;
   ownerOwned?: boolean;
   singleClaim?: boolean;
   userNFTLBalance?: number;
@@ -113,6 +120,8 @@ const CharacterCard = ({
   if (tokenIdNum === 10000) fontSize = '.8rem';
   if (tokenIdNum >= 1000) fontSize = '.85rem';
   else if (tokenIdNum >= 100) fontSize = '1rem';
+
+  const actionClasses = clsx(classes.actionButtons, { [classes.reduceSize]: singleClaim });
 
   return (
     <>
@@ -143,13 +152,24 @@ const CharacterCard = ({
           {ownerOwned && (
             <>
               <Tooltip text="Rename">
-                <IconButton aria-label="rename" className={classes.actionButtons} onClick={() => setDialogOpen(true)}>
+                <IconButton aria-label="rename" className={actionClasses} onClick={() => setDialogOpen(true)}>
                   <EditIcon />
+                </IconButton>
+              </Tooltip>
+              <Tooltip text="Favorite">
+                <IconButton
+                  aria-label="favorite"
+                  className={actionClasses}
+                  onClick={() => {
+                    if (handleToggleFavs) handleToggleFavs(tokenId);
+                  }}
+                >
+                  {favs?.includes(tokenId) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
                 </IconButton>
               </Tooltip>
             </>
           )}
-          <ShareCharacter tokenId={tokenId} />
+          <ShareCharacter tokenId={tokenId} className={actionClasses} />
           {ownerOwned && singleClaim && <ClaimNFTL tokenIndices={[tokenIdNum]} singleClaim />}
           <span className={classes.traitsHeader}>Traits:</span>
           <IconButton
@@ -199,6 +219,8 @@ const CharacterCard = ({
 };
 
 CharacterCard.defaultProps = {
+  favs: [],
+  handleToggleFavs: () => {},
   ownerOwned: undefined,
   singleClaim: false,
   userNFTLBalance: 0,

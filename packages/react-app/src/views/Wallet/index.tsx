@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useQuery } from '@apollo/client';
 import { makeStyles } from '@material-ui/core/styles';
 import { CircularProgress, Container, Grid, Typography } from '@material-ui/core';
@@ -29,6 +29,23 @@ const Wallet = (): JSX.Element => {
     variables: { address: address?.toLowerCase() },
     skip: !address,
   });
+  const [favs, setFavs] = useState<string[]>([]);
+
+  useEffect(() => {
+    const storage = window.localStorage.getItem('FAV_DEGENS');
+    setFavs(storage ? storage.split(',') : []);
+  }, []);
+
+  const handleToggleFavs = useCallback(
+    (v: string) => {
+      let newFavs: string[] = [];
+      if (favs.includes(v)) newFavs = favs.filter(f => f !== v);
+      else newFavs = [...favs, v];
+      window.localStorage.setItem('FAV_DEGENS', newFavs.toString());
+      setFavs(newFavs);
+    },
+    [favs],
+  );
 
   const characters = useMemo(() => {
     const characterList = data?.owner?.characters ? [...data.owner.characters] : [];
@@ -55,7 +72,9 @@ const Wallet = (): JSX.Element => {
                 <Grid item xs={12} sm={6} md={4} lg={3} key={character.id}>
                   <CharacterCard
                     character={character}
+                    favs={favs}
                     ownerOwned
+                    handleToggleFavs={handleToggleFavs}
                     singleClaim={displaySingleClaim}
                     userNFTLBalance={userNFTLBalance}
                   />

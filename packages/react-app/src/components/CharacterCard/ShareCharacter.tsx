@@ -18,7 +18,7 @@ export const useStyles = makeStyles({
   },
 });
 
-const ShareCharacter = ({ tokenId }: { tokenId: string }): JSX.Element => {
+const ShareCharacter = ({ className, tokenId }: { className?: string; tokenId: string }): JSX.Element => {
   const classes = useStyles();
   const { currentTheme } = useThemeSwitcher();
   const [open, setOpen] = useState(false);
@@ -33,7 +33,7 @@ const ShareCharacter = ({ tokenId }: { tokenId: string }): JSX.Element => {
       <Tooltip text="Share link">
         <IconButton
           aria-label="share"
-          className={classes.actionButtons}
+          className={className || classes.actionButtons}
           onClick={() => {
             copy(`${window.location.origin}/degens/${tokenId}`);
             setOpen(true);
@@ -58,5 +58,7 @@ const ShareCharacter = ({ tokenId }: { tokenId: string }): JSX.Element => {
     </>
   );
 };
+
+ShareCharacter.defaultProps = { className: undefined };
 
 export default ShareCharacter;
