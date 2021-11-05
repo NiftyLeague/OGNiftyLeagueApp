@@ -31,7 +31,8 @@ const smashersContext = new UnityContext({
 
 const Game = ({ unityContext }: { unityContext: UnityContext }) => {
   const { address, targetNetwork } = useContext(NetworkContext);
-  const auth = `true,${address || '0x0'},Vitalik`;
+  const favs = window.localStorage.getItem('FAV_DEGENS') || '';
+  const auth = `true,${address || '0x0'},Vitalik,${favs}`;
   const authCallback = useRef<null | ((auth: string) => void)>();
   const [isLoaded, setLoaded] = useState(false);
   const [progress, setProgress] = useState(0);
