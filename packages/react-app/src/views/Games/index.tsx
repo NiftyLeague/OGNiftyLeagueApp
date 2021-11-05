@@ -56,7 +56,13 @@ const Game = ({ unityContext }: { unityContext: UnityContext }) => {
       const networkName = NETWORK_NAME[targetNetwork.chainId];
       const version = process.env.REACT_APP_SUBGRAPH_VERSION;
       if (DEBUG) console.log(`${networkName},${version ?? ''}`);
-      setTimeout(() => e.detail.callback(`${networkName},${version ?? ''}`), 1000);
+      setTimeout(
+        () =>
+          e.detail.callback(
+            `${networkName},${version ?? ''},Vitalik,${window.localStorage.getItem('FAV_DEGENS') || ''}`,
+          ),
+        1000,
+      );
     },
     [targetNetwork.chainId],
   );
