@@ -1,9 +1,11 @@
 /* eslint-disable no-nested-ternary */
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import Unity, { UnityContext } from 'react-unity-webgl';
-import { isMobileOnly } from 'react-device-detect';
-import { Button, Card, Col, Image, Layout, Menu, Row } from 'antd';
-import { SportsEsports, SportsMma } from '@material-ui/icons';
+import { isMobileOnly, isWindows } from 'react-device-detect';
+import { Button, Card, Col, Image, Layout, Menu, Row, Typography } from 'antd';
+import Container from '@material-ui/core/Container';
+import MuiButton from '@material-ui/core/Button';
+import { GetApp, SportsEsports, WebAsset, DesktopWindows } from '@material-ui/icons';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
 
 import { NetworkContext } from 'NetworkProvider';
@@ -13,6 +15,7 @@ import NiftySmashersThumb from 'assets/images/characters/alien-dj.png';
 import { DEBUG, NETWORK_NAME } from '../../constants';
 import './games.css';
 
+const { Title } = Typography;
 const { Content, Sider } = Layout;
 
 const baseUrl = process.env.REACT_APP_UNITY_SMASHERS_BASE_URL as string;
@@ -123,6 +126,40 @@ const Game = ({ unityContext }: { unityContext: UnityContext }) => {
   );
 };
 
+const Downloader = (): JSX.Element => {
+  return (
+    <Container style={{ textAlign: 'left', padding: '40px' }}>
+      <Title level={2}>
+        Nifty Smahers Desktop{' '}
+        <span role="img" aria-label="joystick emoji">
+          🕹️
+        </span>
+      </Title>
+      <p>The Nifty League Desktop launcher is recommended for best performance... lorem ipsum... :)</p>
+      <Title level={4}>Setup Steps:</Title>
+      <ol style={{ lineHeight: '2.5rem' }}>
+        <li>Download app below</li>
+        <MuiButton
+          variant="contained"
+          color="primary"
+          size="large"
+          // className={classes.button}
+          startIcon={<GetApp />}
+        >
+          Download for {isWindows ? 'Windows' : 'Mac OS'}
+        </MuiButton>
+        <li>Launch the game</li>
+        <li>The game opens nifty-league.com to a link that is used for authentication with a unique token</li>
+        <li>
+          nifty-league.com then opens Metamask or other injected Web3 provider for signing a message to verify DEGEN
+          ownership
+        </li>
+        <li>SMASH!</li>
+      </ol>
+    </Container>
+  );
+};
+
 export default function Games(): JSX.Element {
   const { currentTheme } = useThemeSwitcher();
   const [selectedGame, setSelectedGame] = useState('all');
@@ -151,8 +188,12 @@ export default function Games(): JSX.Element {
           <Menu.Item key="all" icon={<SportsEsports />}>
             All Games
           </Menu.Item>
-          <Menu.Item key="nifty-smashers" icon={<SportsMma />}>
-            Nifty Smashers
+          <Menu.Item key="nifty-smashers" icon={<WebAsset />}>
+            Nifty Smashers WebGL
+          </Menu.Item>
+          {!collapsed && <Image width={190} src={NiftySmashers} />}
+          <Menu.Item key="nifty-league-desktop" icon={<DesktopWindows />}>
+            Nifty League Desktop
           </Menu.Item>
           {!collapsed && <Image width={190} src={NiftySmashers} />}
           {!collapsed && (
@@ -165,9 +206,12 @@ export default function Games(): JSX.Element {
       <Layout style={{ marginLeft: collapsed ? 80 : 200 }}>
         <Content style={{ ...(selectedGame === 'all' && { padding: 40 }) }}>
           {selectedGame !== 'all' ? (
-            <>{selectedGame === 'nifty-smashers' ? <Game unityContext={smashersContext} /> : null}</>
+            <>
+              {selectedGame === 'nifty-smashers' ? <Game unityContext={smashersContext} /> : null}
+              {selectedGame === 'nifty-league-desktop' ? <Downloader /> : null}
+            </>
           ) : (
-            <Row gutter={{ xs: 16, md: 8 }}>
+            <Row gutter={{ xs: 16, md: 16 }}>
               <Col xs={24} md={12} xl={8} xxl={6}>
                 <Card
                   cover={<img alt="NiftySmashers" src={NiftySmashers} />}
@@ -175,8 +219,25 @@ export default function Games(): JSX.Element {
                   hoverable
                 >
                   <Card.Meta
-                    title="Nifty Smashers"
+                    title="Nifty Smashers WebGL"
                     description="The first and only NFT brawler!"
+                    avatar={
+                      <div className="thumb">
+                        <img src={NiftySmashersThumb} alt="game icon" />
+                      </div>
+                    }
+                  />
+                </Card>
+              </Col>
+              <Col xs={24} md={12} xl={8} xxl={6}>
+                <Card
+                  cover={<img alt="NiftySmashersDesktop" src={NiftySmashers} />}
+                  onClick={() => setSelectedGame('nifty-league-desktop')}
+                  hoverable
+                >
+                  <Card.Meta
+                    title="Nifty Smashers Desktop"
+                    description="Use the Desktop app for latest updates"
                     avatar={
                       <div className="thumb">
                         <img src={NiftySmashersThumb} alt="game icon" />
