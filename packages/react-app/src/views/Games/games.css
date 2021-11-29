@@ -54,6 +54,26 @@
   color: rgba(255, 255, 255, 0.75);
 }
 
+.games .desktop .ant-card-cover {
+  border: 5px solid #bf953f;
+}
+
+.games .desktop .ant-card-body {
+  background: -moz-linear-gradient(right, #bf953f, #c0bd8d, #b38728, #c7c290, #aa771c);
+  background: -ms-linear-gradient(right, #bf953f, #c0bd8d, #b38728, #c7c290, #aa771c);
+  background: -webkit-linear-gradient(right, #bf953f, #c0bd8d, #b38728, #c7c290, #aa771c);
+  background: -o-linear-gradient(right, #bf953f, #c0bd8d, #b38728, #c7c290, #aa771c);
+  background: linear-gradient(to right, #bf953f, #c0bd8d, #b38728, #c7c290, #aa771c);
+}
+
+.games .desktop .ant-card-meta-title {
+  color: black;
+}
+
+.games .desktop .ant-card-meta-description {
+  color: black;
+}
+
 .games .thumb {
   height: 60px;
   box-shadow: 0px 12px 13px 0px rgb(26 15 63 / 32%);
