@@ -12,6 +12,8 @@ import { NetworkContext } from 'NetworkProvider';
 import Preloader from 'components/Preloader';
 import NiftySmashers from 'assets/gifs/nifty-smashers.gif';
 import NiftySmashersThumb from 'assets/images/characters/alien-dj.png';
+import NiftyDesktop from 'assets/gifs/nifty-smashers-desktop.gif';
+import NiftyDesktopThumb from 'assets/images/characters/gold-degen.png';
 import { DEBUG, NETWORK_NAME } from '../../constants';
 import './games.css';
 
@@ -139,13 +141,7 @@ const Downloader = (): JSX.Element => {
       <Title level={4}>Setup Steps:</Title>
       <ol style={{ lineHeight: '2.5rem' }}>
         <li>Download app below</li>
-        <MuiButton
-          variant="contained"
-          color="primary"
-          size="large"
-          // className={classes.button}
-          startIcon={<GetApp />}
-        >
+        <MuiButton variant="contained" color="primary" size="large" startIcon={<GetApp />}>
           Download for {isWindows ? 'Windows' : 'Mac OS'}
         </MuiButton>
         <li>Launch the game</li>
@@ -212,9 +208,9 @@ export default function Games(): JSX.Element {
             </>
           ) : (
             <Row gutter={{ xs: 16, md: 16 }}>
-              <Col xs={24} md={12} xl={8} xxl={6}>
+              <Col xs={12} md={12} xl={8} xxl={6}>
                 <Card
-                  cover={<img alt="NiftySmashers" src={NiftySmashers} />}
+                  cover={<img alt="Nifty Smashers" src={NiftySmashers} />}
                   onClick={() => setSelectedGame('nifty-smashers')}
                   hoverable
                 >
@@ -229,18 +225,19 @@ export default function Games(): JSX.Element {
                   />
                 </Card>
               </Col>
-              <Col xs={24} md={12} xl={8} xxl={6}>
+              <Col xs={12} md={12} xl={8} xxl={6}>
                 <Card
-                  cover={<img alt="NiftySmashersDesktop" src={NiftySmashers} />}
+                  cover={<img alt="Nifty League Desktop" src={NiftyDesktop} />}
                   onClick={() => setSelectedGame('nifty-league-desktop')}
                   hoverable
+                  className="desktop"
                 >
                   <Card.Meta
-                    title="Nifty Smashers Desktop"
-                    description="Use the Desktop app for latest updates"
+                    title="Nifty League Desktop"
+                    description="Use our Desktop app for latest updates"
                     avatar={
-                      <div className="thumb">
-                        <img src={NiftySmashersThumb} alt="game icon" />
+                      <div className="thumb pixelated">
+                        <img src={NiftyDesktopThumb} alt="game icon" />
                       </div>
                     }
                   />
