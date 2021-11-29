@@ -20,7 +20,8 @@ const GameVerification = (): JSX.Element => {
       if (userProvider) {
         const { signer } = getProviderAndSigner(userProvider);
         if (signer) {
-          const signAddress = `${address.substr(0, 6)}...${address.substr(-4)}`;
+          const addressToLower = address.toLowerCase();
+          const signAddress = `${addressToLower.substr(0, 6)}...${addressToLower.substr(-4)}`;
           const verification = await signer.signMessage(
             `Please sign this message to verify that ${signAddress} belongs to you. ${nonce || ''}`,
           );
@@ -31,7 +32,7 @@ const GameVerification = (): JSX.Element => {
               token,
               nonce,
               verification,
-              address,
+              address: addressToLower,
             }),
           })
             .then(res => {
@@ -56,7 +57,7 @@ const GameVerification = (): JSX.Element => {
           {success && 'Successfully verified account! Please return to the Nifty League desktop app'}
         </>
       ) : (
-        <>{address ? 'Sign message to verify DEGEN ownership' : 'Please connect your wallet'}</>
+        <>{address ? 'Please sign message to verify address ownership' : 'Please connect your wallet'}</>
       )}
     </Container>
   );
