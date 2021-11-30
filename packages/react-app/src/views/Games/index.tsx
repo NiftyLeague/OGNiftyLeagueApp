@@ -1,11 +1,9 @@
 /* eslint-disable no-nested-ternary */
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import Unity, { UnityContext } from 'react-unity-webgl';
-import { isMobileOnly, isWindows } from 'react-device-detect';
-import { Button, Card, Col, Image, Layout, Menu, Row, Typography } from 'antd';
-import Container from '@material-ui/core/Container';
-import MuiButton from '@material-ui/core/Button';
-import { GetApp, SportsEsports, WebAsset, DesktopWindows } from '@material-ui/icons';
+import { isMobileOnly } from 'react-device-detect';
+import { Button, Card, Col, Image, Layout, Menu, Row } from 'antd';
+import { SportsEsports, WebAsset, DesktopWindows } from '@material-ui/icons';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
 
 import { NetworkContext } from 'NetworkProvider';
@@ -15,9 +13,9 @@ import NiftySmashersThumb from 'assets/images/characters/alien-dj.png';
 import NiftyDesktop from 'assets/gifs/nifty-smashers-desktop.gif';
 import NiftyDesktopThumb from 'assets/images/characters/gold-degen.png';
 import { DEBUG, NETWORK_NAME } from '../../constants';
+import Downloader from './Downloader';
 import './games.css';
 
-const { Title } = Typography;
 const { Content, Sider } = Layout;
 
 const baseUrl = process.env.REACT_APP_UNITY_SMASHERS_BASE_URL as string;
@@ -125,34 +123,6 @@ const Game = ({ unityContext }: { unityContext: UnityContext }) => {
         Fullscreen
       </Button>
     </>
-  );
-};
-
-const Downloader = (): JSX.Element => {
-  return (
-    <Container style={{ textAlign: 'left', padding: '40px' }}>
-      <Title level={2}>
-        Nifty Smahers Desktop{' '}
-        <span role="img" aria-label="joystick emoji">
-          🕹️
-        </span>
-      </Title>
-      <p>The Nifty League Desktop launcher is recommended for best performance... lorem ipsum... :)</p>
-      <Title level={4}>Setup Steps:</Title>
-      <ol style={{ lineHeight: '2.5rem' }}>
-        <li>Download app below</li>
-        <MuiButton variant="contained" color="primary" size="large" startIcon={<GetApp />}>
-          Download for {isWindows ? 'Windows' : 'Mac OS'}
-        </MuiButton>
-        <li>Launch the game</li>
-        <li>The game opens nifty-league.com to a link that is used for authentication with a unique token</li>
-        <li>
-          nifty-league.com then opens Metamask or other injected Web3 provider for signing a message to verify DEGEN
-          ownership
-        </li>
-        <li>SMASH!</li>
-      </ol>
-    </Container>
   );
 };
 
