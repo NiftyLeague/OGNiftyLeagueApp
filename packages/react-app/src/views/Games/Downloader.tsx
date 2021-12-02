@@ -15,7 +15,7 @@ const Downloader = (): JSX.Element => {
   const { targetNetwork } = useContext(NetworkContext);
 
   const handleDownload = async () => {
-    const env = targetNetwork.chainId === 1 ? 'prod' : 'staging';
+    const env = targetNetwork.chainId === 1 ? 'prod' : 'stage';
     const os = isWindows ? 'win' : 'osx';
     const baseURL = `https://nifty-league.s3.amazonaws.com/launcher/${env}/${os}`;
     const version: string = await fetch(`${baseURL}/version.bin`)
