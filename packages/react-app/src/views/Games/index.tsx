@@ -3,14 +3,18 @@ import React, { useCallback, useContext, useEffect, useRef, useState } from 'rea
 import Unity, { UnityContext } from 'react-unity-webgl';
 import { isMobileOnly } from 'react-device-detect';
 import { Button, Card, Col, Image, Layout, Menu, Row } from 'antd';
-import { SportsEsports, SportsMma } from '@material-ui/icons';
+import { SportsEsports, WebAsset, DesktopWindows } from '@material-ui/icons';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
 
 import { NetworkContext } from 'NetworkProvider';
 import Preloader from 'components/Preloader';
 import NiftySmashers from 'assets/gifs/nifty-smashers.gif';
 import NiftySmashersThumb from 'assets/images/characters/alien-dj.png';
+import NiftyDesktop from 'assets/gifs/nifty-smashers-desktop.gif';
+// import NiftyDesktopThumb from 'assets/images/characters/gold-degen.png';
+import NiftyDesktopThumb from 'assets/images/games/smashers_icon.png';
 import { DEBUG, NETWORK_NAME } from '../../constants';
+import Downloader from './Downloader';
 import './games.css';
 
 const { Content, Sider } = Layout;
@@ -151,8 +155,12 @@ export default function Games(): JSX.Element {
           <Menu.Item key="all" icon={<SportsEsports />}>
             All Games
           </Menu.Item>
-          <Menu.Item key="nifty-smashers" icon={<SportsMma />}>
-            Nifty Smashers
+          <Menu.Item key="nifty-smashers" icon={<WebAsset />}>
+            Nifty Smashers WebGL
+          </Menu.Item>
+          {!collapsed && <Image width={190} src={NiftySmashers} />}
+          <Menu.Item key="nifty-league-desktop" icon={<DesktopWindows />}>
+            Nifty League Desktop
           </Menu.Item>
           {!collapsed && <Image width={190} src={NiftySmashers} />}
           {!collapsed && (
@@ -165,21 +173,42 @@ export default function Games(): JSX.Element {
       <Layout style={{ marginLeft: collapsed ? 80 : 200 }}>
         <Content style={{ ...(selectedGame === 'all' && { padding: 40 }) }}>
           {selectedGame !== 'all' ? (
-            <>{selectedGame === 'nifty-smashers' ? <Game unityContext={smashersContext} /> : null}</>
+            <>
+              {selectedGame === 'nifty-smashers' ? <Game unityContext={smashersContext} /> : null}
+              {selectedGame === 'nifty-league-desktop' ? <Downloader /> : null}
+            </>
           ) : (
-            <Row gutter={{ xs: 16, md: 8 }}>
-              <Col xs={24} md={12} xl={8} xxl={6}>
+            <Row gutter={{ xs: 16, md: 16 }}>
+              <Col xs={12} md={12} xl={8} xxl={6}>
                 <Card
-                  cover={<img alt="NiftySmashers" src={NiftySmashers} />}
+                  cover={<img alt="Nifty Smashers" src={NiftySmashers} />}
                   onClick={() => setSelectedGame('nifty-smashers')}
                   hoverable
                 >
                   <Card.Meta
-                    title="Nifty Smashers"
+                    title="Nifty Smashers WebGL"
                     description="The first and only NFT brawler!"
                     avatar={
                       <div className="thumb">
                         <img src={NiftySmashersThumb} alt="game icon" />
+                      </div>
+                    }
+                  />
+                </Card>
+              </Col>
+              <Col xs={12} md={12} xl={8} xxl={6}>
+                <Card
+                  cover={<img alt="Nifty League Desktop" src={NiftyDesktop} />}
+                  onClick={() => setSelectedGame('nifty-league-desktop')}
+                  hoverable
+                  className="desktop"
+                >
+                  <Card.Meta
+                    title="Nifty League Desktop"
+                    description="Use our Desktop app for latest updates"
+                    avatar={
+                      <div className="thumb">
+                        <img src={NiftyDesktopThumb} alt="game icon" />
                       </div>
                     }
                   />
