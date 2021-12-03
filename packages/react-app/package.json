@@ -42,7 +42,7 @@
     "eth-hooks": "2.3.0-beta07",
     "eth-rpc-errors": "^4.0.3",
     "ethers": "^5.4.7",
-    "graphiql": "^1.4.2",
+    "graphiql": "^1.4.7",
     "graphql": "^15.5.3",
     "ipfs-http-client": "^52.0.3",
     "isomorphic-fetch": "^3.0.0",
