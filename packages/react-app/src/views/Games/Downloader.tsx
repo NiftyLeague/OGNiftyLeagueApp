@@ -61,7 +61,7 @@ const Downloader = (): JSX.Element => {
           style={{ color: currentTheme === 'dark' ? 'white' : 'black' }}
           variant="contained"
         >
-          {!version
+          {!version && isWindows ? 
             ? 'Fetching installer version...'
             : `Download for ${isWindows ? 'Windows' : 'Mac OS will be added soon!'}`}
         </MuiButton>
