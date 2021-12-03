@@ -2,7 +2,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { isWindows } from 'react-device-detect';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
-import download from 'downloadjs';
 import { Typography } from 'antd';
 import Container from '@material-ui/core/Container';
 import MuiButton from '@material-ui/core/Button';
@@ -61,7 +60,7 @@ const Downloader = (): JSX.Element => {
           style={{ color: currentTheme === 'dark' ? 'white' : 'black' }}
           variant="contained"
         >
-          {!version && isWindows ? 
+          {!version && isWindows
             ? 'Fetching installer version...'
             : `Download for ${isWindows ? 'Windows' : 'Mac OS will be added soon!'}`}
         </MuiButton>

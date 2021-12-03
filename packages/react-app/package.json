@@ -37,7 +37,6 @@
     "clsx": "^1.1.1",
     "copy-to-clipboard": "^3.3.1",
     "dotenv": "^10.0.0",
-    "downloadjs": "^1.4.7",
     "eslint-config-airbnb": "^18.2.1",
     "eth-hooks": "2.3.0-beta07",
     "eth-rpc-errors": "^4.0.3",
