@@ -11,7 +11,6 @@ import Preloader from 'components/Preloader';
 import NiftySmashers from 'assets/gifs/nifty-smashers.gif';
 import NiftySmashersThumb from 'assets/images/characters/alien-dj.png';
 import NiftyDesktop from 'assets/gifs/nifty-smashers-desktop.gif';
-// import NiftyDesktopThumb from 'assets/images/characters/gold-degen.png';
 import NiftyDesktopThumb from 'assets/images/games/smashers_icon.png';
 import { DEBUG, NETWORK_NAME } from '../../constants';
 import Downloader from './Downloader';
