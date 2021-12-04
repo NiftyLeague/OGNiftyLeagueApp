@@ -1,5 +1,135 @@
-.roadmap-wrapper {
+/* -------------------------------- 
+
+Background
+
+-------------------------------- */
+
+.space {
   background-image: url('assets/images/roadmap/space.png');
+  display: flex;
+  flex-direction: column;
+}
+.stars {
+  background-image: url('assets/images/roadmap/stars_01.png');
+  display: flex;
+  flex-direction: column;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: repeat;
+}
+.stars2 {
+  background-image: url('assets/images/roadmap/stars_02.png');
+  /* background-attachment: fixed; */
+  background-position: center;
+  background-repeat: repeat;
+}
+
+.earth {
+  background-image: url('assets/images/roadmap/earth.png');
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: 1;
+}
+.cat-planet {
+  background-image: url('assets/images/roadmap/cat-planet.png');
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: left;
+  top: 500px;
+  z-index: 1;
+}
+.animated-star {
+  background-image: url('assets/images/roadmap/animated-star.gif');
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: right;
+  top: 100px;
+  z-index: 1;
+}
+.animated-star2 {
+  background-image: url('assets/images/roadmap/animated-star.gif');
+  position: absolute;
+  width: 95%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  top: 800px;
+  z-index: 1;
+}
+.animated-star3 {
+  background-image: url('assets/images/roadmap/animated-star.gif');
+  position: absolute;
+  width: 120%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  top: 1100px;
+  z-index: 1;
+}
+.animated-star4 {
+  background-image: url('assets/images/roadmap/animated-star.gif');
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: left;
+  top: 1500px;
+  z-index: 1;
+}
+.animated-star5 {
+  background-image: url('assets/images/roadmap/animated-star.gif');
+  position: absolute;
+  width: 90%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-top: -600px;
+  z-index: 1;
+}
+.mars {
+  background-image: url('assets/images/roadmap/mars.png');
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: right;
+  margin-top: -1000px;
+  z-index: 1;
+}
+.moon {
+  background-image: url('assets/images/roadmap/moon.png');
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-top: -100px;
+  z-index: 1;
+}
+@media only screen and (min-width: 1170px) {
+  .moon {
+    margin-top: -148px;
+  }
+}
+
+/* -------------------------------- 
+
+Timeline
+
+-------------------------------- */
+
+.title {
+  z-index: 2;
+  position: absolute;
+  width: 100%;
+  margin-top: 20px;
 }
 
 .cd-container {
@@ -8,18 +138,13 @@
   margin: 0 auto;
   padding: 0 10%;
   border-radius: 2px;
+  z-index: 2;
 }
 .cd-container::after {
   content: '';
   display: table;
   clear: both;
 }
-
-/* -------------------------------- 
-
-Main components 
-
--------------------------------- */
 
 #cd-timeline {
   position: relative;
@@ -34,11 +159,11 @@ Main components
   left: 25px;
   height: 100%;
   width: 4px;
-  background: #7e57c2;
+  background: #620edf;
 }
 @media only screen and (min-width: 1170px) {
   #cd-timeline {
-    margin-top: 3em;
+    margin-top: 8em;
     margin-bottom: 3em;
   }
   #cd-timeline::before {
@@ -81,10 +206,10 @@ Main components
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  box-shadow: 0 0 0 4px #7e57c2, inset 0 2px 0 rgba(0, 0, 0, 0.08), 0 3px 0 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 0 0 4px #5e72eb, inset 0 2px 0 rgba(0, 0, 0, 0.08), 0 3px 0 4px rgba(0, 0, 0, 0.05);
 }
 .cd-timeline-img {
-  background: #673ab7;
+  background: linear-gradient(to left, #5e72eb, #620edf);
 }
 @media only screen and (min-width: 1170px) {
   .cd-timeline-img {
@@ -214,5 +339,26 @@ Main components
   }
   .cd-timeline-block:nth-child(even) .cd-timeline-content .cd-read-more {
     float: right;
+  }
+}
+
+footer {
+  margin-top: 800px;
+}
+
+.fade-in {
+  opacity: 1;
+  animation-name: fadeInOpacity;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in;
+  animation-duration: 2s;
+}
+
+@keyframes fadeInOpacity {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }
