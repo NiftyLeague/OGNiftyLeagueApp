@@ -10,12 +10,10 @@ import './about.css';
 const { Title } = Typography;
 
 const About = memo(({ width }: { width: Breakpoint }) => {
-  const smallScreen = isWidthDown('xs', width);
   return (
     <section className="about-page-section">
       <Container>
-        <SaleProgress className="alert" smallScreen={smallScreen} />
-        <div className="row" style={{ paddingTop: 32 }}>
+        <div className="row">
           <div className="col-md-6 d-flex align-self-center">
             <NiftySmashersVideo />
           </div>
