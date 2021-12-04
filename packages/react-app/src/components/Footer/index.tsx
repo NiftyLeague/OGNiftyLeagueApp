@@ -14,7 +14,7 @@ export default function Footer(): JSX.Element {
       <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/NiftyLeague">
         <TwitterOutlined />
       </a>
-      <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/4bmTHYWjhe">
+      <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/niftyleague">
         <IconFont className="discord" type="icon-discord" />
       </a>
       <div className="siteLinks">

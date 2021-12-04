@@ -17,6 +17,7 @@ const NotFound = lazy(() => import('./views/NotFound'));
 const Subgraph = lazy(() => import('./views/Subgraph'));
 const Wallet = lazy(() => import('./views/Wallet'));
 const GameVerification = lazy(() => import('./views/GameVerification'));
+const Roadmap = lazy(() => import('./views/Roadmap'));
 
 // EXTERNAL CONTRACT EXAMPLE:
 // If you want to bring in the mainnet DAI contract it would look like:
@@ -46,6 +47,9 @@ export default function App(): JSX.Element {
             </Route>
             <Route exact path="/about">
               <About />
+            </Route>
+            <Route exact path="/roadmap">
+              <Roadmap />
             </Route>
             <Route exact path="/games">
               <Games />

@@ -157,7 +157,7 @@ const PrivacyPolicy = (): JSX.Element => (
       </p>
       <p>
         We will let you know via{' '}
-        <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/4bmTHYWjhe">
+        <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/niftyleague">
           Discord
         </a>{' '}
         and/or a prominent notice on our Service, prior to the change becoming effective and update the "effective date"
@@ -172,7 +172,7 @@ const PrivacyPolicy = (): JSX.Element => (
         If you have any questions about this Privacy Policy, please contact us via email at{' '}
         <a href="mailto: info@nifty-league.com">info@nifty-league.com</a> or reach out to one of the members of our team
         on{' '}
-        <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/4bmTHYWjhe">
+        <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/niftyleague">
           Discord
         </a>
         .

@@ -13,6 +13,8 @@
 .AppBody {
   padding-top: 65px;
   height: calc(100% - 55px);
+  display: flex;
+  flex-direction: column;
 }
 
 .blockies {
@@ -197,7 +199,7 @@ a:active {
 .ant-menu-horizontal > .ant-menu-submenu,
 .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item,
 .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu {
-  margin: -3px 20px 0 !important;
+  margin: -3px 16px 0 !important;
   padding: 0;
 }
 

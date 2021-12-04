@@ -250,7 +250,7 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
         <p>
           We'll frequently be rewarding users for staying active within our community so be sure to join our{' '}
           <strong>
-            <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/4bmTHYWjhe">
+            <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/niftyleague">
               Discord
             </a>
           </strong>{' '}
@@ -317,7 +317,7 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
           Our immediate plan is to continue development on <strong>Nifty Smashers</strong> and to introduce more
           features such as additional combo moves and a progression system. Hop in our{' '}
           <strong>
-            <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/4bmTHYWjhe">
+            <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/niftyleague">
               Discord
             </a>
           </strong>{' '}
@@ -387,7 +387,7 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
           </strong>{' '}
           working as well as we'd like it to. Stay tuned in our{' '}
           <strong>
-            <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/4bmTHYWjhe">
+            <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/niftyleague">
               Discord
             </a>
           </strong>{' '}
@@ -438,7 +438,7 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
         <p>
           Every project needs quality memes! Join the{' '}
           <strong>
-            <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/4bmTHYWjhe">
+            <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/niftyleague">
               Nifty League Discord
             </a>
           </strong>{' '}
