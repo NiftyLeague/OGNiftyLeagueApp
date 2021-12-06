@@ -25,6 +25,7 @@ import Pets from 'assets/images/roadmap/pets_v02.png';
 import NiftyRoyale from 'assets/images/roadmap/niftyroyale_v01.png';
 import NiftyKart from 'assets/images/roadmap/niftykart_v01.png';
 import Gen2 from 'assets/images/roadmap/gen2_v01.png';
+import Moon from 'assets/images/roadmap/moon.png';
 
 import './roadmap.css';
 
@@ -382,7 +383,8 @@ const Roadmap = ({ width }: { width: Breakpoint }): JSX.Element => {
           <div className="animated-star7" />
           <div className="animated-star8" />
           <div className="animated-star9" />
-          <div className="moon" />
+          {/* <div className="moon" /> */}
+          <img src={Moon} alt="moon" className="moon" />
           <Footer />
         </div>
       </div>

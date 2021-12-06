@@ -144,19 +144,14 @@ Background
   z-index: 1;
 }
 .moon {
-  background-image: url('assets/images/roadmap/moon.png');
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  min-height: 600px;
-  background-repeat: no-repeat;
-  background-position: center;
+  width: 800px;
+  height: 800px;
   margin-top: -125px;
   z-index: 1;
 }
 @media only screen and (min-width: 1170px) {
   .moon {
-    margin-top: -174px;
+    margin-top: -190px;
   }
 }
 
@@ -405,7 +400,7 @@ Timeline
 }
 
 footer {
-  margin-top: 800px;
+  margin-top: 100px;
 }
 
 .fade-in {
