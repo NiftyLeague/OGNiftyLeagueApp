@@ -240,7 +240,7 @@ Timeline
   }
 }
 
-.cd-timeline-img {
+.cd-timeline-checkpoint {
   position: absolute;
   top: 8px;
   left: 12px;
@@ -249,11 +249,11 @@ Timeline
   border-radius: 50%;
   box-shadow: 0 0 0 4px #5e72eb, inset 0 2px 0 rgba(0, 0, 0, 0.08), 0 3px 0 4px rgba(0, 0, 0, 0.05);
 }
-.cd-timeline-img {
+.cd-timeline-checkpoint {
   background: linear-gradient(to left, #5e72eb, #620edf);
 }
 @media only screen and (min-width: 1170px) {
-  .cd-timeline-img {
+  .cd-timeline-checkpoint {
     width: 30px;
     height: 30px;
     left: 50%;
@@ -263,6 +263,10 @@ Timeline
     -webkit-transform: translateZ(0);
     -webkit-backface-visibility: hidden;
   }
+}
+
+.done-icon {
+  font-size: 20px;
 }
 
 .cd-timeline-content {
