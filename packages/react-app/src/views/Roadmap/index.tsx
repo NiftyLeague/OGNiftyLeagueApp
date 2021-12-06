@@ -6,6 +6,8 @@ import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import DoneIcon from '@material-ui/icons/Done';
 
 import Footer from 'components/Footer';
+import SatoshiMove from 'assets/images/roadmap/satoshi_simplified_move.gif';
+import SatoshiStationary from 'assets/images/roadmap/satoshi_simplified_stationary.gif';
 import Minting from 'assets/images/roadmap/creation.png';
 import Smashers from 'assets/images/roadmap/smash_200.png';
 import Desktop from 'assets/images/roadmap/desktop-app_v02.png';
@@ -28,6 +30,7 @@ import Gen2 from 'assets/images/roadmap/gen2_v01.png';
 import Moon from 'assets/images/roadmap/moon.png';
 
 import './roadmap.css';
+import './satoshi.css';
 
 const { Title } = Typography;
 
@@ -37,6 +40,8 @@ const Roadmap = ({ width }: { width: Breakpoint }): JSX.Element => {
     <div className="space">
       <div className="stars">
         <div className="stars2">
+          <img src={SatoshiMove} alt="satoshi moving" className="satoshiMove" />
+          <img src={SatoshiStationary} alt="satoshi stationary" className="satoshiStationary" />
           <div className="earth" />
           <h1 className="title">Nifty League Moonmap</h1>
           <div className="cat-planet" />
@@ -383,7 +388,6 @@ const Roadmap = ({ width }: { width: Breakpoint }): JSX.Element => {
           <div className="animated-star7" />
           <div className="animated-star8" />
           <div className="animated-star9" />
-          {/* <div className="moon" /> */}
           <img src={Moon} alt="moon" className="moon" />
           <Footer />
         </div>
