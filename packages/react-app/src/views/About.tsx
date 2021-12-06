@@ -9,6 +9,7 @@ import { Container } from '@material-ui/core';
 import Footer from 'components/Footer';
 import NiftySmashersVideo from 'components/NiftySmashersVideo';
 import NiftyLeagueStory from 'assets/gifs/story.gif';
+import Roadmap from 'assets/images/roadmap/nifty_roadmap.png';
 import AlienSketch from 'assets/gifs/alien-sketch.gif';
 import DogeSketch from 'assets/gifs/doge-sketch.gif';
 import CatSketch from 'assets/gifs/cat-sketch.gif';
@@ -116,6 +117,18 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
           <strong>Nifty DAO</strong> for their contributions. Get creative and send us your ideas! If your game shows
           promise and viability we’d love to share it with the community.
         </p>
+        <Title level={3}>Roadmap</Title>
+        <p>
+          Please check our{' '}
+          <strong>
+            <Link to="/roadmap">roadmap</Link>
+          </strong>{' '}
+          page for more details!
+        </p>
+        <div className="d-flex justify-content-around align-items-center">
+          <Image width={isWidthDown('md', width, false) ? '60%' : '40%'} src={Roadmap} />
+        </div>
+        <br />
         <Title level={2}>DEGENS</Title>
         <Title level={3}>Overview</Title>
         <p>
