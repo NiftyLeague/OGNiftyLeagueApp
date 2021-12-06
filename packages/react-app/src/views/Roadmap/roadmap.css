@@ -86,11 +86,51 @@ Background
 .animated-star5 {
   background-image: url('assets/images/roadmap/animated-star.gif');
   position: absolute;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: right;
+  margin-top: 3000px;
+  z-index: 1;
+}
+.animated-star6 {
+  background-image: url('assets/images/roadmap/animated-star.gif');
+  position: absolute;
   width: 90%;
   height: 100%;
   background-repeat: no-repeat;
   background-position: center;
-  margin-top: -600px;
+  margin-top: 4000px;
+  z-index: 1;
+}
+.animated-star7 {
+  background-image: url('assets/images/roadmap/animated-star.gif');
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: left;
+  margin-top: -4500px;
+  z-index: 1;
+}
+.animated-star8 {
+  background-image: url('assets/images/roadmap/animated-star.gif');
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: left;
+  margin-top: -1500px;
+  z-index: 1;
+}
+.animated-star9 {
+  background-image: url('assets/images/roadmap/animated-star.gif');
+  position: absolute;
+  width: 94%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-top: -900px;
   z-index: 1;
 }
 .mars {
@@ -100,7 +140,7 @@ Background
   height: 100%;
   background-repeat: no-repeat;
   background-position: right;
-  margin-top: -1000px;
+  margin-top: -3000px;
   z-index: 1;
 }
 .moon {
@@ -111,12 +151,12 @@ Background
   min-height: 600px;
   background-repeat: no-repeat;
   background-position: center;
-  margin-top: -100px;
+  margin-top: -125px;
   z-index: 1;
 }
 @media only screen and (min-width: 1170px) {
   .moon {
-    margin-top: -148px;
+    margin-top: -174px;
   }
 }
 
@@ -233,6 +273,11 @@ Timeline
   border-radius: 2px;
   padding: 1em;
 }
+.timeline-content-img {
+  position: absolute;
+  width: 200px;
+  display: none;
+}
 .cd-timeline-content p {
   text-align: left;
 }
@@ -343,6 +388,15 @@ Timeline
   }
   .cd-timeline-block:nth-child(even) .cd-timeline-content .cd-read-more {
     float: right;
+  }
+  .cd-timeline-block .cd-timeline-content .timeline-content-img {
+    display: block;
+  }
+  .cd-timeline-block:nth-child(odd) .cd-timeline-content .timeline-content-img {
+    left: -60px;
+  }
+  .cd-timeline-block:nth-child(even) .cd-timeline-content .timeline-content-img {
+    right: -60px;
   }
 }
 
