@@ -3,7 +3,7 @@ import { useThemeSwitcher } from 'react-css-theme-switcher';
 import { Image, Typography } from 'antd';
 import withWidth, { isWidthDown } from '@material-ui/core/withWidth';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
-import { Container } from '@material-ui/core';
+import DoneIcon from '@material-ui/icons/Done';
 
 import Footer from 'components/Footer';
 import Minting from 'assets/images/roadmap/creation.png';
@@ -47,7 +47,9 @@ const Roadmap = ({ width }: { width: Breakpoint }): JSX.Element => {
           <div className="animated-star6" />
           <section id="cd-timeline" className="cd-container">
             <div className="cd-timeline-block fade-in">
-              <div className="cd-timeline-img cd-picture" />
+              <div className="cd-timeline-checkpoint">
+                <DoneIcon className="done-icon" />
+              </div>
               <div className="cd-timeline-content">
                 <img src={Minting} alt="minting" className="timeline-content-img" style={{ top: '-77px' }} />
                 <h2>Degen Minting</h2>
@@ -77,7 +79,9 @@ const Roadmap = ({ width }: { width: Breakpoint }): JSX.Element => {
             </div>
 
             <div className="cd-timeline-block fade-in">
-              <div className="cd-timeline-img cd-movie" />
+              <div className="cd-timeline-checkpoint">
+                <DoneIcon className="done-icon" />
+              </div>
               <div className="cd-timeline-content">
                 <img src={Smashers} alt="smashers alpha" className="timeline-content-img" style={{ top: '-70px' }} />
                 <h2>Nifty Smashers Online Alpha</h2>
@@ -99,7 +103,9 @@ const Roadmap = ({ width }: { width: Breakpoint }): JSX.Element => {
             </div>
 
             <div className="cd-timeline-block fade-in">
-              <div className="cd-timeline-img cd-picture" />
+              <div className="cd-timeline-checkpoint">
+                <DoneIcon className="done-icon" />
+              </div>
               <div className="cd-timeline-content">
                 <img src={Desktop} alt="desktop app" className="timeline-content-img" style={{ top: '-100px' }} />
                 <h2>Desktop App</h2>
@@ -124,7 +130,7 @@ const Roadmap = ({ width }: { width: Breakpoint }): JSX.Element => {
             </div>
 
             <div className="cd-timeline-block fade-in">
-              <div className="cd-timeline-img cd-location" />
+              <div className="cd-timeline-checkpoint" />
               <div className="cd-timeline-content">
                 <img src={Leaderboards} alt="leaderboards" className="timeline-content-img" style={{ top: '-110px' }} />
                 <h2>Leaderboards</h2>
@@ -137,7 +143,7 @@ const Roadmap = ({ width }: { width: Breakpoint }): JSX.Element => {
             </div>
 
             <div className="cd-timeline-block fade-in">
-              <div className="cd-timeline-img cd-location" />
+              <div className="cd-timeline-checkpoint" />
               <div className="cd-timeline-content">
                 <img src={P2E} alt="play-2-earn" className="timeline-content-img" style={{ top: '-75px' }} />
                 <h2>P2E</h2>
@@ -152,7 +158,7 @@ const Roadmap = ({ width }: { width: Breakpoint }): JSX.Element => {
             </div>
 
             <div className="cd-timeline-block fade-in">
-              <div className="cd-timeline-img cd-movie" />
+              <div className="cd-timeline-checkpoint" />
               <div className="cd-timeline-content">
                 <img src={Beta} alt="smasher beta" className="timeline-content-img" style={{ top: '-120px' }} />
                 <h2>Nifty Smashers Beta</h2>
@@ -165,7 +171,7 @@ const Roadmap = ({ width }: { width: Breakpoint }): JSX.Element => {
             </div>
 
             <div className="cd-timeline-block fade-in">
-              <div className="cd-timeline-img cd-movie" />
+              <div className="cd-timeline-checkpoint" />
               <div className="cd-timeline-content">
                 <img src={Rentals} alt="rentals" className="timeline-content-img" style={{ top: '-90px' }} />
                 <h2>Degen Rentals</h2>
@@ -186,7 +192,7 @@ const Roadmap = ({ width }: { width: Breakpoint }): JSX.Element => {
             </div>
 
             <div className="cd-timeline-block fade-in">
-              <div className="cd-timeline-img cd-movie" />
+              <div className="cd-timeline-checkpoint" />
               <div className="cd-timeline-content">
                 <img src={F2P} alt="free-2-play" className="timeline-content-img" style={{ top: '-135px' }} />
                 <h2>Free-2-Play</h2>
@@ -201,7 +207,7 @@ const Roadmap = ({ width }: { width: Breakpoint }): JSX.Element => {
             </div>
 
             <div className="cd-timeline-block fade-in">
-              <div className="cd-timeline-img cd-movie" />
+              <div className="cd-timeline-checkpoint" />
               <div className="cd-timeline-content">
                 <img src={Merch} alt="merch" className="timeline-content-img" style={{ top: '-80px' }} />
                 <h2>Merch</h2>
@@ -215,7 +221,7 @@ const Roadmap = ({ width }: { width: Breakpoint }): JSX.Element => {
             </div>
 
             <div className="cd-timeline-block fade-in">
-              <div className="cd-timeline-img cd-movie" />
+              <div className="cd-timeline-checkpoint" />
               <div className="cd-timeline-content">
                 <img
                   src={Comics}
@@ -235,7 +241,7 @@ const Roadmap = ({ width }: { width: Breakpoint }): JSX.Element => {
             </div>
 
             <div className="cd-timeline-block fade-in">
-              <div className="cd-timeline-img cd-movie" />
+              <div className="cd-timeline-checkpoint" />
               <div className="cd-timeline-content">
                 <img src={Marketplace} alt="marketplace" className="timeline-content-img" style={{ top: '-80px' }} />
                 <h2>Items Marketplace</h2>
@@ -252,7 +258,7 @@ const Roadmap = ({ width }: { width: Breakpoint }): JSX.Element => {
             </div>
 
             <div className="cd-timeline-block fade-in">
-              <div className="cd-timeline-img cd-movie" />
+              <div className="cd-timeline-checkpoint" />
               <div className="cd-timeline-content">
                 <img src={DAO} alt="DAO" className="timeline-content-img" style={{ top: '-80px' }} />
                 <h2>DAO</h2>
@@ -267,7 +273,7 @@ const Roadmap = ({ width }: { width: Breakpoint }): JSX.Element => {
             </div>
 
             <div className="cd-timeline-block fade-in">
-              <div className="cd-timeline-img cd-movie" />
+              <div className="cd-timeline-checkpoint" />
               <div className="cd-timeline-content">
                 <img src={Mobile} alt="mobile" className="timeline-content-img" style={{ top: '-140px' }} />
                 <h2>Nifty League Mobile</h2>
@@ -279,7 +285,7 @@ const Roadmap = ({ width }: { width: Breakpoint }): JSX.Element => {
             </div>
 
             <div className="cd-timeline-block fade-in">
-              <div className="cd-timeline-img cd-movie" />
+              <div className="cd-timeline-checkpoint" />
               <div className="cd-timeline-content">
                 <img src={Chat} alt="chat" className="timeline-content-img" style={{ top: '-110px' }} />
                 <h2>In-Game Chat</h2>
@@ -292,7 +298,7 @@ const Roadmap = ({ width }: { width: Breakpoint }): JSX.Element => {
             </div>
 
             <div className="cd-timeline-block fade-in">
-              <div className="cd-timeline-img cd-movie" />
+              <div className="cd-timeline-checkpoint" />
               <div className="cd-timeline-content">
                 <img src={NiftyVerse} alt="NiftyVerse" className="timeline-content-img" style={{ top: '-130px' }} />
                 <h2>NiftyVerse</h2>
@@ -321,7 +327,7 @@ const Roadmap = ({ width }: { width: Breakpoint }): JSX.Element => {
             </div>
 
             <div className="cd-timeline-block fade-in">
-              <div className="cd-timeline-img cd-movie" />
+              <div className="cd-timeline-checkpoint" />
               <div className="cd-timeline-content">
                 <img src={Pets} alt="pets" className="timeline-content-img" style={{ top: '-125px' }} />
                 <h2>Degen Pets</h2>
@@ -336,7 +342,7 @@ const Roadmap = ({ width }: { width: Breakpoint }): JSX.Element => {
             </div>
 
             <div className="cd-timeline-block fade-in">
-              <div className="cd-timeline-img cd-movie" />
+              <div className="cd-timeline-checkpoint" />
               <div className="cd-timeline-content">
                 <img src={NiftyRoyale} alt="Nifty Royale" className="timeline-content-img" style={{ top: '-88px' }} />
                 <h2>Nifty Royale</h2>
@@ -348,7 +354,7 @@ const Roadmap = ({ width }: { width: Breakpoint }): JSX.Element => {
             </div>
 
             <div className="cd-timeline-block fade-in">
-              <div className="cd-timeline-img cd-movie" />
+              <div className="cd-timeline-checkpoint" />
               <div className="cd-timeline-content">
                 <img src={NiftyKart} alt="Nifty Kart" className="timeline-content-img" style={{ top: '-140px' }} />
                 <h2>Nifty Kart</h2>
@@ -360,7 +366,7 @@ const Roadmap = ({ width }: { width: Breakpoint }): JSX.Element => {
             </div>
 
             <div className="cd-timeline-block fade-in">
-              <div className="cd-timeline-img cd-movie" />
+              <div className="cd-timeline-checkpoint" />
               <div className="cd-timeline-content">
                 <img src={Gen2} alt="gen 2" className="timeline-content-img" style={{ top: '-105px' }} />
                 <h2>Gen2 Degens</h2>
