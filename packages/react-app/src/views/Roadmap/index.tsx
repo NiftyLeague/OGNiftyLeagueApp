@@ -1,13 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
-import { Image, Typography } from 'antd';
-import withWidth, { isWidthDown } from '@material-ui/core/withWidth';
-import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import DoneIcon from '@material-ui/icons/Done';
 
 import Footer from 'components/Footer';
-import SatoshiMove from 'assets/images/roadmap/satoshi_simplified_move.gif';
-import SatoshiStationary from 'assets/images/roadmap/satoshi_simplified_stationary.gif';
+import SatoshiMove from 'assets/images/roadmap/satoshi_move.gif';
+import SatoshiStationary from 'assets/images/roadmap/satoshi_stationary.gif';
 import Minting from 'assets/images/roadmap/creation.png';
 import Smashers from 'assets/images/roadmap/smash_200.png';
 import Desktop from 'assets/images/roadmap/desktop-app_v02.png';
@@ -32,9 +30,7 @@ import Moon from 'assets/images/roadmap/moon.png';
 import './roadmap.css';
 import './satoshi.css';
 
-const { Title } = Typography;
-
-const Roadmap = ({ width }: { width: Breakpoint }): JSX.Element => {
+const Roadmap = (): JSX.Element => {
   const { currentTheme } = useThemeSwitcher();
   return (
     <div className="space">
@@ -90,7 +86,7 @@ const Roadmap = ({ width }: { width: Breakpoint }): JSX.Element => {
               </div>
               <div className="cd-timeline-content">
                 <img src={Smashers} alt="smashers alpha" className="timeline-content-img" style={{ top: '-70px' }} />
-                <h2>Nifty Smashers Online Alpha</h2>
+                <h2>Nifty Smashers Alpha</h2>
                 <div className="timeline-content-info">
                   <span className="timeline-content-info-title">
                     <i className="fa fa-certificate" aria-hidden="true" />
@@ -103,7 +99,11 @@ const Roadmap = ({ width }: { width: Breakpoint }): JSX.Element => {
                 </div>
                 <p>
                   Unlike our various competitors, our NFT launch coincided with the immediate availability of our first
-                  game Nifty Smashers. Check out our games page to battle it out with your DEGENS!
+                  game Nifty Smashers. Check out our{' '}
+                  <strong>
+                    <Link to="/games">Games</Link>
+                  </strong>{' '}
+                  page to battle it out with your DEGENS!
                 </p>
               </div>
             </div>
@@ -129,8 +129,8 @@ const Roadmap = ({ width }: { width: Breakpoint }): JSX.Element => {
                   Our desktop app is now live for Windows users and MacOS is right around the corner! Considering
                   browser limitations with our previous WebGL build, we made a point to focus our immediate efforts on
                   creating a launcher to house all of our games and include Discord integrations. Now that memory limits
-                  are not a concern we are free to introduce additional animations, movesets, other NFT projects - all
-                  while significantly improving ping for our users.
+                  are not a concern we are free to introduce additional animations, movesets, and other NFT projects -
+                  all while significantly improving ping for our users.
                 </p>
               </div>
             </div>
@@ -158,7 +158,7 @@ const Roadmap = ({ width }: { width: Breakpoint }): JSX.Element => {
                   system you'll be able to start accumulating NFTL through casual matches in Nifty Smashers. While the
                   largest winnings go to whoever secures 1st place in a match, you'll also earn NFTL through points
                   scored as well as winning rounds. Be careful not to fall off the map because there will be penalties
-                  deducted from your potential winnings!
+                  deducted from your potential earnings!
                 </p>
               </div>
             </div>
@@ -169,9 +169,9 @@ const Roadmap = ({ width }: { width: Breakpoint }): JSX.Element => {
                 <img src={Beta} alt="smasher beta" className="timeline-content-img" style={{ top: '-120px' }} />
                 <h2>Nifty Smashers Beta</h2>
                 <p>
-                  We are implementing a new netcode solution which looks very promising from our early developments. Not
-                  only will this improve lag considerably, but you can expect some cool features such as broadcasting
-                  live games and having replays readily available through our archive.
+                  We are implementing a new netcode solution which looks very promising even from an early development
+                  stage. Not only will this improve lag considerably, but you can expect some cool features such as
+                  broadcasting live games and having replays readily available through our archive.
                 </p>
               </div>
             </div>
@@ -188,11 +188,11 @@ const Roadmap = ({ width }: { width: Breakpoint }): JSX.Element => {
                 </p>
                 <p>
                   Rather than inflating the character supply as some projects may do, we are introducing a bespoke
-                  rental system allowing DEGEN holders to earn NFTL daily through fees. Each DEGEN can be rented as many
-                  times as people want but the cost for doing so will increase exponentially with each additional
-                  rental. This allows for the market to decide the price for each DEGEN individually while spreading out
-                  the rentals across the board as some equipped with precious items, wearables, or backgrounds will have
-                  a higher earn rate through NFTL multipliers.
+                  rental system allowing DEGEN holders to earn NFTL daily through fees. Each DEGEN can be rented
+                  indefinitely but the cost for doing so will increase exponentially with each additional rental. This
+                  allows for the market to decide the price for each DEGEN individually while spreading out the rentals
+                  across the board as some equipped with precious items, wearables, or backgrounds will have a higher
+                  earn rate through NFTL multipliers.
                 </p>
               </div>
             </div>
@@ -219,9 +219,8 @@ const Roadmap = ({ width }: { width: Breakpoint }): JSX.Element => {
                 <h2>Merch</h2>
                 <p>
                   We know our community can't wait to showcase their cool DEGENS on the streets! We are excited to
-                  unveil our merchandise marketplace including two clothing lines. The first being child-friendly with a
-                  heavy gaming influence similar to Pokémon, while the other will be focused on a rad streetwear
-                  aesthetic.
+                  unveil our merchandise marketplace including two clothing lines. The first having a strong gaming
+                  slant similar to Pokémon, while the other will be focused on a rad streetwear aesthetic.
                 </p>
               </div>
             </div>
@@ -237,7 +236,7 @@ const Roadmap = ({ width }: { width: Breakpoint }): JSX.Element => {
                 />
                 <h2>Comics</h2>
                 <p>
-                  Our team has been slowly hinting at the upcoming utilities for comics... As you may already be aware
+                  Our team has been slowly hinting at the upcoming utilities for comics... as you may already be aware
                   you will be able to burn each page for special in-game items that increase your DEGEN'S NFTL
                   multiplier... but the fun doesn't stop there! With the first 4 comic pages airdropped to minters we
                   have 2 more pages headed to holders in early 2022. Word from Satoshi - securing a full collection or 2
@@ -270,8 +269,8 @@ const Roadmap = ({ width }: { width: Breakpoint }): JSX.Element => {
                 <h2>DAO</h2>
                 <p>
                   We will gradually be transferring ownership of the Nifty League to our DAO in order to decentralize
-                  the platform and encourage devs to help us build! Our vision is power rapid growth and development
-                  through community contributions, enabling us to build a gaming platform like none other. Simply put,
+                  the platform and encourage devs to help us build! Our vision is to power rapid growth and development
+                  through community contributions, enabling us to build a gaming platform like no other. Simply put,
                   DAOs are the future. We see only one route to becoming the world's leading GameFi platform and that’s
                   by building together. 💜
                 </p>
@@ -396,4 +395,4 @@ const Roadmap = ({ width }: { width: Breakpoint }): JSX.Element => {
   );
 };
 
-export default withWidth()(Roadmap);
+export default Roadmap;

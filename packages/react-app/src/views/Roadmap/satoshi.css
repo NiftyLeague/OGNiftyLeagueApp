@@ -2,43 +2,50 @@
   position: absolute;
   z-index: 3;
   width: 150px;
-  -webkit-animation-name: moveRightXs, rotate, moveDownXs, rotateBack, hide;
-  -webkit-animation-duration: 4000ms, 400ms, 8000ms, 400ms, 100ms;
-  -webkit-animation-delay: 0ms, 4000ms, 4400ms, 12400ms, 12800ms;
+  top: 15%;
+  -webkit-animation-name: moveRightXs, moveDownXs, spin, hide;
+  -webkit-animation-duration: 4000ms, 8000ms, 300ms, 1ms;
+  -webkit-animation-delay: 0ms, 2000ms, 5000ms, 10100ms;
   -webkit-animation-fill-mode: forwards;
-  animation-name: moveRightXs, rotate, moveDownXs, rotateBack, hide;
-  animation-duration: 4000ms, 400ms, 8000ms, 400ms, 100ms;
-  animation-delay: 0ms, 4000ms, 4400ms, 12400ms, 12800ms;
+  animation-name: moveRightXs, moveDownXs, spin, hide;
+  animation-duration: 4000ms, 8000ms, 300ms, 1ms;
+  animation-delay: 0ms, 2000ms, 5000ms, 10100ms;
   animation-fill-mode: forwards;
 }
 
 @media only screen and (min-width: 525px) {
   .satoshiMove {
-    -webkit-animation-name: moveRightXs, rotate, moveDownMd, rotateBack, hide;
-    animation-name: moveRightXs, rotate, moveDownMd, rotateBack, hide;
+    -webkit-animation-name: moveRightXs, moveDownMd, spin, hide;
+    animation-name: moveRightXs, moveDownMd, spin, hide;
   }
 }
 @media only screen and (min-width: 850px) {
   .satoshiMove {
     width: 175px;
-    -webkit-animation-name: moveRightSm, rotate, moveDownMd, rotateBack, hide;
-    animation-name: moveRightSm, rotate, moveDownMd, rotateBack, hide;
+    -webkit-animation-name: moveRightSm, moveDownMd, spin, hide;
+    animation-name: moveRightSm, moveDownMd, spin, hide;
   }
 }
 @media only screen and (min-width: 1000px) {
   .satoshiMove {
     width: 200px;
-    -webkit-animation-name: moveRightMd, rotate, moveDownMd, rotateBack, hide;
-    animation-name: moveRightMd, rotate, moveDownMd, rotateBack, hide;
+    -webkit-animation-name: moveRightMd, moveDownMd, spin, hide;
+    animation-name: moveRightMd, moveDownMd, spin, hide;
   }
 }
 @media only screen and (min-width: 1170px) {
   .satoshiMove {
     width: 250px;
-    -webkit-animation-name: moveRightLg, rotate, moveDownLg, rotateBack, hide;
-    animation-name: moveRightLg, rotate, moveDownLg, rotateBack, hide;
+    -webkit-animation-name: moveRightLg, moveDownLg, spin, hide;
+    animation-name: moveRightLg, moveDownLg, spin, hide;
   }
 }
+
+/* -------------------------------- 
+
+Move Right
+
+-------------------------------- */
 
 @-ms-keyframes moveRightXs {
   from {
@@ -172,42 +179,15 @@
   }
 }
 
-@-ms-keyframes rotate {
-  from {
-    -ms-transform: rotate(0deg);
-  }
-  to {
-    -ms-transform: rotate(90deg);
-  }
-}
-@-moz-keyframes rotate {
-  from {
-    -moz-transform: rotate(0deg);
-  }
-  to {
-    -moz-transform: rotate(90deg);
-  }
-}
-@-webkit-keyframes rotate {
-  from {
-    -webkit-transform: rotate(0deg);
-  }
-  to {
-    -webkit-transform: rotate(90deg);
-  }
-}
-@keyframes rotate {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(90deg);
-  }
-}
+/* -------------------------------- 
+
+Move Down
+
+-------------------------------- */
 
 @-ms-keyframes moveDownXs {
   from {
-    top: 10%;
+    top: 15%;
   }
   to {
     top: 920px;
@@ -215,7 +195,7 @@
 }
 @-moz-keyframes moveDownXs {
   from {
-    top: 10%;
+    top: 15%;
   }
   to {
     top: 920px;
@@ -223,7 +203,7 @@
 }
 @-webkit-keyframes moveDownXs {
   from {
-    top: 10%;
+    top: 15%;
   }
   to {
     top: 920px;
@@ -231,7 +211,7 @@
 }
 @keyframes moveDownXs {
   from {
-    top: 10%;
+    top: 15%;
   }
   to {
     top: 920px;
@@ -240,7 +220,7 @@
 
 @-ms-keyframes moveDownMd {
   from {
-    top: 10%;
+    top: 15%;
   }
   to {
     top: 825px;
@@ -248,7 +228,7 @@
 }
 @-moz-keyframes moveDownMd {
   from {
-    top: 10%;
+    top: 15%;
   }
   to {
     top: 825px;
@@ -256,7 +236,7 @@
 }
 @-webkit-keyframes moveDownMd {
   from {
-    top: 10%;
+    top: 15%;
   }
   to {
     top: 825px;
@@ -264,7 +244,7 @@
 }
 @keyframes moveDownMd {
   from {
-    top: 10%;
+    top: 15%;
   }
   to {
     top: 825px;
@@ -273,7 +253,7 @@
 
 @-ms-keyframes moveDownLg {
   from {
-    top: 10%;
+    top: 15%;
   }
   to {
     top: 1200px;
@@ -281,7 +261,7 @@
 }
 @-moz-keyframes moveDownLg {
   from {
-    top: 10%;
+    top: 15%;
   }
   to {
     top: 1200px;
@@ -289,7 +269,7 @@
 }
 @-webkit-keyframes moveDownLg {
   from {
-    top: 10%;
+    top: 15%;
   }
   to {
     top: 1200px;
@@ -297,43 +277,37 @@
 }
 @keyframes moveDownLg {
   from {
-    top: 10%;
+    top: 15%;
   }
   to {
     top: 1200px;
   }
 }
 
-@-ms-keyframes rotateBack {
-  from {
-    -ms-transform: rotate(90deg);
-  }
+/* -------------------------------- 
+
+Others
+
+-------------------------------- */
+
+@-ms-keyframes spin {
   to {
-    -ms-transform: rotate(0deg);
+    -ms-transform: scaleX(-1);
   }
 }
-@-moz-keyframes rotateBack {
-  from {
-    -moz-transform: rotate(90deg);
-  }
+@-moz-keyframes spin {
   to {
-    -moz-transform: rotate(0deg);
+    -moz-transform: scaleX(-1);
   }
 }
-@-webkit-keyframes rotateBack {
-  from {
-    -webkit-transform: rotate(90deg);
-  }
+@-webkit-keyframes spin {
   to {
-    -webkit-transform: rotate(0deg);
+    -webkit-transform: scaleX(-1);
   }
 }
-@keyframes rotateBack {
-  from {
-    transform: rotate(90deg);
-  }
+@keyframes spin {
   to {
-    transform: rotate(0deg);
+    transform: scaleX(-1);
   }
 }
 
@@ -358,20 +332,28 @@
   }
 }
 
+/* -------------------------------- 
+
+Stationary
+
+-------------------------------- */
+
 .satoshiStationary {
   position: absolute;
   z-index: 3;
   top: 920px;
   left: calc(100% - 115px);
+  transform: scaleX(-1);
   width: 150px;
   opacity: 0;
-  -webkit-animation-name: display;
-  -webkit-animation-duration: 1ms;
-  -webkit-animation-delay: 12800ms;
+  -webkit-animation-name: display, float;
+  -webkit-animation-duration: 1ms, infinite;
+  -webkit-animation-delay: 10099ms;
   -webkit-animation-fill-mode: forwards;
-  animation-name: display;
-  animation-duration: 1ms;
-  animation-delay: 12800ms;
+  animation-name: display, float;
+  animation-duration: 1ms, 2000ms;
+  animation-delay: 10099ms, 100ms;
+  animation-iteration-count: 1, infinite;
   animation-fill-mode: forwards;
 }
 
@@ -418,5 +400,17 @@
 @keyframes display {
   100% {
     opacity: 1;
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: scaleX(-1) translatey(0px);
+  }
+  50% {
+    transform: scaleX(-1) translatey(-40px);
+  }
+  100% {
+    transform: scaleX(-1) translatey(0px);
   }
 }

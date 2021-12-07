@@ -82,7 +82,7 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
         </Title>
         <p>
           We will gradually be transferring ownership of the Nifty League to our DAO in order to decentralize the
-          platform and encourage devs to help us build! Our vision is power rapid growth and development through
+          platform and encourage devs to help us build! Our vision is to power rapid growth and development through
           community contributions enabling us to build a gaming platform like no other. Simply put, DAOs are the future.
           We see only one route to becoming the world's leading GameFi platform and that’s by building together.{' '}
           <span role="img" aria-label="purple heart emoji">
