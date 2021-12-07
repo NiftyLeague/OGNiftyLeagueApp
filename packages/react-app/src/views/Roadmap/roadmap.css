@@ -259,6 +259,9 @@ Timeline
 .cd-timeline-checkpoint {
   background: linear-gradient(to left, #5e72eb, #620edf);
 }
+.cd-timeline-checkpoint.completed {
+  background: linear-gradient(to left, #4faa5c, #225953);
+}
 @media only screen and (min-width: 1170px) {
   .cd-timeline-checkpoint {
     width: 30px;
