@@ -1,9 +1,8 @@
 .navbar-polygon {
   position: relative;
   z-index: 1;
-  padding: 0 70px;
+  padding: 0 50px;
   height: 103%;
-  /* filter: drop-shadow(5px 10px 10px rgba(26, 15, 63, 0.71)); */
   -ms-flex-flow: row nowrap;
   flex-flow: row nowrap;
   -ms-flex-pack: start;
@@ -35,6 +34,12 @@
 
 .navbar-polygon a {
   color: rgba(255, 255, 255, 0.85) !important;
+  font-size: 16px;
+}
+
+.navbar-polygon a svg {
+  font-size: 18px;
+  margin-top: -6px;
 }
 
 .navbar-polygon .ant-menu-item-selected a {

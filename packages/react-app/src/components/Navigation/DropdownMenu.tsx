@@ -20,7 +20,7 @@ const DropdownMenu = ({ hideNav, navItems }: { hideNav: boolean; navItems: () =>
         <Link to="/contracts">Verified Contracts</Link>
       </Menu.Item>
       <Menu.Item key="discord">
-        <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/4bmTHYWjhe">
+        <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/niftyleague">
           <IconFont type="icon-discord" />
           <span style={{ marginLeft: 8 }}>Discord</span>
         </a>
@@ -37,7 +37,7 @@ const DropdownMenu = ({ hideNav, navItems }: { hideNav: boolean; navItems: () =>
             <Link to="/NFTL">NFTL Token</Link>
           </Menu.Item>
           <Menu.Item key="/NFT">
-            <Link to="/NFT">NFT</Link>
+            <Link to="/NFT">DEGEN NFT</Link>
           </Menu.Item>
           <Menu.Item key="/storage">
             <Link to="/storage">Storage</Link>
