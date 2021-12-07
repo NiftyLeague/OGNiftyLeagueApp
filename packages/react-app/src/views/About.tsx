@@ -9,6 +9,7 @@ import { Container } from '@material-ui/core';
 import Footer from 'components/Footer';
 import NiftySmashersVideo from 'components/NiftySmashersVideo';
 import NiftyLeagueStory from 'assets/gifs/story.gif';
+import Roadmap from 'assets/images/roadmap/nifty_roadmap.png';
 import AlienSketch from 'assets/gifs/alien-sketch.gif';
 import DogeSketch from 'assets/gifs/doge-sketch.gif';
 import CatSketch from 'assets/gifs/cat-sketch.gif';
@@ -81,7 +82,7 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
         </Title>
         <p>
           We will gradually be transferring ownership of the Nifty League to our DAO in order to decentralize the
-          platform and encourage devs to help us build! Our vision is power rapid growth and development through
+          platform and encourage devs to help us build! Our vision is to power rapid growth and development through
           community contributions enabling us to build a gaming platform like no other. Simply put, DAOs are the future.
           We see only one route to becoming the world's leading GameFi platform and that’s by building together.{' '}
           <span role="img" aria-label="purple heart emoji">
@@ -116,6 +117,18 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
           <strong>Nifty DAO</strong> for their contributions. Get creative and send us your ideas! If your game shows
           promise and viability we’d love to share it with the community.
         </p>
+        <Title level={3}>Roadmap</Title>
+        <p>
+          Please check our{' '}
+          <strong>
+            <Link to="/">roadmap</Link>
+          </strong>{' '}
+          page for more details!
+        </p>
+        <div className="d-flex justify-content-around align-items-center">
+          <Image width={isWidthDown('md', width, false) ? '60%' : '40%'} src={Roadmap} />
+        </div>
+        <br />
         <Title level={2}>DEGENS</Title>
         <Title level={3}>Overview</Title>
         <p>
@@ -250,7 +263,7 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
         <p>
           We'll frequently be rewarding users for staying active within our community so be sure to join our{' '}
           <strong>
-            <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/4bmTHYWjhe">
+            <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/niftyleague">
               Discord
             </a>
           </strong>{' '}
@@ -317,7 +330,7 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
           Our immediate plan is to continue development on <strong>Nifty Smashers</strong> and to introduce more
           features such as additional combo moves and a progression system. Hop in our{' '}
           <strong>
-            <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/4bmTHYWjhe">
+            <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/niftyleague">
               Discord
             </a>
           </strong>{' '}
@@ -387,7 +400,7 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
           </strong>{' '}
           working as well as we'd like it to. Stay tuned in our{' '}
           <strong>
-            <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/4bmTHYWjhe">
+            <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/niftyleague">
               Discord
             </a>
           </strong>{' '}
@@ -438,7 +451,7 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
         <p>
           Every project needs quality memes! Join the{' '}
           <strong>
-            <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/4bmTHYWjhe">
+            <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/niftyleague">
               Nifty League Discord
             </a>
           </strong>{' '}

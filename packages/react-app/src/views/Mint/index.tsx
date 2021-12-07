@@ -5,7 +5,7 @@ import CharacterCreator from './components/CharacterCreator';
 const AboutSection = lazy(() => import('./components/AboutSection'));
 const CharacterShowcase = lazy(() => import('./components/CharactersShowcase'));
 
-const Home = memo(() => {
+const MintPage = memo(() => {
   const [isLoaded, setLoaded] = useState(false);
   const [progress, setProgress] = useState(0);
   return (
@@ -23,4 +23,4 @@ const Home = memo(() => {
   );
 });
 
-export default Home;
+export default MintPage;

@@ -4,6 +4,7 @@ import { useThemeSwitcher } from 'react-css-theme-switcher';
 import withWidth, { isWidthDown } from '@material-ui/core/withWidth';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import { Layout, Menu } from 'antd';
+import { createFromIconfontCN, TwitterOutlined } from '@ant-design/icons';
 
 import { NetworkContext } from 'NetworkProvider';
 import LogoPurple from 'assets/images/nl_logo.png';
@@ -15,12 +16,19 @@ import DropdownMenu from './DropdownMenu';
 import WrongNetworkAlert from './WrongNetworkAlert';
 import './navigation.css';
 
+const IconFont = createFromIconfontCN({
+  scriptUrl: '//at.alicdn.com/t/font_2659896_snpn0dgh5n9.js',
+});
+
 const navItems = () => [
   <Menu.Item key="/">
-    <Link to="/">Home</Link>
+    <Link to="/">Roadmap</Link>
   </Menu.Item>,
   <Menu.Item key="/about">
     <Link to="/about">About</Link>
+  </Menu.Item>,
+  <Menu.Item key="/mint-o-matic">
+    <Link to="/mint-o-matic">Mint-O-Matic</Link>
   </Menu.Item>,
   <Menu.Item key="/games">
     <Link to="/games">Games</Link>
@@ -79,6 +87,16 @@ function Navigation({ width }: { width: Breakpoint }): JSX.Element {
               defaultSelectedKeys={['/']}
             >
               {navItems()}
+              <Menu.Item className="discord" key="discord">
+                <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/niftyleague">
+                  <IconFont type="icon-discord" />
+                </a>
+              </Menu.Item>
+              <Menu.Item key="twitter">
+                <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/NiftyLeague">
+                  <TwitterOutlined />
+                </a>
+              </Menu.Item>
             </Menu>
           </nav>
         )}

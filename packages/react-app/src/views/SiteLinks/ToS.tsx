@@ -436,7 +436,7 @@ const ToS = (): JSX.Element => (
         If You have any questions about these Terms and Conditions, You can contact us at{' '}
         <a href="mailto: info@nifty-league.com">info@nifty-league.com</a> or by reaching out to one of our team members
         on{' '}
-        <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/4bmTHYWjhe">
+        <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/niftyleague">
           Discord
         </a>
         .
