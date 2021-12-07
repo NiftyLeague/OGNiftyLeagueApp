@@ -49,7 +49,7 @@ const Roadmap = (): JSX.Element => {
           <div className="animated-star6" />
           <section id="cd-timeline" className="cd-container">
             <div className="cd-timeline-block fade-in">
-              <div className="cd-timeline-checkpoint">
+              <div className="cd-timeline-checkpoint completed">
                 <DoneIcon className="done-icon" />
               </div>
               <div className="cd-timeline-content">
@@ -81,7 +81,7 @@ const Roadmap = (): JSX.Element => {
             </div>
 
             <div className="cd-timeline-block fade-in">
-              <div className="cd-timeline-checkpoint">
+              <div className="cd-timeline-checkpoint completed">
                 <DoneIcon className="done-icon" />
               </div>
               <div className="cd-timeline-content">
@@ -109,7 +109,7 @@ const Roadmap = (): JSX.Element => {
             </div>
 
             <div className="cd-timeline-block fade-in">
-              <div className="cd-timeline-checkpoint">
+              <div className="cd-timeline-checkpoint completed">
                 <DoneIcon className="done-icon" />
               </div>
               <div className="cd-timeline-content">
