@@ -39,7 +39,7 @@ const Roadmap = (): JSX.Element => {
           <img src={SatoshiMove} alt="satoshi moving" className="satoshiMove" />
           <img src={SatoshiStationary} alt="satoshi stationary" className="satoshiStationary" />
           <div className="earth" />
-          <h1 className="title">Nifty League Moonmap</h1>
+          <h1 className="roadmap-title">Nifty League Moonmap</h1>
           <div className="cat-planet" />
           <div className="animated-star" />
           <div className="animated-star2" />
@@ -68,7 +68,11 @@ const Roadmap = (): JSX.Element => {
                 <p>
                   Our DEGEN NFTs were brought to life by our community at the end of Sept 2021. The minting process was
                   a one-of-a-kind spectacle that allowed minters the ability to design their own DEGEN using the
-                  Mint-O-Matic! Check out our homepage for a flashback to the past.
+                  Mint-O-Matic! Check out our{' '}
+                  <strong>
+                    <Link to="/">Homepage</Link>
+                  </strong>{' '}
+                  for a flashback to the past.
                 </p>
                 {/* <ul className="content-skills">
                   <li>HTML5</li>
@@ -183,8 +187,8 @@ const Roadmap = (): JSX.Element => {
                 <h2>Degen Rentals</h2>
                 <p>
                   With the current setup our player-base is limited to the number of unique DEGEN holders. We want to
-                  scale our platform as much as possible without removing value from our genesis DEGEN NFTs who stand at
-                  the heart of our ecosystem.
+                  scale our platform as much as possible without devaluing from our genesis DEGEN NFTs who stand at the
+                  heart of our ecosystem.
                 </p>
                 <p>
                   Rather than inflating the character supply as some projects may do, we are introducing a bespoke
@@ -206,8 +210,8 @@ const Roadmap = (): JSX.Element => {
                   If you read the last point you'll know that scaling our platform is a high priority. Part of this
                   process is onboarding new users who may not be able to afford to own or rent a DEGEN. Our free-2-play
                   option will allow new users to hop in matches using a generic character which allows them to test out
-                  each tribes special moves but more importantly - grind it out until they have enough NFTL to pay for a
-                  rental.
+                  each tribe’s special move, but more importantly - grind it out until they have enough NFTL to pay for
+                  a rental.
                 </p>
               </div>
             </div>
@@ -236,7 +240,7 @@ const Roadmap = (): JSX.Element => {
                 />
                 <h2>Comics</h2>
                 <p>
-                  Our team has been slowly hinting at the upcoming utilities for comics... as you may already be aware
+                  Our team has been slowly hinting at the upcoming utilities for comics - as you may already be aware
                   you will be able to burn each page for special in-game items that increase your DEGEN'S NFTL
                   multiplier... but the fun doesn't stop there! With the first 4 comic pages airdropped to minters we
                   have 2 more pages headed to holders in early 2022. Word from Satoshi - securing a full collection or 2
@@ -308,8 +312,8 @@ const Roadmap = (): JSX.Element => {
                 <img src={NiftyVerse} alt="NiftyVerse" className="timeline-content-img" style={{ top: '-130px' }} />
                 <h2>NiftyVerse</h2>
                 <p>
-                  Welcome to the NiftyVerse... A world filled with DEGENS and NFT communities alike with a shared vision
-                  to build a thriving gaming community and have fun. What makes the NiftyVerse stand apart from other
+                  Welcome to the NiftyVerse; a world filled with DEGENS and NFT communities alike with a shared vision
+                  to have fun and build a thriving gaming community. What makes the NiftyVerse stand apart from other
                   metaverses is our p2e games being the centerpiece. Walk into our arcade room filled with fun
                   mini-games or venture to destinations on the map to jump into our classic titles like Nifty Smashers
                   and Nifty Kart.
@@ -317,11 +321,11 @@ const Roadmap = (): JSX.Element => {
                 <p>
                   The world is centered around a city reminiscent of our popular Sushiswap level in Nifty Smashers. To
                   kick things off we will hold a land sale with premium options in the city as well as cheaper
-                  undeveloped land outside of the city limits. Acquiring premium land in the city where all the action
-                  is comes with the additional benefit of having buildings already in place that you can design however
-                  you see fit. If you're a creative type, don't miss this opportunity - we will have an asset store for
-                  you to design assets such as buildings or trees and list them for sale based on your defined limits
-                  and pricing. Do you want a cool DEGEN theme park or Cyber Kongz meetup? Build out the NiftyVerse to
+                  undeveloped land outside the city limits. Acquiring premium land in the city where all the action is
+                  comes with the additional benefit of having buildings already in place that you can design however you
+                  see fit. If you're a creative type, don't miss this opportunity - we will have an asset store for you
+                  to design assets such as buildings or trees and list them for sale based on your defined limits and
+                  pricing. Do you want a cool DEGEN theme park or Cyber Kongz meetup? Build out the NiftyVerse to
                   whatever your heart desires!
                 </p>
                 <p>

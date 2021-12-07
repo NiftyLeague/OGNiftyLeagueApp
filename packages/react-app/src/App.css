@@ -12,7 +12,6 @@
 
 .AppBody {
   padding-top: 65px;
-  height: calc(100% - 55px);
   display: flex;
   flex-direction: column;
 }
