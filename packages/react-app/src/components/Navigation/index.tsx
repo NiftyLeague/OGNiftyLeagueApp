@@ -22,13 +22,13 @@ const IconFont = createFromIconfontCN({
 
 const navItems = () => [
   <Menu.Item key="/">
-    <Link to="/">Home</Link>
+    <Link to="/">Roadmap</Link>
   </Menu.Item>,
   <Menu.Item key="/about">
     <Link to="/about">About</Link>
   </Menu.Item>,
-  <Menu.Item key="/roadmap">
-    <Link to="/roadmap">Roadmap</Link>
+  <Menu.Item key="/mint-o-matic">
+    <Link to="/mint-o-matic">Mint-O-Matic</Link>
   </Menu.Item>,
   <Menu.Item key="/games">
     <Link to="/games">Games</Link>

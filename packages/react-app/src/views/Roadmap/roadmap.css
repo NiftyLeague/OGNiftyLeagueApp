@@ -358,6 +358,13 @@ Timeline
   border-right: 7px solid #333c42;
 }
 
+.cd-timeline-content .about-video .video-preview {
+  max-width: 750px;
+}
+.cd-timeline-content .about-video .play-video img {
+  width: 100px;
+}
+
 @media only screen and (min-width: 768px) {
   .cd-timeline-content h2 {
     font-size: 20px;
@@ -370,6 +377,9 @@ Timeline
   .cd-timeline-content .cd-read-more {
     font-size: 14px;
     font-size: 0.875rem;
+  }
+  .cd-timeline-content .about-video .play-video img {
+    width: 125px;
   }
 }
 @media only screen and (min-width: 1170px) {
@@ -407,6 +417,9 @@ Timeline
   }
   .cd-timeline-block:nth-child(even) .cd-timeline-content .timeline-content-img {
     right: -60px;
+  }
+  .cd-timeline-content .about-video .play-video img {
+    width: 100px;
   }
 }
 
