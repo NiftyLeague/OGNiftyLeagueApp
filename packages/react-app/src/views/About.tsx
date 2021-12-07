@@ -121,7 +121,7 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
         <p>
           Please check our{' '}
           <strong>
-            <Link to="/roadmap">roadmap</Link>
+            <Link to="/">roadmap</Link>
           </strong>{' '}
           page for more details!
         </p>
