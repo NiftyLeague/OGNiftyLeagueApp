@@ -9,7 +9,7 @@
   -webkit-animation-fill-mode: forwards;
   animation-name: moveRightXs, moveDownXs, spin, hide;
   animation-duration: 4000ms, 8000ms, 100ms, 1ms;
-  animation-delay: 0ms, 2000ms, 5000ms, 10100ms;
+  animation-delay: 0ms, 1500ms, 5000ms, 10000ms;
   animation-fill-mode: forwards;
 }
 
@@ -352,7 +352,7 @@ Stationary
   -webkit-animation-fill-mode: forwards;
   animation-name: display, float;
   animation-duration: 1ms, 2000ms;
-  animation-delay: 10099ms, 100ms;
+  animation-delay: 9999ms, 100ms;
   animation-iteration-count: 1, infinite;
   animation-fill-mode: forwards;
 }
@@ -408,7 +408,7 @@ Stationary
     transform: scaleX(-1) translatey(0px);
   }
   50% {
-    transform: scaleX(-1) translatey(-40px);
+    transform: scaleX(-1) translatey(-25px);
   }
   100% {
     transform: scaleX(-1) translatey(0px);

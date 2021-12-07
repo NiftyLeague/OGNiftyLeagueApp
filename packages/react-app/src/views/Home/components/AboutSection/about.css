@@ -14,9 +14,6 @@
   background: -webkit-linear-gradient(89deg, #620edf 0%, #5e72eb 100%);
 }
 
-.about-page-section .section-heading {
-  text-align: left;
-}
 .about-page-section .section-heading .title {
   line-height: 34px;
   font-weight: 600;

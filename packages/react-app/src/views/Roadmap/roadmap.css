@@ -30,13 +30,9 @@ Background
   width: 100%;
   height: 100%;
   background-repeat: no-repeat;
-  background-size: contain;
+  background-size: cover;
+  background-position-x: center;
   z-index: 1;
-}
-@media only screen and (min-width: 550px) {
-  .earth {
-    background-size: cover;
-  }
 }
 .cat-planet {
   background-image: url('assets/images/roadmap/cat-planet.png');
@@ -173,7 +169,7 @@ Timeline
 
 -------------------------------- */
 
-.title {
+.roadmap-title {
   z-index: 2;
   position: absolute;
   width: 100%;
