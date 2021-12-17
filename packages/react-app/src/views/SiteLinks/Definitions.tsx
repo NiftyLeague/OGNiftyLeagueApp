@@ -16,7 +16,7 @@ const Definitions = (): JSX.Element => (
     <ul>
       <li>
         <strong>Company</strong> (referred to as either "the Nifty League", "We", "Us" or "Our" in this Agreement)
-        refers to AMA LLC.
+        refers to AMA NFTs LLC.
       </li>
       <li>
         <strong>You</strong> (also referred to as "User") refers to the individual accessing or using the Service, or
