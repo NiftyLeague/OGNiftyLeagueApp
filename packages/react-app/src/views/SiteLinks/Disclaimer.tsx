@@ -33,14 +33,14 @@ const Disclaimer = (): JSX.Element => (
         The NFTL governance and utility token is solely to be used for governance within the Nifty DAO as well as for
         platform-wide expenses. Accordingly, no information on this Site (or any other documents mentioned therein) is
         or may be considered to be advice or an invitation to enter into an agreement for any investment purpose with
-        AMA LLC (“Company”). By no means should NFTL token holders expect any income from our team's contributions, gain
-        from Company profits, or ownership of the Company in any way. NFTL is not purchasable from our Company and will
-        always and only be distributed freely. Free distributions are not intended to be an offering of securities in
-        any jurisdiction nor does it constitute an offer or invitation for Company shares. Transfer of NFTL tokens may
-        be subject to legal restrictions under applicable laws. Under no circumstances shall NFTL tokens be reoffered,
-        resold or transferred within the United States or to, or for the account or benefit of, U.S. persons, except
-        pursuant to an exemption from, or in a transaction not subject to, the registration requirements of the U.S.
-        Securities Act of 1933, as amended.
+        AMA NFTs LLC (“Company”). By no means should NFTL token holders expect any income from our team's contributions,
+        gain from Company profits, or ownership of the Company in any way. NFTL is not purchasable from our Company and
+        will always and only be distributed freely. Free distributions are not intended to be an offering of securities
+        in any jurisdiction nor does it constitute an offer or invitation for Company shares. Transfer of NFTL tokens
+        may be subject to legal restrictions under applicable laws. Under no circumstances shall NFTL tokens be
+        reoffered, resold or transferred within the United States or to, or for the account or benefit of, U.S. persons,
+        except pursuant to an exemption from, or in a transaction not subject to, the registration requirements of the
+        U.S. Securities Act of 1933, as amended.
       </p>
       <p>
         The information contained on this Site is not intended for individuals or entities who are ordinarily resident
