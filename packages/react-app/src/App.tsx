@@ -16,6 +16,7 @@ const Mint = lazy(() => import('./views/Mint'));
 const NotFound = lazy(() => import('./views/NotFound'));
 const Subgraph = lazy(() => import('./views/Subgraph'));
 const Wallet = lazy(() => import('./views/Wallet'));
+const GamerProfile = lazy(() => import('./views/GamerProfile'));
 const GameVerification = lazy(() => import('./views/GameVerification'));
 const Roadmap = lazy(() => import('./views/Roadmap'));
 
@@ -65,6 +66,9 @@ export default function App(): JSX.Element {
             </Route>
             <Route exact path="/wallet">
               <Wallet />
+            </Route>
+            <Route exact path="/profile">
+              <GamerProfile />
             </Route>
             <Route exact path="/disclaimer">
               <Disclaimer />
