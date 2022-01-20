@@ -7,10 +7,7 @@ import Tooltip from './Tooltip';
 import { DEBUG, NFTL_CONTRACT } from '../constants';
 
 const useStyles = makeStyles(theme => ({
-  claimContainer: { display: 'flex', alignItems: 'baseline', float: 'right', marginTop: -50 },
-  [theme.breakpoints.down(840)]: {
-    claimContainer: { marginTop: 0, marginRight: 20 },
-  },
+  claimContainer: { margin: 'auto' },
 }));
 
 const ClaimNFTL = ({
@@ -47,7 +44,7 @@ const ClaimNFTL = ({
     borderColor: '#6f6c6c',
   };
 
-  if (!mockAccumulated) return null;
+  if (!mockAccumulated) return singleClaim ? null : <>0.00 NFTL</>;
 
   const amountParsed = mockAccumulated.toLocaleString(undefined, {
     minimumFractionDigits: 2,
@@ -73,12 +70,7 @@ const ClaimNFTL = ({
             displayTooltip ? ' If you own a lot you can save gas claiming individually below!' : ''
           }`}
         >
-          <Button
-            style={{ ...btnStyles, marginLeft: 8, marginTop: 16 }}
-            shape="round"
-            size="large"
-            onClick={handleClaimNFTL}
-          >
+          <Button style={{ ...btnStyles, marginTop: 6 }} shape="round" size="large" onClick={handleClaimNFTL}>
             Claim
           </Button>
         </Tooltip>
