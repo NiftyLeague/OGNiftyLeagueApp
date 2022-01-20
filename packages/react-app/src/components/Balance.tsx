@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useBalance, useExchangePrice } from 'hooks';
 import { Provider } from 'types/web3';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
+import withWidth, { isWidthDown } from '@material-ui/core/withWidth';
+import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 
 /*
   Displays a balance of given address in ether & dollar
@@ -9,16 +11,19 @@ import { useThemeSwitcher } from 'react-css-theme-switcher';
   - Provide provider={userProvider} to access balance on mainnet or any other network (ex. localProvider)
 */
 
-export default function Balance({
+function Balance({
   address,
   provider,
   ignoreConversion,
+  width,
 }: {
   address: string;
   provider: Provider;
   ignoreConversion?: boolean;
+  width: Breakpoint;
 }): JSX.Element {
   const { currentTheme } = useThemeSwitcher();
+  const mobileView = isWidthDown('sm', width);
   const [dollarMode, setDollarMode] = useState(false);
   const price = useExchangePrice();
   const balance = useBalance(provider, address);
@@ -28,7 +33,7 @@ export default function Balance({
   if (price && dollarMode) {
     displayBalance = `$${(floatBalance * price).toFixed(2)}`;
   } else {
-    displayBalance = `${displayBalance} ETH`;
+    displayBalance = `${displayBalance} ${mobileView ? 'Ξ' : 'ETH'}`;
   }
 
   return (
@@ -37,7 +42,7 @@ export default function Balance({
         verticalAlign: 'middle',
         padding: '0 8px',
         cursor: 'pointer',
-        fontSize: 18,
+        fontSize: mobileView ? 16 : 18,
         color: currentTheme === 'light' ? '#222222' : '#ddd',
       }}
       onClick={() => (ignoreConversion ? () => {} : setDollarMode(!dollarMode))}
@@ -50,3 +55,5 @@ export default function Balance({
 Balance.defaultProps = {
   ignoreConversion: false,
 };
+
+export default withWidth()(Balance);

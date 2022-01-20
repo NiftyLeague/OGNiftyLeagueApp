@@ -21,6 +21,8 @@ const useStyles = makeStyles((theme: Theme) =>
       borderColor: '#333c42',
       backgroundColor: 'inherit',
       cursor: 'pointer',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
       '&:hover': { borderColor: 'rgb(111, 108, 108)' },
     },
     address: {
