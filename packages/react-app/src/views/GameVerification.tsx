@@ -42,7 +42,10 @@ const GameVerification = (): JSX.Element => {
             .catch(() => {
               setError(true);
             });
-          if (result === '"yes"') setSuccess(true);
+          if (result && result.length) {
+            setSuccess(true);
+            window.localStorage.setItem('authentication-token', result.slice(1, -1));
+          }
         }
       }
     };
