@@ -7,14 +7,15 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
 import Dashboard from './Dashboard';
+import Wallet from './Wallet';
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
     flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
   },
-  root: {
+  paper: {
     flexGrow: 1,
+    backgroundColor: 'inherit',
   },
 }));
 
@@ -54,7 +55,7 @@ const GamerProfile = (): JSX.Element => {
 
   return (
     <div className={classes.container}>
-      <Paper className={classes.root}>
+      <Paper className={classes.paper}>
         <Tabs value={value} onChange={handleChange} indicatorColor="primary" textColor="primary" centered>
           <Tab label="Dashboard" />
           <Tab label="Wallet" />
@@ -66,7 +67,7 @@ const GamerProfile = (): JSX.Element => {
         Dashboard
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Wallet
+        <Wallet />
       </TabPanel>
       <TabPanel value={value} index={2}>
         Rentals

@@ -36,9 +36,6 @@ const navItems = () => [
   <Menu.Item key="/degens">
     <Link to="/degens">Degens</Link>
   </Menu.Item>,
-  <Menu.Item key="/wallet">
-    <Link to="/wallet">Wallet</Link>
-  </Menu.Item>,
 ];
 
 function Navigation({ width }: { width: Breakpoint }): JSX.Element {
