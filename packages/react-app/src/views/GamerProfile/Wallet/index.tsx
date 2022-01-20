@@ -7,11 +7,11 @@ import { Owner } from 'types/graph';
 import { CharacterCard, ClaimNFTL, WalletConnectPrompt } from 'components';
 import useNFTLBalance from 'hooks/useNFTLBalance';
 import { NetworkContext } from 'NetworkProvider';
-import { CHARACTERS_SUBGRAPH_INTERVAL } from '../../constants';
+import { CHARACTERS_SUBGRAPH_INTERVAL } from 'constants/index';
 import { OWNER_QUERY } from './query';
 
 const useStyles = makeStyles(theme => ({
-  container: { padding: '40px 0' },
+  container: { padding: '20px 0' },
   progress: { marginTop: 100 },
   claimContainer: { display: 'flex', alignItems: 'baseline', float: 'right', marginTop: -50 },
   grid: { flexGrow: 1, margin: '8px 0px 8px -8px' },
