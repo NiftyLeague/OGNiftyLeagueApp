@@ -1,7 +1,10 @@
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { useThemeSwitcher } from 'react-css-theme-switcher';
 import { useQuery } from '@apollo/client';
+import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import { CircularProgress, Container, Grid, Typography } from '@material-ui/core';
+import Pagination from '@material-ui/lab/Pagination';
 
 import { Owner } from 'types/graph';
 import { CharacterCard, ClaimNFTL, WalletConnectPrompt } from 'components';
@@ -9,6 +12,8 @@ import useNFTLBalance from 'hooks/useNFTLBalance';
 import { NetworkContext } from 'NetworkProvider';
 import { CHARACTERS_SUBGRAPH_INTERVAL } from 'constants/index';
 import { OWNER_QUERY } from './query';
+
+export const PAGE_SIZE = 8;
 
 const useStyles = makeStyles(theme => ({
   container: { padding: '20px 0' },
@@ -18,12 +23,28 @@ const useStyles = makeStyles(theme => ({
   [theme.breakpoints.down(840)]: {
     claimContainer: { marginTop: 0, marginRight: 20 },
   },
+  pagination: {
+    width: '100%',
+    paddingTop: 20,
+    paddingBottom: 125,
+    '& ul': {
+      justifyContent: 'center',
+    },
+  },
+  paginationDark: {
+    '& button, li > div': {
+      color: 'white',
+      borderColor: 'white',
+    },
+  },
 }));
 
 const Wallet = (): JSX.Element => {
   const classes = useStyles();
+  const { currentTheme } = useThemeSwitcher();
   const { address } = useContext(NetworkContext);
   const userNFTLBalance = useNFTLBalance(address);
+  const [page, setPage] = useState(1);
   const { loading, data }: { loading: boolean; data?: { owner: Owner } } = useQuery(OWNER_QUERY, {
     pollInterval: CHARACTERS_SUBGRAPH_INTERVAL,
     variables: { address: address?.toLowerCase() },
@@ -67,20 +88,35 @@ const Wallet = (): JSX.Element => {
           <Typography variant="h4">Your Degens</Typography>
           <ClaimNFTL tokenIndices={tokenIndices} singleClaim={false} displayTooltip={displaySingleClaim} />
           {characters.length ? (
-            <Grid container spacing={2} className={classes.grid}>
-              {characters.map(character => (
-                <Grid item xs={12} sm={6} md={4} lg={3} key={character.id}>
-                  <CharacterCard
-                    character={character}
-                    favs={favs}
-                    ownerOwned
-                    handleToggleFavs={handleToggleFavs}
-                    singleClaim={displaySingleClaim}
-                    userNFTLBalance={userNFTLBalance}
-                  />
-                </Grid>
-              ))}
-            </Grid>
+            <>
+              <Grid container spacing={2} className={classes.grid}>
+                {characters.slice((page - 1) * PAGE_SIZE, (page - 1) * PAGE_SIZE + PAGE_SIZE).map(character => (
+                  <Grid item xs={12} sm={6} md={4} lg={3} key={character.id}>
+                    <CharacterCard
+                      character={character}
+                      favs={favs}
+                      ownerOwned
+                      handleToggleFavs={handleToggleFavs}
+                      singleClaim={displaySingleClaim}
+                      userNFTLBalance={userNFTLBalance}
+                    />
+                  </Grid>
+                ))}
+              </Grid>
+              {characters.length > PAGE_SIZE ? (
+                <Pagination
+                  className={clsx(classes.pagination, { [classes.paginationDark]: currentTheme === 'dark' })}
+                  color="primary"
+                  count={Math.ceil(characters?.length / PAGE_SIZE)}
+                  onChange={(_, value) => {
+                    setPage(value);
+                  }}
+                  page={page}
+                  size="large"
+                  variant="outlined"
+                />
+              ) : null}
+            </>
           ) : (
             <div style={{ padding: '60px 20px' }}>
               No Degens found. Please check your address or go mint if you haven't done so already!

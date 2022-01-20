@@ -48,7 +48,7 @@ const TabPanel = (props: TabPanelProps): JSX.Element => {
 
 const GamerProfile = (): JSX.Element => {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState(1);
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
@@ -56,15 +56,15 @@ const GamerProfile = (): JSX.Element => {
 
   return (
     <div className={classes.container}>
-      <Paper className={classes.paper}>
+      {/* <Paper className={classes.paper}>
         <Tabs value={value} onChange={handleChange} indicatorColor="primary" textColor="primary" centered>
           <Tab label="Dashboard" />
           <Tab label="Wallet" />
           <Tab label="Rentals" disabled />
         </Tabs>
-      </Paper>
+      </Paper> */}
       <TabPanel value={value} index={0}>
-        {/* <Dashboard /> */}
+        <Dashboard />
         Dashboard
       </TabPanel>
       <TabPanel value={value} index={1}>
