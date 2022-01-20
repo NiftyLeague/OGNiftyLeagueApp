@@ -12,7 +12,7 @@ const ToS = (): JSX.Element => (
     <Container style={{ textAlign: 'left', padding: '40px' }}>
       <Title level={2}>Terms and Conditions</Title>
       <p>
-        Last updated: <strong>September 6th, 2021</strong>
+        Last updated: <strong>January 19th, 2022</strong>
       </p>
       <p>Please read these terms and conditions carefully before using Our Service.</p>
       <Definitions />
@@ -108,7 +108,7 @@ const ToS = (): JSX.Element => (
           assets as inspiration is acceptable.
         </li>
         <li>
-          The artwork must clearly state “Nifty League Fanart”, link to https://www.nifty-league.com, and link directly
+          The artwork must clearly state “Nifty League Fanart”, link to https://www.niftyleague.com, and link directly
           to the NFT-Token that is being used for inspiration.
         </li>
         <li>
@@ -434,8 +434,7 @@ const ToS = (): JSX.Element => (
       <Title level={3}>Contact Us</Title>
       <p>
         If You have any questions about these Terms and Conditions, You can contact us at{' '}
-        <a href="mailto: info@nifty-league.com">info@nifty-league.com</a> or by reaching out to one of our team members
-        on{' '}
+        <a href="mailto: team@niftyleague.com">team@niftyleague.com</a> or by reaching out to one of our team members on{' '}
         <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/niftyleague">
           Discord
         </a>
