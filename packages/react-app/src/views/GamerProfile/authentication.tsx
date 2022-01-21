@@ -46,9 +46,10 @@ const ProfileVerification = ({
               setError(true);
             });
           if (result && result.length) {
-            console.log('result', result);
             setSuccess(true);
             window.localStorage.setItem('authentication-token', result.slice(1, -1));
+            window.localStorage.setItem('uuid-token', token);
+            window.localStorage.setItem('nonce', nonce);
           }
         }
       }
@@ -71,20 +72,17 @@ export default function withVerification(Component: () => JSX.Element) {
   return (): JSX.Element | null => {
     const { address } = useContext(NetworkContext);
     const [success, setSuccess] = useState(false);
-    const auth = window.localStorage.getItem('authentication-token');
-    console.log('auth', auth);
-    console.log('address', address);
+    const [auth, setAuth] = useState(window.localStorage.getItem('authentication-token'));
 
     useEffect(() => {
       const checkAddress = async () => {
         if (auth) {
-          const result = await fetch('https://odgwhiwhzb.execute-api.us-east-1.amazonaws.com/prod/verification', {
-            method: 'OPTIONS',
-            headers: {
-              authorizationToken: auth,
-              'Access-Control-Allow-Origin': '*',
+          const result = await fetch(
+            'https://odgwhiwhzb.execute-api.us-east-1.amazonaws.com/prod/verification/address',
+            {
+              headers: { authorizationToken: auth },
             },
-          })
+          )
             .then(res => {
               if (res.status === 404) setSuccess(false);
               return res.text();
@@ -92,12 +90,13 @@ export default function withVerification(Component: () => JSX.Element) {
             .catch(() => {
               setSuccess(false);
             });
-          console.log('result', result);
           if (result && result.slice(1, -1) === address.toLowerCase()) {
             setSuccess(true);
           } else {
-            // window.localStorage.removeItem('authentication-token');
-            setSuccess(true); // TODO: remove once CORS issues are resolved
+            window.localStorage.removeItem('authentication-token');
+            window.localStorage.removeItem('uuid-token');
+            window.localStorage.removeItem('nonce');
+            setAuth(null);
           }
         }
       };

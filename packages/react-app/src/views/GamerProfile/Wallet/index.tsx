@@ -5,9 +5,15 @@ import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import { CircularProgress, Container, Grid, Typography, Paper } from '@material-ui/core';
 import Pagination from '@material-ui/lab/Pagination';
+import InfoIcon from '@material-ui/icons/InfoOutlined';
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
 
 import { Character, Owner } from 'types/graph';
-import { CharacterCard, ClaimNFTL, WalletConnectPrompt } from 'components';
+import { CharacterCard, ClaimNFTL, Tooltip, WalletConnectPrompt } from 'components';
 import useNFTLBalance from 'hooks/useNFTLBalance';
 import { NetworkContext } from 'NetworkProvider';
 import { CHARACTERS_SUBGRAPH_INTERVAL } from 'constants/index';
@@ -22,18 +28,13 @@ const useStyles = makeStyles(theme => ({
     marginBottom: 20,
   },
   paper: {
-    display: 'flex',
-    flexDirection: 'column',
-    padding: 8,
     color: 'white',
-    '& h6': { color: 'white' },
-    height: 125,
     width: '100%',
+    height: '100%',
     backgroundColor: '#333c42',
   },
-  cardBody: {
-    margin: 'auto',
-  },
+  cardHeader: { paddingBottom: 8 },
+  cardBody: { margin: 'auto' },
   progress: { marginTop: 100 },
   claimContainer: { display: 'flex', alignItems: 'baseline', float: 'right', marginTop: -50 },
   grid: { flexGrow: 1, margin: '8px 0px 8px -8px' },
@@ -78,30 +79,92 @@ const Overview = memo(
         <Grid item xs={12}>
           <Grid container justifyContent="center" spacing={2}>
             <Grid item xs={3}>
-              <Paper className={classes.paper}>
-                <Typography variant="h6">Total Degens</Typography>
-                <div className={classes.cardBody}>{tokenIndices.length}</div>
-              </Paper>
+              <Card className={classes.paper}>
+                <CardHeader className={classes.cardHeader} title="Total Degens" />
+                <CardContent>
+                  <Typography variant="body1" component="p">
+                    {tokenIndices.length}
+                  </Typography>
+                </CardContent>
+              </Card>
             </Grid>
             <Grid item xs={3}>
-              <Paper className={classes.paper}>
-                <Typography variant="h6">Daily NFTL Accrued</Typography>
-                <div className={classes.cardBody}>
-                  <ClaimNFTL tokenIndices={tokenIndices} singleClaim={false} displayTooltip={displaySingleClaim} />
-                </div>
-              </Paper>
+              <Card className={classes.paper}>
+                <CardHeader
+                  action={
+                    <Tooltip
+                      text={
+                        <div>
+                          Each DEGEN accrues 68.5 NFTL per day for the first 3 years from our mint. This value shows you
+                          the cumulative total amongst all of your DEGEN NFTs. There is no time limit to claim these
+                          tokens but do note in the event of selling your DEGEN the NFTL will transfer to the new owner.
+                        </div>
+                      }
+                    >
+                      <InfoIcon fontSize="inherit" />
+                    </Tooltip>
+                  }
+                  className={classes.cardHeader}
+                  title="Daily NFTL Accrued"
+                />
+                <CardContent>
+                  <Typography variant="body1" component="p">
+                    <ClaimNFTL tokenIndices={tokenIndices} singleClaim={false} displayTooltip={displaySingleClaim} />
+                  </Typography>
+                </CardContent>
+              </Card>
             </Grid>
             <Grid item xs={3}>
-              <Paper className={classes.paper}>
-                <Typography variant="h6">P2E/Rental Income</Typography>
-                <div className={classes.cardBody}>0.00</div>
-              </Paper>
+              <Card className={classes.paper}>
+                <CardHeader
+                  action={
+                    <Tooltip
+                      text={
+                        <div>
+                          This balance shows you your gamer account balance which includes any deposits you've made to
+                          date along with P2E and rental earnings. You can freely spend these tokens within our ecosytem
+                          gasless as we handle transactions such as rentals off-chain. In order to sell these tokens you
+                          will need to request a withdrawl below once enabled.
+                        </div>
+                      }
+                    >
+                      <InfoIcon fontSize="inherit" />
+                    </Tooltip>
+                  }
+                  className={classes.cardHeader}
+                  title="Game Balance"
+                />
+                <CardContent>
+                  <Typography variant="body1" component="p">
+                    0.00
+                  </Typography>
+                </CardContent>
+              </Card>
             </Grid>
             <Grid item xs={3}>
-              <Paper className={classes.paper}>
-                <Typography variant="h6">NFTL in Wallet</Typography>
-                <div className={classes.cardBody}>{bal} NFTL</div>
-              </Paper>
+              <Card className={classes.paper}>
+                <CardHeader
+                  action={
+                    <Tooltip
+                      text={
+                        <div>
+                          This balance tracks any liquid NFTL in your Ethereum wallet which should reflect the values
+                          you see in MetaMask or Etherscan.
+                        </div>
+                      }
+                    >
+                      <InfoIcon fontSize="inherit" />
+                    </Tooltip>
+                  }
+                  className={classes.cardHeader}
+                  title="NFTL in Wallet"
+                />
+                <CardContent>
+                  <Typography variant="body1" component="p">
+                    {bal} NFTL
+                  </Typography>
+                </CardContent>
+              </Card>
             </Grid>
           </Grid>
         </Grid>
