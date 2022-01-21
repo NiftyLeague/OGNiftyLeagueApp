@@ -10,6 +10,7 @@ import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 
+import { Account } from 'types/api';
 import { Character, Owner } from 'types/graph';
 import { CharacterCard, ClaimNFTL, Tooltip, WalletConnectPrompt } from 'components';
 import useNFTLBalance from 'hooks/useNFTLBalance';
@@ -66,8 +67,31 @@ const Overview = memo(
     userNFTLBalance: number;
   }): JSX.Element => {
     const classes = useStyles();
+    const auth = window.localStorage.getItem('authentication-token');
+    const [account, setAccount] = useState<Account>();
+    const [accError, setAccError] = useState(false);
 
-    const bal = userNFTLBalance.toLocaleString(undefined, {
+    useEffect(() => {
+      const fetchAccount = async () => {
+        if (auth) {
+          const result = await fetch('https://odgwhiwhzb.execute-api.us-east-1.amazonaws.com/prod/accounts/account', {
+            headers: { authorizationToken: auth },
+          })
+            .then(res => {
+              if (res.status === 404) setAccError(true);
+              return res.text();
+            })
+            .catch(() => {
+              setAccError(true);
+            });
+          if (result) setAccount(JSON.parse(result));
+        }
+      };
+      if (auth) void fetchAccount();
+    }, [auth]);
+
+    const gameBal = account?.balance ? `${account.balance} NFTL` : '0.00 NFTL';
+    const walletBal = userNFTLBalance.toLocaleString(undefined, {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     });
@@ -134,7 +158,7 @@ const Overview = memo(
                 />
                 <CardContent>
                   <Typography variant="body1" component="p">
-                    0.00 NFTL
+                    {accError ? 'Error fetching balance' : gameBal}
                   </Typography>
                 </CardContent>
               </Card>
@@ -159,7 +183,7 @@ const Overview = memo(
                 />
                 <CardContent>
                   <Typography variant="body1" component="p">
-                    {bal} NFTL
+                    {walletBal} NFTL
                   </Typography>
                 </CardContent>
               </Card>
