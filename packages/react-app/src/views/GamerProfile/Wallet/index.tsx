@@ -8,9 +8,7 @@ import Pagination from '@material-ui/lab/Pagination';
 import InfoIcon from '@material-ui/icons/InfoOutlined';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
 
 import { Character, Owner } from 'types/graph';
 import { CharacterCard, ClaimNFTL, Tooltip, WalletConnectPrompt } from 'components';
@@ -136,7 +134,7 @@ const Overview = memo(
                 />
                 <CardContent>
                   <Typography variant="body1" component="p">
-                    0.00
+                    0.00 NFTL
                   </Typography>
                 </CardContent>
               </Card>

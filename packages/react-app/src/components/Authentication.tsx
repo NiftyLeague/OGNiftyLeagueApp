@@ -7,8 +7,10 @@ import { NetworkContext } from 'NetworkProvider';
 import { getProviderAndSigner } from 'helpers';
 
 const ProfileVerification = ({
+  setAuth,
   setSuccess,
 }: {
+  setAuth: (value: React.SetStateAction<string>) => void;
   setSuccess: (value: React.SetStateAction<boolean>) => void;
 }): JSX.Element => {
   const { address, userProvider } = useContext(NetworkContext);
@@ -46,8 +48,10 @@ const ProfileVerification = ({
               setError(true);
             });
           if (result && result.length) {
+            const auth = result.slice(1, -1);
+            setAuth(auth);
             setSuccess(true);
-            window.localStorage.setItem('authentication-token', result.slice(1, -1));
+            window.localStorage.setItem('authentication-token', auth);
             window.localStorage.setItem('uuid-token', token);
             window.localStorage.setItem('nonce', nonce);
           }
@@ -55,7 +59,7 @@ const ProfileVerification = ({
       }
     };
     if (address && userProvider && nonce.length > 5 && token && !msgSent) void signMsg();
-  }, [address, msgSent, nonce, token, userProvider, setSuccess]);
+  }, [address, msgSent, nonce, token, userProvider, setAuth, setSuccess]);
 
   return (
     <Container style={{ textAlign: 'center', padding: '40px' }}>
@@ -68,8 +72,8 @@ const ProfileVerification = ({
   );
 };
 
-export default function withVerification(Component: () => JSX.Element) {
-  return (): JSX.Element | null => {
+export default function withVerification(Component: (props: any) => JSX.Element) {
+  return (props): JSX.Element | null => {
     const { address } = useContext(NetworkContext);
     const [success, setSuccess] = useState(false);
     const [auth, setAuth] = useState(window.localStorage.getItem('authentication-token'));
@@ -105,6 +109,10 @@ export default function withVerification(Component: () => JSX.Element) {
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     if (auth && !success) return null;
-    return success ? <Component /> : <ProfileVerification setSuccess={setSuccess} />;
+    return success ? (
+      <Component {...props} auth={auth} />
+    ) : (
+      <ProfileVerification setAuth={setAuth} setSuccess={setSuccess} />
+    );
   };
 }
