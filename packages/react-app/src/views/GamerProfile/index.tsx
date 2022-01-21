@@ -6,7 +6,7 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
-import withVerification from './authentication';
+import withVerification from 'components/Authentication';
 import Dashboard from './Dashboard';
 import Wallet from './Wallet';
 
