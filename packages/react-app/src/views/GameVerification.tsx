@@ -17,7 +17,7 @@ const GameVerification = (): JSX.Element => {
 
   useEffect(() => {
     const signMsg = async () => {
-      if (userProvider) {
+      if (address && userProvider && nonce && token) {
         const { signer } = getProviderAndSigner(userProvider);
         if (signer) {
           const addressToLower = address.toLowerCase();
@@ -45,11 +45,13 @@ const GameVerification = (): JSX.Element => {
           if (result && result.length) {
             setSuccess(true);
             window.localStorage.setItem('authentication-token', result.slice(1, -1));
+            window.localStorage.setItem('uuid-token', token);
+            window.localStorage.setItem('nonce', nonce);
           }
         }
       }
     };
-    if (address && userProvider && nonce && token && !msgSent) void signMsg();
+    if (!msgSent) void signMsg();
   }, [address, msgSent, nonce, token, userProvider]);
 
   return (

@@ -63,7 +63,7 @@ const ClaimNFTL = ({
     </>
   ) : (
     <div className={classes.claimContainer}>
-      {amountParsed} NFTL Claimable
+      <div>{amountParsed} NFTL Claimable</div>
       {mockAccumulated > 0.0 && writeContracts[NFTL_CONTRACT] && (
         <Tooltip
           text={`Claims for all owned DEGENS.${
