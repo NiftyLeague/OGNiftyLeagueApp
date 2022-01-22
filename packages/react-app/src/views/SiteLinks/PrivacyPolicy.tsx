@@ -170,7 +170,7 @@ const PrivacyPolicy = (): JSX.Element => (
       <Title level={3}>Contact Us</Title>
       <p>
         If you have any questions about this Privacy Policy, please contact us via email at{' '}
-        <a href="mailto: info@nifty-league.com">info@nifty-league.com</a> or reach out to one of the members of our team
+        <a href="mailto: team@niftyleague.com">team@niftyleague.com</a> or reach out to one of the members of our team
         on{' '}
         <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/niftyleague">
           Discord

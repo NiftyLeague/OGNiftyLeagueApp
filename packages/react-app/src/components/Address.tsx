@@ -89,8 +89,8 @@ export default function Address({
           <Blockies seed={address.toLowerCase()} size={5} className="blockies" />
         </div>
       )}
-      <span style={{ verticalAlign: 'middle', paddingLeft: 5 }}>
-        {DEBUG || copyable ? (
+      <span style={{ verticalAlign: 'middle', paddingLeft: 5, height: 'inherit', marginTop: '-3px' }}>
+        {copyable ? (
           <Text copyable={{ text: address }}>
             <a
               style={{ color: currentTheme === 'light' ? '#222222' : '#ddd' }}
@@ -102,7 +102,7 @@ export default function Address({
             </a>
           </Text>
         ) : (
-          <Text style={{ color: currentTheme === 'light' ? '#222222' : '#ddd' }}>{displayAddress}</Text>
+          <Text style={{ color: '#ddd' }}>{displayAddress}</Text>
         )}
       </span>
     </>

@@ -1,10 +1,39 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
 import { Button } from 'antd';
 import Web3Modal from 'web3modal';
 import { Provider, MainnetProvider } from 'types/web3';
 import Address from './Address';
 import Balance from './Balance';
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      display: 'flex',
+      flexWrap: 'nowrap',
+      height: 46,
+      lineHeight: '46px',
+      borderWidth: 1.5,
+      borderRadius: '.625rem',
+      borderColor: '#333c42',
+      backgroundColor: 'inherit',
+      cursor: 'pointer',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      '&:hover': { borderColor: 'rgb(111, 108, 108)' },
+    },
+    address: {
+      borderRadius: '.5rem',
+      background: '-webkit-linear-gradient(89deg, #620edf 0%, #5e72eb 100%)',
+      display: 'flex',
+      flexWrap: 'nowrap',
+      padding: '2px 8px',
+    },
+  }),
+);
 
 /*
   ~ What it does? ~
@@ -62,17 +91,19 @@ export default function Account({
   web3Modal,
 }: AccountsProps): JSX.Element {
   const { currentTheme } = useThemeSwitcher();
+  const classes = useStyles();
   const modalButtons: JSX.Element[] = [];
   if (web3Modal) {
-    const btnStyles = {
-      marginLeft: 8,
-      borderColor: '#6f6c6c',
-    };
     if (web3Modal.cachedProvider) {
       modalButtons.push(
         <Button
           key="logoutbutton"
-          style={{ ...btnStyles, background: 'transparent', color: currentTheme === 'dark' ? '#fff' : 'black' }}
+          style={{
+            marginLeft: 8,
+            borderColor: '#333c42',
+            background: 'transparent',
+            color: currentTheme === 'dark' ? '#fff' : 'black',
+          }}
           shape="round"
           size="large"
           onClick={logoutOfWeb3Modal}
@@ -85,7 +116,7 @@ export default function Account({
         <Button
           key="loginbutton"
           style={{
-            ...btnStyles,
+            borderColor: '#6f6c6c',
             background: '-webkit-linear-gradient(89deg, #620edf 0%, #5e72eb 100%)',
             color: '#fff',
           }}
@@ -102,14 +133,20 @@ export default function Account({
   return (
     <div style={{ display: 'flex', flexWrap: 'nowrap', alignItems: 'center' }}>
       {address && (
-        <Address
-          address={address}
-          ensProvider={mainnetProvider}
-          mobileView={mobileView}
-          blockExplorer={blockExplorer}
-        />
+        <Link to="/profile">
+          <Paper variant="outlined" classes={{ root: classes.root }}>
+            {userProvider ? <Balance address={address} provider={userProvider} ignoreConversion /> : null}
+            <div className={classes.address}>
+              <Address
+                address={address}
+                ensProvider={mainnetProvider}
+                mobileView={mobileView}
+                blockExplorer={blockExplorer}
+              />
+            </div>
+          </Paper>
+        </Link>
       )}
-      {!mobileView && address && userProvider ? <Balance address={address} provider={userProvider} /> : null}
       {modalButtons}
     </div>
   );

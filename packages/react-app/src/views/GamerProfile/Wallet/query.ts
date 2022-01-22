@@ -8,7 +8,7 @@ export const OWNER_QUERY = gql`
       address
       createdAt
       characterCount
-      characters {
+      characters(first: 500) {
         id
         name
         nameHistory
