@@ -8,6 +8,7 @@ import { useThemeSwitcher } from 'react-css-theme-switcher';
 
 import { NetworkContext } from 'NetworkProvider';
 import Preloader from 'components/Preloader';
+import withVerification from 'components/Authentication';
 import NiftySmashers from 'assets/gifs/nifty-smashers.gif';
 import NiftySmashersThumb from 'assets/images/characters/alien-dj.png';
 import NiftyDesktop from 'assets/gifs/nifty-smashers-desktop.gif';
@@ -32,27 +33,27 @@ const smashersContext = new UnityContext({
   productVersion: buildVersion,
 });
 
-const Game = ({ unityContext }: { unityContext: UnityContext }) => {
+const Game = ({ auth, unityContext }: { auth: string; unityContext: UnityContext }) => {
   const { address, targetNetwork } = useContext(NetworkContext);
   const favs = window.localStorage.getItem('FAV_DEGENS') || '';
-  const auth = `true,${address || '0x0'},Vitalik,${favs}`;
-  const authCallback = useRef<null | ((auth: string) => void)>();
+  const authMsg = `true,${address || '0x0'},Vitalik,${auth},${favs}`;
+  const authCallback = useRef<null | ((authMsg: string) => void)>();
   const [isLoaded, setLoaded] = useState(false);
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     if (address.length && authCallback.current) {
-      authCallback.current(auth);
+      authCallback.current(authMsg);
     }
-  }, [address, auth]);
+  }, [address, authMsg]);
 
   const startAuthentication = useCallback(
     (e: CustomEvent<{ callback: (auth: string) => void }>) => {
-      if (DEBUG) console.log('Authenticating:', auth);
-      e.detail.callback(auth);
+      if (DEBUG) console.log('Authenticating:', authMsg);
+      e.detail.callback(authMsg);
       authCallback.current = e.detail.callback;
     },
-    [auth],
+    [authMsg],
   );
 
   const getConfiguration = useCallback(
@@ -126,6 +127,8 @@ const Game = ({ unityContext }: { unityContext: UnityContext }) => {
   );
 };
 
+const GameWithAuth = withVerification((props: { auth: string; unityContext: UnityContext }) => Game(props));
+
 export default function Games(): JSX.Element {
   const { currentTheme } = useThemeSwitcher();
   const [selectedGame, setSelectedGame] = useState('all');
@@ -173,7 +176,7 @@ export default function Games(): JSX.Element {
         <Content style={{ ...(selectedGame === 'all' && { padding: 40 }) }}>
           {selectedGame !== 'all' ? (
             <>
-              {selectedGame === 'nifty-smashers' ? <Game unityContext={smashersContext} /> : null}
+              {selectedGame === 'nifty-smashers' ? <GameWithAuth unityContext={smashersContext} /> : null}
               {selectedGame === 'nifty-league-desktop' ? <Downloader /> : null}
             </>
           ) : (
