@@ -56,6 +56,7 @@ const Comics = (): JSX.Element => {
 
   console.log('tribesData', tribesData);
   console.log('Tribe Sets', tribeSets);
+  // console.log('rarity', rarity);
 
   return address ? (
     <Container className={classes.container}>

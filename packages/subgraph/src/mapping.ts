@@ -5,6 +5,7 @@ import {
   NameUpdated,
 } from "../generated/NiftyDegen/NiftyDegen";
 import {Character, Contract, Owner, TraitMap} from "../generated/schema";
+import {getBackground} from "./backgrounds";
 
 export function handleTransfer(event: Transfer): void {
   // Bind the contract to the address that emitted the event
@@ -70,6 +71,8 @@ export function handleTransfer(event: Transfer): void {
     traits.neckwear = traitList.neckwear;
     traits.leftItem = traitList.leftItem;
     traits.rightItem = traitList.rightItem;
+    let background = getBackground(event.params.tokenId);
+    traits.background = background.id as i32;
     character.traits = tokenId;
   } else {
     character.owner = toString;
