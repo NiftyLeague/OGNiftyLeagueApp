@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { lazy } from 'react';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-
 import withVerification from 'components/Authentication';
-import Dashboard from './Dashboard';
-import Wallet from './Wallet';
+
+const Comics = lazy(() => import('./Comics'));
+const Dashboard = lazy(() => import('./Dashboard'));
+const Wallet = lazy(() => import('./Wallet'));
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
@@ -17,6 +18,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   paper: {
     flexGrow: 1,
     backgroundColor: 'inherit',
+    paddingTop: 10,
   },
 }));
 
@@ -56,23 +58,27 @@ const GamerProfile = (): JSX.Element => {
 
   return (
     <div className={classes.container}>
-      {/* <Paper className={classes.paper}>
+      <Paper className={classes.paper}>
         <Tabs value={value} onChange={handleChange} indicatorColor="primary" textColor="primary" centered>
-          <Tab label="Dashboard" />
+          {/* <Tab label="Dashboard" /> */}
           <Tab label="Wallet" />
-          <Tab label="Rentals" disabled />
+          <Tab label="Comics" />
+          {/* <Tab label="Rentals" disabled /> */}
         </Tabs>
-      </Paper> */}
-      <TabPanel value={value} index={0}>
+      </Paper>
+      {/* <TabPanel value={value} index={0}>
         <Dashboard />
         Dashboard
-      </TabPanel>
-      <TabPanel value={value} index={1}>
+      </TabPanel> */}
+      <TabPanel value={value} index={0}>
         <Wallet />
       </TabPanel>
-      <TabPanel value={value} index={2}>
-        Rentals
+      <TabPanel value={value} index={1}>
+        <Comics />
       </TabPanel>
+      {/* <TabPanel value={value} index={3}>
+        Rentals
+      </TabPanel> */}
     </div>
   );
 };
