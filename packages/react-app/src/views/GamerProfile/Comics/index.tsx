@@ -29,8 +29,6 @@ import './index.css';
 
 const Comics = ({ width }: { width: Breakpoint }): JSX.Element => {
   const { address } = useContext(NetworkContext);
-
-  console.log('address', address);
   const claim = snapshot.find(owner => owner.address === address.toLowerCase()) || { p5: 0, p6: 0 };
 
   return address ? (
