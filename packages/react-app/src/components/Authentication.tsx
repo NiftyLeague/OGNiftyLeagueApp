@@ -73,6 +73,7 @@ const ProfileVerification = ({
 };
 
 export default function withVerification(Component: (props: any) => JSX.Element) {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   return (props): JSX.Element | null => {
     const { address } = useContext(NetworkContext);
     const [success, setSuccess] = useState(false);

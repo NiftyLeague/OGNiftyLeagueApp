@@ -90,7 +90,12 @@ const Overview = memo(
       if (auth) void fetchAccount();
     }, [auth]);
 
-    const gameBal = account?.balance ? `${account.balance} NFTL` : '0.00 NFTL';
+    const gameBal = account?.balance
+      ? `${account.balance.toLocaleString(undefined, {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })} NFTL`
+      : '0.00 NFTL';
     const walletBal = userNFTLBalance.toLocaleString(undefined, {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
@@ -144,9 +149,9 @@ const Overview = memo(
                       text={
                         <div>
                           This balance shows you your gamer account balance which includes any deposits you've made to
-                          date along with P2E and rental earnings. You can freely spend these tokens within our ecosytem
-                          gasless as we handle transactions such as rentals off-chain. In order to sell these tokens you
-                          will need to request a withdrawl below once enabled.
+                          date along with P2E and rental earnings. You can spend these tokens within our ecosystem
+                          without gas fees because we handle transactions such as rentals off-chain. In order to sell
+                          these tokens you will need to request a withdrawal below once enabled.
                         </div>
                       }
                     >
