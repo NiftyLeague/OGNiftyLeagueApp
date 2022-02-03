@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import { notification } from 'antd';
 import axios, { AxiosResponse } from 'axios';
 import Notify, { API, InitOptions } from 'bnc-notify';
+import { EthereumTransactionLog, EthereumTransactionData } from 'bnc-sdk/dist/types/src/interfaces';
 import { BigNumber, Contract, ContractFunction, Signer, utils, providers } from 'ethers';
 // import { setIntervalAsync, clearIntervalAsync } from 'set-interval-async/dynamic';
 import { serializeError } from 'eth-rpc-errors';
@@ -96,10 +97,11 @@ export default function Notifier(
             networkId: network.chainId,
             darkMode,
             transactionHandler: txInformation => {
-              if (DEBUG)
-                console.log(`HANDLE TX ${txInformation.transaction.status?.toUpperCase() as string}`, txInformation);
-              const possibleFunction = txInformation.transaction.hash && callbacks[txInformation.transaction.hash];
-              if (typeof possibleFunction === 'function') possibleFunction(txInformation.transaction);
+              const txData = txInformation.transaction as EthereumTransactionData | EthereumTransactionLog;
+              if (DEBUG) console.log(`HANDLE TX ${txData.status?.toUpperCase()}`, txInformation);
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+              const possibleFunction = txData.hash && callbacks[txData.hash];
+              if (typeof possibleFunction === 'function') possibleFunction(txData);
             },
             onerror: e => {
               handleError(e);

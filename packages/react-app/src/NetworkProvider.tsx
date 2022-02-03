@@ -37,14 +37,12 @@ const providerOptions = {
   etherscan: process.env.REACT_APP_ETHERSCAN_KEY,
   alchemy: ALCHEMY_ID[ChainId.MAINNET],
 };
-// @ts-expect-error ts-migrate(2345) FIXME: Ethers incorrectly typed. Should be Networkish allowing number
 const mainnetProvider = getDefaultProvider(NETWORKS.mainnet.chainId, providerOptions) as MainnetProvider;
 
 // 🏠 Your local provider is usually pointed at your local blockchain
 if (DEBUG) console.log('🏠 Connecting to local provider:', targetNetwork.rpcUrl);
 const localProviderOptions = { ...providerOptions, alchemy: ALCHEMY_ID[targetNetwork.chainId] as string | undefined };
 const localProvider = getDefaultProvider(
-  // @ts-expect-error ts-migrate(2345) FIXME: Ethers incorrectly typed. Should be Networkish allowing number
   VALID_ETHERS_NETWORKS.includes(targetNetwork.chainId) ? targetNetwork.chainId : targetNetwork.rpcUrl,
   localProviderOptions,
 ) as LocalProvider;
