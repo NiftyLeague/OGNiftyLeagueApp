@@ -35,7 +35,7 @@ import ComicP3 from 'assets/images/comics/page3.png';
 import ComicP4 from 'assets/images/comics/page4.png';
 
 import './roadmap.css';
-import './satoshi.css';
+import './satoshi-right.css';
 
 const Roadmap = (): JSX.Element => {
   const { currentTheme } = useThemeSwitcher();
@@ -149,32 +149,9 @@ const Roadmap = (): JSX.Element => {
             </div>
 
             <div className="cd-timeline-block fade-in">
-              <div className="cd-timeline-checkpoint" />
-              <div className="cd-timeline-content">
-                <img src={Leaderboards} alt="leaderboards" className="timeline-content-img" style={{ top: '-110px' }} />
-                <h2>Leaderboards</h2>
-                <p>
-                  Our games are meant to be competitive; what better way to showcase this than a leaderboard with star
-                  players like FVSVY at the top? 😏
-                </p>
-                <p>
-                  We'll include game stats for daily, weekly, monthly, and of course all-time leaders for all of our
-                  games in the NiftyVerse. Some early honorary DEGENS:
-                </p>
-                <ul className="content-skills">
-                  <li>fvsvy 🌊</li>
-                  <li>SEIYA</li>
-                  <li>sacx</li>
-                  <li>RealDealMcKeel</li>
-                  <li>YoungParabolic</li>
-                  <li>I_M_I</li>
-                  <li>koa.eth</li>
-                </ul>
+              <div className="cd-timeline-checkpoint completed">
+                <DoneIcon className="done-icon" />
               </div>
-            </div>
-
-            <div className="cd-timeline-block fade-in">
-              <div className="cd-timeline-checkpoint" />
               <div className="cd-timeline-content">
                 <img src={P2E} alt="play-2-earn" className="timeline-content-img" style={{ top: '-80px' }} />
                 <h2>Play-2-Earn</h2>
@@ -198,6 +175,31 @@ const Roadmap = (): JSX.Element => {
                   through points scored as well as winning rounds. Be careful not to fall off the map because there will
                   be penalties deducted from your potential earnings!
                 </p>
+              </div>
+            </div>
+
+            <div className="cd-timeline-block fade-in">
+              <div className="cd-timeline-checkpoint" />
+              <div className="cd-timeline-content">
+                <img src={Leaderboards} alt="leaderboards" className="timeline-content-img" style={{ top: '-110px' }} />
+                <h2>Leaderboards</h2>
+                <p>
+                  Our games are meant to be competitive; what better way to showcase this than a leaderboard with star
+                  players like FVSVY at the top? 😏
+                </p>
+                <p>
+                  We'll include game stats for daily, weekly, monthly, and of course all-time leaders for all of our
+                  games in the NiftyVerse. Some early honorary DEGENS:
+                </p>
+                <ul className="content-skills">
+                  <li>fvsvy 🌊</li>
+                  <li>SEIYA</li>
+                  <li>sacx</li>
+                  <li>RealDealMcKeel</li>
+                  <li>YoungParabolic</li>
+                  <li>I_M_I</li>
+                  <li>koa.eth</li>
+                </ul>
               </div>
             </div>
 
