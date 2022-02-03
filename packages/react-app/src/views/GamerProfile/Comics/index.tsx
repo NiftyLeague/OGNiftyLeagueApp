@@ -31,6 +31,9 @@ const Comics = ({ width }: { width: Breakpoint }): JSX.Element => {
   const { address } = useContext(NetworkContext);
   const claim = snapshot.find(owner => owner.address === address.toLowerCase()) || { p5: 0, p6: 0 };
 
+  console.log('address', address);
+  const claim = snapshot.find(owner => owner.address === address.toLowerCase()) || { p5: 0, p6: 0 };
+
   return address ? (
     <div className="comics-container">
       <div className="container-degens">
