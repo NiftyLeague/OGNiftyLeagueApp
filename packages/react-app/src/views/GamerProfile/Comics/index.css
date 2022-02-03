@@ -1,0 +1,215 @@
+.comics-container {
+  width: 100vw;
+  height: 842px;
+  position: relative;
+}
+.container-degens {
+  display: flex;
+  flex-wrap: wrap;
+}
+.degens-row {
+  width: 100%;
+  height: 280px;
+  display: flex;
+  overflow: hidden;
+}
+
+/* ROW 1 */
+
+.degen {
+  width: 256px;
+  min-width: 230px;
+  height: 280px;
+}
+.v604_326 {
+  background: url('assets/images/comics/degens/v604_326.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+.v604_327 {
+  background: url('assets/images/comics/degens/v604_327.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+.v604_328 {
+  background: url('assets/images/comics/degens/v604_328.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+.v604_329 {
+  background: url('assets/images/comics/degens/v604_329.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+.v604_330 {
+  background: url('assets/images/comics/degens/v604_330.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+.v604_331 {
+  background: url('assets/images/comics/degens/v604_331.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+.v604_332 {
+  background: url('assets/images/comics/degens/v604_332.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+.v604_333 {
+  background: url('assets/images/comics/degens/v604_333.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+
+/* ROW 2 */
+
+.v604_338 {
+  background: url('assets/images/comics/degens/v604_338.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+.v604_339 {
+  background: url('assets/images/comics/degens/v604_339.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+.v604_340 {
+  background: url('assets/images/comics/degens/v604_340.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+.v604_341 {
+  background: url('assets/images/comics/degens/v604_341.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+.v604_342 {
+  background: url('assets/images/comics/degens/v604_342.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+.v604_343 {
+  background: url('assets/images/comics/degens/v604_343.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+.v604_344 {
+  background: url('assets/images/comics/degens/v604_344.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+.v604_345 {
+  background: url('assets/images/comics/degens/v604_345.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+
+/* ROW 3 */
+
+.v604_350 {
+  background: url('assets/images/comics/degens/v604_350.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+.v604_351 {
+  background: url('assets/images/comics/degens/v604_351.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+.v604_352 {
+  background: url('assets/images/comics/degens/v604_352.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+.v604_353 {
+  background: url('assets/images/comics/degens/v604_353.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+.v604_354 {
+  background: url('assets/images/comics/degens/v604_354.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+.v604_355 {
+  background: url('assets/images/comics/degens/v604_355.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+.v604_356 {
+  background: url('assets/images/comics/degens/v604_356.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+.v604_357 {
+  background: url('assets/images/comics/degens/v604_357.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+
+.overlay-dark {
+  width: 100%;
+  height: 842px;
+  background: rgba(25, 27, 31, 1);
+  opacity: 0.8999999761581421;
+  position: absolute;
+  top: 0px;
+  overflow: hidden;
+}
+.overlay-gradient-top {
+  width: 100%;
+  height: 280px;
+  background: linear-gradient(rgba(25, 27, 31, 1), rgba(25, 27, 31, 0));
+  opacity: 0.75;
+  position: absolute;
+  top: 0;
+  overflow: hidden;
+}
+.overlay-gradient-bottom {
+  width: 100%;
+  height: 562px;
+  background: linear-gradient(rgba(25, 27, 31, 0), rgba(25, 27, 31, 1));
+  opacity: 1;
+  position: absolute;
+  top: 280px;
+  overflow: hidden;
+}
+
+/* CONTENT */
+
+.content-container {
+  position: absolute;
+  top: 0;
+  padding: 40px 0;
+  width: 100vw;
+}
+
+.claim-card {
+  background-color: #333c42;
+  color: white;
+}

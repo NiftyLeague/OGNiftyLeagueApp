@@ -20,6 +20,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     backgroundColor: 'inherit',
     paddingTop: 10,
   },
+  comicsPanel: {
+    '& .MuiBox-root': {
+      padding: 0,
+    },
+  },
 }));
 
 interface TabPanelProps {
@@ -73,7 +78,8 @@ const GamerProfile = (): JSX.Element => {
       <TabPanel value={value} index={0}>
         <Wallet />
       </TabPanel>
-      <TabPanel value={value} index={1}>
+      {/* @ts-expect-error ts-migrate(2345) FIXME: classes prop not expected */}
+      <TabPanel value={value} index={1} className={classes.comicsPanel}>
         <Comics />
       </TabPanel>
       {/* <TabPanel value={value} index={3}>
