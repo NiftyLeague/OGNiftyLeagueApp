@@ -132,7 +132,6 @@ function Subgraph(): JSX.Element {
     <>
       <div style={{ margin: 'auto', paddingTop: 32 }}>
         You will find that parsing/tracking events with the{' '}
-        {/* @ts-expect-error ts-migrate(2322) FIXME: Type '{ marginLeft: number; marginRight: number; p... Remove this comment to see the full error message */}
         <span className="highlight" style={highlight}>
           useEventListener
         </span>{' '}
@@ -153,7 +152,6 @@ function Subgraph(): JSX.Element {
       <div style={{ margin: 32 }}>
         <span style={{ marginRight: 8 }}>🚮</span>
         Clean up previous data:
-        {/* @ts-expect-error ts-migrate(2322) FIXME: Type '{ marginLeft: number; marginRight: number; p... Remove this comment to see the full error message */}
         <span className="highlight" style={highlight}>
           yarn clean-graph-node
         </span>
@@ -162,7 +160,6 @@ function Subgraph(): JSX.Element {
       <div style={{ margin: 32 }}>
         <span style={{ marginRight: 8 }}>📡</span>
         Spin up a local graph node by running
-        {/* @ts-expect-error ts-migrate(2322) FIXME: Type '{ marginLeft: number; marginRight: number; p... Remove this comment to see the full error message */}
         <span className="highlight" style={highlight}>
           yarn graph-run-node
         </span>
@@ -180,7 +177,6 @@ function Subgraph(): JSX.Element {
       <div style={{ margin: 32 }}>
         <span style={{ marginRight: 8 }}>📝</span>
         Create your <b>local subgraph</b> by running
-        {/* @ts-expect-error ts-migrate(2322) FIXME: Type '{ marginLeft: number; marginRight: number; p... Remove this comment to see the full error message */}
         <span className="highlight" style={highlight}>
           yarn graph-create-local
         </span>
@@ -190,7 +186,6 @@ function Subgraph(): JSX.Element {
       <div style={{ margin: 32 }}>
         <span style={{ marginRight: 8 }}>🚢</span>
         Deploy your <b>local subgraph</b> by running
-        {/* @ts-expect-error ts-migrate(2322) FIXME: Type '{ marginLeft: number; marginRight: number; p... Remove this comment to see the full error message */}
         <span className="highlight" style={highlight}>
           yarn graph-ship-local
         </span>
@@ -199,7 +194,6 @@ function Subgraph(): JSX.Element {
       <div style={{ margin: 32 }}>
         <span style={{ marginRight: 8 }}>🖍️</span>
         Edit your <b>local subgraph</b> in
-        {/* @ts-expect-error ts-migrate(2322) FIXME: Type '{ marginLeft: number; marginRight: number; p... Remove this comment to see the full error message */}
         <span className="highlight" style={highlight}>
           packages/subgraph/src
         </span>
@@ -213,7 +207,6 @@ function Subgraph(): JSX.Element {
       <div style={{ margin: 32 }}>
         <span style={{ marginRight: 8 }}>🤩</span>
         Deploy your <b>contracts and your subgraph</b> in one go by running
-        {/* @ts-expect-error ts-migrate(2322) FIXME: Type '{ marginLeft: number; marginRight: number; p... Remove this comment to see the full error message */}
         <span className="highlight" style={highlight}>
           yarn deploy-and-graph
         </span>
