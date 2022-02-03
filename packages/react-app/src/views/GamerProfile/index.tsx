@@ -55,7 +55,7 @@ const TabPanel = (props: TabPanelProps): JSX.Element => {
 
 const GamerProfile = (): JSX.Element => {
   const classes = useStyles();
-  const [value, setValue] = React.useState(1);
+  const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
