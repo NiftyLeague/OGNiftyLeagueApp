@@ -22,7 +22,9 @@ const Downloader = (): JSX.Element => {
 
   useEffect(() => {
     const fetchVersion = async () => {
-      const v: string = await fetch(`https://nifty-league.s3.amazonaws.com/launcher/${env}/${os}/version.bin`)
+      const v: string = await fetch(
+        `https://nifty-league.s3.amazonaws.com/launcher/${env}/${os}/version.bin?t=${Date.now()}`,
+      )
         .then(res => {
           if (res.status >= 400) {
             console.error(res.text());
