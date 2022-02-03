@@ -63,14 +63,8 @@ const Roadmap = (): JSX.Element => {
                 <img src={Minting} alt="minting" className="timeline-content-img" style={{ top: '-77px' }} />
                 <h2>Degen Minting</h2>
                 <div className="timeline-content-info">
-                  <span className="timeline-content-info-title">
-                    <i className="fa fa-certificate" aria-hidden="true" />
-                    Mission Accomplished
-                  </span>
-                  <span className="timeline-content-info-date">
-                    <i className="fa fa-calendar-o" aria-hidden="true" />
-                    Sept 24th - 30th, 2021
-                  </span>
+                  <span className="timeline-content-info-title">Mission Accomplished</span>
+                  <span className="timeline-content-info-date">Sept 24th - 30th, 2021</span>
                 </div>
                 <p className="mb-0">
                   Nifty League{' '}
@@ -95,14 +89,8 @@ const Roadmap = (): JSX.Element => {
                 <img src={Smashers} alt="smashers alpha" className="timeline-content-img" style={{ top: '-70px' }} />
                 <h2>Nifty Smashers Alpha</h2>
                 <div className="timeline-content-info">
-                  <span className="timeline-content-info-title">
-                    <i className="fa fa-certificate" aria-hidden="true" />
-                    Mission Accomplished
-                  </span>
-                  <span className="timeline-content-info-date">
-                    <i className="fa fa-calendar-o" aria-hidden="true" />
-                    Sept 24th, 2021 - Present
-                  </span>
+                  <span className="timeline-content-info-title">Mission Accomplished</span>
+                  <span className="timeline-content-info-date">Sept 24th, 2021 - Present</span>
                 </div>
                 <p>
                   Our NFT launch coincided with the immediate availability of our first of many games,{' '}
@@ -123,14 +111,8 @@ const Roadmap = (): JSX.Element => {
                 <img src={Desktop} alt="desktop app" className="timeline-content-img" style={{ top: '-100px' }} />
                 <h2>Desktop App</h2>
                 <div className="timeline-content-info">
-                  <span className="timeline-content-info-title">
-                    <i className="fa fa-certificate" aria-hidden="true" />
-                    Mission Accomplished
-                  </span>
-                  <span className="timeline-content-info-date">
-                    <i className="fa fa-calendar-o" aria-hidden="true" />
-                    Dec 2nd, 2021
-                  </span>
+                  <span className="timeline-content-info-title">Mission Accomplished</span>
+                  <span className="timeline-content-info-date">Dec 2nd, 2021</span>
                 </div>
                 <p>
                   The{' '}
@@ -155,6 +137,10 @@ const Roadmap = (): JSX.Element => {
               <div className="cd-timeline-content">
                 <img src={P2E} alt="play-2-earn" className="timeline-content-img" style={{ top: '-80px' }} />
                 <h2>Play-2-Earn</h2>
+                <div className="timeline-content-info">
+                  <span className="timeline-content-info-title">Mission Accomplished</span>
+                  <span className="timeline-content-info-date">Jan 22nd, 2022</span>
+                </div>
                 <p>
                   How cool is it to earn money while playing games you actually enjoy? With the rollout of our P2E
                   system you'll be able to start accumulating{' '}
@@ -311,9 +297,9 @@ const Roadmap = (): JSX.Element => {
                 <img src={Marketplace} alt="marketplace" className="timeline-content-img" style={{ top: '-80px' }} />
                 <h2>Items Marketplace</h2>
                 <p>
-                  We are working with the Immutable X team to launch our items marketplace early next year. Offerings
-                  will include cool skins, weapons, consumable items, and more to enhance your DEGENS in-game. While
-                  some items may be cool cosmetic additions, many will include{' '}
+                  We are working with the Immutable X team to launch our items marketplace. Offerings will include cool
+                  skins, weapons, consumable items, and more to enhance your DEGENS in-game. While some items may be
+                  cool cosmetic additions, many will include{' '}
                   <strong>
                     <Link to="/about#nftl">NFTL</Link>
                   </strong>{' '}

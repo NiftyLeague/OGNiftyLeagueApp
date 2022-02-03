@@ -184,7 +184,7 @@ Move Down
     top: 15%;
   }
   to {
-    top: 1900px;
+    top: 1950px;
   }
 }
 @-moz-keyframes moveDownSm {
@@ -192,7 +192,7 @@ Move Down
     top: 15%;
   }
   to {
-    top: 1900px;
+    top: 1950px;
   }
 }
 @-webkit-keyframes moveDownSm {
@@ -200,7 +200,7 @@ Move Down
     top: 15%;
   }
   to {
-    top: 1900px;
+    top: 1950px;
   }
 }
 @keyframes moveDownSm {
@@ -208,7 +208,7 @@ Move Down
     top: 15%;
   }
   to {
-    top: 1900px;
+    top: 1950px;
   }
 }
 
@@ -217,7 +217,7 @@ Move Down
     top: 15%;
   }
   to {
-    top: 1685px;
+    top: 1700px;
   }
 }
 @-moz-keyframes moveDownMd {
@@ -225,7 +225,7 @@ Move Down
     top: 15%;
   }
   to {
-    top: 1685px;
+    top: 1700px;
   }
 }
 @-webkit-keyframes moveDownMd {
@@ -233,7 +233,7 @@ Move Down
     top: 15%;
   }
   to {
-    top: 1685px;
+    top: 1700px;
   }
 }
 @keyframes moveDownMd {
@@ -241,7 +241,7 @@ Move Down
     top: 15%;
   }
   to {
-    top: 1685px;
+    top: 1700px;
   }
 }
 
@@ -335,7 +335,7 @@ Stationary
 .satoshiStationary {
   position: absolute;
   z-index: 3;
-  top: 1900px;
+  top: 1950px;
   left: calc(100% - 115px);
   transform: scaleX(-1);
   width: 150px;
@@ -353,7 +353,7 @@ Stationary
 
 @media only screen and (min-width: 850px) {
   .satoshiStationary {
-    top: 1685px;
+    top: 1700px;
     left: calc(100% - 135px);
     width: 175px;
   }
