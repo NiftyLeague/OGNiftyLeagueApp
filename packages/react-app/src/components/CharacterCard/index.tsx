@@ -129,7 +129,7 @@ const CharacterCard = ({
         <CardHeader
           classes={{ title: classes.cardTitle, subheader: classes.cardSubheader, avatar: classes.avatar }}
           avatar={
-            <Link to={`degens/${tokenId}`}>
+            <Link to={`/degens/${tokenId}`}>
               <Avatar aria-label="Character ID" style={{ width: 45, height: 45, fontSize }}>
                 {tokenIdNum}
               </Avatar>
@@ -137,7 +137,7 @@ const CharacterCard = ({
           }
           title={
             <>
-              <Link to={`degens/${tokenId}`} className={classes.cardTitleLink}>
+              <Link to={`/degens/${tokenId}`} className={classes.cardTitleLink}>
                 {displayName}
               </Link>{' '}
               <OpenSeaLink tokenId={tokenId} />
@@ -145,7 +145,7 @@ const CharacterCard = ({
           }
           subheader={`Created: ${formatDateTime(createdAt as unknown as number)}`}
         />
-        <Link to={`degens/${tokenId}`}>
+        <Link to={`/degens/${tokenId}`}>
           <DegenImage tokenId={tokenId} />
         </Link>
         <CardActions disableSpacing>

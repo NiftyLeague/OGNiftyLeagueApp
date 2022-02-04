@@ -85,7 +85,7 @@ const DegenImage = ({ network = 'rinkeby', tokenId }: { network?: string; tokenI
 
 DegenImage.defaultProps = { network: 'rinkeby' };
 
-const Character = (): JSX.Element => {
+const Character = (): JSX.Element | null => {
   const { address, readContracts, targetNetwork, mainnetProvider } = useContext(NetworkContext);
   const userNFTLBalance = useNFTLBalance(address);
   const classes = useStyles();
@@ -121,6 +121,7 @@ const Character = (): JSX.Element => {
     return { ...acc, [TRAIT_INDEXES[i]]: trait };
   }, {});
 
+  if (!tokenId) return null;
   const tokenIdNum = parseInt(tokenId, 10);
   let fontSize = '1.25rem';
   if (tokenIdNum === 10000) fontSize = '.8rem';

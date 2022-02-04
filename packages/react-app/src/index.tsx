@@ -10,12 +10,10 @@ import { SUBGRAPH_URI } from './constants';
 import { MuiTheme as theme } from './theme';
 import App from './App';
 
-
 declare module '@mui/styles/defaultTheme' {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
   interface DefaultTheme extends Theme {}
 }
-
 
 dotenv.config();
 
