@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import { Typography } from 'antd';
-import Container from '@material-ui/core/Container';
+import Container from '@mui/material/Container';
 
 import ApeImg from 'assets/gifs/java.gif';
 import AlienImg from 'assets/gifs/aurora.gif';

@@ -2,10 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
 import { Image, Typography } from 'antd';
-import withWidth, { isWidthDown } from '@material-ui/core/withWidth';
-import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
-import { Container } from '@material-ui/core';
+import { Container } from '@mui/material';
 
+import { useIsWidthDown } from 'hooks/useWidth';
 import Footer from 'components/Footer';
 import NiftySmashersVideo from 'components/NiftySmashersVideo';
 import NiftyLeagueStory from 'assets/gifs/story.gif';
@@ -35,8 +34,10 @@ import ComicP4 from 'assets/images/comics/page4.png';
 
 const { Title } = Typography;
 
-const About = ({ width }: { width: Breakpoint }): JSX.Element => {
+const About = (): JSX.Element => {
   const { currentTheme } = useThemeSwitcher();
+  const mdView = useIsWidthDown('md');
+  const mobileView = useIsWidthDown('sm');
   return (
     <>
       <Container style={{ textAlign: 'left', padding: '40px' }}>
@@ -55,7 +56,7 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
           </span>
         </p>
         <div className="d-flex justify-content-around align-items-center pixelated">
-          <Image width={isWidthDown('md', width, false) ? '100%' : '65%'} src={NiftyLeagueStory} preview={false} />
+          <Image width={mdView ? '100%' : '65%'} src={NiftyLeagueStory} preview={false} />
         </div>
         <br />
         <p>
@@ -126,7 +127,7 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
           page for more details!
         </p>
         <div className="d-flex justify-content-around align-items-center">
-          <Image width={isWidthDown('md', width, false) ? '60%' : '40%'} src={Roadmap} />
+          <Image width={mdView ? '60%' : '40%'} src={Roadmap} />
         </div>
         <br />
         <Title level={2}>DEGENS</Title>
@@ -237,10 +238,10 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
         </p>
         <div className="d-flex align-items-center flex-wrap" style={{ justifyContent: 'space-evenly' }}>
           <Image.PreviewGroup>
-            <Image className="p-2" width={isWidthDown('md', width, false) ? '50%' : '25%'} src={ComicP1} />
-            <Image className="p-2" width={isWidthDown('md', width, false) ? '50%' : '25%'} src={ComicP2} />
-            <Image className="p-2" width={isWidthDown('md', width, false) ? '50%' : '25%'} src={ComicP3} />
-            <Image className="p-2" width={isWidthDown('md', width, false) ? '50%' : '25%'} src={ComicP4} />
+            <Image className="p-2" width={mdView ? '50%' : '25%'} src={ComicP1} />
+            <Image className="p-2" width={mdView ? '50%' : '25%'} src={ComicP2} />
+            <Image className="p-2" width={mdView ? '50%' : '25%'} src={ComicP3} />
+            <Image className="p-2" width={mdView ? '50%' : '25%'} src={ComicP4} />
           </Image.PreviewGroup>
         </div>
         <br />
@@ -411,11 +412,11 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
         </p>
         <div className="d-flex align-items-center flex-wrap" style={{ justifyContent: 'space-evenly' }}>
           <Image.PreviewGroup>
-            <Image className="p-2" width={isWidthDown('md', width, false) ? '50%' : '33%'} src={TennisSketch} />
-            <Image className="p-2" width={isWidthDown('md', width, false) ? '50%' : '33%'} src={ShreddersSketch} />
-            <Image className="p-2" width={isWidthDown('md', width, false) ? '50%' : '33%'} src={SmashSketch} />
-            <Image className="p-2" width={isWidthDown('md', width, false) ? '50%' : '33%'} src={NiftyRacersSketch} />
-            <Image className="p-2" width={isWidthDown('md', width, false) ? '50%' : '33%'} src={GamesSketch} />
+            <Image className="p-2" width={mdView ? '50%' : '33%'} src={TennisSketch} />
+            <Image className="p-2" width={mdView ? '50%' : '33%'} src={ShreddersSketch} />
+            <Image className="p-2" width={mdView ? '50%' : '33%'} src={SmashSketch} />
+            <Image className="p-2" width={mdView ? '50%' : '33%'} src={NiftyRacersSketch} />
+            <Image className="p-2" width={mdView ? '50%' : '33%'} src={GamesSketch} />
           </Image.PreviewGroup>
         </div>
         <br />
@@ -444,8 +445,8 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
         <Image
           preview={false}
           src={currentTheme === 'dark' ? TokenDistributionDark : TokenDistributionLight}
-          width={isWidthDown('sm', width) ? '100%' : '75%'}
-          style={{ marginLeft: isWidthDown('sm', width) ? '0' : '12.5%' }}
+          width={mobileView ? '100%' : '75%'}
+          style={{ marginLeft: mobileView ? '0' : '12.5%' }}
         />
         <Title level={3}>Community Giveaways</Title>
         <p>
@@ -532,4 +533,4 @@ const About = ({ width }: { width: Breakpoint }): JSX.Element => {
   );
 };
 
-export default withWidth()(About);
+export default About;

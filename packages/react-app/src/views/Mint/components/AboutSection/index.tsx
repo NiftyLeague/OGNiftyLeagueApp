@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { Image, Typography } from 'antd';
-import Container from '@material-ui/core/Container';
+import Container from '@mui/material/Container';
 import { NiftySmashersVideo } from 'components';
 import Roadmap from 'assets/images/roadmap/roadmap_v03.png';
 import './about.css';

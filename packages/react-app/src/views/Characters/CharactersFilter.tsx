@@ -16,9 +16,9 @@ import {
   Paper,
   Select,
   Typography,
-} from '@material-ui/core';
-import SearchIcon from '@material-ui/icons/Search';
-import FilterListIcon from '@material-ui/icons/FilterList';
+} from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+import FilterListIcon from '@mui/icons-material/FilterList';
 
 import Tooltip from 'components/Tooltip';
 import { INITIAL_FILTER_STATE, MenuProps, FILTER_STATE_MAPPING } from './constants';
@@ -88,7 +88,7 @@ const CustomSearchInput = ({
         value={search}
         onChange={({ target: { value } }) => setSearch(value)}
       />
-      <IconButton type="submit" className={classes.iconButton} aria-label="search">
+      <IconButton type="submit" className={classes.iconButton} aria-label="search" size="large">
         <SearchIcon />
       </IconButton>
       <Divider className={classes.divider} orientation="vertical" />
@@ -98,6 +98,7 @@ const CustomSearchInput = ({
           aria-label="filter"
           color={filterActive ? 'primary' : 'default'}
           onClick={filterActive ? clearFilters : expandFilters}
+          size="large"
         >
           <FilterListIcon />
         </IconButton>

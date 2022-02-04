@@ -1,12 +1,11 @@
 import React, { useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
-import withWidth, { isWidthDown } from '@material-ui/core/withWidth';
-import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import { Layout, Menu } from 'antd';
 import { createFromIconfontCN, TwitterOutlined } from '@ant-design/icons';
 
 import { NetworkContext } from 'NetworkProvider';
+import { useIsWidthDown } from 'hooks/useWidth';
 import LogoPurple from 'assets/images/nl_logo.png';
 import LogoWhite from 'assets/images/nl_logo_white.png';
 import Account from '../Account';
@@ -38,11 +37,11 @@ const navItems = () => [
   </Menu.Item>,
 ];
 
-function Navigation({ width }: { width: Breakpoint }): JSX.Element {
+function Navigation(): JSX.Element {
   const { pathname } = useLocation();
   const { currentTheme } = useThemeSwitcher();
-  const hideNav = isWidthDown('md', width);
-  const mobileView = isWidthDown('sm', width);
+  const hideNav = useIsWidthDown('md');
+  const mobileView = useIsWidthDown('sm');
   const darkThemed = currentTheme === 'dark';
 
   const { address, loadWeb3Modal, logoutOfWeb3Modal, mainnetProvider, targetNetwork, userProvider, web3Modal } =
@@ -121,4 +120,4 @@ function Navigation({ width }: { width: Breakpoint }): JSX.Element {
   );
 }
 
-export default withWidth()(Navigation);
+export default Navigation;

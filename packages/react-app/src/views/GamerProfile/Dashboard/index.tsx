@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React from 'react';
 
-import { Card, CardHeader, CardContent, Grid } from '@material-ui/core';
+import { Card, CardHeader, CardContent, Grid } from '@mui/material';
 import { Line, Bar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,

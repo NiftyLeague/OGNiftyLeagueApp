@@ -1,5 +1,5 @@
 @import '~antd/dist/antd.min.css';
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Ubuntu:300,400,500,700');
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Ubuntu:300,400,500,700);
 
 #root {
   height: 100%;
@@ -22,19 +22,6 @@
 
 .bn-notify-notifications {
   width: 300px !important;
-}
-
-:root {
-  --linear-color-theme: {
-    background: -webkit-linear-gradient(to left, #5e72eb, #620edf);
-    background: -moz-linear-gradient(to left, #5e72eb, #620edf);
-    background: -ms-linear-gradient(to left, #5e72eb, #620edf);
-    background: -o-linear-gradient(to left, #5e72eb, #620edf);
-    background: -webkit-gradient(linear, right top, left top, from(#5e72eb), to(#620edf));
-    background: -webkit-linear-gradient(right, #5e72eb, #620edf);
-    background: -o-linear-gradient(right, #5e72eb, #620edf);
-    background: linear-gradient(to left, #5e72eb, #620edf);
-  }
 }
 
 /* Typography */

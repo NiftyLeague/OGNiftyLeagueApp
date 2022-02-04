@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import crypto from 'crypto';
-import Container from '@material-ui/core/Container';
+import Container from '@mui/material/Container';
 
 import { NetworkContext } from 'NetworkProvider';
 import { getProviderAndSigner } from 'helpers';
