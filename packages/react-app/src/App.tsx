@@ -1,5 +1,5 @@
 import React, { lazy, Suspense, useContext } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { providers } from 'ethers';
 import { NetworkContext } from 'NetworkProvider';
 import { ScrollToTop } from './hooks';
@@ -41,67 +41,31 @@ export default function App(): JSX.Element {
       <div className="AppBody">
         <ScrollToTop />
         <Suspense fallback={<div />}>
-          <Switch>
-            <Route exact path="/">
-              <Roadmap />
-            </Route>
-            <Route exact path="/roadmap">
-              <Roadmap />
-            </Route>
-            <Route exact path="/about">
-              <About />
-            </Route>
-            <Route exact path="/mint-o-matic">
-              <Mint />
-            </Route>
-            <Route exact path="/games">
-              <Games />
-            </Route>
-            <Route exact path="/degens">
-              <Characters />
-            </Route>
-            <Route exact path="/degens/:tokenId">
-              <Character />
-            </Route>
-            <Route exact path="/profile">
-              <GamerProfile />
-            </Route>
-            <Route exact path="/disclaimer">
-              <Disclaimer />
-            </Route>
-            <Route exact path="/privacy-policy">
-              <PrivacyPolicy />
-            </Route>
-            <Route exact path="/terms-of-service">
-              <ToS />
-            </Route>
-            <Route exact path="/contracts">
-              <ContractAddresses />
-            </Route>
-            <Route exact path="/verification">
-              <GameVerification />
-            </Route>
+          <Routes>
+            <Route path="/" element={<Roadmap />} />
+            <Route path="/roadmap" element={<Roadmap />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/mint-o-matic" element={<Mint />} />
+            <Route path="/games" element={<Games />} />
+            <Route path="/degens" element={<Characters />} />
+            <Route path="/degens/:tokenId" element={<Character />} />
+            <Route path="/profile" element={<GamerProfile />} />
+            <Route path="/disclaimer" element={<Disclaimer />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/terms-of-service" element={<ToS />} />
+            <Route path="/contracts" element={<ContractAddresses />} />
+            <Route path="/verification" element={<GameVerification />} />
             {DEBUG ? (
               <>
-                <Route exact path="/NFTL">
-                  <Contract name={NFTL_CONTRACT} />
-                </Route>
-                <Route exact path="/NFT">
-                  <Contract name={NFT_CONTRACT} />
-                </Route>
-                <Route exact path="/storage">
-                  <Contract name="AllowedColorsStorage" />
-                </Route>
-                <Route exact path="/merkle-distributor">
-                  <Contract name="MerkleDistributor" />
-                </Route>
-                <Route exact path="/subgraph">
-                  <Subgraph />
-                </Route>
+                <Route path="/NFTL" element={<Contract name={NFTL_CONTRACT} />} />
+                <Route path="/NFT" element={<Contract name={NFT_CONTRACT} />} />
+                <Route path="/storage" element={<Contract name="AllowedColorsStorage" />} />
+                <Route path="/merkle-distributor" element={<Contract name="MerkleDistributor" />} />
+                <Route path="/subgraph" element={<Subgraph />} />
               </>
             ) : null}
-            <Route component={NotFound} />
-          </Switch>
+            <Route element={<NotFound />} />
+          </Routes>
         </Suspense>
       </div>
       <ThemeSwitch />
