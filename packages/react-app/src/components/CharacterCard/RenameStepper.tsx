@@ -3,17 +3,20 @@ import { Link } from 'react-router-dom';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
 import clsx from 'clsx';
 
-import { makeStyles, Theme, createStyles, withStyles } from '@material-ui/core/styles';
-import { StepIconProps } from '@material-ui/core/StepIcon';
-import Step from '@material-ui/core/Step';
-import StepConnector from '@material-ui/core/StepConnector';
-import StepLabel from '@material-ui/core/StepLabel';
-import Stepper from '@material-ui/core/Stepper';
-import Typography from '@material-ui/core/Typography';
+import { Theme } from '@mui/material/styles';
+import makeStyles from '@mui/styles/makeStyles';
+import createStyles from '@mui/styles/createStyles';
+import withStyles from '@mui/styles/withStyles';
+import { StepIconProps } from '@mui/material/StepIcon';
+import Step from '@mui/material/Step';
+import StepConnector from '@mui/material/StepConnector';
+import StepLabel from '@mui/material/StepLabel';
+import Stepper from '@mui/material/Stepper';
+import Typography from '@mui/material/Typography';
 
-import DoneAll from '@material-ui/icons/DoneAll';
-import HowToReg from '@material-ui/icons/HowToReg';
-import VerifiedUser from '@material-ui/icons/VerifiedUser';
+import DoneAll from '@mui/icons-material/DoneAll';
+import HowToReg from '@mui/icons-material/HowToReg';
+import VerifiedUser from '@mui/icons-material/VerifiedUser';
 import NFTL from 'assets/images/nl_logo_white.png';
 
 const icons: { [index: string]: React.ReactElement } = {

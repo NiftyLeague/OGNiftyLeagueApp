@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Typography } from 'antd';
-import { Container } from '@material-ui/core';
+import { Container } from '@mui/material';
 import Footer from 'components/Footer';
 import Definitions from './Definitions';
 

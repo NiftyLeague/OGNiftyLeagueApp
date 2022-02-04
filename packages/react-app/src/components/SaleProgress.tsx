@@ -1,9 +1,9 @@
 import React, { memo } from 'react';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
-import { LinearProgress, Typography } from '@material-ui/core';
-import InfoIcon from '@material-ui/icons/InfoOutlined';
-import MuiAlert from '@material-ui/lab/Alert';
+import makeStyles from '@mui/styles/makeStyles';
+import { LinearProgress, Typography } from '@mui/material';
+import InfoIcon from '@mui/icons-material/InfoOutlined';
+import MuiAlert from '@mui/material/Alert';
 import Tooltip from 'components/Tooltip';
 
 const useStyles = makeStyles(theme => ({
@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
     '& > div': { marginBottom: 4 },
   },
   extraMarginTop: { marginTop: 11 },
-  [theme.breakpoints.down('sm')]: {
+  [theme.breakpoints.down('md')]: {
     message: { width: '100%' },
     progressLabels: { width: '14%', fontSize: 14 },
     progress: { width: '78%', fontSize: 14 },

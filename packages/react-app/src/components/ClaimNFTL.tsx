@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { Button } from 'antd';
-import { makeStyles } from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import { useClaimableNFTL } from 'hooks';
 import { NetworkContext } from 'NetworkProvider';
 import Tooltip from './Tooltip';

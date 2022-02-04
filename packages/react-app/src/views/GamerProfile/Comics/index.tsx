@@ -1,20 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react';
-import withWidth, { isWidthDown } from '@material-ui/core/withWidth';
-import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
-import {
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  CardHeader,
-  Container,
-  Grid,
-  Paper,
-  Typography,
-} from '@material-ui/core';
+import React, { useContext } from 'react';
+import { Card, CardActions, CardContent, Container, Typography } from '@mui/material';
 import { Image } from 'antd';
 
 import { WalletConnectPrompt } from 'components';
+import { useIsWidthDown } from 'hooks/useWidth';
 import { NetworkContext } from 'NetworkProvider';
 import Snapshot from 'assets/gifs/snapshot.gif';
 import ComicP1 from 'assets/images/comics/page1.png';
@@ -27,8 +16,10 @@ import snapshot from './snapshot.json';
 
 import './index.css';
 
-const Comics = ({ width }: { width: Breakpoint }): JSX.Element => {
+const Comics = (): JSX.Element => {
   const { address } = useContext(NetworkContext);
+  const mobileView = useIsWidthDown('sm');
+  const mdView = useIsWidthDown('md');
   const claim = snapshot.find(owner => owner.address === address.toLowerCase()) || { p5: 0, p6: 0 };
 
   return address ? (
@@ -76,7 +67,7 @@ const Comics = ({ width }: { width: Breakpoint }): JSX.Element => {
                 Comic 5 &amp; 6 Claim Check
               </Typography>
               <CardContent className="d-flex">
-                <Image width="1020px" src={Snapshot} preview={false} />
+                <Image width="1042px" src={Snapshot} preview={false} />
                 <div className="text-left ml-3">
                   <div className="comics-content-info">
                     <span className="comics-content-info-title">
@@ -116,17 +107,17 @@ const Comics = ({ width }: { width: Breakpoint }): JSX.Element => {
                 </Button>
               </CardActions> */}
             </Card>
-            {isWidthDown('sm', width) ? null : (
-              <div className="m-2">
-                <Image width="290px" src={Machine} preview={false} />
+            {mobileView ? null : (
+              <div className="mx-2 my-auto">
+                <Image width="272px" src={Machine} preview={false} />
               </div>
             )}
           </div>
           <Image.PreviewGroup>
-            <Image className="p-2" width={isWidthDown('md', width, false) ? '50%' : '25%'} src={ComicP1} />
-            <Image className="p-2" width={isWidthDown('md', width, false) ? '50%' : '25%'} src={ComicP2} />
-            <Image className="p-2" width={isWidthDown('md', width, false) ? '50%' : '25%'} src={ComicP3} />
-            <Image className="p-2" width={isWidthDown('md', width, false) ? '50%' : '25%'} src={ComicP4} />
+            <Image className="p-2" width={mdView ? '50%' : '25%'} src={ComicP1} />
+            <Image className="p-2" width={mdView ? '50%' : '25%'} src={ComicP2} />
+            <Image className="p-2" width={mdView ? '50%' : '25%'} src={ComicP3} />
+            <Image className="p-2" width={mdView ? '50%' : '25%'} src={ComicP4} />
           </Image.PreviewGroup>
         </Container>
       </div>
@@ -136,4 +127,4 @@ const Comics = ({ width }: { width: Breakpoint }): JSX.Element => {
   );
 };
 
-export default withWidth()(Comics);
+export default Comics;
