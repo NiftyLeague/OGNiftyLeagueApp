@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
 import copy from 'copy-to-clipboard';
-import { makeStyles } from '@material-ui/core/styles';
-import Snackbar from '@material-ui/core/Snackbar';
-import IconButton from '@material-ui/core/IconButton';
-import ShareIcon from '@material-ui/icons/Share';
-import CloseIcon from '@material-ui/icons/Close';
+import makeStyles from '@mui/styles/makeStyles';
+import Snackbar from '@mui/material/Snackbar';
+import IconButton from '@mui/material/IconButton';
+import ShareIcon from '@mui/icons-material/Share';
+import CloseIcon from '@mui/icons-material/Close';
 import Tooltip from 'components/Tooltip';
 
 export const useStyles = makeStyles({
@@ -38,6 +38,7 @@ const ShareCharacter = ({ className, tokenId }: { className?: string; tokenId: s
             copy(`${window.location.origin}/degens/${tokenId}`);
             setOpen(true);
           }}
+          size="large"
         >
           <ShareIcon />
         </IconButton>

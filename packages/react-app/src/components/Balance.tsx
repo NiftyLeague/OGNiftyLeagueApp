@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { useBalance, useExchangePrice } from 'hooks';
 import { Provider } from 'types/web3';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
-import withWidth, { isWidthDown } from '@material-ui/core/withWidth';
-import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
+import { useIsWidthDown } from 'hooks/useWidth';
 
 /*
   Displays a balance of given address in ether & dollar
@@ -15,15 +14,13 @@ function Balance({
   address,
   provider,
   ignoreConversion,
-  width,
 }: {
   address: string;
   provider: Provider;
   ignoreConversion?: boolean;
-  width: Breakpoint;
 }): JSX.Element {
   const { currentTheme } = useThemeSwitcher();
-  const mobileView = isWidthDown('sm', width);
+  const mobileView = useIsWidthDown('sm');
   const [dollarMode, setDollarMode] = useState(false);
   const price = useExchangePrice();
   const balance = useBalance(provider, address);
@@ -56,4 +53,4 @@ Balance.defaultProps = {
   ignoreConversion: false,
 };
 
-export default withWidth()(Balance);
+export default Balance;

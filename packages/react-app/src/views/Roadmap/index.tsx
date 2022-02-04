@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
-import DoneIcon from '@material-ui/icons/Done';
+import DoneIcon from '@mui/icons-material/Done';
 import { Image } from 'antd';
 
 import NiftySmashersVideo from 'components/NiftySmashersVideo';

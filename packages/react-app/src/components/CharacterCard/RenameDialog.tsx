@@ -1,14 +1,6 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { BigNumber, BigNumberish, utils } from 'ethers';
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  TextField,
-} from '@material-ui/core';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material';
 import { NetworkContext } from 'NetworkProvider';
 import { submitTxWithGasEstimate } from 'helpers/Notifier';
 import Tooltip from 'components/Tooltip';

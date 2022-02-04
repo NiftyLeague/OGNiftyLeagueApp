@@ -1,6 +1,6 @@
 import React from 'react';
 import { Typography } from 'antd';
-import { Container } from '@material-ui/core';
+import { Container } from '@mui/material';
 import Footer from 'components/Footer';
 import Definitions from './Definitions';
 

@@ -3,9 +3,9 @@ import React, { useContext, useEffect, useState } from 'react';
 import { isWindows } from 'react-device-detect';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
 import { Typography } from 'antd';
-import Container from '@material-ui/core/Container';
-import MuiButton from '@material-ui/core/Button';
-import { GetApp } from '@material-ui/icons';
+import Container from '@mui/material/Container';
+import MuiButton from '@mui/material/Button';
+import { GetApp } from '@mui/icons-material';
 
 import { NetworkContext } from 'NetworkProvider';
 

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { isMobile } from 'react-device-detect';
 import { Button, Dropdown, Menu } from 'antd';
 import { createFromIconfontCN, TwitterOutlined } from '@ant-design/icons';
-import { Menu as MenuIcon, MoreVert } from '@material-ui/icons';
+import { Menu as MenuIcon, MoreVert } from '@mui/icons-material';
 import { DEBUG } from '../../constants';
 
 const IconFont = createFromIconfontCN({
