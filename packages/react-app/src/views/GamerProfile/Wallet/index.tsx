@@ -2,13 +2,13 @@ import React, { memo, useCallback, useContext, useEffect, useMemo, useState } fr
 import { useThemeSwitcher } from 'react-css-theme-switcher';
 import { useQuery } from '@apollo/client';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
-import { CircularProgress, Container, Grid, Typography, Paper } from '@material-ui/core';
-import Pagination from '@material-ui/lab/Pagination';
-import InfoIcon from '@material-ui/icons/InfoOutlined';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
+import makeStyles from '@mui/styles/makeStyles';
+import { CircularProgress, Container, Grid, Typography, Paper } from '@mui/material';
+import Pagination from '@mui/material/Pagination';
+import InfoIcon from '@mui/icons-material/InfoOutlined';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import CardContent from '@mui/material/CardContent';
 
 import { Account } from 'types/api';
 import { Character, Owner } from 'types/graph';
@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: '#333c42',
   },
   cardHeader: { paddingBottom: 8 },
-  cardBody: { margin: 'auto' },
+  cardContent: { paddingBottom: '16px !important' },
   progress: { marginTop: 100 },
   claimContainer: { display: 'flex', alignItems: 'baseline', float: 'right', marginTop: -50 },
   grid: { flexGrow: 1, margin: '8px 0px 8px -8px' },
@@ -108,7 +108,7 @@ const Overview = memo(
             <Grid item xs={3}>
               <Card className={classes.paper}>
                 <CardHeader className={classes.cardHeader} title="Total Degens" />
-                <CardContent>
+                <CardContent className={classes.cardContent}>
                   <Typography variant="body1" component="p">
                     {tokenIndices.length}
                   </Typography>
@@ -134,7 +134,7 @@ const Overview = memo(
                   className={classes.cardHeader}
                   title="Daily NFTL Accrued"
                 />
-                <CardContent>
+                <CardContent className={classes.cardContent}>
                   <Typography variant="body1" component="p">
                     <ClaimNFTL tokenIndices={tokenIndices} singleClaim={false} displayTooltip={displaySingleClaim} />
                   </Typography>
@@ -161,7 +161,7 @@ const Overview = memo(
                   className={classes.cardHeader}
                   title="Game Balance"
                 />
-                <CardContent>
+                <CardContent className={classes.cardContent}>
                   <Typography variant="body1" component="p">
                     {accError ? 'Error fetching balance' : gameBal}
                   </Typography>
@@ -186,7 +186,7 @@ const Overview = memo(
                   className={classes.cardHeader}
                   title="NFTL in Wallet"
                 />
-                <CardContent>
+                <CardContent className={classes.cardContent}>
                   <Typography variant="body1" component="p">
                     {walletBal} NFTL
                   </Typography>

@@ -13,15 +13,14 @@ import {
   ListItem,
   ListItemText,
   Typography,
-} from '@material-ui/core';
+} from '@mui/material';
 import { Image } from 'antd';
-import EditIcon from '@material-ui/icons/Edit';
-import { makeStyles } from '@material-ui/core/styles';
-import withWidth, { isWidthDown } from '@material-ui/core/withWidth';
-import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
+import EditIcon from '@mui/icons-material/Edit';
+import makeStyles from '@mui/styles/makeStyles';
 
 import { NetworkContext } from 'NetworkProvider';
 import { Address, Tooltip } from 'components';
+import { useIsWidthDown } from 'hooks/useWidth';
 import OpenSeaLink from 'components/CharacterCard/OpenSeaLink';
 import RenameDialog from 'components/CharacterCard/RenameDialog';
 import ShareCharacter from 'components/CharacterCard/ShareCharacter';
@@ -62,18 +61,11 @@ export const useStyles = makeStyles({
   actionButtons: { color: '#fff', borderRadius: '50%', '&:focus': { outline: 'none' } },
 });
 
-const DegenImage = ({
-  network = 'rinkeby',
-  tokenId,
-  width,
-}: {
-  network?: string;
-  tokenId: string;
-  width: Breakpoint;
-}) => {
+const DegenImage = ({ network = 'rinkeby', tokenId }: { network?: string; tokenId: string }) => {
   const classes = useStyles();
   const [loading, error, background] = useBackgroundType(tokenId);
-  const size = isWidthDown('sm', width) ? '100%' : '40%';
+  const mobileView = useIsWidthDown('sm');
+  const size = mobileView ? '100%' : '40%';
   if (error) return <Image style={{ borderRadius: 30 }} width={size} src={UnavailableImg} />;
   if (loading)
     return (
@@ -84,32 +76,20 @@ const DegenImage = ({
 
   const imageURL = `${DEGEN_BASE_IMAGE_URL}/${network}/images/${tokenId}`;
   if (background === 'Legendary')
-    return (
-      <video
-        src={`${imageURL}.mp4`}
-        title="Legendary Degen"
-        width={isWidthDown('sm', width) ? '100%' : '40%'}
-        autoPlay
-        loop
-      />
-    );
+    return <video src={`${imageURL}.mp4`} title="Legendary Degen" width={mobileView ? '100%' : '40%'} autoPlay loop />;
 
   return (
-    <Image
-      style={{ borderRadius: 30 }}
-      width={isWidthDown('sm', width) ? '100%' : '40%'}
-      height="auto"
-      src={`${imageURL}.png`}
-    />
+    <Image style={{ borderRadius: 30 }} width={mobileView ? '100%' : '40%'} height="auto" src={`${imageURL}.png`} />
   );
 };
 
 DegenImage.defaultProps = { network: 'rinkeby' };
 
-const Character = ({ width }: { width: Breakpoint }) => {
+const Character = (): JSX.Element | null => {
   const { address, readContracts, targetNetwork, mainnetProvider } = useContext(NetworkContext);
   const userNFTLBalance = useNFTLBalance(address);
   const classes = useStyles();
+  const mobileView = useIsWidthDown('sm');
   const { tokenId } = useParams<{ tokenId: string }>();
   const [character, setCharacter] = useState({
     name: null,
@@ -141,6 +121,7 @@ const Character = ({ width }: { width: Breakpoint }) => {
     return { ...acc, [TRAIT_INDEXES[i]]: trait };
   }, {});
 
+  if (!tokenId) return null;
   const tokenIdNum = parseInt(tokenId, 10);
   let fontSize = '1.25rem';
   if (tokenIdNum === 10000) fontSize = '.8rem';
@@ -149,8 +130,8 @@ const Character = ({ width }: { width: Breakpoint }) => {
 
   return (
     <Container className={classes.container}>
-      <DegenImage network={targetNetwork.name} tokenId={tokenId} width={width} />
-      <Card className={classes.cardRoot} style={{ width: isWidthDown('sm', width) ? '100%' : '58%' }}>
+      <DegenImage network={targetNetwork.name} tokenId={tokenId} />
+      <Card className={classes.cardRoot} style={{ width: mobileView ? '100%' : '58%' }}>
         <CardHeader
           classes={{ title: classes.cardTitle, avatar: classes.avatar }}
           avatar={
@@ -189,7 +170,12 @@ const Character = ({ width }: { width: Breakpoint }) => {
         <CardActions disableSpacing className={classes.cardActions}>
           {ownerOwned && (
             <Tooltip text="Rename">
-              <IconButton aria-label="rename" className={classes.actionButtons} onClick={() => setDialogOpen(true)}>
+              <IconButton
+                aria-label="rename"
+                className={classes.actionButtons}
+                onClick={() => setDialogOpen(true)}
+                size="large"
+              >
                 <EditIcon />
               </IconButton>
             </Tooltip>
@@ -220,4 +206,4 @@ const Character = ({ width }: { width: Breakpoint }) => {
   );
 };
 
-export default withWidth()(Character);
+export default Character;

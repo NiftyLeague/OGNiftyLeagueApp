@@ -13,13 +13,13 @@ import {
   List,
   ListItem,
   ListItemText,
-} from '@material-ui/core';
+} from '@mui/material';
 import { Image } from 'antd';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import EditIcon from '@material-ui/icons/Edit';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-import { makeStyles } from '@material-ui/core/styles';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import EditIcon from '@mui/icons-material/Edit';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import makeStyles from '@mui/styles/makeStyles';
 
 import { NetworkContext } from 'NetworkProvider';
 import Tooltip from 'components/Tooltip';
@@ -129,7 +129,7 @@ const CharacterCard = ({
         <CardHeader
           classes={{ title: classes.cardTitle, subheader: classes.cardSubheader, avatar: classes.avatar }}
           avatar={
-            <Link to={`degens/${tokenId}`}>
+            <Link to={`/degens/${tokenId}`}>
               <Avatar aria-label="Character ID" style={{ width: 45, height: 45, fontSize }}>
                 {tokenIdNum}
               </Avatar>
@@ -137,7 +137,7 @@ const CharacterCard = ({
           }
           title={
             <>
-              <Link to={`degens/${tokenId}`} className={classes.cardTitleLink}>
+              <Link to={`/degens/${tokenId}`} className={classes.cardTitleLink}>
                 {displayName}
               </Link>{' '}
               <OpenSeaLink tokenId={tokenId} />
@@ -145,14 +145,19 @@ const CharacterCard = ({
           }
           subheader={`Created: ${formatDateTime(createdAt as unknown as number)}`}
         />
-        <Link to={`degens/${tokenId}`}>
+        <Link to={`/degens/${tokenId}`}>
           <DegenImage tokenId={tokenId} />
         </Link>
         <CardActions disableSpacing>
           {ownerOwned && (
             <>
               <Tooltip text="Rename">
-                <IconButton aria-label="rename" className={actionClasses} onClick={() => setDialogOpen(true)}>
+                <IconButton
+                  aria-label="rename"
+                  className={actionClasses}
+                  onClick={() => setDialogOpen(true)}
+                  size="large"
+                >
                   <EditIcon />
                 </IconButton>
               </Tooltip>
@@ -163,6 +168,7 @@ const CharacterCard = ({
                   onClick={() => {
                     if (handleToggleFavs) handleToggleFavs(tokenId);
                   }}
+                  size="large"
                 >
                   {favs?.includes(tokenId) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
                 </IconButton>
@@ -179,6 +185,7 @@ const CharacterCard = ({
             onClick={handleExpandClick}
             aria-expanded={expanded}
             aria-label="show more"
+            size="large"
           >
             <ExpandMoreIcon />
           </IconButton>

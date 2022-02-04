@@ -22,7 +22,7 @@ const useResolveName = (provider: Provider, ensName: string): string => {
 
   useEffect(() => {
     const resolveName = async () => {
-      await provider.resolveName(ensName).then(resolvedAddress => setAddress(resolvedAddress));
+      await provider.resolveName(ensName).then(resolvedAddress => resolvedAddress && setAddress(resolvedAddress));
     };
     if (provider) void resolveName;
   }, [provider, ensName]);

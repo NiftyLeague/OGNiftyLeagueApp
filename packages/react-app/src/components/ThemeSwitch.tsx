@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Switch } from 'antd';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
-import { Brightness3, Brightness5 } from '@material-ui/icons';
+import { Brightness3, Brightness5 } from '@mui/icons-material';
 
 export default function ThemeSwitcher(): JSX.Element {
   const theme = window.localStorage.getItem('theme');

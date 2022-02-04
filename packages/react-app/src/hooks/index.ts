@@ -1,3 +1,4 @@
+export { default as useWidth } from './useWidth';
 export { default as ScrollToTop } from './ScrollToTop';
 export { default as useBackgroundType } from './useBackgroundType';
 export { default as useBalance } from './useBalance';

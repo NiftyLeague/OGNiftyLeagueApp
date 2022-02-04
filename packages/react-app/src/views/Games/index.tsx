@@ -3,7 +3,7 @@ import React, { useCallback, useContext, useEffect, useRef, useState } from 'rea
 import Unity, { UnityContext } from 'react-unity-webgl';
 import { isMobileOnly } from 'react-device-detect';
 import { Button, Card, Col, Image, Layout, Menu, Row } from 'antd';
-import { SportsEsports, WebAsset, DesktopWindows } from '@material-ui/icons';
+import { SportsEsports, WebAsset, DesktopWindows } from '@mui/icons-material';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
 
 import { NetworkContext } from 'NetworkProvider';

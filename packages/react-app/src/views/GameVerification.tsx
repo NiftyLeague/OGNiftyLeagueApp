@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import Container from '@material-ui/core/Container';
+import Container from '@mui/material/Container';
 
 import { NetworkContext } from 'NetworkProvider';
 import { getProviderAndSigner } from 'helpers';
