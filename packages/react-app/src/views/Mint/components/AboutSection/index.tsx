@@ -1,9 +1,8 @@
 import React, { memo } from 'react';
-import { Link } from 'react-router-dom';
 import { Image, Typography } from 'antd';
 import Container from '@mui/material/Container';
 import { NiftySmashersVideo } from 'components';
-import Roadmap from 'assets/images/roadmap/roadmap_v03.png';
+import Roadmap from 'assets/images/roadmap-btn.png';
 import './about.css';
 
 const { Title } = Typography;
@@ -29,12 +28,12 @@ const About = memo(() => (
             <em>Nifty DAO</em>!
           </p>
           <div className="d-flex justify-content-center">
-            <Link to="/about" className="moreBtn">
+            <a href="https://niftyleague.com/about" className="moreBtn">
               Learn More
-            </Link>
-            <Link to="/roadmap" className="roadmapLink">
+            </a>
+            <a href="https://niftyleague.com/roadmap" className="roadmapLink">
               <Image width="140px" src={Roadmap} preview={false} />
-            </Link>
+            </a>
           </div>
         </div>
       </div>

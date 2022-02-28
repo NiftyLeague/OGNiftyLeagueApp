@@ -8,7 +8,6 @@ import { ContractAddresses, Disclaimer, PrivacyPolicy, ToS } from './views/SiteL
 import { DEBUG, NFT_CONTRACT, NFTL_CONTRACT } from './constants';
 import './App.css';
 
-const About = lazy(() => import('./views/About'));
 const Character = lazy(() => import('./views/Character'));
 const Characters = lazy(() => import('./views/Characters'));
 const Games = lazy(() => import('./views/Games'));
@@ -17,7 +16,6 @@ const NotFound = lazy(() => import('./views/NotFound'));
 const Subgraph = lazy(() => import('./views/Subgraph'));
 const GamerProfile = lazy(() => import('./views/GamerProfile'));
 const GameVerification = lazy(() => import('./views/GameVerification'));
-const Roadmap = lazy(() => import('./views/Roadmap'));
 
 // EXTERNAL CONTRACT EXAMPLE:
 // If you want to bring in the mainnet DAI contract it would look like:
@@ -42,9 +40,7 @@ export default function App(): JSX.Element {
         <ScrollToTop />
         <Suspense fallback={<div />}>
           <Routes>
-            <Route path="/" element={<Roadmap />} />
-            <Route path="/roadmap" element={<Roadmap />} />
-            <Route path="/about" element={<About />} />
+            <Route path="/" element={<Games />} />
             <Route path="/mint-o-matic" element={<Mint />} />
             <Route path="/games" element={<Games />} />
             <Route path="/degens" element={<Characters />} />
