@@ -20,14 +20,14 @@ const IconFont = createFromIconfontCN({
 });
 
 const navItems = () => [
-  <Menu.Item key="/games">
+  <Menu.Item key="/">
     <Link to="/">Games</Link>
   </Menu.Item>,
   <Menu.Item key="/mint-o-matic">
     <Link to="/mint-o-matic">Mint-O-Matic</Link>
   </Menu.Item>,
   <Menu.Item key="/degens">
-    <Link to="/degens">Degens</Link>
+    <Link to="/degens">DEGENs</Link>
   </Menu.Item>,
   <Menu.Item key="/rentals" disabled>
     <Link to="/rentals">Rentals (coming soon!)</Link>
