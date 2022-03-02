@@ -10,7 +10,7 @@ import { NetworkContext } from 'NetworkProvider';
 import Preloader from 'components/Preloader';
 import withVerification from 'components/Authentication';
 import NiftySmashers from 'assets/gifs/nifty-smashers.gif';
-import NiftySmashersThumb from 'assets/images/characters/alien-dj.png';
+import NiftySmashersThumb from 'assets/images/alien-dj.png';
 import NiftyDesktop from 'assets/gifs/nifty-smashers-desktop.gif';
 import NiftyDesktopThumb from 'assets/images/games/smashers_icon.png';
 import { DEBUG, NETWORK_NAME } from '../../constants';
