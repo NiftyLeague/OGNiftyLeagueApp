@@ -21,26 +21,23 @@ const IconFont = createFromIconfontCN({
 
 const navItems = () => [
   <Menu.Item key="/">
-    <Link to="/">Roadmap</Link>
-  </Menu.Item>,
-  <Menu.Item key="/about">
-    <Link to="/about">About</Link>
+    <Link to="/">Games</Link>
   </Menu.Item>,
   <Menu.Item key="/mint-o-matic">
     <Link to="/mint-o-matic">Mint-O-Matic</Link>
   </Menu.Item>,
-  <Menu.Item key="/games">
-    <Link to="/games">Games</Link>
-  </Menu.Item>,
   <Menu.Item key="/degens">
-    <Link to="/degens">Degens</Link>
+    <Link to="/degens">DEGENs</Link>
+  </Menu.Item>,
+  <Menu.Item key="/rentals" disabled>
+    <Link to="/rentals">Rentals (coming soon!)</Link>
   </Menu.Item>,
 ];
 
 function Navigation(): JSX.Element {
   const { pathname } = useLocation();
   const { currentTheme } = useThemeSwitcher();
-  const hideNav = useIsWidthDown('md');
+  const hideNav = useIsWidthDown('lg');
   const mobileView = useIsWidthDown('sm');
   const darkThemed = currentTheme === 'dark';
 
@@ -62,13 +59,13 @@ function Navigation(): JSX.Element {
             : { background: '#c1ccdd' }),
         }}
       >
-        <Link to="/" style={{ margin: `auto ${mobileView ? '10px' : '20px'} auto 0` }}>
+        <a href="https://niftyleague.com" style={{ margin: `auto ${mobileView ? '10px' : '20px'} auto 0` }}>
           <img
             src={darkThemed ? LogoWhite : LogoPurple}
             alt="Nifty League logo"
             style={{ width: 50, marginBottom: 3 }}
           />
-        </Link>
+        </a>
         {!hideNav && (
           <nav className="navbar-polygon">
             <Menu
@@ -83,16 +80,6 @@ function Navigation(): JSX.Element {
               defaultSelectedKeys={['/']}
             >
               {navItems()}
-              <Menu.Item className="discord" key="discord">
-                <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/niftyleague">
-                  <IconFont type="icon-discord" />
-                </a>
-              </Menu.Item>
-              <Menu.Item key="twitter">
-                <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/NiftyLeague">
-                  <TwitterOutlined />
-                </a>
-              </Menu.Item>
             </Menu>
           </nav>
         )}
