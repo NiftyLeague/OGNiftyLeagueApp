@@ -19,36 +19,34 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
-interface ERC20PresetMinterPauserInterface extends ethers.utils.Interface {
+interface ComicsMerkleDistributorInterface extends ethers.utils.Interface {
   functions: {
     "DEFAULT_ADMIN_ROLE()": FunctionFragment;
     "MINTER_ROLE()": FunctionFragment;
     "PAUSER_ROLE()": FunctionFragment;
-    "allowance(address,address)": FunctionFragment;
-    "approve(address,uint256)": FunctionFragment;
-    "balanceOf(address)": FunctionFragment;
-    "burn(uint256)": FunctionFragment;
-    "burnFrom(address,uint256)": FunctionFragment;
-    "decimals()": FunctionFragment;
-    "decreaseAllowance(address,uint256)": FunctionFragment;
+    "balanceOf(address,uint256)": FunctionFragment;
+    "balanceOfBatch(address[],uint256[])": FunctionFragment;
+    "burn(address,uint256,uint256)": FunctionFragment;
+    "burnBatch(address,uint256[],uint256[])": FunctionFragment;
     "getRoleAdmin(bytes32)": FunctionFragment;
-    "getRoleMember(bytes32,uint256)": FunctionFragment;
-    "getRoleMemberCount(bytes32)": FunctionFragment;
     "grantRole(bytes32,address)": FunctionFragment;
     "hasRole(bytes32,address)": FunctionFragment;
-    "increaseAllowance(address,uint256)": FunctionFragment;
-    "mint(address,uint256)": FunctionFragment;
+    "isApprovedForAll(address,address)": FunctionFragment;
+    "mint(address,uint256,uint256,bytes)": FunctionFragment;
+    "mintBatch(address,uint256[],uint256[],bytes)": FunctionFragment;
     "name()": FunctionFragment;
-    "pause()": FunctionFragment;
+    "pauseBurn()": FunctionFragment;
     "paused()": FunctionFragment;
     "renounceRole(bytes32,address)": FunctionFragment;
     "revokeRole(bytes32,address)": FunctionFragment;
+    "safeBatchTransferFrom(address,address,uint256[],uint256[],bytes)": FunctionFragment;
+    "safeTransferFrom(address,address,uint256,uint256,bytes)": FunctionFragment;
+    "setApprovalForAll(address,bool)": FunctionFragment;
+    "setURI(string)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "symbol()": FunctionFragment;
-    "totalSupply()": FunctionFragment;
-    "transfer(address,uint256)": FunctionFragment;
-    "transferFrom(address,address,uint256)": FunctionFragment;
-    "unpause()": FunctionFragment;
+    "unpauseBurn()": FunctionFragment;
+    "uri(uint256)": FunctionFragment;
   };
 
   encodeFunctionData(
@@ -64,34 +62,23 @@ interface ERC20PresetMinterPauserInterface extends ethers.utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "allowance",
-    values: [string, string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "approve",
+    functionFragment: "balanceOf",
     values: [string, BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
-  encodeFunctionData(functionFragment: "burn", values: [BigNumberish]): string;
   encodeFunctionData(
-    functionFragment: "burnFrom",
-    values: [string, BigNumberish]
+    functionFragment: "balanceOfBatch",
+    values: [string[], BigNumberish[]]
   ): string;
-  encodeFunctionData(functionFragment: "decimals", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "decreaseAllowance",
-    values: [string, BigNumberish]
+    functionFragment: "burn",
+    values: [string, BigNumberish, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "burnBatch",
+    values: [string, BigNumberish[], BigNumberish[]]
   ): string;
   encodeFunctionData(
     functionFragment: "getRoleAdmin",
-    values: [BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getRoleMember",
-    values: [BytesLike, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getRoleMemberCount",
     values: [BytesLike]
   ): string;
   encodeFunctionData(
@@ -103,15 +90,19 @@ interface ERC20PresetMinterPauserInterface extends ethers.utils.Interface {
     values: [BytesLike, string]
   ): string;
   encodeFunctionData(
-    functionFragment: "increaseAllowance",
-    values: [string, BigNumberish]
+    functionFragment: "isApprovedForAll",
+    values: [string, string]
   ): string;
   encodeFunctionData(
     functionFragment: "mint",
-    values: [string, BigNumberish]
+    values: [string, BigNumberish, BigNumberish, BytesLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "mintBatch",
+    values: [string, BigNumberish[], BigNumberish[], BytesLike]
   ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
-  encodeFunctionData(functionFragment: "pause", values?: undefined): string;
+  encodeFunctionData(functionFragment: "pauseBurn", values?: undefined): string;
   encodeFunctionData(functionFragment: "paused", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "renounceRole",
@@ -122,23 +113,28 @@ interface ERC20PresetMinterPauserInterface extends ethers.utils.Interface {
     values: [BytesLike, string]
   ): string;
   encodeFunctionData(
+    functionFragment: "safeBatchTransferFrom",
+    values: [string, string, BigNumberish[], BigNumberish[], BytesLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "safeTransferFrom",
+    values: [string, string, BigNumberish, BigNumberish, BytesLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setApprovalForAll",
+    values: [string, boolean]
+  ): string;
+  encodeFunctionData(functionFragment: "setURI", values: [string]): string;
+  encodeFunctionData(
     functionFragment: "supportsInterface",
     values: [BytesLike]
   ): string;
   encodeFunctionData(functionFragment: "symbol", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "totalSupply",
+    functionFragment: "unpauseBurn",
     values?: undefined
   ): string;
-  encodeFunctionData(
-    functionFragment: "transfer",
-    values: [string, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "transferFrom",
-    values: [string, string, BigNumberish]
-  ): string;
-  encodeFunctionData(functionFragment: "unpause", values?: undefined): string;
+  encodeFunctionData(functionFragment: "uri", values: [BigNumberish]): string;
 
   decodeFunctionResult(
     functionFragment: "DEFAULT_ADMIN_ROLE",
@@ -152,37 +148,27 @@ interface ERC20PresetMinterPauserInterface extends ethers.utils.Interface {
     functionFragment: "PAUSER_ROLE",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "allowance", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "burn", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "burnFrom", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "decimals", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "decreaseAllowance",
+    functionFragment: "balanceOfBatch",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "burn", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "burnBatch", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getRoleAdmin",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getRoleMember",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getRoleMemberCount",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "grantRole", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "hasRole", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "increaseAllowance",
+    functionFragment: "isApprovedForAll",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "mintBatch", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "pause", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "pauseBurn", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "paused", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "renounceRole",
@@ -190,45 +176,57 @@ interface ERC20PresetMinterPauserInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "revokeRole", data: BytesLike): Result;
   decodeFunctionResult(
+    functionFragment: "safeBatchTransferFrom",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "safeTransferFrom",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setApprovalForAll",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "setURI", data: BytesLike): Result;
+  decodeFunctionResult(
     functionFragment: "supportsInterface",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "symbol", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "totalSupply",
+    functionFragment: "unpauseBurn",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "transfer", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "transferFrom",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "unpause", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "uri", data: BytesLike): Result;
 
   events: {
-    "Approval(address,address,uint256)": EventFragment;
+    "ApprovalForAll(address,address,bool)": EventFragment;
     "Paused(address)": EventFragment;
     "RoleAdminChanged(bytes32,bytes32,bytes32)": EventFragment;
     "RoleGranted(bytes32,address,address)": EventFragment;
     "RoleRevoked(bytes32,address,address)": EventFragment;
-    "Transfer(address,address,uint256)": EventFragment;
+    "TransferBatch(address,address,address,uint256[],uint256[])": EventFragment;
+    "TransferSingle(address,address,address,uint256,uint256)": EventFragment;
+    "URI(string,uint256)": EventFragment;
     "Unpaused(address)": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Paused"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RoleAdminChanged"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RoleGranted"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RoleRevoked"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "TransferBatch"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "TransferSingle"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "URI"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Unpaused"): EventFragment;
 }
 
-export type ApprovalEvent = TypedEvent<
-  [string, string, BigNumber] & {
-    owner: string;
-    spender: string;
-    value: BigNumber;
+export type ApprovalForAllEvent = TypedEvent<
+  [string, string, boolean] & {
+    account: string;
+    operator: string;
+    approved: boolean;
   }
 >;
 
@@ -250,13 +248,33 @@ export type RoleRevokedEvent = TypedEvent<
   [string, string, string] & { role: string; account: string; sender: string }
 >;
 
-export type TransferEvent = TypedEvent<
-  [string, string, BigNumber] & { from: string; to: string; value: BigNumber }
+export type TransferBatchEvent = TypedEvent<
+  [string, string, string, BigNumber[], BigNumber[]] & {
+    operator: string;
+    from: string;
+    to: string;
+    ids: BigNumber[];
+    values: BigNumber[];
+  }
+>;
+
+export type TransferSingleEvent = TypedEvent<
+  [string, string, string, BigNumber, BigNumber] & {
+    operator: string;
+    from: string;
+    to: string;
+    id: BigNumber;
+    value: BigNumber;
+  }
+>;
+
+export type URIEvent = TypedEvent<
+  [string, BigNumber] & { value: string; id: BigNumber }
 >;
 
 export type UnpausedEvent = TypedEvent<[string] & { account: string }>;
 
-export class ERC20PresetMinterPauser extends BaseContract {
+export class ComicsMerkleDistributor extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
@@ -297,7 +315,7 @@ export class ERC20PresetMinterPauser extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TypedEvent<EventArgsArray & EventArgsObject>>>;
 
-  interface: ERC20PresetMinterPauserInterface;
+  interface: ComicsMerkleDistributorInterface;
 
   functions: {
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<[string]>;
@@ -306,51 +324,33 @@ export class ERC20PresetMinterPauser extends BaseContract {
 
     PAUSER_ROLE(overrides?: CallOverrides): Promise<[string]>;
 
-    allowance(
-      owner: string,
-      spender: string,
+    balanceOf(
+      account: string,
+      id: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
-    approve(
-      spender: string,
-      amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    balanceOf(account: string, overrides?: CallOverrides): Promise<[BigNumber]>;
+    balanceOfBatch(
+      accounts: string[],
+      ids: BigNumberish[],
+      overrides?: CallOverrides
+    ): Promise<[BigNumber[]]>;
 
     burn(
-      amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    burnFrom(
       account: string,
-      amount: BigNumberish,
+      id: BigNumberish,
+      value: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    decimals(overrides?: CallOverrides): Promise<[number]>;
-
-    decreaseAllowance(
-      spender: string,
-      subtractedValue: BigNumberish,
+    burnBatch(
+      account: string,
+      ids: BigNumberish[],
+      values: BigNumberish[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     getRoleAdmin(role: BytesLike, overrides?: CallOverrides): Promise<[string]>;
-
-    getRoleMember(
-      role: BytesLike,
-      index: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
-    getRoleMemberCount(
-      role: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
 
     grantRole(
       role: BytesLike,
@@ -364,21 +364,31 @@ export class ERC20PresetMinterPauser extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
-    increaseAllowance(
-      spender: string,
-      addedValue: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
+    isApprovedForAll(
+      account: string,
+      operator: string,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
 
     mint(
       to: string,
+      id: BigNumberish,
       amount: BigNumberish,
+      data: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    mintBatch(
+      to: string,
+      ids: BigNumberish[],
+      amounts: BigNumberish[],
+      data: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     name(overrides?: CallOverrides): Promise<[string]>;
 
-    pause(
+    pauseBurn(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -396,6 +406,35 @@ export class ERC20PresetMinterPauser extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    safeBatchTransferFrom(
+      from: string,
+      to: string,
+      ids: BigNumberish[],
+      amounts: BigNumberish[],
+      data: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    safeTransferFrom(
+      from: string,
+      to: string,
+      id: BigNumberish,
+      amount: BigNumberish,
+      data: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setApprovalForAll(
+      operator: string,
+      approved: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setURI(
+      newuri: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     supportsInterface(
       interfaceId: BytesLike,
       overrides?: CallOverrides
@@ -403,24 +442,11 @@ export class ERC20PresetMinterPauser extends BaseContract {
 
     symbol(overrides?: CallOverrides): Promise<[string]>;
 
-    totalSupply(overrides?: CallOverrides): Promise<[BigNumber]>;
-
-    transfer(
-      recipient: string,
-      amount: BigNumberish,
+    unpauseBurn(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    transferFrom(
-      sender: string,
-      recipient: string,
-      amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    unpause(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
+    uri(arg0: BigNumberish, overrides?: CallOverrides): Promise<[string]>;
   };
 
   DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
@@ -429,51 +455,33 @@ export class ERC20PresetMinterPauser extends BaseContract {
 
   PAUSER_ROLE(overrides?: CallOverrides): Promise<string>;
 
-  allowance(
-    owner: string,
-    spender: string,
+  balanceOf(
+    account: string,
+    id: BigNumberish,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
-  approve(
-    spender: string,
-    amount: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
+  balanceOfBatch(
+    accounts: string[],
+    ids: BigNumberish[],
+    overrides?: CallOverrides
+  ): Promise<BigNumber[]>;
 
   burn(
-    amount: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  burnFrom(
     account: string,
-    amount: BigNumberish,
+    id: BigNumberish,
+    value: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  decimals(overrides?: CallOverrides): Promise<number>;
-
-  decreaseAllowance(
-    spender: string,
-    subtractedValue: BigNumberish,
+  burnBatch(
+    account: string,
+    ids: BigNumberish[],
+    values: BigNumberish[],
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   getRoleAdmin(role: BytesLike, overrides?: CallOverrides): Promise<string>;
-
-  getRoleMember(
-    role: BytesLike,
-    index: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
-  getRoleMemberCount(
-    role: BytesLike,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
 
   grantRole(
     role: BytesLike,
@@ -487,21 +495,31 @@ export class ERC20PresetMinterPauser extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
-  increaseAllowance(
-    spender: string,
-    addedValue: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
+  isApprovedForAll(
+    account: string,
+    operator: string,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
 
   mint(
     to: string,
+    id: BigNumberish,
     amount: BigNumberish,
+    data: BytesLike,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  mintBatch(
+    to: string,
+    ids: BigNumberish[],
+    amounts: BigNumberish[],
+    data: BytesLike,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   name(overrides?: CallOverrides): Promise<string>;
 
-  pause(
+  pauseBurn(
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -519,6 +537,35 @@ export class ERC20PresetMinterPauser extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  safeBatchTransferFrom(
+    from: string,
+    to: string,
+    ids: BigNumberish[],
+    amounts: BigNumberish[],
+    data: BytesLike,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  safeTransferFrom(
+    from: string,
+    to: string,
+    id: BigNumberish,
+    amount: BigNumberish,
+    data: BytesLike,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setApprovalForAll(
+    operator: string,
+    approved: boolean,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setURI(
+    newuri: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   supportsInterface(
     interfaceId: BytesLike,
     overrides?: CallOverrides
@@ -526,24 +573,11 @@ export class ERC20PresetMinterPauser extends BaseContract {
 
   symbol(overrides?: CallOverrides): Promise<string>;
 
-  totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
-
-  transfer(
-    recipient: string,
-    amount: BigNumberish,
+  unpauseBurn(
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  transferFrom(
-    sender: string,
-    recipient: string,
-    amount: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  unpause(
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
+  uri(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
   callStatic: {
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
@@ -552,48 +586,33 @@ export class ERC20PresetMinterPauser extends BaseContract {
 
     PAUSER_ROLE(overrides?: CallOverrides): Promise<string>;
 
-    allowance(
-      owner: string,
-      spender: string,
+    balanceOf(
+      account: string,
+      id: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    approve(
-      spender: string,
-      amount: BigNumberish,
+    balanceOfBatch(
+      accounts: string[],
+      ids: BigNumberish[],
       overrides?: CallOverrides
-    ): Promise<boolean>;
+    ): Promise<BigNumber[]>;
 
-    balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
-
-    burn(amount: BigNumberish, overrides?: CallOverrides): Promise<void>;
-
-    burnFrom(
+    burn(
       account: string,
-      amount: BigNumberish,
+      id: BigNumberish,
+      value: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    decimals(overrides?: CallOverrides): Promise<number>;
-
-    decreaseAllowance(
-      spender: string,
-      subtractedValue: BigNumberish,
+    burnBatch(
+      account: string,
+      ids: BigNumberish[],
+      values: BigNumberish[],
       overrides?: CallOverrides
-    ): Promise<boolean>;
+    ): Promise<void>;
 
     getRoleAdmin(role: BytesLike, overrides?: CallOverrides): Promise<string>;
-
-    getRoleMember(
-      role: BytesLike,
-      index: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
-    getRoleMemberCount(
-      role: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
 
     grantRole(
       role: BytesLike,
@@ -607,21 +626,31 @@ export class ERC20PresetMinterPauser extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
-    increaseAllowance(
-      spender: string,
-      addedValue: BigNumberish,
+    isApprovedForAll(
+      account: string,
+      operator: string,
       overrides?: CallOverrides
     ): Promise<boolean>;
 
     mint(
       to: string,
+      id: BigNumberish,
       amount: BigNumberish,
+      data: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    mintBatch(
+      to: string,
+      ids: BigNumberish[],
+      amounts: BigNumberish[],
+      data: BytesLike,
       overrides?: CallOverrides
     ): Promise<void>;
 
     name(overrides?: CallOverrides): Promise<string>;
 
-    pause(overrides?: CallOverrides): Promise<void>;
+    pauseBurn(overrides?: CallOverrides): Promise<void>;
 
     paused(overrides?: CallOverrides): Promise<boolean>;
 
@@ -637,6 +666,32 @@ export class ERC20PresetMinterPauser extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    safeBatchTransferFrom(
+      from: string,
+      to: string,
+      ids: BigNumberish[],
+      amounts: BigNumberish[],
+      data: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    safeTransferFrom(
+      from: string,
+      to: string,
+      id: BigNumberish,
+      amount: BigNumberish,
+      data: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setApprovalForAll(
+      operator: string,
+      approved: boolean,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setURI(newuri: string, overrides?: CallOverrides): Promise<void>;
+
     supportsInterface(
       interfaceId: BytesLike,
       overrides?: CallOverrides
@@ -644,41 +699,28 @@ export class ERC20PresetMinterPauser extends BaseContract {
 
     symbol(overrides?: CallOverrides): Promise<string>;
 
-    totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
+    unpauseBurn(overrides?: CallOverrides): Promise<void>;
 
-    transfer(
-      recipient: string,
-      amount: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
-
-    transferFrom(
-      sender: string,
-      recipient: string,
-      amount: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
-
-    unpause(overrides?: CallOverrides): Promise<void>;
+    uri(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
   };
 
   filters: {
-    "Approval(address,address,uint256)"(
-      owner?: string | null,
-      spender?: string | null,
-      value?: null
+    "ApprovalForAll(address,address,bool)"(
+      account?: string | null,
+      operator?: string | null,
+      approved?: null
     ): TypedEventFilter<
-      [string, string, BigNumber],
-      { owner: string; spender: string; value: BigNumber }
+      [string, string, boolean],
+      { account: string; operator: string; approved: boolean }
     >;
 
-    Approval(
-      owner?: string | null,
-      spender?: string | null,
-      value?: null
+    ApprovalForAll(
+      account?: string | null,
+      operator?: string | null,
+      approved?: null
     ): TypedEventFilter<
-      [string, string, BigNumber],
-      { owner: string; spender: string; value: BigNumber }
+      [string, string, boolean],
+      { account: string; operator: string; approved: boolean }
     >;
 
     "Paused(address)"(
@@ -741,23 +783,83 @@ export class ERC20PresetMinterPauser extends BaseContract {
       { role: string; account: string; sender: string }
     >;
 
-    "Transfer(address,address,uint256)"(
+    "TransferBatch(address,address,address,uint256[],uint256[])"(
+      operator?: string | null,
       from?: string | null,
       to?: string | null,
-      value?: null
+      ids?: null,
+      values?: null
     ): TypedEventFilter<
-      [string, string, BigNumber],
-      { from: string; to: string; value: BigNumber }
+      [string, string, string, BigNumber[], BigNumber[]],
+      {
+        operator: string;
+        from: string;
+        to: string;
+        ids: BigNumber[];
+        values: BigNumber[];
+      }
     >;
 
-    Transfer(
+    TransferBatch(
+      operator?: string | null,
       from?: string | null,
       to?: string | null,
+      ids?: null,
+      values?: null
+    ): TypedEventFilter<
+      [string, string, string, BigNumber[], BigNumber[]],
+      {
+        operator: string;
+        from: string;
+        to: string;
+        ids: BigNumber[];
+        values: BigNumber[];
+      }
+    >;
+
+    "TransferSingle(address,address,address,uint256,uint256)"(
+      operator?: string | null,
+      from?: string | null,
+      to?: string | null,
+      id?: null,
       value?: null
     ): TypedEventFilter<
-      [string, string, BigNumber],
-      { from: string; to: string; value: BigNumber }
+      [string, string, string, BigNumber, BigNumber],
+      {
+        operator: string;
+        from: string;
+        to: string;
+        id: BigNumber;
+        value: BigNumber;
+      }
     >;
+
+    TransferSingle(
+      operator?: string | null,
+      from?: string | null,
+      to?: string | null,
+      id?: null,
+      value?: null
+    ): TypedEventFilter<
+      [string, string, string, BigNumber, BigNumber],
+      {
+        operator: string;
+        from: string;
+        to: string;
+        id: BigNumber;
+        value: BigNumber;
+      }
+    >;
+
+    "URI(string,uint256)"(
+      value?: null,
+      id?: BigNumberish | null
+    ): TypedEventFilter<[string, BigNumber], { value: string; id: BigNumber }>;
+
+    URI(
+      value?: null,
+      id?: BigNumberish | null
+    ): TypedEventFilter<[string, BigNumber], { value: string; id: BigNumber }>;
 
     "Unpaused(address)"(
       account?: null
@@ -773,51 +875,33 @@ export class ERC20PresetMinterPauser extends BaseContract {
 
     PAUSER_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
 
-    allowance(
-      owner: string,
-      spender: string,
+    balanceOf(
+      account: string,
+      id: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    approve(
-      spender: string,
-      amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
+    balanceOfBatch(
+      accounts: string[],
+      ids: BigNumberish[],
+      overrides?: CallOverrides
     ): Promise<BigNumber>;
-
-    balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     burn(
-      amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    burnFrom(
       account: string,
-      amount: BigNumberish,
+      id: BigNumberish,
+      value: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    decimals(overrides?: CallOverrides): Promise<BigNumber>;
-
-    decreaseAllowance(
-      spender: string,
-      subtractedValue: BigNumberish,
+    burnBatch(
+      account: string,
+      ids: BigNumberish[],
+      values: BigNumberish[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     getRoleAdmin(
-      role: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    getRoleMember(
-      role: BytesLike,
-      index: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    getRoleMemberCount(
       role: BytesLike,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -834,21 +918,31 @@ export class ERC20PresetMinterPauser extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    increaseAllowance(
-      spender: string,
-      addedValue: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
+    isApprovedForAll(
+      account: string,
+      operator: string,
+      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     mint(
       to: string,
+      id: BigNumberish,
       amount: BigNumberish,
+      data: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    mintBatch(
+      to: string,
+      ids: BigNumberish[],
+      amounts: BigNumberish[],
+      data: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     name(overrides?: CallOverrides): Promise<BigNumber>;
 
-    pause(
+    pauseBurn(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -866,6 +960,35 @@ export class ERC20PresetMinterPauser extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    safeBatchTransferFrom(
+      from: string,
+      to: string,
+      ids: BigNumberish[],
+      amounts: BigNumberish[],
+      data: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    safeTransferFrom(
+      from: string,
+      to: string,
+      id: BigNumberish,
+      amount: BigNumberish,
+      data: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setApprovalForAll(
+      operator: string,
+      approved: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setURI(
+      newuri: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     supportsInterface(
       interfaceId: BytesLike,
       overrides?: CallOverrides
@@ -873,24 +996,11 @@ export class ERC20PresetMinterPauser extends BaseContract {
 
     symbol(overrides?: CallOverrides): Promise<BigNumber>;
 
-    totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
-
-    transfer(
-      recipient: string,
-      amount: BigNumberish,
+    unpauseBurn(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    transferFrom(
-      sender: string,
-      recipient: string,
-      amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    unpause(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
+    uri(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -902,54 +1012,33 @@ export class ERC20PresetMinterPauser extends BaseContract {
 
     PAUSER_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    allowance(
-      owner: string,
-      spender: string,
+    balanceOf(
+      account: string,
+      id: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    approve(
-      spender: string,
-      amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    balanceOf(
-      account: string,
+    balanceOfBatch(
+      accounts: string[],
+      ids: BigNumberish[],
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     burn(
-      amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    burnFrom(
       account: string,
-      amount: BigNumberish,
+      id: BigNumberish,
+      value: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    decimals(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    decreaseAllowance(
-      spender: string,
-      subtractedValue: BigNumberish,
+    burnBatch(
+      account: string,
+      ids: BigNumberish[],
+      values: BigNumberish[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     getRoleAdmin(
-      role: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    getRoleMember(
-      role: BytesLike,
-      index: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    getRoleMemberCount(
       role: BytesLike,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -966,21 +1055,31 @@ export class ERC20PresetMinterPauser extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    increaseAllowance(
-      spender: string,
-      addedValue: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
+    isApprovedForAll(
+      account: string,
+      operator: string,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     mint(
       to: string,
+      id: BigNumberish,
       amount: BigNumberish,
+      data: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    mintBatch(
+      to: string,
+      ids: BigNumberish[],
+      amounts: BigNumberish[],
+      data: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     name(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    pause(
+    pauseBurn(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -998,6 +1097,35 @@ export class ERC20PresetMinterPauser extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
+    safeBatchTransferFrom(
+      from: string,
+      to: string,
+      ids: BigNumberish[],
+      amounts: BigNumberish[],
+      data: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    safeTransferFrom(
+      from: string,
+      to: string,
+      id: BigNumberish,
+      amount: BigNumberish,
+      data: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setApprovalForAll(
+      operator: string,
+      approved: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setURI(
+      newuri: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     supportsInterface(
       interfaceId: BytesLike,
       overrides?: CallOverrides
@@ -1005,23 +1133,13 @@ export class ERC20PresetMinterPauser extends BaseContract {
 
     symbol(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    totalSupply(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    transfer(
-      recipient: string,
-      amount: BigNumberish,
+    unpauseBurn(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    transferFrom(
-      sender: string,
-      recipient: string,
-      amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    unpause(
-      overrides?: Overrides & { from?: string | Promise<string> }
+    uri(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
   };
 }
