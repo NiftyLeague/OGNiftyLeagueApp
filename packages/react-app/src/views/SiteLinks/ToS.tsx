@@ -95,6 +95,15 @@ const ToS = (): JSX.Element => (
         only the actual owner can display the Art.
       </p>
       <p>
+        By using the Site and in conjunction with creating, submitting, posting, promoting, or displaying content, You
+        grant us a worldwide, non-exclusive, sublicensable, royalty-free license to use, copy, modify, and display any
+        content, including but not limited to text, materials, images, files, communications, comments, feedback,
+        suggestions, ideas, concepts, questions, data, or otherwise, that you submit or post on or through the Site or
+        the App (collectively, “User Contributions”) for our current and future business purposes, including to provide,
+        promote, and improve the Site and the App. This includes any digital file, art, or other material linked to or
+        associated with any NFTs or other crypto assets that are displayed on the Site or the App.
+      </p>
+      <p>
         Provided that You own an ERC721 NFT-Token asset, You are granted a limited license to create fan-art and
         merchandise which can be used commercially given that You follow the terms set herein:
       </p>
