@@ -13,3 +13,13 @@ export const MERKLE_DISTRIBUTOR_ADDRESS = {
 };
 
 export const MERKLE_ROOT = 'https://raw.githubusercontent.com/NiftyLeague/merkle-distributor/master/data/result.json';
+
+export const COMICS_MERKLE_DISTRIBUTOR_ADDRESS = {
+  [LOCAL_CHAIN_ID]: '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512',
+  // TODO: Update mainnet address once deployed
+  [ChainId.MAINNET]: '0x921c673a4d2f6A429551c0726316c1AD07571DB5',
+  [ChainId.RINKEBY]: '0x5DCcEEd8E10a3EE1aF095B248ad66E8F33875045',
+};
+
+export const COMICS_MERKLE_ROOT =
+  'https://raw.githubusercontent.com/NiftyLeague/merkle-distributor-comics56/main/data/result.json?token=GHSAT0AAAAAABQMGDJBTNZJ5OKZWRSQL4LEYRRVE4A';
