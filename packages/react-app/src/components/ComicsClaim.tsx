@@ -11,26 +11,29 @@ import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { NetworkContext } from 'NetworkProvider';
-import { useUserUnclaimedAmount, useClaimCallback } from 'hooks/Airdrop';
+import { ClaimResult, useUserUnclaimedAmount, useClaimCallback } from 'hooks/ComicsClaim';
 
 const ClaimButton = ({
-  setAvailableNFTL,
+  setAvailableComics,
   setDialogOpen,
 }: {
-  setAvailableNFTL: (string: any) => void;
+  setAvailableComics: React.Dispatch<React.SetStateAction<ClaimResult>>;
   setDialogOpen: (string: any) => void;
 }): JSX.Element | null => {
-  const availableNFTL = useUserUnclaimedAmount();
+  const availableComics = useUserUnclaimedAmount();
+  console.log('availableComics', availableComics);
 
   useEffect(() => {
-    setAvailableNFTL(availableNFTL ?? '0');
-  }, [availableNFTL, setAvailableNFTL]);
+    const result = { p5: availableComics.p5 || 0, p6: availableComics.p6 || 0 };
+    setAvailableComics(result);
+  }, [availableComics.p5, availableComics.p6, setAvailableComics]);
 
-  return availableNFTL && parseFloat(availableNFTL) > 0 ? (
-    <div style={{ display: 'flex', alignItems: 'center', marginRight: 16 }}>
+  if (!availableComics) return null;
+
+  return (availableComics.p5 && availableComics.p5 > 0) || (availableComics.p6 && availableComics.p6 > 0) ? (
+    <div style={{ display: 'flex', alignItems: 'center', margin: 'auto' }}>
       <Button
         style={{
-          marginLeft: 8,
           color: '#fff',
           borderColor: '#6f6c6c',
           background: '-webkit-linear-gradient(89deg, #620edf 0%, #5e72eb 100%)',
@@ -39,18 +42,18 @@ const ClaimButton = ({
         size="large"
         onClick={() => setDialogOpen(true)}
       >
-        claim airdrop
+        claim comics airdrop
       </Button>
     </div>
   ) : null;
 };
 
 function ClaimDialog({
-  availableNFTL,
+  availableComics,
   dialogOpen,
   setDialogOpen,
 }: {
-  availableNFTL: string;
+  availableComics: ClaimResult;
   dialogOpen: boolean;
   setDialogOpen: (string: any) => void;
 }): JSX.Element {
@@ -72,15 +75,13 @@ function ClaimDialog({
 
   return (
     <Dialog aria-labelledby="airdrop-claim-dialog" fullScreen={fullScreen} onClose={onClose} open={dialogOpen}>
-      <DialogTitle id="airdrop-claim-title">{Math.round(parseFloat(availableNFTL))} NFTL Claimable</DialogTitle>
-      <DialogContent>
-        <DialogContentText>
-          NOTE: The deadline to claim is <strong>April 12th</strong>. 🔥 Any leftover tokens will be burnt 🔥 Learn more
-          about our governance/utility token{' '}
-          <Link onClick={() => onClose()} to="/about/#nftl">
-            here
-          </Link>
-          !
+      <DialogTitle id="airdrop-claim-title" className="text-center">
+        {availableComics.p5} Page 5s &amp; {availableComics.p6} Page 6s Claimable
+      </DialogTitle>
+      <DialogContent className="pt-3 pb-0">
+        <DialogContentText className="pb-3 text-center">
+          NOTE: The deadline to claim is <strong>May 15th</strong>. <br />
+          🔥 Any leftover comics will be burnt! 🔥
         </DialogContentText>
         <DialogContentText>
           <Checkbox
@@ -108,15 +109,15 @@ function ClaimDialog({
   );
 }
 
-export default function Airdrop(): JSX.Element | null {
+export default function ComicsClaim(): JSX.Element | null {
   const { selectedChainId, validAccount } = useContext(NetworkContext);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [availableNFTL, setAvailableNFTL] = useState('0');
+  const [availableComics, setAvailableComics] = useState({ p5: 0, p6: 0 });
 
   return validAccount && selectedChainId ? (
     <>
-      <ClaimButton setDialogOpen={setDialogOpen} setAvailableNFTL={setAvailableNFTL} />
-      <ClaimDialog availableNFTL={availableNFTL} dialogOpen={dialogOpen} setDialogOpen={setDialogOpen} />
+      <ClaimButton setDialogOpen={setDialogOpen} setAvailableComics={setAvailableComics} />
+      <ClaimDialog availableComics={availableComics} dialogOpen={dialogOpen} setDialogOpen={setDialogOpen} />
     </>
   ) : null;
 }
