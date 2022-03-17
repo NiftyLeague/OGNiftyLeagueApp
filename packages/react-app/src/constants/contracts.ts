@@ -22,4 +22,4 @@ export const COMICS_MERKLE_DISTRIBUTOR_ADDRESS = {
 };
 
 export const COMICS_MERKLE_ROOT =
-  'https://raw.githubusercontent.com/NiftyLeague/merkle-distributor-comics56/main/data/result.json?token=GHSAT0AAAAAABQMGDJBTNZJ5OKZWRSQL4LEYRRVE4A';
+  'https://raw.githubusercontent.com/NiftyLeague/merkle-distributor-comics56/main/data/result.json';

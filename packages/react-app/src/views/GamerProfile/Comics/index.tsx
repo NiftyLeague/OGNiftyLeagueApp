@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { Card, CardActions, CardContent, Container, Typography } from '@mui/material';
 import { Image } from 'antd';
 
-import { WalletConnectPrompt } from 'components';
+import { ComicsClaim, WalletConnectPrompt } from 'components';
 import { useIsWidthDown } from 'hooks/useWidth';
 import { NetworkContext } from 'NetworkProvider';
 import Snapshot from 'assets/gifs/snapshot.gif';
@@ -77,11 +77,6 @@ const Comics = (): JSX.Element => {
                       <strong>Page 6 earned:</strong> {claim.p6}
                     </span>
                   </div>
-                  {(claim.p5 > 0 || claim.p6 > 0) && (
-                    <Typography variant="body2" component="p" className="mb-2">
-                      Congrats on winning! Stay tuned for the comic claim coming soon!
-                    </Typography>
-                  )}
                   <Typography variant="body2" component="p" className="mb-2">
                     The snapshot for comics 5 &amp; 6 was taken at{' '}
                     <a
@@ -99,13 +94,13 @@ const Comics = (): JSX.Element => {
                     of 6 DEGENS, 1x for each meta DEGEN, 2x for each legendary DEGEN, and the remaining raffled to
                     common/rare holders.
                   </Typography>
+                  {(claim.p5 > 0 || claim.p6 > 0) && (
+                    <CardActions className="my-auto">
+                      <ComicsClaim />
+                    </CardActions>
+                  )}
                 </div>
               </CardContent>
-              {/* <CardActions className="my-auto">
-                <Button fullWidth color="primary" size="small" variant="contained" className="mx-2">
-                  Claim
-                </Button>
-              </CardActions> */}
             </Card>
             {mobileView ? null : (
               <div className="mx-2 my-auto">
