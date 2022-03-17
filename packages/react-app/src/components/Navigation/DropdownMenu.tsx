@@ -16,6 +16,9 @@ const DropdownMenu = ({ hideNav, navItems }: { hideNav: boolean; navItems: () =>
   const menu = (
     <Menu style={{ padding: 10 }}>
       {hideNav && navItems()}
+      <Menu.Item key="/mint-o-matic">
+        <Link to="/mint-o-matic">Mint-O-Matic</Link>
+      </Menu.Item>
       <Menu.Item key="contracts">
         <Link to="/contracts">Verified Contracts</Link>
       </Menu.Item>
