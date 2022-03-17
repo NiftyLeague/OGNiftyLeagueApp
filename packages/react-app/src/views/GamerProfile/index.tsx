@@ -1,5 +1,4 @@
 import React, { lazy } from 'react';
-import { Theme } from '@mui/material/styles';
 import makeStyles from '@mui/styles/makeStyles';
 import Paper from '@mui/material/Paper';
 import Tabs from '@mui/material/Tabs';
@@ -12,7 +11,7 @@ const Comics = lazy(() => import('./Comics'));
 const Dashboard = lazy(() => import('./Dashboard'));
 const Wallet = lazy(() => import('./Wallet'));
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles({
   container: {
     flexGrow: 1,
   },
@@ -20,13 +19,22 @@ const useStyles = makeStyles((theme: Theme) => ({
     flexGrow: 1,
     backgroundColor: 'inherit',
     paddingTop: 10,
+    color: 'inherit',
+  },
+  tabs: {
+    '& .MuiTab-root': {
+      fontSize: 18,
+    },
+    '& .Mui-selected': {
+      color: '#1976d2',
+    },
   },
   comicsPanel: {
     '& .MuiBox-root': {
       padding: 0,
     },
   },
-}));
+});
 
 interface TabPanelProps {
   children: React.ReactNode;
@@ -65,7 +73,7 @@ const GamerProfile = (): JSX.Element => {
   return (
     <div className={classes.container}>
       <Paper className={classes.paper}>
-        <Tabs value={value} onChange={handleChange} indicatorColor="primary" textColor="primary" centered>
+        <Tabs className={classes.tabs} value={value} onChange={handleChange} centered textColor="inherit">
           {/* <Tab label="Dashboard" /> */}
           <Tab label="Wallet" />
           <Tab label="Comics" />

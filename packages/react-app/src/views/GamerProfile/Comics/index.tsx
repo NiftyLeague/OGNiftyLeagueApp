@@ -10,6 +10,8 @@ import ComicP1 from 'assets/images/comics/page1.png';
 import ComicP2 from 'assets/images/comics/page2.png';
 import ComicP3 from 'assets/images/comics/page3.png';
 import ComicP4 from 'assets/images/comics/page4.png';
+import ComicP5 from 'assets/images/comics/page5.png';
+import ComicP6 from 'assets/images/comics/page6.png';
 import Machine from 'assets/images/comics/machine.png';
 
 import snapshot from './snapshot.json';
@@ -54,6 +56,16 @@ const Comics = (): JSX.Element => {
           <div className="degen pixelated v604_355" />
           <div className="degen pixelated v604_356" />
           <div className="degen pixelated v604_357" />
+        </div>
+        <div className="degens-row degens-row-4">
+          <div className="degen pixelated v604_329" />
+          <div className="degen pixelated v604_327" />
+          <div className="degen pixelated v604_331" />
+          <div className="degen pixelated v604_326" />
+          <div className="degen pixelated v604_328" />
+          <div className="degen pixelated v604_333" />
+          <div className="degen pixelated v604_330" />
+          <div className="degen pixelated v604_339" />
         </div>
       </div>
       <div className="overlay-dark" />
@@ -109,10 +121,12 @@ const Comics = (): JSX.Element => {
             )}
           </div>
           <Image.PreviewGroup>
-            <Image className="p-2" width={mdView ? '50%' : '25%'} src={ComicP1} />
-            <Image className="p-2" width={mdView ? '50%' : '25%'} src={ComicP2} />
-            <Image className="p-2" width={mdView ? '50%' : '25%'} src={ComicP3} />
-            <Image className="p-2" width={mdView ? '50%' : '25%'} src={ComicP4} />
+            <Image className="p-2" width={mdView ? '50%' : '33%'} src={ComicP1} />
+            <Image className="p-2" width={mdView ? '50%' : '33%'} src={ComicP2} />
+            <Image className="p-2" width={mdView ? '50%' : '33%'} src={ComicP3} />
+            <Image className="p-2" width={mdView ? '50%' : '33%'} src={ComicP4} />
+            <Image className="p-2" width={mdView ? '50%' : '33%'} src={ComicP5} />
+            <Image className="p-2" width={mdView ? '50%' : '33%'} src={ComicP6} />
           </Image.PreviewGroup>
         </Container>
       </div>
