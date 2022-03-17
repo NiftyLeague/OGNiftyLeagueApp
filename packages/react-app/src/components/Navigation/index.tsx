@@ -23,14 +23,14 @@ const navItems = () => [
   <Menu.Item key="/">
     <Link to="/">Games</Link>
   </Menu.Item>,
-  <Menu.Item key="/mint-o-matic">
-    <Link to="/mint-o-matic">Mint-O-Matic</Link>
-  </Menu.Item>,
   <Menu.Item key="/degens">
     <Link to="/degens">DEGENs</Link>
   </Menu.Item>,
   <Menu.Item key="/rentals" disabled>
     <Link to="/rentals">Rentals (coming soon!)</Link>
+  </Menu.Item>,
+  <Menu.Item key="/profile">
+    <Link to="/profile">Profile</Link>
   </Menu.Item>,
 ];
 

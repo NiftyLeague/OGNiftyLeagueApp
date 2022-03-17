@@ -1,7 +1,8 @@
 import { ChainId } from '@sushiswap/sdk';
 import DAI_ABI from './abis/dai.json';
+import COMICS_MERKLE_ABI from './abis/comics-merkle-distributor.json';
 import MERKLE_ABI from './abis/merkle-distributor.json';
-import { MERKLE_DISTRIBUTOR_ADDRESS } from './contracts';
+import { COMICS_MERKLE_DISTRIBUTOR_ADDRESS, MERKLE_DISTRIBUTOR_ADDRESS } from './contracts';
 import { LOCAL_CHAIN_ID } from './networks';
 
 const EXTERNAL_CONTRACTS: { [chainId: number]: { [contractName: string]: { address: string; abi: any[] } } } = {
@@ -9,6 +10,10 @@ const EXTERNAL_CONTRACTS: { [chainId: number]: { [contractName: string]: { addre
     MerkleDistributor: {
       address: MERKLE_DISTRIBUTOR_ADDRESS[LOCAL_CHAIN_ID],
       abi: MERKLE_ABI,
+    },
+    ComicsMerkleDistributor: {
+      address: COMICS_MERKLE_DISTRIBUTOR_ADDRESS[LOCAL_CHAIN_ID],
+      abi: COMICS_MERKLE_ABI,
     },
   },
   [ChainId.MAINNET]: {
@@ -19,6 +24,10 @@ const EXTERNAL_CONTRACTS: { [chainId: number]: { [contractName: string]: { addre
     MerkleDistributor: {
       address: MERKLE_DISTRIBUTOR_ADDRESS[ChainId.MAINNET],
       abi: MERKLE_ABI,
+    },
+    ComicsMerkleDistributor: {
+      address: COMICS_MERKLE_DISTRIBUTOR_ADDRESS[ChainId.MAINNET],
+      abi: COMICS_MERKLE_ABI,
     },
   },
   [ChainId.ROPSTEN]: {
@@ -31,6 +40,10 @@ const EXTERNAL_CONTRACTS: { [chainId: number]: { [contractName: string]: { addre
     MerkleDistributor: {
       address: MERKLE_DISTRIBUTOR_ADDRESS[ChainId.RINKEBY],
       abi: MERKLE_ABI,
+    },
+    ComicsMerkleDistributor: {
+      address: COMICS_MERKLE_DISTRIBUTOR_ADDRESS[ChainId.RINKEBY],
+      abi: COMICS_MERKLE_ABI,
     },
   },
 };

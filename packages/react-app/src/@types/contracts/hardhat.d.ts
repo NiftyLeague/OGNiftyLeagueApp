@@ -125,6 +125,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.NiftyLeagueCharacter__factory>;
     getContractFactory(
+      name: "ComicsMerkleDistributor",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ComicsMerkleDistributor__factory>;
+    getContractFactory(
       name: "MerkleDistributor",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.MerkleDistributor__factory>;
@@ -241,6 +245,297 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.NiftyLeagueCharacter__factory>;
 
+    getContractAt(
+      name: "AccessControl",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.AccessControl>;
+    getContractAt(
+      name: "AccessControlEnumerable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.AccessControlEnumerable>;
+    getContractAt(
+      name: "IAccessControl",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IAccessControl>;
+    getContractAt(
+      name: "IAccessControlEnumerable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IAccessControlEnumerable>;
+    getContractAt(
+      name: "Ownable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Ownable>;
+    getContractAt(
+      name: "Pausable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Pausable>;
+    getContractAt(
+      name: "ERC20",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC20>;
+    getContractAt(
+      name: "ERC20Burnable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC20Burnable>;
+    getContractAt(
+      name: "ERC20Pausable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC20Pausable>;
+    getContractAt(
+      name: "IERC20Metadata",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC20Metadata>;
+    getContractAt(
+      name: "IERC20",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC20>;
+    getContractAt(
+      name: "ERC20PresetMinterPauser",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC20PresetMinterPauser>;
+    getContractAt(
+      name: "TokenTimelock",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.TokenTimelock>;
+    getContractAt(
+      name: "ERC721",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC721>;
+    getContractAt(
+      name: "ERC721Enumerable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC721Enumerable>;
+    getContractAt(
+      name: "IERC721Enumerable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC721Enumerable>;
+    getContractAt(
+      name: "IERC721Metadata",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC721Metadata>;
+    getContractAt(
+      name: "IERC721",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC721>;
+    getContractAt(
+      name: "IERC721Receiver",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC721Receiver>;
+    getContractAt(
+      name: "ERC165",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC165>;
+    getContractAt(
+      name: "IERC165",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC165>;
+    getContractAt(
+      name: "AllowedColorsStorage",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.AllowedColorsStorage>;
+    getContractAt(
+      name: "INFTL",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.INFTL>;
+    getContractAt(
+      name: "NameableCharacter",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.NameableCharacter>;
+    getContractAt(
+      name: "NFTLTimelock",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.NFTLTimelock>;
+    getContractAt(
+      name: "NFTLToken",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.NFTLToken>;
+    getContractAt(
+      name: "NiftyDegen",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.NiftyDegen>;
+    getContractAt(
+      name: "NiftyLeagueCharacter",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.NiftyLeagueCharacter>;
+    getContractAt(
+      name: "ComicsMerkleDistributor",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ComicsMerkleDistributor>;
+    getContractAt(
+      name: "MerkleDistributor",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.MerkleDistributor>;
+    getContractAt(
+      name: "AccessControl",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.AccessControl>;
+    getContractAt(
+      name: "AccessControlEnumerable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.AccessControlEnumerable>;
+    getContractAt(
+      name: "IAccessControl",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IAccessControl>;
+    getContractAt(
+      name: "IAccessControlEnumerable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IAccessControlEnumerable>;
+    getContractAt(
+      name: "Ownable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Ownable>;
+    getContractAt(
+      name: "Pausable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Pausable>;
+    getContractAt(
+      name: "ERC20",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC20>;
+    getContractAt(
+      name: "ERC20Burnable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC20Burnable>;
+    getContractAt(
+      name: "ERC20Pausable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC20Pausable>;
+    getContractAt(
+      name: "IERC20Metadata",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC20Metadata>;
+    getContractAt(
+      name: "IERC20",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC20>;
+    getContractAt(
+      name: "ERC20PresetMinterPauser",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC20PresetMinterPauser>;
+    getContractAt(
+      name: "TokenTimelock",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.TokenTimelock>;
+    getContractAt(
+      name: "ERC721",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC721>;
+    getContractAt(
+      name: "ERC721Enumerable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC721Enumerable>;
+    getContractAt(
+      name: "IERC721Enumerable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC721Enumerable>;
+    getContractAt(
+      name: "IERC721Metadata",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC721Metadata>;
+    getContractAt(
+      name: "IERC721",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC721>;
+    getContractAt(
+      name: "IERC721Receiver",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC721Receiver>;
+    getContractAt(
+      name: "ERC165",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC165>;
+    getContractAt(
+      name: "IERC165",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC165>;
+    getContractAt(
+      name: "AllowedColorsStorage",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.AllowedColorsStorage>;
+    getContractAt(
+      name: "INFTL",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.INFTL>;
+    getContractAt(
+      name: "NameableCharacter",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.NameableCharacter>;
+    getContractAt(
+      name: "NFTLTimelock",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.NFTLTimelock>;
+    getContractAt(
+      name: "NFTLToken",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.NFTLToken>;
+    getContractAt(
+      name: "NiftyDegen",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.NiftyDegen>;
+    getContractAt(
+      name: "NiftyLeagueCharacter",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.NiftyLeagueCharacter>;
+
     // default types
     getContractFactory(
       name: string,
@@ -251,5 +546,10 @@ declare module "hardhat/types/runtime" {
       bytecode: ethers.utils.BytesLike,
       signer?: ethers.Signer
     ): Promise<ethers.ContractFactory>;
+    getContractAt(
+      nameOrAbi: string | any[],
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<ethers.Contract>;
   }
 }

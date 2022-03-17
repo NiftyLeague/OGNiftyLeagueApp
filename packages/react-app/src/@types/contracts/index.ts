@@ -29,6 +29,7 @@ export type { NFTLTimelock } from "./NFTLTimelock";
 export type { NFTLToken } from "./NFTLToken";
 export type { NiftyDegen } from "./NiftyDegen";
 export type { NiftyLeagueCharacter } from "./NiftyLeagueCharacter";
+export type { ComicsMerkleDistributor } from "./ComicsMerkleDistributor";
 export type { MerkleDistributor } from "./MerkleDistributor";
 
 export { AccessControl__factory } from "./factories/AccessControl__factory";
@@ -59,4 +60,5 @@ export { NFTLTimelock__factory } from "./factories/NFTLTimelock__factory";
 export { NFTLToken__factory } from "./factories/NFTLToken__factory";
 export { NiftyDegen__factory } from "./factories/NiftyDegen__factory";
 export { NiftyLeagueCharacter__factory } from "./factories/NiftyLeagueCharacter__factory";
+export { ComicsMerkleDistributor__factory } from "./factories/ComicsMerkleDistributor__factory";
 export { MerkleDistributor__factory } from "./factories/MerkleDistributor__factory";
