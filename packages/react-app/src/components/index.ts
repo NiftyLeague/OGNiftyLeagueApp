@@ -1,12 +1,12 @@
 export { default as Account } from './Account';
 export { default as Address } from './Address';
 export { default as AddressInput } from './AddressInput';
-export { default as withVerification } from './Authentication';
 export { default as Balance } from './Balance';
 export { default as Blockie } from './Blockie';
 export { default as BytesStringInput } from './BytesStringInput';
 export { default as CharacterCard } from './CharacterCard';
 export { default as ClaimNFTL } from './ClaimNFTL';
+export { default as ComicsClaim } from './ComicsClaim';
 export { default as Contract } from './Contract';
 export { default as ErrorBoundary } from './ErrorBoundary';
 export { default as Faucet } from './Faucet';
@@ -19,3 +19,4 @@ export { default as ThemeSwitch } from './ThemeSwitch';
 export { default as TokenBalance } from './TokenBalance';
 export { default as Tooltip } from './Tooltip';
 export { default as WalletConnectPrompt } from './WalletConnectPrompt';
+export { default as withVerification } from './Authentication';
