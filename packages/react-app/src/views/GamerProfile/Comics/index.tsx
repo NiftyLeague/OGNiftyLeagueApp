@@ -95,9 +95,9 @@ const Comics = (): JSX.Element => {
                       style={{ fontSize: 'inherit' }}
                       target="_blank"
                       rel="noopener noreferrer"
-                      href="https://etherscan.io/block/141158351"
+                      href="https://etherscan.io/block/14115835"
                     >
-                      block #141158351
+                      block #14115835
                     </a>
                   </Typography>
                   <Typography variant="body2" component="p">
