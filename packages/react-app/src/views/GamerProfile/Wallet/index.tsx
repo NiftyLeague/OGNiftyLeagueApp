@@ -17,8 +17,13 @@ import useNFTLBalance from 'hooks/useNFTLBalance';
 import { NetworkContext } from 'NetworkProvider';
 import { CHARACTERS_SUBGRAPH_INTERVAL } from 'constants/index';
 import { OWNER_QUERY } from './query';
-
+import { Button } from 'antd';
+import JSZip from 'jszip';
+import { saveAs } from 'save-as';
+import JSZipUtils from 'jszip-utils';
 export const PAGE_SIZE = 8;
+
+const BASE_URL = "https://nifty-league.s3.amazonaws.com/assets/raw/no-bg/large-cropped/";
 
 const useStyles = makeStyles(theme => ({
   container: { padding: '20px 0' },
@@ -230,6 +235,24 @@ const Degens = ({
     [favs],
   );
 
+  const handleDownload = () => {
+    const zip = new JSZip();
+    const zipFilename = "degens.zip";
+    for (let i = 0; i < characters.length; i++) {                                                                                          
+      const filename: string = `${characters[i].name}_${characters[i].id}.png`;
+      JSZipUtils.getBinaryContent(`${BASE_URL}${characters[i].id}.png`, function (err, data) {
+        if(err) {
+          throw err;
+        }
+        zip.file(filename, data, {binary:true});
+        if (i === characters.length - 1) {
+          zip.generateAsync({type:'blob'}).then(function(content) {
+            saveAs(content, zipFilename);
+          });
+        }
+      });
+    }
+  }
   return (
     <>
       <Typography variant="h4">Your Degens</Typography>
@@ -268,6 +291,20 @@ const Degens = ({
           No Degens found. Please check your address or go mint if you haven't done so already!
         </div>
       )}
+      <Button
+          key="logoutbutton"
+          style={{
+            marginLeft: 8,
+            borderColor: '#333c42',
+            background: 'transparent',
+            color: currentTheme === 'dark' ? '#fff' : 'black',
+          }}
+          shape="round"
+          size="large"
+          onClick={handleDownload}
+        >
+          Download
+        </Button>
     </>
   );
 };
@@ -282,6 +319,7 @@ const Wallet = (): JSX.Element => {
     skip: !address,
   });
 
+  console.log("test", address)
   const characters = useMemo(() => {
     const characterList = data?.owner?.characters ? [...data.owner.characters] : [];
     return characterList.sort((a, b) => parseInt(a.id, 10) - parseInt(b.id, 10));
