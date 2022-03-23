@@ -235,24 +235,47 @@ const Degens = ({
     [favs],
   );
 
+  const auth = window.localStorage.getItem('authentication-token');
+
+  function base64ToBlob(base64) {
+    let binaryString =  window.atob(base64);
+    let binaryLen = binaryString.length;
+
+    let ab = new ArrayBuffer(binaryLen);
+    let ia = new Uint8Array(ab);
+    for (let i = 0; i < binaryLen; i++) {
+       ia[i] = binaryString.charCodeAt(i);
+    }
+
+    let bb = new Blob([ab], {type: "application/zip"});
+    return bb;
+  }
+
   const handleDownload = () => {
-    const zip = new JSZip();
-    const zipFilename = "degens.zip";
-    for (let i = 0; i < characters.length; i++) {                                                                                          
-      const filename: string = `${characters[i].name}_${characters[i].id}.png`;
-      JSZipUtils.getBinaryContent(`${BASE_URL}${characters[i].id}.png`, function (err, data) {
-        if(err) {
-          throw err;
+    console.log("download")
+    if(auth) {
+      
+      fetch("https://odgwhiwhzb.execute-api.us-east-1.amazonaws.com/prod/assets/degen?id=1256", {
+        headers: { authorizationToken: auth },
+      })
+      .then(res => {
+        if (res.status === 404) return null;
+        return res.text();
+      })
+      .then(str => {
+        if(str) {console.log("is auth")
+          const blob = base64ToBlob(str);
+          // const zip = new JSZip(buffer);
+          // const blob = new Blob([window.atob(str)], {type: "application/zip"});
+          saveAs(blob, "degen.zip")
         }
-        zip.file(filename, data, {binary:true});
-        if (i === characters.length - 1) {
-          zip.generateAsync({type:'blob'}).then(function(content) {
-            saveAs(content, zipFilename);
-          });
-        }
+      })
+      .catch(() => {
+        return null;
       });
     }
   }
+
   return (
     <>
       <Typography variant="h4">Your Degens</Typography>
