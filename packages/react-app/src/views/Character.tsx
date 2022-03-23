@@ -16,6 +16,7 @@ import {
 } from '@mui/material';
 import { Image } from 'antd';
 import EditIcon from '@mui/icons-material/Edit';
+import DownloadIcon from '@mui/icons-material/Download';
 import makeStyles from '@mui/styles/makeStyles';
 
 import { NetworkContext } from 'NetworkProvider';
@@ -30,6 +31,8 @@ import UnavailableImg from 'assets/images/unavailable-image.png';
 import LoadingGif from 'assets/gifs/loading.gif';
 import { DEGEN_BASE_IMAGE_URL, TRAIT_INDEXES, TRAIT_NAME_MAP, TRAIT_VALUE_MAP } from '../constants/characters';
 import { NFT_CONTRACT } from '../constants';
+import { saveAs } from 'save-as';
+export const PAGE_SIZE = 8;
 
 export const useStyles = makeStyles({
   container: { padding: '40px 0', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' },
@@ -128,6 +131,46 @@ const Character = (): JSX.Element | null => {
   if (tokenIdNum >= 1000) fontSize = '.85rem';
   else if (tokenIdNum >= 100) fontSize = '1rem';
 
+
+  
+  const auth = window.localStorage.getItem('authentication-token');
+
+  function base64ToBlob(base64) {
+    let binaryString =  window.atob(base64);
+    let binaryLen = binaryString.length;
+
+    let ab = new ArrayBuffer(binaryLen);
+    let ia = new Uint8Array(ab);
+    for (let i = 0; i < binaryLen; i++) {
+       ia[i] = binaryString.charCodeAt(i);
+    }
+
+    let bb = new Blob([ab], {type: "application/zip"});
+    return bb;
+  }
+
+  const handleDownload = () => {
+    if(auth) {
+      
+      fetch(`https://odgwhiwhzb.execute-api.us-east-1.amazonaws.com/prod/assets/degen?id=${tokenId}`, {
+        headers: { authorizationToken: auth },
+      })
+      .then(res => {
+        if (res.status === 404) return null;
+        return res.text();
+      })
+      .then(str => {
+        if(str) {
+          const blob = base64ToBlob(str);
+          saveAs(blob, "degen.zip")
+        }
+      })
+      .catch(() => {
+        return null;
+      });
+    }
+  }
+
   return (
     <Container className={classes.container}>
       <DegenImage network={targetNetwork.name} tokenId={tokenId} />
@@ -180,6 +223,16 @@ const Character = (): JSX.Element | null => {
               </IconButton>
             </Tooltip>
           )}
+          <Tooltip text="Download">
+              <IconButton
+                aria-label="download"
+                className={classes.actionButtons}
+                onClick={handleDownload}
+                size="large"
+              >
+                <DownloadIcon />
+              </IconButton>
+            </Tooltip>
           <ShareCharacter tokenId={tokenId} />
           <span className={classes.owner}>
             Owner:
@@ -191,6 +244,7 @@ const Character = (): JSX.Element | null => {
             />
           </span>
         </CardActions>
+        
       </Card>
       {ownerOwned ? (
         <RenameDialog

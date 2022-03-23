@@ -17,13 +17,8 @@ import useNFTLBalance from 'hooks/useNFTLBalance';
 import { NetworkContext } from 'NetworkProvider';
 import { CHARACTERS_SUBGRAPH_INTERVAL } from 'constants/index';
 import { OWNER_QUERY } from './query';
-import { Button } from 'antd';
-import JSZip from 'jszip';
-import { saveAs } from 'save-as';
-import JSZipUtils from 'jszip-utils';
 export const PAGE_SIZE = 8;
 
-const BASE_URL = "https://nifty-league.s3.amazonaws.com/assets/raw/no-bg/large-cropped/";
 
 const useStyles = makeStyles(theme => ({
   container: { padding: '20px 0' },
@@ -235,47 +230,6 @@ const Degens = ({
     [favs],
   );
 
-  const auth = window.localStorage.getItem('authentication-token');
-
-  function base64ToBlob(base64) {
-    let binaryString =  window.atob(base64);
-    let binaryLen = binaryString.length;
-
-    let ab = new ArrayBuffer(binaryLen);
-    let ia = new Uint8Array(ab);
-    for (let i = 0; i < binaryLen; i++) {
-       ia[i] = binaryString.charCodeAt(i);
-    }
-
-    let bb = new Blob([ab], {type: "application/zip"});
-    return bb;
-  }
-
-  const handleDownload = () => {
-    console.log("download")
-    if(auth) {
-      
-      fetch("https://odgwhiwhzb.execute-api.us-east-1.amazonaws.com/prod/assets/degen?id=1256", {
-        headers: { authorizationToken: auth },
-      })
-      .then(res => {
-        if (res.status === 404) return null;
-        return res.text();
-      })
-      .then(str => {
-        if(str) {console.log("is auth")
-          const blob = base64ToBlob(str);
-          // const zip = new JSZip(buffer);
-          // const blob = new Blob([window.atob(str)], {type: "application/zip"});
-          saveAs(blob, "degen.zip")
-        }
-      })
-      .catch(() => {
-        return null;
-      });
-    }
-  }
-
   return (
     <>
       <Typography variant="h4">Your Degens</Typography>
@@ -314,20 +268,6 @@ const Degens = ({
           No Degens found. Please check your address or go mint if you haven't done so already!
         </div>
       )}
-      <Button
-          key="logoutbutton"
-          style={{
-            marginLeft: 8,
-            borderColor: '#333c42',
-            background: 'transparent',
-            color: currentTheme === 'dark' ? '#fff' : 'black',
-          }}
-          shape="round"
-          size="large"
-          onClick={handleDownload}
-        >
-          Download
-        </Button>
     </>
   );
 };
