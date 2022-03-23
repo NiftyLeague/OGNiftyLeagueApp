@@ -10,6 +10,7 @@ import './App.css';
 
 const Character = lazy(() => import('./views/Character'));
 const Characters = lazy(() => import('./views/Characters'));
+const Rentals = lazy(() => import('./views/Rentals'));
 const Games = lazy(() => import('./views/Games'));
 const Mint = lazy(() => import('./views/Mint'));
 const NotFound = lazy(() => import('./views/NotFound'));
@@ -45,6 +46,7 @@ export default function App(): JSX.Element {
             <Route path="/games" element={<Games />} />
             <Route path="/degens" element={<Characters />} />
             <Route path="/degens/:tokenId" element={<Character />} />
+            <Route path="/rentals" element={<Rentals />} />
             <Route path="/profile" element={<GamerProfile />} />
             <Route path="/disclaimer" element={<Disclaimer />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />

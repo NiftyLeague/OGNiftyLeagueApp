@@ -1,0 +1,11 @@
+.rentals-search-wrapper {
+  display: flex;
+  flex-direction: column;
+  background: -moz-linear-gradient(89deg, #620edf 0%, #5e72eb 100%);
+  background: -ms-linear-gradient(89deg, #620edf 0%, #5e72eb 100%);
+  background: -o-linear-gradient(89deg, #620edf 0%, #5e72eb 100%);
+  background: -webkit-linear-gradient(right, #5e72eb, #620edf);
+  background: -o-linear-gradient(right, #5e72eb, #620edf);
+  background: linear-gradient(89deg, #620edf 0%, #5e72eb 100%);
+  background: -webkit-linear-gradient(89deg, #620edf 0%, #5e72eb 100%);
+}

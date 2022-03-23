@@ -26,8 +26,8 @@ const navItems = () => [
   <Menu.Item key="/degens">
     <Link to="/degens">DEGENs</Link>
   </Menu.Item>,
-  <Menu.Item key="/rentals" disabled>
-    <Link to="/rentals">Rentals (coming soon!)</Link>
+  <Menu.Item key="/rentals">
+    <Link to="/rentals">Rentals</Link>
   </Menu.Item>,
   <Menu.Item key="/profile">
     <Link to="/profile">Profile</Link>
