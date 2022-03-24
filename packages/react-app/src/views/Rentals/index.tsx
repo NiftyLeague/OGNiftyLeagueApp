@@ -85,7 +85,7 @@ const CharactersContainer = (): JSX.Element => {
 
   return (
     <>
-      <div style={{ padding: '40px 0', display: 'flex', alignItems: 'flex-start' }}>
+      <div style={{ display: 'flex', alignItems: 'flex-start' }}>
         <CharactersFilter
           filterActive={filterActive}
           filterState={filterState}
@@ -128,7 +128,6 @@ const CharactersContainer = (): JSX.Element => {
           ) : null}
         </Container>
       </div>
-      <Footer />
     </>
   );
 };

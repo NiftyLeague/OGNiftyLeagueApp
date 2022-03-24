@@ -33,6 +33,7 @@ const CharactersFilter = ({ filterState, setFilterState }: CharactersFilterProps
         setSelectedOptions={values => handleFilterStateUpdate('tribes', values)}
         options={FILTER_STATE_MAPPING.tribes}
         searchable={false}
+        twoColumns
       />
       <MultiSelect
         label="Skin Colors"
