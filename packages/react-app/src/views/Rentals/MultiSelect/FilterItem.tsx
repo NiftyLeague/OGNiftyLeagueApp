@@ -3,6 +3,8 @@
 import React from 'react';
 import { ListItemIcon, Checkbox, ListItem, ListItemButton, ListItemText } from '@mui/material';
 
+import { useStyles } from './FilterItemStyles';
+
 interface FilterItemProps {
   id: string;
   value: string;
@@ -11,11 +13,12 @@ interface FilterItemProps {
 }
 
 const FilterItem = ({ id, value, checked, onToggle }: FilterItemProps): JSX.Element => {
+  const classes: any = useStyles();
   const labelId = `checkbox-list-label-${id}`;
   return (
     <ListItem key={id} disablePadding>
       <ListItemButton role={undefined} onClick={() => onToggle(id)} dense>
-        <ListItemIcon>
+        <ListItemIcon className={classes.listItemIcon}>
           <Checkbox
             edge="start"
             checked={checked}

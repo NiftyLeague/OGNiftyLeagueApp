@@ -8,6 +8,7 @@ import FilterItem from './FilterItem';
 import { useStyles } from './styles';
 
 interface MultiSelectProps {
+  twoColumns?: boolean;
   searchable?: boolean;
   label: string;
   selectedOptions: string[];
@@ -16,6 +17,7 @@ interface MultiSelectProps {
 }
 
 const MultiSelect = ({
+  twoColumns,
   searchable,
   label,
   selectedOptions,
@@ -43,12 +45,18 @@ const MultiSelect = ({
 
   return (
     <Accordion style={{ margin: 0 }}>
-      <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+      <AccordionSummary
+        className={classes.summary}
+        expandIcon={<ExpandMoreIcon />}
+        aria-controls="panel1a-content"
+        id="panel1a-header"
+      >
         <InputLabel className={classes.label}>{label}</InputLabel>
       </AccordionSummary>
       <AccordionDetails>
         {searchable && (
           <TextField
+            className={classes.searchField}
             fullWidth
             label="Search"
             margin="dense"
@@ -58,16 +66,7 @@ const MultiSelect = ({
             value={searchText}
           />
         )}
-        <List
-          sx={{
-            width: '100%',
-            maxWidth: 360,
-            maxHeight: 400,
-            overflow: 'auto',
-            overflowX: 'hidden',
-            bgcolor: 'background.paper',
-          }}
-        >
+        <List className={twoColumns ? classes.list2Columns : classes.list}>
           {Object.entries(options)
             .filter(([, value]) => value.toLowerCase().includes(searchText.toLowerCase()))
             .map(([id, value]) => (
@@ -80,6 +79,7 @@ const MultiSelect = ({
 };
 
 MultiSelect.defaultProps = {
+  twoColumns: false,
   searchable: true,
 };
 
