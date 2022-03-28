@@ -27,7 +27,7 @@ export const DownloadDegenAsZip = async (auth, tokenId) => {
 		const text = await res.text();
 		if (text) {
 			const blob = base64ToBlob(text);
-			saveAs(blob, 'degen.zip');
+			saveAs(blob, `${tokenId}.zip`);
 		} else {
 			console.log("Error occured while downloading DEGEN")
 		}
