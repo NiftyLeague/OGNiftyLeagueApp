@@ -2,8 +2,13 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React from 'react';
 import { ListItemIcon, Checkbox, ListItem, ListItemButton, ListItemText } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 
-import { useStyles } from './FilterItemStyles';
+const useStyles = makeStyles(() => ({
+  listItemIcon: {
+    minWidth: 'unset',
+  },
+}));
 
 interface FilterItemProps {
   id: string;

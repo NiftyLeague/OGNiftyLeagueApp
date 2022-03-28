@@ -21,23 +21,16 @@ import {
   NECKWEAR,
   LEFT_ITEMS,
   RIGHT_ITEMS,
+  BACKGROUNDS,
+  ITEMS,
 } from '../../constants/characters';
-
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-export const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
 
 export const PAGE_SIZE = 50;
 
 export const INITIAL_FILTER_STATE = {
   tribes: [],
+  backgrounds: [],
+  items: [],
   skinColors: [],
   furColors: [],
   eyeColors: [],
@@ -63,6 +56,8 @@ export const INITIAL_FILTER_STATE = {
 
 export const FILTER_STATE_MAPPING = {
   tribes: TRIBES,
+  backgrounds: BACKGROUNDS,
+  items: ITEMS,
   skinColors: SKIN_COLORS,
   furColors: FUR_COLORS,
   eyeColors: EYE_COLORS,
@@ -84,4 +79,28 @@ export const FILTER_STATE_MAPPING = {
   neckwear: NECKWEAR,
   leftItems: LEFT_ITEMS,
   rightItems: RIGHT_ITEMS,
+};
+
+export const FILTER_LABEL_MAPPING = {
+  skinColors: 'Skin Colors',
+  furColors: 'Fur Colors',
+  eyeColors: 'Eye Colors',
+  pupilColors: 'Pupil Colors',
+  hair: 'Hair',
+  mouths: 'Mouths',
+  beards: 'Beards',
+  tops: 'Tops',
+  outerwear: 'Outerwear',
+  prints: 'Prints',
+  bottoms: 'Bottoms',
+  footwear: 'Footwear',
+  belts: 'Belts',
+  hats: 'Hats',
+  eyewear: 'Eyewear',
+  piercings: 'Piercings',
+  wrists: 'Wrists',
+  hands: 'Hands',
+  neckwear: 'Neckwear',
+  leftItems: 'Left Items',
+  rightItems: 'Right Items',
 };
