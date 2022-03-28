@@ -59,6 +59,21 @@ export const TRIBES = {
   5: 'Cat',
   6: 'Alien',
 };
+
+export const BACKGROUNDS = {
+  1: '1x (Common)',
+  2: '2x (Rare)',
+  3: '4x (Meta)',
+  4: '6x (Legendary)',
+};
+
+export const ITEMS = {
+  1: '1x (Common Item)',
+  2: '2x (Some Other Item)',
+  3: '4x (Some Other Item)',
+  4: '6x (Legendary Bat)',
+};
+
 export const SKIN_COLORS = {
   // Ape
   10: 'Single Origin',
