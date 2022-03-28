@@ -17,8 +17,8 @@ import useNFTLBalance from 'hooks/useNFTLBalance';
 import { NetworkContext } from 'NetworkProvider';
 import { CHARACTERS_SUBGRAPH_INTERVAL } from 'constants/index';
 import { OWNER_QUERY } from './query';
-export const PAGE_SIZE = 8;
 
+export const PAGE_SIZE = 8;
 
 const useStyles = makeStyles(theme => ({
   container: { padding: '20px 0' },
@@ -92,9 +92,9 @@ const Overview = memo(
 
     const gameBal = account?.balance
       ? `${account.balance.toLocaleString(undefined, {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        })} NFTL`
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })} NFTL`
       : '0.00 NFTL';
     const walletBal = userNFTLBalance.toLocaleString(undefined, {
       minimumFractionDigits: 2,
@@ -282,7 +282,6 @@ const Wallet = (): JSX.Element => {
     skip: !address,
   });
 
-  console.log("test", address)
   const characters = useMemo(() => {
     const characterList = data?.owner?.characters ? [...data.owner.characters] : [];
     return characterList.sort((a, b) => parseInt(a.id, 10) - parseInt(b.id, 10));
