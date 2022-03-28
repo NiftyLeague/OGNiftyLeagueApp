@@ -172,22 +172,26 @@ const Character = (): JSX.Element | null => {
         </CardContent>
         <CardActions disableSpacing className={classes.cardActions}>
           {ownerOwned && (
-            <Tooltip text="Rename">
-              <IconButton
-                aria-label="rename"
-                className={classes.actionButtons}
-                onClick={() => setDialogOpen(true)}
-                size="large"
-              >
-                <EditIcon />
-              </IconButton>
-            </Tooltip>
+            <>
+              <Tooltip text="Rename">
+                <IconButton
+                  aria-label="rename"
+                  className={classes.actionButtons}
+                  onClick={() => setDialogOpen(true)}
+                  size="large"
+                >
+                  <EditIcon />
+                </IconButton>
+              </Tooltip>
+              <Tooltip text="Download">
+                <IconButton aria-label="download" className={classes.actionButtons} onClick={() => DownloadDegenAsZip(auth, tokenId)} size="large">
+                  <DownloadIcon />
+                </IconButton>
+              </Tooltip>
+            </>
+
           )}
-          <Tooltip text="Download">
-            <IconButton aria-label="download" className={classes.actionButtons} onClick={() => DownloadDegenAsZip(auth, tokenId)} size="large">
-              <DownloadIcon />
-            </IconButton>
-          </Tooltip>
+
           <ShareCharacter tokenId={tokenId} />
           <span className={classes.owner}>
             Owner:
