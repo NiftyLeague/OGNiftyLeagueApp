@@ -18,8 +18,8 @@ import { Image } from 'antd';
 import { Edit as EditIcon, Download as DownloadIcon } from '@mui/icons-material';
 import makeStyles from '@mui/styles/makeStyles';
 
-import { NetworkContext } from 'NetworkProvider';
 import { Address, Tooltip } from 'components';
+import { NetworkContext } from 'NetworkProvider';
 import { useIsWidthDown } from 'hooks/useWidth';
 import OpenSeaLink from 'components/CharacterCard/OpenSeaLink';
 import RenameDialog from 'components/CharacterCard/RenameDialog';
