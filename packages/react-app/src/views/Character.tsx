@@ -62,6 +62,17 @@ export const useStyles = makeStyles({
   traitListTextSecondary: { color: '#aaa0a0', fontSize: 18, textAlign: 'center' },
   cardActions: { marginTop: 'auto', color: '#fff' },
   actionButtons: { color: '#fff', borderRadius: '50%', '&:focus': { outline: 'none' } },
+  modal: {
+    position: 'absolute' as 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    backgroundColor: 'white',
+    border: '2px solid #000',
+    padding: 16,
+    color: 'black',
+  },
 });
 
 const DegenImage = ({ network = 'rinkeby', tokenId }: { network?: string; tokenId: string }) => {
@@ -226,18 +237,7 @@ const Character = (): JSX.Element | null => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={{
-          position: 'absolute' as 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: 400,
-          bgcolor: 'background.paper',
-          border: '2px solid #000',
-          boxShadow: 24,
-          p: 4,
-          color: 'black',
-        }}>
+        <Box className={classes.modal}>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             {errorContent}
           </Typography>
