@@ -20,19 +20,12 @@ export const downloadDegenAsZip = async (authToken, tokenId) => {
     const res = await fetch(`${DEGEN_ASSETS_DOWNLOAD_URL}?id=${tokenId}`, {
       headers: { authorizationToken: authToken },
     })
-    if (res.status === 404) {
-      console.log(res.status);
-      return res
-    };
+    if (res.status === 404) return "error"
     const text = await res.text();
     if (text) {
       const blob = base64ToBlob(text);
       saveAs(blob, `degen_${tokenId}.zip`);
       return text;
-    } else {
-      console.log("Error occured while downloading DEGEN")
-      return "error"
-    }
-  }
-  return "error";
+    } else return "error"
+  } else return "error";
 };
