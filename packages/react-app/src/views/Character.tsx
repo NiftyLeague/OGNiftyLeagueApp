@@ -231,12 +231,7 @@ const Character = (): JSX.Element | null => {
           redirectToWallet
         />
       ) : null}
-      <Modal
-        open={!!errorContent}
-        onClose={handleCloseModal}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
+      <Modal open={!!errorContent} onClose={handleCloseModal} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
         <Box className={classes.modal}>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             {errorContent}
