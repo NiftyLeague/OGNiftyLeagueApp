@@ -1,5 +1,5 @@
 import { saveAs } from 'save-as';
-import { DEGEN_DOWNLOAD_URL } from '../constants/characters';
+import { DEGEN_ASSETS_DOWNLOAD_URL } from '../constants/characters';
 
 const base64ToBlob = (base64) => {
 	let binaryStr = window.atob(base64);
@@ -15,23 +15,24 @@ const base64ToBlob = (base64) => {
 	return bb;
 }
 
-export const DownloadDegenAsZip = async (auth, tokenId) => {
-	if (auth) {
-		const res = await fetch(`${DEGEN_DOWNLOAD_URL}?id=${tokenId}`, {
-			headers: { authorizationToken: auth },
+export const downloadDegenAsZip = async (authToken, tokenId) => {
+	if (authToken) {
+		const res = await fetch(`${DEGEN_ASSETS_DOWNLOAD_URL}?id=${tokenId}`, {
+			headers: { authorizationToken: authToken },
 		})
 		if (res.status === 404) {
 			console.log(res.status);
-			return null
+			return res
 		};
 		const text = await res.text();
 		if (text) {
 			const blob = base64ToBlob(text);
-			saveAs(blob, `${tokenId}.zip`);
+			saveAs(blob, `degen_${tokenId}.zip`);
+			return text;
 		} else {
 			console.log("Error occured while downloading DEGEN")
+			return "error"
 		}
-		return null;
 	}
-	return null;
+	return "error";
 };
