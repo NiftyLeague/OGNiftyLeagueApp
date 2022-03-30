@@ -2,17 +2,17 @@ import { saveAs } from 'save-as';
 import { DEGEN_ASSETS_DOWNLOAD_URL } from '../constants/characters';
 
 const base64ToBlob = (base64) => {
-  let binaryStr = window.atob(base64);
-  let binaryLen = binaryStr.length;
+  const binaryStr = window.atob(base64);
+  const binaryLen = binaryStr.length;
 
-  let ArrayBuff = new ArrayBuffer(binaryLen);
+  const ArrayBuff = new ArrayBuffer(binaryLen);
   let uintArr = new Uint8Array(ArrayBuff);
   for (let i = 0; i < binaryLen; i++) {
     uintArr[i] = binaryStr.charCodeAt(i);
   }
 
-  let bb = new Blob([ArrayBuff], { type: 'application/zip' });
-  return bb;
+  const zippedBlob = new Blob([ArrayBuff], { type: 'application/zip' });
+  return zippedBlob;
 }
 
 export const downloadDegenAsZip = async (authToken, tokenId) => {
