@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/media-has-caption */
-import { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {
   Avatar,
@@ -30,9 +30,9 @@ import useBackgroundType from 'hooks/useBackgroundType';
 import useNFTLBalance from 'hooks/useNFTLBalance';
 import UnavailableImg from 'assets/images/unavailable-image.png';
 import LoadingGif from 'assets/gifs/loading.gif';
+import { downloadDegenAsZip } from 'utils/file';
 import { DEGEN_BASE_IMAGE_URL, TRAIT_INDEXES, TRAIT_NAME_MAP, TRAIT_VALUE_MAP } from '../constants/characters';
 import { NFT_CONTRACT } from '../constants';
-import { downloadDegenAsZip } from 'utils/file';
 
 export const useStyles = makeStyles({
   container: { padding: '40px 0', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' },
@@ -63,7 +63,7 @@ export const useStyles = makeStyles({
   cardActions: { marginTop: 'auto', color: '#fff' },
   actionButtons: { color: '#fff', borderRadius: '50%', '&:focus': { outline: 'none' } },
   modal: {
-    position: 'absolute' as 'absolute',
+    position: 'absolute' as const,
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
@@ -112,11 +112,11 @@ const Character = (): JSX.Element | null => {
   });
   const { name, owner, traitList } = character as unknown as { name: string; owner: string; traitList: number[] };
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [errorContent, setErrorContent] = useState("");
+  const [errorContent, setErrorContent] = useState('');
 
   const handleCloseModal = () => {
-    setErrorContent("");
-  }
+    setErrorContent('');
+  };
   useEffect(() => {
     async function getCharacter() {
       const characterData = {
@@ -140,19 +140,21 @@ const Character = (): JSX.Element | null => {
   }, {});
 
   if (!tokenId) return null;
-  const authToken = parseInt(tokenId, 10);
+  const tokenIdNum = parseInt(tokenId, 10);
   let fontSize = '1.25rem';
-  if (authToken === 10000) fontSize = '.8rem';
-  if (authToken >= 1000) fontSize = '.85rem';
-  else if (authToken >= 100) fontSize = '1rem';
+  if (tokenIdNum === 10000) fontSize = '.8rem';
+  if (tokenIdNum >= 1000) fontSize = '.85rem';
+  else if (tokenIdNum >= 100) fontSize = '1rem';
 
   const auth = window.localStorage.getItem('authentication-token');
   const degenDownloadClick = async () => {
-    const result = await downloadDegenAsZip(auth, tokenId);
-    if (result === "error") {
-      setErrorContent("Error occured while downloading Degen Assets.");
+    if (auth) {
+      const result = await downloadDegenAsZip(auth, tokenId);
+      if (result) {
+        setErrorContent(result);
+      }
     }
-  }
+  };
   return (
     <Container className={classes.container}>
       <DegenImage network={targetNetwork.name} tokenId={tokenId} />
@@ -196,17 +198,26 @@ const Character = (): JSX.Element | null => {
           {ownerOwned && (
             <>
               <Tooltip text="Rename">
-                <IconButton aria-label="rename" className={classes.actionButtons} onClick={() => setDialogOpen(true)} size="large">
+                <IconButton
+                  aria-label="rename"
+                  className={classes.actionButtons}
+                  onClick={() => setDialogOpen(true)}
+                  size="large"
+                >
                   <EditIcon />
                 </IconButton>
               </Tooltip>
               <Tooltip text="Download">
-                <IconButton aria-label="download" className={classes.actionButtons} onClick={degenDownloadClick} size="large">
+                <IconButton
+                  aria-label="download"
+                  className={classes.actionButtons}
+                  onClick={degenDownloadClick}
+                  size="large"
+                >
                   <DownloadIcon />
                 </IconButton>
               </Tooltip>
             </>
-
           )}
 
           <ShareCharacter tokenId={tokenId} />
@@ -231,7 +242,12 @@ const Character = (): JSX.Element | null => {
           redirectToWallet
         />
       ) : null}
-      <Modal open={!!errorContent} onClose={handleCloseModal} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
+      <Modal
+        open={!!errorContent}
+        onClose={handleCloseModal}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
         <Box className={classes.modal}>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             {errorContent}
