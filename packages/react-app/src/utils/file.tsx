@@ -11,8 +11,8 @@ const base64ToBlob = (base64) => {
     uintArr[i] = binaryStr.charCodeAt(i);
   }
 
-  const zippedBlob = new Blob([ArrayBuff], { type: 'application/zip' });
-  return zippedBlob;
+  const zipTypeBlob = new Blob([ArrayBuff], { type: 'application/zip' });
+  return zipTypeBlob;
 }
 
 export const downloadDegenAsZip = async (authToken, tokenId) => {
