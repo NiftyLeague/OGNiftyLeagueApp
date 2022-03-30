@@ -23,7 +23,6 @@ export const downloadDegenAsZip = async (authToken: string, tokenId: string): Pr
     saveAs(blob, `degen_${tokenId}.zip`);
     return 'Degen assets are downloaded successfully!';
   } catch (error) {
-    console.log(`ERROR occured downloading assets for degen. ${tokenId}.\n ${error}`);
     return `ERROR occured downloading assets for degen. ${tokenId}.\n ${error}`;
   }
 };
