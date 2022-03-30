@@ -19,13 +19,11 @@ export const downloadDegenAsZip = async (authToken: string, tokenId: string): Pr
       headers: { authorizationToken: authToken },
     });
     const text = await res.text();
-    if (text) {
-      const blob = base64ToBlob(text);
-      saveAs(blob, `degen_${tokenId}.zip`);
-    }
+    const blob = base64ToBlob(text);
+    saveAs(blob, `degen_${tokenId}.zip`);
     return 'Degen assets are downloaded successfully!';
   } catch (error) {
-    console.log(`ERROR occured downloading assets for degen ${tokenId}.\n ${error}`);
-    return `ERROR occured downloading assets for degen ${tokenId}.\n ${error}`;
+    console.log(`ERROR occured downloading assets for degen. ${tokenId}.\n ${error}`);
+    return `ERROR occured downloading assets for degen. ${tokenId}.\n ${error}`;
   }
 };
