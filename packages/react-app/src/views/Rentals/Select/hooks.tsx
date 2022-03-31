@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 
 // eslint-disable-next-line import/prefer-default-export
-export const useToggleMultiSelect = (
+export const useToggleSelect = (
   selectedOptions: string[],
   setSelectedOptions: (value: string[]) => void,
 ): ((id: any) => void) => {

@@ -1,4 +1,4 @@
-export default interface MultiSelectProps {
+export default interface SelectProps {
   label: string;
   selectedOptions: string[];
   setSelectedOptions: (value: string[]) => void;

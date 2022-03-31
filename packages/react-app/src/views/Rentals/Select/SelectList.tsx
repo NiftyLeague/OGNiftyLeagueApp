@@ -4,22 +4,17 @@ import { List } from '@mui/material';
 import React from 'react';
 
 import FilterItem from './FilterItem';
-import { useToggleMultiSelect } from './hooks';
+import { useToggleSelect } from './hooks';
 
-interface MultiSelectListProps {
+interface SelectListProps {
   className: string;
   selectedOptions: string[];
   setSelectedOptions: (value: string[]) => void;
   entries: [string, string][];
 }
 
-const MultiSelectList = ({
-  className,
-  selectedOptions,
-  setSelectedOptions,
-  entries,
-}: MultiSelectListProps): JSX.Element => {
-  const handleToggle = useToggleMultiSelect(selectedOptions, setSelectedOptions);
+const SelectList = ({ className, selectedOptions, setSelectedOptions, entries }: SelectListProps): JSX.Element => {
+  const handleToggle = useToggleSelect(selectedOptions, setSelectedOptions);
 
   return (
     <List className={className}>
@@ -30,4 +25,4 @@ const MultiSelectList = ({
   );
 };
 
-export default MultiSelectList;
+export default SelectList;

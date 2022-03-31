@@ -3,9 +3,9 @@
 import makeStyles from '@mui/styles/makeStyles';
 import React from 'react';
 
-import MultiSelectProps from './MSProps';
-import MultiSelectContainer from './MSContainer';
-import MultiSelectList from './MSList';
+import SelectProps from './SelectProps';
+import Section from '../Section';
+import SelectList from './SelectList';
 
 const useStyles = makeStyles(() => ({
   list: {
@@ -28,23 +28,18 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const MultiSelectTwoColumns = ({
-  label,
-  selectedOptions,
-  setSelectedOptions,
-  options,
-}: MultiSelectProps): JSX.Element => {
+const SelectTwoColumns = ({ label, selectedOptions, setSelectedOptions, options }: SelectProps): JSX.Element => {
   const classes: any = useStyles();
   return (
-    <MultiSelectContainer label={label}>
-      <MultiSelectList
+    <Section label={label}>
+      <SelectList
         className={classes.list}
         entries={Object.entries(options)}
         selectedOptions={selectedOptions}
         setSelectedOptions={setSelectedOptions}
       />
-    </MultiSelectContainer>
+    </Section>
   );
 };
 
-export default MultiSelectTwoColumns;
+export default SelectTwoColumns;

@@ -67,13 +67,6 @@ export const BACKGROUNDS = {
   4: '6x (Legendary)',
 };
 
-export const ITEMS = {
-  1: '1x (Common Item)',
-  2: '2x (Some Other Item)',
-  3: '4x (Some Other Item)',
-  4: '6x (Legendary Bat)',
-};
-
 export const SKIN_COLORS = {
   // Ape
   10: 'Single Origin',

@@ -1,33 +1,5 @@
 import makeStyles from '@mui/styles/makeStyles';
 
-const searchStyles = {
-  paper: {
-    padding: '2px 4px',
-    display: 'flex',
-    alignItems: 'center',
-    width: 400,
-    marginLeft: 'auto',
-  },
-  input: {
-    marginLeft: 3,
-    flex: 1,
-    fontSize: 16,
-  },
-  iconButton: {
-    padding: 10,
-    ' & svg': {
-      fontSize: 18,
-    },
-  },
-  iconPrimary: {
-    color: '#90caf9',
-  },
-  divider: {
-    height: 28,
-    margin: 4,
-  },
-};
-
 const multiSelectStyles = {
   formControl: {
     margin: 3,
@@ -70,7 +42,6 @@ const accordionStyles = {
 
 // @ts-expect-error ts-migrate(2345) FIXME: Argument of type '(theme: Theme) => { pagination: ... Remove this comment to see the full error message
 export const useStyles = makeStyles(theme => ({
-  ...searchStyles,
   ...multiSelectStyles,
   ...accordionStyles,
   pagination: {

@@ -22,15 +22,22 @@ import {
   LEFT_ITEMS,
   RIGHT_ITEMS,
   BACKGROUNDS,
-  ITEMS,
 } from '../../constants/characters';
 
 export const PAGE_SIZE = 50;
 
 export const INITIAL_FILTER_STATE = {
   tribes: [],
+  price: {},
+  totalMultiplier: {
+    low: undefined,
+    high: undefined,
+  },
+  numOfRentals: {
+    low: undefined,
+    high: undefined,
+  },
   backgrounds: [],
-  items: [],
   skinColors: [],
   furColors: [],
   eyeColors: [],
@@ -57,7 +64,6 @@ export const INITIAL_FILTER_STATE = {
 export const FILTER_STATE_MAPPING = {
   tribes: TRIBES,
   backgrounds: BACKGROUNDS,
-  items: ITEMS,
   skinColors: SKIN_COLORS,
   furColors: FUR_COLORS,
   eyeColors: EYE_COLORS,
@@ -82,6 +88,7 @@ export const FILTER_STATE_MAPPING = {
 };
 
 export const FILTER_LABEL_MAPPING = {
+  backgrounds: 'Background',
   skinColors: 'Skin Colors',
   furColors: 'Fur Colors',
   eyeColors: 'Eye Colors',
