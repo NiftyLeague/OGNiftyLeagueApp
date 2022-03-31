@@ -6,9 +6,13 @@ import React from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 
 const useStyles = makeStyles(() => ({
+  accordion: {
+    margin: '0 !important',
+  },
   label: {
+    fontWeight: 'bold',
     fontSize: 16,
-    color: '#bcbcbc !important',
+    color: 'rgba(0, 0, 0, 0.92) !important',
     marginBottom: '0 !important',
   },
   summary: {
@@ -22,17 +26,17 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const MultiSelectContainer = ({
+const Section = ({
   label,
   children,
 }: {
   label: string;
-  children: JSX.Element | JSX.Element[];
+  children: JSX.Element | Array<JSX.Element | null | false>;
 }): JSX.Element => {
   const classes: any = useStyles();
 
   return (
-    <Accordion style={{ margin: 0 }}>
+    <Accordion className={classes.accordion}>
       <AccordionSummary
         className={classes.summary}
         expandIcon={<ExpandMoreIcon />}
@@ -46,4 +50,4 @@ const MultiSelectContainer = ({
   );
 };
 
-export default MultiSelectContainer;
+export default Section;

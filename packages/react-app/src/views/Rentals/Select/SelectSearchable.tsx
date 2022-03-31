@@ -5,9 +5,9 @@ import { TextField, List, InputAdornment } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import makeStyles from '@mui/styles/makeStyles';
 
-import MultiSelectProps from './MSProps';
-import MultiSelectContainer from './MSContainer';
-import MultiSelectList from './MSList';
+import SelectProps from './SelectProps';
+import Section from '../Section';
+import SelectList from './SelectList';
 
 const useStyles = makeStyles(() => ({
   searchField: {
@@ -35,42 +35,39 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const MultiSelectSearchable = ({
-  label,
-  selectedOptions,
-  setSelectedOptions,
-  options,
-}: MultiSelectProps): JSX.Element => {
+const SelectSearchable = ({ label, selectedOptions, setSelectedOptions, options }: SelectProps): JSX.Element => {
   const classes: any = useStyles();
   const [searchText, setSeachText] = useState<string>('');
 
   return (
-    <MultiSelectContainer label={label}>
-      <TextField
-        className={classes.searchField}
-        fullWidth
-        placeholder="Search"
-        onChange={({ target: { value } }) => {
-          setSeachText(value);
-        }}
-        value={searchText}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <SearchIcon />
-            </InputAdornment>
-          ),
-        }}
-        variant="outlined"
-      />
-      <MultiSelectList
+    <Section label={label}>
+      {Object.keys(options).length > 7 && (
+        <TextField
+          className={classes.searchField}
+          fullWidth
+          placeholder="Search"
+          onChange={({ target: { value } }) => {
+            setSeachText(value);
+          }}
+          value={searchText}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+          }}
+          variant="outlined"
+        />
+      )}
+      <SelectList
         className={classes.list}
         entries={Object.entries(options).filter(([, value]) => value.toLowerCase().includes(searchText.toLowerCase()))}
         selectedOptions={selectedOptions}
         setSelectedOptions={setSelectedOptions}
       />
-    </MultiSelectContainer>
+    </Section>
   );
 };
 
-export default MultiSelectSearchable;
+export default SelectSearchable;
