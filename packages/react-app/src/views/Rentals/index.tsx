@@ -51,9 +51,9 @@ const CharactersContainer = (): JSX.Element => {
               {rentals &&
                 Object.values(rentals)
                   .slice((page - 1) * PAGE_SIZE, (page - 1) * PAGE_SIZE + PAGE_SIZE)
-                  .map(character => (
-                    <Grid item xs={12} sm={6} md={4} lg={3} key={character.id}>
-                      <RentalCard character={character} />
+                  .map(rental => (
+                    <Grid item xs={12} sm={6} md={4} lg={3} key={rental.id}>
+                      <RentalCard rental={rental} />
                     </Grid>
                   ))}
             </Grid>
