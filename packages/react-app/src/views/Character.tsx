@@ -135,11 +135,11 @@ const Character = (): JSX.Element | null => {
   if (tokenIdNum >= 1000) fontSize = '.85rem';
   else if (tokenIdNum >= 100) fontSize = '1rem';
 
-  const auth = window.localStorage.getItem('authentication-token');
+  const authToken = window.localStorage.getItem('authentication-token');
   const degenDownloadClick = async () => {
-    if (auth) {
+    if (authToken) {
       try {
-        await downloadDegenAsZip(auth, tokenId);
+        await downloadDegenAsZip(authToken, tokenId);
       } catch (e) {
         setErrorContent(`${e}`);
       }

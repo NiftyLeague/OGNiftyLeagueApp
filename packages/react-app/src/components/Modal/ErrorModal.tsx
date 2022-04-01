@@ -40,8 +40,8 @@ const ErrorModal = ({
     <Modal
       open={!!content}
       onClose={handleClose}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
+      aria-labelledby="error-modal-title"
+      aria-describedby="error-modal-description"
     >
       <Box className={classes.modal}>
         <Typography className={classes.title}>{header}</Typography>
