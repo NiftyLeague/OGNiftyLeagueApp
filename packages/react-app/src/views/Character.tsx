@@ -232,7 +232,7 @@ const Character = (): JSX.Element | null => {
           redirectToWallet
         />
       ) : null}
-      <ErrorModal header="Error" content={errorContent} handleClose={handleCloseErrorModal} />
+      <ErrorModal content={errorContent} />
     </Container>
   );
 };

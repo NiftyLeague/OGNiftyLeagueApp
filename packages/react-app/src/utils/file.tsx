@@ -14,7 +14,7 @@ export const base64ToBlob = (base64: string): Blob => {
 };
 
 export const downloadDegenAsZip = async (authToken: string, tokenId: string): Promise<void> => {
-  const res = await fetch(`${DEGEN_ASSETS_DOWNLOAD_URL}?id=${tokenId}`, {
+  const res = await fetch(`${DEGEN_ASSETS_DOWNLOAD_URL}?id=qewrqwerqwerqwer${tokenId}`, {
     headers: { authorizationToken: authToken },
   });
   const text = await res.text();
