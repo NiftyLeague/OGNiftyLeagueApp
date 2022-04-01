@@ -1,19 +1,18 @@
 import { useEffect, useState } from 'react';
+import { Rentals } from 'types/api';
 
 export const RENTALS_URL = `${process.env.REACT_APP_AWS_BASED_API_URL || ''}prod/rentals/rentables`;
-
-type RENTALS_TYPE = { [key: string]: any };
 
 const CACHE_INTERVAL = 5 * 60 * 1000;
 
 let cache: {
   timestamp: number | undefined;
-  data: RENTALS_TYPE | undefined;
+  data: Rentals | undefined;
 };
 
-const useRentals = (): [boolean, boolean, RENTALS_TYPE | undefined] => {
+const useRentals = (): [boolean, boolean, Rentals | undefined] => {
   const [loading, setLoading] = useState(true);
-  const [rentals, setRentals] = useState<RENTALS_TYPE>();
+  const [rentals, setRentals] = useState<Rentals>();
   const [error, setError] = useState(false);
   const authToken = window.localStorage.getItem('authentication-token');
 
@@ -29,10 +28,11 @@ const useRentals = (): [boolean, boolean, RENTALS_TYPE | undefined] => {
         const result = await fetch(RENTALS_URL, {
           headers: { authorizationToken: authToken },
         })
-          .then(res => {
+          .then(async res => {
             if (res.status === 404) setError(true);
             setLoading(false);
-            return res.json() as RENTALS_TYPE;
+            const json = (await res.json()) as Rentals;
+            return json;
           })
           .catch(() => {
             setError(true);

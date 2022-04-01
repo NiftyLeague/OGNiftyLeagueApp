@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import { Card, CardActions, CardMedia, IconButton } from '@mui/material';
 import { Image } from 'antd';
@@ -12,35 +11,82 @@ import { NetworkContext } from 'NetworkProvider';
 import UnavailableImg from 'assets/images/unavailable-image.png';
 import LoadingGif from 'assets/gifs/loading.gif';
 import useBackgroundType from 'hooks/useBackgroundType';
-import { Character } from 'types/graph';
 
+import { Rental } from 'types/api';
 import { DEGEN_BASE_IMAGE_URL } from '../../constants/characters';
 
-export const useStyles = makeStyles(theme => ({
-  cardRoot: { borderRadius: 8, background: '-webkit-linear-gradient(89deg, #620edf 75%, #5e72eb 100%)' },
-  expand: {
-    transform: 'rotate(0deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
-    }),
-    '& svg': { fontSize: 24 },
+const V_PADDING = '10px';
+const H_PADDING = '12px';
+
+export const useStyles = makeStyles(() => ({
+  cardRoot: {
+    background: 'transparent',
   },
-  expandOpen: { transform: 'rotate(180deg)' },
-  avatar: { '& div': { backgroundColor: 'transparent', border: 'solid #ffffff4d 0.5px' } },
-  cardTitle: { display: 'flex', alignItems: 'center' },
-  cardTitleLink: { fontSize: 18, marginRight: 6, color: '#fff', '&:hover': { color: '#fff' } },
-  cardSubheader: { fontSize: 14, textAlign: 'left', color: '#ffffff66' },
   media: { height: 338, display: 'flex', alignItems: 'center', justifyContent: 'center' },
   loading: { width: 80, height: 80 },
-  actionButtons: { color: '#fff', borderRadius: '50%', '&:focus': { outline: 'none' } },
-  reduceSize: { padding: 8, '& svg': { fontSize: 22 } },
-  traitsHeader: { color: '#fff', paddingLeft: 8 },
-  cardContent: { padding: 0, paddingBottom: 0 },
-  traitList: { paddingTop: 0, display: 'flex', flexWrap: 'wrap', flexDirection: 'row' },
-  traitListItem: { width: '33%', alignItems: 'baseline' },
-  traitListText: { color: '#fff', fontSize: 14 },
-  traitListTextSecondary: { color: '#aaa0a0', fontSize: 14 },
+  imageContainer: {
+    position: 'relative',
+    borderRadius: 8,
+    overflow: 'hidden',
+  },
+  multiplier: {
+    position: 'absolute',
+    top: V_PADDING,
+    left: H_PADDING,
+  },
+  rentalCount: {
+    position: 'absolute',
+    top: V_PADDING,
+    right: H_PADDING,
+  },
+  favorite: {
+    position: 'absolute',
+    bottom: '20px',
+    left: 0,
+  },
+  owner: {
+    position: 'absolute',
+    bottom: `calc(${V_PADDING} + 20px)`,
+    right: H_PADDING,
+  },
+  tokenIdAndName: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+  price: {
+    textAlign: 'left',
+  },
+  actions: {
+    display: 'flex',
+    gap: '8px',
+    fontSize: '16px',
+  },
+  rentButton: {
+    flex: 1,
+    background: '#443760ba',
+    cursor: 'pointer',
+  },
+  viewTraitsButton: {
+    flex: 1,
+    cursor: 'pointer',
+
+    '&:hover': {
+      background: '#443760ba',
+    },
+  },
+  bottom: {
+    width: 'calc(100% - 32px)',
+    margin: 'auto',
+    padding: '8px 10px',
+    transform: 'translateY(-20px)',
+    borderRadius: '4px',
+    background: '-webkit-linear-gradient(89deg, #620edf 75%, #5e72eb 100%)',
+    color: 'white',
+    fontSize: '14px',
+    gap: '6px',
+    display: 'flex',
+    flexDirection: 'column',
+  },
 }));
 
 const DegenImage = ({ tokenId }: { tokenId: string }) => {
@@ -72,45 +118,37 @@ const DegenImage = ({ tokenId }: { tokenId: string }) => {
 };
 
 const RentalCard = ({
-  character,
+  rental,
   favs,
   handleToggleFavs,
-  singleClaim,
 }: {
-  character: Character;
+  rental: Rental;
   favs?: string[];
   handleToggleFavs?: (tokenId: string) => void;
-  singleClaim?: boolean;
 }): JSX.Element => {
-  const { id: tokenId, name } = character;
+  const { id: tokenId, name, multiplier, rental_count, price } = rental;
   const classes = useStyles();
-  const [expanded, setExpanded] = useState(false);
-  const [dialogOpen, setDialogOpen] = useState(false);
+  const [rentDialogOpen, setRentDialogOpen] = useState(false);
+  const [viewTraitsDialogOpen, setViewTraitsDialogOpen] = useState(false);
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
+  const handleRent = () => {
+    setRentDialogOpen(true);
   };
 
-  const displayName = name || 'No Name DEGEN';
-
-  const tokenIdNum = parseInt(tokenId, 10);
-  let fontSize = '1.25rem';
-  if (tokenIdNum === 10000) fontSize = '.8rem';
-  if (tokenIdNum >= 1000) fontSize = '.85rem';
-  else if (tokenIdNum >= 100) fontSize = '1rem';
-
-  const actionClasses = clsx(classes.actionButtons, { [classes.reduceSize]: singleClaim });
+  const handleViewTraits = () => {
+    setViewTraitsDialogOpen(true);
+  };
 
   return (
     <>
       <Card className={classes.cardRoot}>
-        <Link to={`/degens/${tokenId}`}>
+        <div className={classes.imageContainer}>
           <DegenImage tokenId={tokenId} />
-        </Link>
-        <Tooltip text="Favorite">
+          <div className={classes.multiplier}>{multiplier}x Multiplier</div>
+          <div className={classes.rentalCount}>{rental_count} Rentals</div>
           <IconButton
+            className={classes.favorite}
             aria-label="favorite"
-            className={actionClasses}
             onClick={() => {
               if (handleToggleFavs) handleToggleFavs(tokenId);
             }}
@@ -118,22 +156,23 @@ const RentalCard = ({
           >
             {favs?.includes(tokenId) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
           </IconButton>
-        </Tooltip>
-        {tokenIdNum}
-        {displayName}
-        <CardActions disableSpacing>
-          <IconButton
-            className={clsx(classes.actionButtons, classes.expand, {
-              [classes.expandOpen]: expanded,
-            })}
-            onClick={handleExpandClick}
-            aria-expanded={expanded}
-            aria-label="show more"
-            size="large"
-          >
-            <ExpandMoreIcon />
-          </IconButton>
-        </CardActions>
+          <div className={classes.owner}>0x0wner</div>
+        </div>
+        <div className={classes.bottom}>
+          <div className={classes.tokenIdAndName}>
+            <div>#{tokenId}</div>
+            <div>{name || 'No Name DEGEN'}</div>
+          </div>
+          <div className={classes.price}>Rent for {price} NFTL / Week</div>
+          <div className={classes.actions}>
+            <div className={classes.rentButton} onClick={handleRent}>
+              Rent Now
+            </div>
+            <div className={classes.viewTraitsButton} onClick={handleViewTraits}>
+              View Traits
+            </div>
+          </div>
+        </div>
       </Card>
     </>
   );
@@ -142,9 +181,6 @@ const RentalCard = ({
 RentalCard.defaultProps = {
   favs: [],
   handleToggleFavs: () => {},
-  ownerOwned: undefined,
-  singleClaim: false,
-  userNFTLBalance: 0,
 };
 
 export default RentalCard;
