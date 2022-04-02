@@ -1,20 +1,28 @@
 import React from 'react';
 import { Alert } from 'antd';
+import makeStyles from '@mui/styles/makeStyles';
+
+const useStyles = makeStyles(theme => ({
+  alertContainer: {
+    zIndex: 2,
+    position: 'absolute',
+    right: 0,
+    top: 60,
+    padding: 16,
+  },
+}));
 
 const ErrorModal = ({ content, onClose }: { content: string; onClose: () => void }): JSX.Element | null => {
-  return content ? (
-    <div
-      style={{
-        zIndex: 2,
-        position: 'absolute',
-        right: 0,
-        top: 60,
-        padding: 16,
-      }}
-    >
+  const classes = useStyles();
+  if (!content) {
+    return null;
+  }
+
+  return (
+    <div className={classes.alertContainer}>
       <Alert closable message={content} showIcon type="error" afterClose={onClose} />
     </div>
-  ) : null;
+  );
 };
 
 export default ErrorModal;
