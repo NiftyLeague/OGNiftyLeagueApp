@@ -15,7 +15,7 @@ import {
   Typography,
 } from '@mui/material';
 import { Image } from 'antd';
-import EditIcon from '@mui/icons-material/Edit';
+import { Edit as EditIcon, Download as DownloadIcon } from '@mui/icons-material';
 import makeStyles from '@mui/styles/makeStyles';
 
 import { NetworkContext } from 'NetworkProvider';
@@ -28,6 +28,8 @@ import useBackgroundType from 'hooks/useBackgroundType';
 import useNFTLBalance from 'hooks/useNFTLBalance';
 import UnavailableImg from 'assets/images/unavailable-image.png';
 import LoadingGif from 'assets/gifs/loading.gif';
+import { downloadDegenAsZip } from 'utils/file';
+import ErrorModal from 'components/Modal/ErrorModal';
 import { DEGEN_BASE_IMAGE_URL, TRAIT_INDEXES, TRAIT_NAME_MAP, TRAIT_VALUE_MAP } from '../constants/characters';
 import { NFT_CONTRACT } from '../constants';
 
@@ -98,6 +100,11 @@ const Character = (): JSX.Element | null => {
   });
   const { name, owner, traitList } = character as unknown as { name: string; owner: string; traitList: number[] };
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [errorContent, setErrorContent] = useState('');
+
+  const handleCloseErrorModal = () => {
+    setErrorContent('');
+  };
 
   useEffect(() => {
     async function getCharacter() {
@@ -127,6 +134,17 @@ const Character = (): JSX.Element | null => {
   if (tokenIdNum === 10000) fontSize = '.8rem';
   if (tokenIdNum >= 1000) fontSize = '.85rem';
   else if (tokenIdNum >= 100) fontSize = '1rem';
+
+  const authToken = window.localStorage.getItem('authentication-token');
+  const degenDownloadClick = async () => {
+    if (authToken) {
+      try {
+        await downloadDegenAsZip(authToken, tokenId);
+      } catch (e) {
+        setErrorContent(`${(e.message as string) || 'Unknown error occurred'}`);
+      }
+    }
+  };
 
   return (
     <Container className={classes.container}>
@@ -169,17 +187,30 @@ const Character = (): JSX.Element | null => {
         </CardContent>
         <CardActions disableSpacing className={classes.cardActions}>
           {ownerOwned && (
-            <Tooltip text="Rename">
-              <IconButton
-                aria-label="rename"
-                className={classes.actionButtons}
-                onClick={() => setDialogOpen(true)}
-                size="large"
-              >
-                <EditIcon />
-              </IconButton>
-            </Tooltip>
+            <>
+              <Tooltip text="Rename">
+                <IconButton
+                  aria-label="rename"
+                  className={classes.actionButtons}
+                  onClick={() => setDialogOpen(true)}
+                  size="large"
+                >
+                  <EditIcon />
+                </IconButton>
+              </Tooltip>
+              <Tooltip text="Download">
+                <IconButton
+                  aria-label="download"
+                  className={classes.actionButtons}
+                  onClick={degenDownloadClick}
+                  size="large"
+                >
+                  <DownloadIcon />
+                </IconButton>
+              </Tooltip>
+            </>
           )}
+
           <ShareCharacter tokenId={tokenId} />
           <span className={classes.owner}>
             Owner:
@@ -202,6 +233,7 @@ const Character = (): JSX.Element | null => {
           redirectToWallet
         />
       ) : null}
+      <ErrorModal content={errorContent} onClose={handleCloseErrorModal} />
     </Container>
   );
 };
