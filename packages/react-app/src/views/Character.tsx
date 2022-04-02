@@ -141,7 +141,7 @@ const Character = (): JSX.Element | null => {
       try {
         await downloadDegenAsZip(authToken, tokenId);
       } catch (e) {
-        setErrorContent(`${e}`);
+        setErrorContent(`${(e.message as string) || 'Unknown error occurred'}`);
       }
     }
   };
