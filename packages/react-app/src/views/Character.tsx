@@ -145,6 +145,7 @@ const Character = (): JSX.Element | null => {
       }
     }
   };
+
   return (
     <Container className={classes.container}>
       <DegenImage network={targetNetwork.name} tokenId={tokenId} />
@@ -232,7 +233,7 @@ const Character = (): JSX.Element | null => {
           redirectToWallet
         />
       ) : null}
-      <ErrorModal content={errorContent} />
+      <ErrorModal content={errorContent} onClose={handleCloseErrorModal} />
     </Container>
   );
 };
