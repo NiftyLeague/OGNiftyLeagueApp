@@ -1,7 +1,7 @@
 import React from 'react';
 import { Alert } from 'antd';
 
-const ErrorModal = ({ content }: { content: string }): JSX.Element | null => {
+const ErrorModal = ({ content, onClose }: { content: string; onClose: () => void }): JSX.Element | null => {
   return content ? (
     <div
       style={{
@@ -12,7 +12,7 @@ const ErrorModal = ({ content }: { content: string }): JSX.Element | null => {
         padding: 16,
       }}
     >
-      <Alert closable message={content} showIcon type="error" />
+      <Alert closable message={content} showIcon type="error" afterClose={onClose} />
     </div>
   ) : null;
 };
