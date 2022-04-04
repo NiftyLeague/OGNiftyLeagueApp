@@ -13,16 +13,11 @@ export const base64ToBlob = (base64: string): Blob => {
   return zipTypeBlob;
 };
 
-export const downloadDegenAsZip = async (authToken: string, tokenId: string): Promise<string> => {
-  try {
-    const res = await fetch(`${DEGEN_ASSETS_DOWNLOAD_URL}?id=${tokenId}`, {
-      headers: { authorizationToken: authToken },
-    });
-    const text = await res.text();
-    const blob = base64ToBlob(text);
-    saveAs(blob, `degen_${tokenId}.zip`);
-    return 'Degen assets are downloaded successfully!';
-  } catch (error) {
-    return `ERROR occured downloading assets for degen. ${tokenId}.\n ${error}`;
-  }
+export const downloadDegenAsZip = async (authToken: string, tokenId: string): Promise<void> => {
+  const res = await fetch(`${DEGEN_ASSETS_DOWNLOAD_URL as string}?id=${tokenId}`, {
+    headers: { authorizationToken: authToken },
+  });
+  const text = await res.text();
+  const blob = base64ToBlob(text);
+  saveAs(blob, `degen_${tokenId}.zip`);
 };

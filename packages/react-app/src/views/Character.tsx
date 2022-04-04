@@ -3,7 +3,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {
   Avatar,
-  Box,
   Card,
   CardActions,
   CardContent,
@@ -13,7 +12,6 @@ import {
   List,
   ListItem,
   ListItemText,
-  Modal,
   Typography,
 } from '@mui/material';
 import { Image } from 'antd';
@@ -31,6 +29,7 @@ import useNFTLBalance from 'hooks/useNFTLBalance';
 import UnavailableImg from 'assets/images/unavailable-image.png';
 import LoadingGif from 'assets/gifs/loading.gif';
 import { downloadDegenAsZip } from 'utils/file';
+import ErrorModal from 'components/Modal/ErrorModal';
 import { DEGEN_BASE_IMAGE_URL, TRAIT_INDEXES, TRAIT_NAME_MAP, TRAIT_VALUE_MAP } from '../constants/characters';
 import { NFT_CONTRACT } from '../constants';
 
@@ -62,17 +61,6 @@ export const useStyles = makeStyles({
   traitListTextSecondary: { color: '#aaa0a0', fontSize: 18, textAlign: 'center' },
   cardActions: { marginTop: 'auto', color: '#fff' },
   actionButtons: { color: '#fff', borderRadius: '50%', '&:focus': { outline: 'none' } },
-  modal: {
-    position: 'absolute' as const,
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    backgroundColor: 'white',
-    border: '2px solid #000',
-    padding: 16,
-    color: 'black',
-  },
 });
 
 const DegenImage = ({ network = 'rinkeby', tokenId }: { network?: string; tokenId: string }) => {
@@ -114,9 +102,10 @@ const Character = (): JSX.Element | null => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [errorContent, setErrorContent] = useState('');
 
-  const handleCloseModal = () => {
+  const handleCloseErrorModal = () => {
     setErrorContent('');
   };
+
   useEffect(() => {
     async function getCharacter() {
       const characterData = {
@@ -146,15 +135,17 @@ const Character = (): JSX.Element | null => {
   if (tokenIdNum >= 1000) fontSize = '.85rem';
   else if (tokenIdNum >= 100) fontSize = '1rem';
 
-  const auth = window.localStorage.getItem('authentication-token');
+  const authToken = window.localStorage.getItem('authentication-token');
   const degenDownloadClick = async () => {
-    if (auth) {
-      const result = await downloadDegenAsZip(auth, tokenId);
-      if (result) {
-        setErrorContent(result);
+    if (authToken) {
+      try {
+        await downloadDegenAsZip(authToken, tokenId);
+      } catch (e) {
+        setErrorContent(`${(e.message as string) || 'Unknown error occurred'}`);
       }
     }
   };
+
   return (
     <Container className={classes.container}>
       <DegenImage network={targetNetwork.name} tokenId={tokenId} />
@@ -242,18 +233,7 @@ const Character = (): JSX.Element | null => {
           redirectToWallet
         />
       ) : null}
-      <Modal
-        open={!!errorContent}
-        onClose={handleCloseModal}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box className={classes.modal}>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            {errorContent}
-          </Typography>
-        </Box>
-      </Modal>
+      <ErrorModal content={errorContent} onClose={handleCloseErrorModal} />
     </Container>
   );
 };
