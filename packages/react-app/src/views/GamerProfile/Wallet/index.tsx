@@ -92,9 +92,9 @@ const Overview = memo(
 
     const gameBal = account?.balance
       ? `${account.balance.toLocaleString(undefined, {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      })} NFTL`
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })} NFTL`
       : '0.00 NFTL';
     const walletBal = userNFTLBalance.toLocaleString(undefined, {
       minimumFractionDigits: 2,
