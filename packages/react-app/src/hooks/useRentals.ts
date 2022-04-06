@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Rentals } from 'types/api';
 
-export const RENTALS_URL = `${process.env.REACT_APP_AWS_BASED_API_URL || ''}prod/rentals/rentables`;
+export const RENTALS_URL = 'https://nifty-league.s3.amazonaws.com/cache/rentals/rentables.json';
 
 const CACHE_INTERVAL = 5 * 60 * 1000;
 
