@@ -1,5 +1,6 @@
 import React from 'react';
 import TopWinModal from 'components/LeaderBoards/TopWinModal';
+import LeaderBoard from 'components/LeaderBoards';
 
 export default function LeaderBoards(): JSX.Element {
   return (
@@ -14,6 +15,7 @@ export default function LeaderBoards(): JSX.Element {
         LeaderBoards
       </div>
       <div>
+        <LeaderBoard />
         <TopWinModal />
       </div>
     </>

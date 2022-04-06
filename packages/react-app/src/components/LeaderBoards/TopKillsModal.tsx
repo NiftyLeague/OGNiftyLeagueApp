@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { styled, Box } from '@mui/system';
 import { relative } from 'path';
 import CustomModal from './CustomModal';
-import EnhancedTable from './EnhancedTable';
+import EnhancedTable from './EnhancedTable/EnhancedTable';
 
 import './navigation.css';
 
