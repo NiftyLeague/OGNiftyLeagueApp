@@ -12,7 +12,7 @@ import UnavailableImg from 'assets/images/unavailable-image.png';
 import LoadingGif from 'assets/gifs/loading.gif';
 import useBackgroundType from 'hooks/useBackgroundType';
 // eslint-disable-next-line import/no-cycle
-import DisableRentModal from 'components/DisableRentModal';
+import DisableRentModal from 'components/RentalCard/DisableRentModal';
 
 import { Rental } from 'types/api';
 import { DEGEN_BASE_IMAGE_URL } from '../../constants/characters';
@@ -195,11 +195,9 @@ const RentalCard = ({
           </div>
         </div>
       </Card>
-      <DisableRentModal
-        rental={rental}
-        open={disableRentDialogOpen}
-        handleClose={() => setDisableRentDialogOpen(false)}
-      />
+      {disableRentDialogOpen && (
+        <DisableRentModal rental={rental} handleClose={() => setDisableRentDialogOpen(false)} />
+      )}
     </>
   );
 };
