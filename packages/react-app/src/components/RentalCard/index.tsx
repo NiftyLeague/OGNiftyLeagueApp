@@ -11,6 +11,8 @@ import { NetworkContext } from 'NetworkProvider';
 import UnavailableImg from 'assets/images/unavailable-image.png';
 import LoadingGif from 'assets/gifs/loading.gif';
 import useBackgroundType from 'hooks/useBackgroundType';
+// eslint-disable-next-line import/no-cycle
+import DisableRentModal from 'components/DisableRentModal';
 
 import { Rental } from 'types/api';
 import { DEGEN_BASE_IMAGE_URL } from '../../constants/characters';
@@ -53,8 +55,19 @@ export const useStyles = makeStyles(() => ({
     display: 'flex',
     justifyContent: 'space-between',
   },
+  priceAndDisable: {
+    display: 'flex',
+  },
   price: {
-    textAlign: 'left',
+    textAlign: 'center',
+  },
+  disable: {
+    textAlign: 'center',
+    textDecoration: 'underline',
+    cursor: 'pointer',
+    '&:hover': {
+      background: '#443760ba',
+    },
   },
   actions: {
     display: 'flex',
@@ -69,7 +82,6 @@ export const useStyles = makeStyles(() => ({
   viewTraitsButton: {
     flex: 1,
     cursor: 'pointer',
-
     '&:hover': {
       background: '#443760ba',
     },
@@ -89,7 +101,7 @@ export const useStyles = makeStyles(() => ({
   },
 }));
 
-const DegenImage = ({ tokenId }: { tokenId: string }) => {
+export const DegenImage = ({ tokenId }: { tokenId: string }): JSX.Element => {
   const classes = useStyles();
   const { targetNetwork } = useContext(NetworkContext);
   const [loading, error, background] = useBackgroundType(tokenId);
@@ -126,19 +138,23 @@ const RentalCard = ({
   favs?: string[];
   handleToggleFavs?: (tokenId: string) => void;
 }): JSX.Element => {
-  const { id: tokenId, name, multiplier, rental_count, price } = rental;
+  const { id: tokenId, name, multiplier, rental_count, price, is_active } = rental;
   const classes = useStyles();
   const [rentDialogOpen, setRentDialogOpen] = useState(false);
+  const [disableRentDialogOpen, setDisableRentDialogOpen] = useState(false);
   const [viewTraitsDialogOpen, setViewTraitsDialogOpen] = useState(false);
 
   const handleRent = () => {
     setRentDialogOpen(true);
   };
 
+  const handleDisableRent = () => {
+    setDisableRentDialogOpen(true);
+  };
+
   const handleViewTraits = () => {
     setViewTraitsDialogOpen(true);
   };
-
   return (
     <>
       <Card className={classes.cardRoot}>
@@ -163,7 +179,12 @@ const RentalCard = ({
             <div>#{tokenId}</div>
             <div>{name || 'No Name DEGEN'}</div>
           </div>
-          <div className={classes.price}>Rent for {price} NFTL / Week</div>
+          <div className={classes.priceAndDisable}>
+            <div className={classes.price}>{price} NFTL available</div>
+            <div className={classes.disable} onClick={handleDisableRent}>
+              {is_active ? 'Disable Rentals' : 'Enable Rentals'}
+            </div>
+          </div>
           <div className={classes.actions}>
             <div className={classes.rentButton} onClick={handleRent}>
               Rent Now
@@ -174,6 +195,11 @@ const RentalCard = ({
           </div>
         </div>
       </Card>
+      <DisableRentModal
+        rental={rental}
+        open={disableRentDialogOpen}
+        handleClose={() => setDisableRentDialogOpen(false)}
+      />
     </>
   );
 };
