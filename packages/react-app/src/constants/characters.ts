@@ -1,5 +1,6 @@
 export const DEGEN_BASE_API_URL = 'https://api.nifty-league.com';
 export const DEGEN_BASE_IMAGE_URL = 'https://nifty-league.s3.amazonaws.com/degens';
+export const DISABLE_RENT_API_URL = 'https://odgwhiwhzb.execute-api.us-east-1.amazonaws.com/prod/rentals/rentable/';
 
 export const TRAIT_INDEXES = {
   0: 'tribe',

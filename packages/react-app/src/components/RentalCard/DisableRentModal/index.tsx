@@ -4,6 +4,7 @@ import { Rental } from 'types/api';
 import makeStyles from '@mui/styles/makeStyles';
 // eslint-disable-next-line import/no-cycle
 import { DegenImage } from 'components/RentalCard';
+import { DISABLE_RENT_API_URL } from 'constants/characters';
 
 const useStyles = makeStyles(() => ({
   modal: {
@@ -43,7 +44,22 @@ const DisableRentModal = ({ rental, handleClose }: { rental: Rental; handleClose
     setAgreement(!agreement);
   };
   const { id: tokenId, is_active, owner } = rental;
+  const auth = window.localStorage.getItem('authentication-token');
 
+  const handleButtonClick = async () => {
+    if (auth) {
+      const res = await fetch(`${DISABLE_RENT_API_URL}${is_active ? 'deactivate' : 'activate'}?degen_id=${tokenId}`, {
+        method: 'POST',
+        headers: { authorizationToken: auth },
+      });
+      const json = await res.json();
+      if (json.statusCode) {
+        console.log(json);
+      } else {
+        handleClose();
+      }
+    }
+  };
   return (
     <Modal
       className={classes.modal}
@@ -94,7 +110,7 @@ const DisableRentModal = ({ rental, handleClose }: { rental: Rental; handleClose
               </div>
             }
           />
-          <Button className={classes.disableButton} disabled={!agreement}>
+          <Button className={classes.disableButton} disabled={!agreement} onClick={handleButtonClick}>
             {is_active ? `Disable Degen #${tokenId} Rentals` : `Enable Degen #${tokenId} Rentals`}
           </Button>
         </CardContent>
