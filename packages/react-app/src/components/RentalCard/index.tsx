@@ -11,8 +11,6 @@ import { NetworkContext } from 'NetworkProvider';
 import UnavailableImg from 'assets/images/unavailable-image.png';
 import LoadingGif from 'assets/gifs/loading.gif';
 import useBackgroundType from 'hooks/useBackgroundType';
-// eslint-disable-next-line import/no-cycle
-import DisableRentModal from 'components/RentalCard/DisableRentModal';
 
 import { Rental } from 'types/api';
 import { DEGEN_BASE_IMAGE_URL } from '../../constants/characters';
@@ -55,19 +53,8 @@ export const useStyles = makeStyles(() => ({
     display: 'flex',
     justifyContent: 'space-between',
   },
-  priceAndDisable: {
-    display: 'flex',
-  },
   price: {
     textAlign: 'center',
-  },
-  disable: {
-    textAlign: 'center',
-    textDecoration: 'underline',
-    cursor: 'pointer',
-    '&:hover': {
-      background: '#443760ba',
-    },
   },
   actions: {
     display: 'flex',
@@ -141,15 +128,10 @@ const RentalCard = ({
   const { id: tokenId, name, multiplier, rental_count, price, is_active } = rental;
   const classes = useStyles();
   const [rentDialogOpen, setRentDialogOpen] = useState(false);
-  const [disableRentDialogOpen, setDisableRentDialogOpen] = useState(false);
   const [viewTraitsDialogOpen, setViewTraitsDialogOpen] = useState(false);
 
   const handleRent = () => {
     setRentDialogOpen(true);
-  };
-
-  const handleDisableRent = () => {
-    setDisableRentDialogOpen(true);
   };
 
   const handleViewTraits = () => {
@@ -179,12 +161,7 @@ const RentalCard = ({
             <div>#{tokenId}</div>
             <div>{name || 'No Name DEGEN'}</div>
           </div>
-          <div className={classes.priceAndDisable}>
-            <div className={classes.price}>{price} NFTL available</div>
-            <div className={classes.disable} onClick={handleDisableRent}>
-              {is_active ? 'Disable Rentals' : 'Enable Rentals'}
-            </div>
-          </div>
+          <div className={classes.price}>{price} NFTL available</div>
           <div className={classes.actions}>
             <div className={classes.rentButton} onClick={handleRent}>
               Rent Now
@@ -195,9 +172,6 @@ const RentalCard = ({
           </div>
         </div>
       </Card>
-      {disableRentDialogOpen && (
-        <DisableRentModal rental={rental} handleClose={() => setDisableRentDialogOpen(false)} />
-      )}
     </>
   );
 };
