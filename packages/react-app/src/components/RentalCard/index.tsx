@@ -54,7 +54,7 @@ export const useStyles = makeStyles(() => ({
     justifyContent: 'space-between',
   },
   price: {
-    textAlign: 'center',
+    textAlign: 'left',
   },
   actions: {
     display: 'flex',
@@ -69,6 +69,7 @@ export const useStyles = makeStyles(() => ({
   viewTraitsButton: {
     flex: 1,
     cursor: 'pointer',
+
     '&:hover': {
       background: '#443760ba',
     },
@@ -125,7 +126,7 @@ const RentalCard = ({
   favs?: string[];
   handleToggleFavs?: (tokenId: string) => void;
 }): JSX.Element => {
-  const { id: tokenId, name, multiplier, rental_count, price, is_active } = rental;
+  const { id: tokenId, name, multiplier, rental_count, price } = rental;
   const classes = useStyles();
   const [rentDialogOpen, setRentDialogOpen] = useState(false);
   const [viewTraitsDialogOpen, setViewTraitsDialogOpen] = useState(false);
@@ -161,7 +162,7 @@ const RentalCard = ({
             <div>#{tokenId}</div>
             <div>{name || 'No Name DEGEN'}</div>
           </div>
-          <div className={classes.price}>{price} NFTL available</div>
+          <div className={classes.price}>Rent for {price} NFTL / Week</div>
           <div className={classes.actions}>
             <div className={classes.rentButton} onClick={handleRent}>
               Rent Now
