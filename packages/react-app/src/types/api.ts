@@ -25,3 +25,10 @@ export interface Rental {
 }
 
 export type Rentals = { [key: string]: Rental };
+
+export interface CharacterType {
+  name: string | null;
+  owner: string | null;
+  traitList: [];
+  rental: Rental | null;
+}
