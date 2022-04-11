@@ -18,7 +18,7 @@ const CharactersContainer = (): JSX.Element => {
   const [search, setSearch] = useState('');
   const [filterState, setFilterState] = useState(INITIAL_FILTER_STATE);
   const filterActive = useMemo(() => Object.values(filterState).some(v => isEmpty(v)), [filterState]);
-  const [loading, error, rentals] = useRentals();
+  const [loading, error, rentals] = useRentals(filterState);
 
   const handleSearch = value => {
     setPage(1);

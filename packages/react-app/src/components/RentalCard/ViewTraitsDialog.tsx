@@ -3,11 +3,11 @@ import { Typography, Modal, Card, CardContent, List, ListItem, ListItemText, Box
 import { Rental } from 'types/api';
 import makeStyles from '@mui/styles/makeStyles';
 import { NetworkContext } from 'NetworkProvider';
-import DegenImage from 'components/RentalCard/DegenImage';
+import DegenImage from 'components/DegenImage';
 import { NFT_CONTRACT } from '../../constants';
 import { TRAIT_INDEXES, TRAIT_NAME_MAP, TRAIT_VALUE_MAP } from '../../constants/characters';
 
-export const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(() => ({
   modal: {
     width: `100%`,
     height: `100%`,
@@ -71,14 +71,14 @@ export const useStyles = makeStyles(() => ({
   },
 }));
 
-const ViewTraitsPopup = ({
+const ViewTraitsDialog = ({
   rental,
   handleClose,
-  handleRent,
+  onRent,
 }: {
   rental: Rental | null;
   handleClose: () => void;
-  handleRent: () => void;
+  onRent: () => void;
 }): JSX.Element => {
   const classes = useStyles();
   const [traitList, setTraitList] = useState([]);
@@ -148,7 +148,7 @@ const ViewTraitsPopup = ({
                   </ListItem>
                 ))}
             </List>
-            <div className={classes.rentButton} onClick={handleRent}>
+            <div className={classes.rentButton} onClick={onRent}>
               Rent Now
             </div>
           </Box>
@@ -160,4 +160,4 @@ const ViewTraitsPopup = ({
   );
 };
 
-export default ViewTraitsPopup;
+export default ViewTraitsDialog;
