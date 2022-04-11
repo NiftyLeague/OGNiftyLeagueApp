@@ -1,15 +1,16 @@
 import React, { useContext } from 'react';
 import clsx from 'clsx';
 import { CardMedia } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
 import { Image } from 'antd';
+import makeStyles from '@mui/styles/makeStyles';
 import { NetworkContext } from 'NetworkProvider';
 import UnavailableImg from 'assets/images/unavailable-image.png';
 import LoadingGif from 'assets/gifs/loading.gif';
 import useBackgroundType from 'hooks/useBackgroundType';
+
 import { DEGEN_BASE_IMAGE_URL } from '../../constants/characters';
 
-const useStyles = makeStyles(() => ({
+export const useStyles = makeStyles(() => ({
   media: { height: 338, display: 'flex', alignItems: 'center', justifyContent: 'center' },
   loading: { width: 80, height: 80 },
 }));

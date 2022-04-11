@@ -33,6 +33,7 @@ import OpenSeaLink from './OpenSeaLink';
 import ShareCharacter from './ShareCharacter';
 import ClaimNFTL from '../ClaimNFTL';
 import { DEGEN_BASE_IMAGE_URL, TRAIT_NAME_MAP, TRAIT_VALUE_MAP } from '../../constants/characters';
+import DegenImage from 'components/DegenImage';
 
 export const useStyles = makeStyles(theme => ({
   cardRoot: { borderRadius: 30, background: '-webkit-linear-gradient(89deg, #620edf 75%, #5e72eb 100%)' },
@@ -49,8 +50,6 @@ export const useStyles = makeStyles(theme => ({
   cardTitle: { display: 'flex', alignItems: 'center' },
   cardTitleLink: { fontSize: 18, marginRight: 6, color: '#fff', '&:hover': { color: '#fff' } },
   cardSubheader: { fontSize: 14, textAlign: 'left', color: '#ffffff66' },
-  media: { height: 338, display: 'flex', alignItems: 'center', justifyContent: 'center' },
-  loading: { width: 80, height: 80 },
   actionButtons: { color: '#fff', borderRadius: '50%', '&:focus': { outline: 'none' } },
   reduceSize: { padding: 8, '& svg': { fontSize: 22 } },
   traitsHeader: { color: '#fff', paddingLeft: 8 },
@@ -60,34 +59,6 @@ export const useStyles = makeStyles(theme => ({
   traitListText: { color: '#fff', fontSize: 14 },
   traitListTextSecondary: { color: '#aaa0a0', fontSize: 14 },
 }));
-
-const DegenImage = ({ tokenId }: { tokenId: string }) => {
-  const classes = useStyles();
-  const { targetNetwork } = useContext(NetworkContext);
-  const [loading, error, background] = useBackgroundType(tokenId);
-  if (error) return <CardMedia className={classes.media} title="Unavailable image" image={UnavailableImg} />;
-  if (loading)
-    return (
-      <div className={classes.media}>
-        <Image className={classes.loading} src={LoadingGif} />
-      </div>
-    );
-
-  const imageURL = `${DEGEN_BASE_IMAGE_URL}/${targetNetwork.name || 'rinkeby'}/images/${tokenId}`;
-  if (background === 'Legendary')
-    return (
-      <CardMedia
-        className={clsx(classes.media, 'pixelated')}
-        title="Legendary DEGEN mp4"
-        component="video"
-        autoPlay
-        loop
-        src={`${imageURL}.mp4`}
-      />
-    );
-
-  return <CardMedia className={clsx(classes.media, 'pixelated')} title="DEGEN image" image={`${imageURL}.png`} />;
-};
 
 const CharacterCard = ({
   character,

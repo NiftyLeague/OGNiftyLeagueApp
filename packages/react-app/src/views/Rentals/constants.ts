@@ -111,3 +111,11 @@ export const FILTER_LABEL_MAPPING = {
   leftItems: 'Left Items',
   rightItems: 'Right Items',
 };
+
+export const FILTER_STATE_KEY_TO_TRAIT_MAPPING = {
+  tribes: 'tribe',
+  price: 'price',
+  backgrounds: 'background',
+  skinColors: 'skin',
+  furColors: 'fur',
+};
