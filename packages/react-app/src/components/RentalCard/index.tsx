@@ -1,19 +1,12 @@
-import React, { useContext, useState } from 'react';
-import clsx from 'clsx';
-import { Card, CardActions, CardMedia, IconButton } from '@mui/material';
-import { Image } from 'antd';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import React, { useState } from 'react';
+import { Card, IconButton } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
-import Tooltip from 'components/Tooltip';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import { NetworkContext } from 'NetworkProvider';
-import UnavailableImg from 'assets/images/unavailable-image.png';
-import LoadingGif from 'assets/gifs/loading.gif';
-import useBackgroundType from 'hooks/useBackgroundType';
 
 import { Rental } from 'types/api';
-import { DEGEN_BASE_IMAGE_URL } from '../../constants/characters';
+import ViewTraitsPopup from './ViewTraitsPopup';
+import DegenImage from './DegenImage';
 
 const V_PADDING = '10px';
 const H_PADDING = '12px';
@@ -22,8 +15,6 @@ export const useStyles = makeStyles(() => ({
   cardRoot: {
     background: 'transparent',
   },
-  media: { height: 338, display: 'flex', alignItems: 'center', justifyContent: 'center' },
-  loading: { width: 80, height: 80 },
   imageContainer: {
     position: 'relative',
     borderRadius: 8,
@@ -89,34 +80,6 @@ export const useStyles = makeStyles(() => ({
   },
 }));
 
-const DegenImage = ({ tokenId }: { tokenId: string }) => {
-  const classes = useStyles();
-  const { targetNetwork } = useContext(NetworkContext);
-  const [loading, error, background] = useBackgroundType(tokenId);
-  if (error) return <CardMedia className={classes.media} title="Unavailable image" image={UnavailableImg} />;
-  if (loading)
-    return (
-      <div className={classes.media}>
-        <Image className={classes.loading} src={LoadingGif} />
-      </div>
-    );
-
-  const imageURL = `${DEGEN_BASE_IMAGE_URL}/${targetNetwork.name || 'rinkeby'}/images/${tokenId}`;
-  if (background === 'Legendary')
-    return (
-      <CardMedia
-        className={clsx(classes.media, 'pixelated')}
-        title="Legendary DEGEN mp4"
-        component="video"
-        autoPlay
-        loop
-        src={`${imageURL}.mp4`}
-      />
-    );
-
-  return <CardMedia className={clsx(classes.media, 'pixelated')} title="DEGEN image" image={`${imageURL}.png`} />;
-};
-
 const RentalCard = ({
   rental,
   favs,
@@ -138,7 +101,6 @@ const RentalCard = ({
   const handleViewTraits = () => {
     setViewTraitsDialogOpen(true);
   };
-
   return (
     <>
       <Card className={classes.cardRoot}>
@@ -174,6 +136,9 @@ const RentalCard = ({
           </div>
         </div>
       </Card>
+      {viewTraitsDialogOpen && (
+        <ViewTraitsPopup rental={rental} handleClose={() => setViewTraitsDialogOpen(false)} handleRent={handleRent} />
+      )}
     </>
   );
 };

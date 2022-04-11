@@ -21,6 +21,14 @@ export interface Rental {
   stats: any;
   total_rented: number;
   tribe: string;
+  owner: string;
 }
 
 export type Rentals = { [key: string]: Rental };
+
+export interface CharacterType {
+  name: string | null;
+  owner: string | null;
+  traitList: [];
+  rental: Rental | null;
+}
