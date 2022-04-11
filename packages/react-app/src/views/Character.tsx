@@ -236,7 +236,11 @@ const Character = (): JSX.Element | null => {
         />
       ) : null}
       {disableRentDialogOpen && (
-        <DisableRentModal rental={character.rental} handleClose={() => setDisableRentDialogOpen(false)} setCharacter={setCharacter} />
+        <DisableRentModal
+          rental={character.rental}
+          handleClose={() => setDisableRentDialogOpen(false)}
+          setCharacter={setCharacter}
+        />
       )}
     </Container>
   );

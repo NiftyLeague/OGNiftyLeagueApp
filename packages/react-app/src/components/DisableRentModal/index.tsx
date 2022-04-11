@@ -2,7 +2,7 @@ import React from 'react';
 import { Checkbox, FormControlLabel, Typography, Modal, Card, CardContent, CardHeader, Button } from '@mui/material';
 import { Rental } from 'types/api';
 import makeStyles from '@mui/styles/makeStyles';
-import { DegenImage } from 'components/RentalCard';
+import DegenImage from 'components/RentalCard/DegenImage';
 import { DISABLE_RENT_API_URL } from 'constants/characters';
 
 const useStyles = makeStyles(() => ({
@@ -56,6 +56,7 @@ const DisableRentModal = ({
   const handleButtonClick = async () => {
     if (auth && rental) {
       const res = await fetch(
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         `${DISABLE_RENT_API_URL}${rental.is_active ? 'deactivate' : 'activate'}?degen_id=${rental.id}`,
         {
           method: 'POST',
