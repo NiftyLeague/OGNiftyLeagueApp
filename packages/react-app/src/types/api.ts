@@ -30,5 +30,4 @@ export interface CharacterType {
   name: string | null;
   owner: string | null;
   traitList: [];
-  rental: Rental | null;
 }

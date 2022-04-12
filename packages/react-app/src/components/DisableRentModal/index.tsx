@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Checkbox, FormControlLabel, Typography, Modal, Card, CardContent, CardHeader, Button } from '@mui/material';
 import { Rental } from 'types/api';
 import makeStyles from '@mui/styles/makeStyles';
@@ -40,11 +41,11 @@ const useStyles = makeStyles(() => ({
 const DisableRentModal = ({
   rental,
   handleClose,
-  setCharacter,
+  setRental,
 }: {
-  rental: Rental | null;
+  rental: Rental | undefined;
   handleClose: () => void;
-  setCharacter: (any) => void;
+  setRental: (any) => void;
 }): JSX.Element => {
   const [agreement, setAgreement] = React.useState(false);
   const [error, setError] = React.useState();
@@ -71,12 +72,9 @@ const DisableRentModal = ({
         setError(json.body);
       } else {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-        setCharacter(prev => ({
+        setRental(prev => ({
           ...prev,
-          rental: {
-            ...rental,
-            is_active: !rental.is_active,
-          },
+          is_active: !rental.is_active,
         }));
         handleClose();
       }
@@ -129,8 +127,11 @@ const DisableRentModal = ({
               }
               label={
                 <div className={classes.checkboxLabel}>
-                  I have read the <span className={classes.pointerUnderline}>terms & conditions</span> regarding
-                  disabling a rental
+                  I have read the{' '}
+                  <Link className={classes.pointerUnderline} to="/terms-of-service">
+                    terms & conditions
+                  </Link>{' '}
+                  regarding disabling a rental
                 </div>
               }
             />
