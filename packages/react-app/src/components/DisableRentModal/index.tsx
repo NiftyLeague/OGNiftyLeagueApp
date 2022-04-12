@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Checkbox, FormControlLabel, Typography, Modal, Card, CardContent, CardHeader, Button } from '@mui/material';
 import { Rental } from 'types/api';
 import makeStyles from '@mui/styles/makeStyles';
-import DegenImage from 'components/RentalCard/DegenImage';
+import DegenImage from 'components/DegenImage';
 import { DISABLE_RENT_API_URL } from 'constants/characters';
 
 const useStyles = makeStyles(() => ({

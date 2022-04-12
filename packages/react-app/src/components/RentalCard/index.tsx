@@ -5,8 +5,9 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 import { Rental } from 'types/api';
-import ViewTraitsPopup from './ViewTraitsPopup';
-import DegenImage from './DegenImage';
+import DegenImage from 'components/DegenImage';
+import ViewTraitsDialog from './ViewTraitsDialog';
+import RentDialog from './RentDialog';
 
 const V_PADDING = '10px';
 const H_PADDING = '12px';
@@ -93,14 +94,17 @@ const RentalCard = ({
   const classes = useStyles();
   const [rentDialogOpen, setRentDialogOpen] = useState(false);
   const [viewTraitsDialogOpen, setViewTraitsDialogOpen] = useState(false);
-
-  const handleRent = () => {
+  const handleShowRent = () => {
+    setViewTraitsDialogOpen(false);
     setRentDialogOpen(true);
   };
 
   const handleViewTraits = () => {
     setViewTraitsDialogOpen(true);
   };
+
+  const handleRent = () => {};
+
   return (
     <>
       <Card className={classes.cardRoot}>
@@ -127,7 +131,7 @@ const RentalCard = ({
           </div>
           <div className={classes.price}>Rent for {price} NFTL / Week</div>
           <div className={classes.actions}>
-            <div className={classes.rentButton} onClick={handleRent}>
+            <div className={classes.rentButton} onClick={handleShowRent}>
               Rent Now
             </div>
             <div className={classes.viewTraitsButton} onClick={handleViewTraits}>
@@ -137,8 +141,9 @@ const RentalCard = ({
         </div>
       </Card>
       {viewTraitsDialogOpen && (
-        <ViewTraitsPopup rental={rental} handleClose={() => setViewTraitsDialogOpen(false)} handleRent={handleRent} />
+        <ViewTraitsDialog rental={rental} handleClose={() => setViewTraitsDialogOpen(false)} onRent={handleShowRent} />
       )}
+      <RentDialog rental={rental} open={rentDialogOpen} onClose={() => setRentDialogOpen(false)} onRent={handleRent} />
     </>
   );
 };
