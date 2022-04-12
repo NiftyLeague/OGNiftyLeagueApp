@@ -103,7 +103,7 @@ const DisableRentModal = ({
             <div>
               {rental.owner ? (
                 <>
-                  Owned by <span className={classes.pointerUnderline}>{rental.owner}</span>
+                  Owned by <span className={classes.pointerUnderline}>{rental.owner.slice(0, 5)}...</span>
                 </>
               ) : (
                 <>No owner</>
