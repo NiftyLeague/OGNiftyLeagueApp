@@ -23,11 +23,13 @@ import makeStyles from '@mui/styles/makeStyles';
 
 import { NetworkContext } from 'NetworkProvider';
 import Tooltip from 'components/Tooltip';
+import DisableRentModal from 'components/DisableRentModal';
 import UnavailableImg from 'assets/images/unavailable-image.png';
 import LoadingGif from 'assets/gifs/loading.gif';
 import { formatDateTime } from 'helpers/dateTime';
 import useBackgroundType from 'hooks/useBackgroundType';
 import { Character } from 'types/graph';
+import { Rental, CharacterType } from 'types/api';
 import RenameDialog from './RenameDialog';
 import OpenSeaLink from './OpenSeaLink';
 import ShareCharacter from './ShareCharacter';
@@ -59,6 +61,14 @@ export const useStyles = makeStyles(theme => ({
   traitListItem: { width: '33%', alignItems: 'baseline' },
   traitListText: { color: '#fff', fontSize: 14 },
   traitListTextSecondary: { color: '#aaa0a0', fontSize: 14 },
+  disable: {
+    textAlign: 'center',
+    textDecoration: 'underline',
+    cursor: 'pointer',
+    '&:hover': {
+      background: '#443760ba',
+    },
+  },
 }));
 
 const DegenImage = ({ tokenId }: { tokenId: string }) => {
@@ -122,7 +132,31 @@ const CharacterCard = ({
   else if (tokenIdNum >= 100) fontSize = '1rem';
 
   const actionClasses = clsx(classes.actionButtons, { [classes.reduceSize]: singleClaim });
-
+  const [rental, setRental] = useState<Rental>();
+  const [disableRentDialogOpen, setDisableRentDialogOpen] = useState(false);
+  const handleDisableRent = () => {
+    setDisableRentDialogOpen(true);
+  };
+  const auth = window.localStorage.getItem('authentication-token');
+  useEffect(() => {
+    async function getCharacter() {
+      if (auth && tokenId) {
+        const rentalData = await fetch(
+          `https://odgwhiwhzb.execute-api.us-east-1.amazonaws.com/prod/rentals/rentables?ids=${tokenId}`,
+          {
+            method: 'GET',
+            headers: { authorizationToken: auth },
+          },
+        );
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        const rentalJSON = await rentalData.json();
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        setRental(rentalJSON[tokenId]);
+      }
+    }
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    void getCharacter();
+  }, [auth, tokenId]);
   return (
     <>
       <Card className={classes.cardRoot}>
@@ -211,6 +245,11 @@ const CharacterCard = ({
             </List>
           </CardContent>
         </Collapse>
+        {ownerOwned && rental && (
+          <div className={classes.disable} onClick={handleDisableRent}>
+            {rental.is_active ? 'Disable Rentals' : 'Enable Rentals'}
+          </div>
+        )}
       </Card>
       {ownerOwned ? (
         <RenameDialog
@@ -221,6 +260,9 @@ const CharacterCard = ({
           userNFTLBalance={userNFTLBalance ?? 0}
         />
       ) : null}
+      {ownerOwned && disableRentDialogOpen && (
+        <DisableRentModal rental={rental} handleClose={() => setDisableRentDialogOpen(false)} setRental={setRental} />
+      )}
     </>
   );
 };
