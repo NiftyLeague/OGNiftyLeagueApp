@@ -112,10 +112,27 @@ export const FILTER_LABEL_MAPPING = {
   rightItems: 'Right Items',
 };
 
-export const FILTER_STATE_KEY_TO_TRAIT_MAPPING = {
-  tribes: 'tribe',
-  price: 'price',
-  backgrounds: 'background',
-  skinColors: 'skin',
-  furColors: 'fur',
+export const FILTER_STATE_KEY_TO_INDEX = {
+  tribes: 0,
+  skinColors: 1,
+  furColors: 2,
+  eyeColors: 3,
+  pupilColors: 4,
+  hair: 5,
+  mouths: 6,
+  beards: 7,
+  tops: 8,
+  outerwear: 9,
+  prints: 10,
+  bottoms: 11,
+  footwear: 12,
+  belts: 13,
+  hats: 14,
+  eyewear: 15,
+  piercings: 16,
+  wrists: 17,
+  hands: 18,
+  neckwear: 19,
+  leftItems: 20,
+  rightItems: 21,
 };
