@@ -24,7 +24,6 @@ import { useIsWidthDown } from 'hooks/useWidth';
 import OpenSeaLink from 'components/CharacterCard/OpenSeaLink';
 import RenameDialog from 'components/CharacterCard/RenameDialog';
 import ShareCharacter from 'components/CharacterCard/ShareCharacter';
-import DisableRentModal from 'components/DisableRentModal';
 import useBackgroundType from 'hooks/useBackgroundType';
 import useNFTLBalance from 'hooks/useNFTLBalance';
 import UnavailableImg from 'assets/images/unavailable-image.png';
@@ -63,14 +62,6 @@ export const useStyles = makeStyles({
   traitListTextSecondary: { color: '#aaa0a0', fontSize: 18, textAlign: 'center' },
   cardActions: { marginTop: 'auto', color: '#fff' },
   actionButtons: { color: '#fff', borderRadius: '50%', '&:focus': { outline: 'none' } },
-  disable: {
-    textAlign: 'center',
-    textDecoration: 'underline',
-    cursor: 'pointer',
-    '&:hover': {
-      background: '#443760ba',
-    },
-  },
 });
 
 const DegenImage = ({ network = 'rinkeby', tokenId }: { network?: string; tokenId: string }) => {
@@ -107,15 +98,9 @@ const Character = (): JSX.Element | null => {
     name: null,
     owner: null,
     traitList: [],
-    rental: null,
   });
   const { name, owner, traitList } = character as unknown as { name: string; owner: string; traitList: number[] };
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [disableRentDialogOpen, setDisableRentDialogOpen] = useState(false);
-  const handleDisableRent = () => {
-    setDisableRentDialogOpen(true);
-  };
-  const auth = window.localStorage.getItem('authentication-token');
   const [errorContent, setErrorContent] = useState('');
 
   const handleCloseErrorModal = () => {
@@ -124,31 +109,18 @@ const Character = (): JSX.Element | null => {
 
   useEffect(() => {
     async function getCharacter() {
-      if (auth && tokenId) {
-        const rentalData = await fetch(
-          `https://odgwhiwhzb.execute-api.us-east-1.amazonaws.com/prod/rentals/rentables?ids=2`,
-          {
-            method: 'GET',
-            headers: { authorizationToken: auth },
-          },
-        );
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        const rentalJSON = await rentalData.json();
-        const characterData = {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
-          name: await readContracts[NFT_CONTRACT].getName(tokenId),
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
-          owner: await readContracts[NFT_CONTRACT].ownerOf(tokenId),
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
-          traitList: await readContracts[NFT_CONTRACT].getCharacterTraits(tokenId),
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-          rental: rentalJSON[tokenId],
-        };
-        setCharacter(characterData);
-      }
+      const characterData = {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+        name: await readContracts[NFT_CONTRACT].getName(tokenId),
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+        owner: await readContracts[NFT_CONTRACT].ownerOf(tokenId),
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+        traitList: await readContracts[NFT_CONTRACT].getCharacterTraits(tokenId),
+      };
+      setCharacter(characterData);
     }
     if (tokenId && readContracts && readContracts[NFT_CONTRACT]) void getCharacter();
-  }, [tokenId, readContracts, auth]);
+  }, [tokenId, readContracts]);
 
   const displayName = name || 'No Name DEGEN';
   const ownerOwned = address === owner;
@@ -213,11 +185,6 @@ const Character = (): JSX.Element | null => {
                 </ListItem>
               ))}
           </List>
-          {character.rental && (
-            <div className={classes.disable} onClick={handleDisableRent}>
-              {character.rental.is_active ? 'Disable Rentals' : 'Enable Rentals'}
-            </div>
-          )}
         </CardContent>
         <CardActions disableSpacing className={classes.cardActions}>
           {ownerOwned && (
@@ -267,13 +234,6 @@ const Character = (): JSX.Element | null => {
           redirectToWallet
         />
       ) : null}
-      {disableRentDialogOpen && (
-        <DisableRentModal
-          rental={character.rental}
-          handleClose={() => setDisableRentDialogOpen(false)}
-          setCharacter={setCharacter}
-        />
-      )}
       <ErrorModal content={errorContent} onClose={handleCloseErrorModal} />
     </Container>
   );
