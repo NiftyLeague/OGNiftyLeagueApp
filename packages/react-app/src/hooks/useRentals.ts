@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Rentals } from 'types/api';
 import { INITIAL_FILTER_STATE, FILTER_STATE_KEY_TO_INDEX } from 'views/Rentals/constants';
 import isEmpty from 'lodash/isEmpty';
+import { BACKGROUNDS } from 'constants/characters';
 
 export const RENTALS_URL = 'https://nifty-league.s3.amazonaws.com/cache/rentals/rentables.json';
 
@@ -22,7 +23,7 @@ const useRentals = (filterState: typeof INITIAL_FILTER_STATE): [boolean, boolean
       return;
     }
 
-    const { totalMultiplier, numOfRentals, ...arrayTraits } = filterState;
+    const { price: priceRange, totalMultiplier, numOfRentals, backgrounds, ...arrayTraits } = filterState;
     const arrayTraitKeys = Object.keys(arrayTraits).filter(key => !isEmpty(filterState[key]));
 
     setRentals(
@@ -34,6 +35,35 @@ const useRentals = (filterState: typeof INITIAL_FILTER_STATE): [boolean, boolean
             return (filterState[key] as string[]).includes(traitValue);
           }),
         )
+        .filter(rentalId => {
+          const { price } = items[rentalId];
+          if (priceRange.low && priceRange.high) {
+            return priceRange.low <= price && price <= priceRange.high;
+          }
+          return true;
+        })
+        .filter(rentalId => {
+          const { multiplier } = items[rentalId];
+          if (totalMultiplier.low && totalMultiplier.high) {
+            return totalMultiplier.low <= multiplier && multiplier <= totalMultiplier.high;
+          }
+          return true;
+        })
+        .filter(rentalId => {
+          const { total_rented } = items[rentalId];
+          if (numOfRentals.low && numOfRentals.high) {
+            return numOfRentals.low <= total_rented && total_rented <= numOfRentals.high;
+          }
+          return true;
+        })
+        .filter(rentalId => {
+          if (isEmpty(backgrounds)) {
+            return true;
+          }
+
+          const { background } = items[rentalId];
+          return !!backgrounds.find(bgKey => (BACKGROUNDS[bgKey] as string).toLowerCase().includes(background));
+        })
         .reduce((mergedObj, rentalId) => ({ ...mergedObj, [rentalId]: items[rentalId] }), {}),
     );
   };
