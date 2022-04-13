@@ -47,8 +47,8 @@ const CharactersFilter = ({ filterState, setFilterState }: CharactersFilterProps
       <Section label="Overview">
         <RangeContinuous
           label="Price"
-          low={1}
-          high={99}
+          low={filterState.price.low}
+          high={filterState.price.high}
           setRange={(low, high) => handleFilterRangeUpdate('price', { low, high })}
         />
         <RangeDiscrete
