@@ -128,7 +128,12 @@ const DisableRentModal = ({
               label={
                 <div className={classes.checkboxLabel}>
                   I have read the{' '}
-                  <Link className={classes.pointerUnderline} to="/terms-of-service">
+                  <Link
+                    className={classes.pointerUnderline}
+                    to="/terms-of-service"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     terms & conditions
                   </Link>{' '}
                   regarding disabling a rental
