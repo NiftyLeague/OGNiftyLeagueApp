@@ -93,7 +93,7 @@ const RentalCard = ({
   const { id: tokenId, name, multiplier, rental_count, price } = rental;
   const classes = useStyles();
   const [rentDialogOpen, setRentDialogOpen] = useState(false);
-  const [viewTraitsDialogOpen, setViewTraitsDialogOpen] = useState(tokenId === '1');
+  const [viewTraitsDialogOpen, setViewTraitsDialogOpen] = useState(false);
   const handleShowRent = () => {
     setViewTraitsDialogOpen(false);
     setRentDialogOpen(true);
