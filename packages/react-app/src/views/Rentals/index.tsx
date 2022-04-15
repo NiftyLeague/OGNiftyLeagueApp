@@ -6,6 +6,7 @@ import { RentalCard } from 'components';
 import useRentals from 'hooks/useRentals';
 import isEmpty from 'lodash/isEmpty';
 
+import RentalSearchSidebar from 'components/RentalSearchSidebar';
 import CharactersFilter from './CharactersFilter';
 import { INITIAL_FILTER_STATE, PAGE_SIZE } from './constants';
 import CustomSearchInput from './CustomSearchInput';
@@ -32,6 +33,10 @@ const CharactersContainer = (): JSX.Element => {
     setFilterState(value);
   };
 
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
   return (
     <>
       <div style={{ display: 'flex', alignItems: 'flex-start' }}>
@@ -41,6 +46,12 @@ const CharactersContainer = (): JSX.Element => {
           search={search}
           setFilterState={handleFilter}
           setSearch={handleSearch}
+        />
+        <RentalSearchSidebar
+          isOpen={sidebarOpen}
+          toggleSidebar={toggleSidebar}
+          filterState={filterState}
+          setFilterState={handleFilter}
         />
         <Container>
           <CustomSearchInput search={search} setSearch={setSearch} />
