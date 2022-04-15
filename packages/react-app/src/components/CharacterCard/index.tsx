@@ -14,7 +14,7 @@ import {
   ListItem,
   ListItemText,
 } from '@mui/material';
-import { Image } from 'antd';
+import { Button } from 'antd';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import EditIcon from '@mui/icons-material/Edit';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -61,11 +61,14 @@ export const useStyles = makeStyles(theme => ({
   traitListText: { color: '#fff', fontSize: 14 },
   traitListTextSecondary: { color: '#aaa0a0', fontSize: 14 },
   disable: {
-    textAlign: 'center',
-    textDecoration: 'underline',
-    cursor: 'pointer',
+    marginBottom: '10px',
+    verticalAlign: 'top !important',
+    background: '-webkit-linear-gradient(89deg, #212121 0%, #333c42 100%) !important',
+    color: '#fff !important',
+    borderColor: '#eee !important',
+    padding: '0 16px !important',
     '&:hover': {
-      background: '#443760ba',
+      background: '-webkit-linear-gradient(89deg, #333c42 0%, #212121 100%) !important',
     },
   },
 }));
@@ -217,9 +220,9 @@ const CharacterCard = ({
           </CardContent>
         </Collapse>
         {ownerOwned && rental && (
-          <div className={classes.disable} onClick={handleDisableRent}>
+          <Button className={classes.disable} shape="round" size="large" onClick={handleDisableRent}>
             {rental.is_active ? 'Disable Rentals' : 'Enable Rentals'}
-          </div>
+          </Button>
         )}
       </Card>
       {ownerOwned ? (
