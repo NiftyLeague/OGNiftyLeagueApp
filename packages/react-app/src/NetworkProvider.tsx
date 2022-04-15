@@ -14,6 +14,7 @@ import {
   MainnetProvider,
   Network,
   UserProvider,
+  Web3ModalCallbacks,
   Web3ModalProvider,
 } from 'types/web3';
 import { Tx } from 'types/notify';
@@ -75,7 +76,7 @@ const logoutOfWeb3Modal = () => {
 
 interface Context {
   address: string;
-  loadWeb3Modal: () => Promise<void>;
+  loadWeb3Modal: (callbacks?: Web3ModalCallbacks) => Promise<void>;
   localChainId?: number;
   localProvider: LocalProvider;
   logoutOfWeb3Modal: () => void;
@@ -138,25 +139,33 @@ const NetworkProvider = ({ children }: { children: React.ReactElement | React.Re
     await web3Modal.updateTheme(web3Theme);
   }, [currentTheme]);
 
-  const loadWeb3Modal = useCallback(async () => {
-    const provider: Web3ModalProvider = (await web3Modal.connect()) as Web3ModalProvider;
-    await updateWeb3ModalTheme();
-    setInjectedProvider(new Web3Provider(provider));
-    provider.on('accountsChanged', accounts => {
-      if (DEBUG) console.log('web3 accountsChanged:', accounts);
+  const loadWeb3Modal = useCallback(
+    async (callbacks?: Web3ModalCallbacks) => {
+      const { onConnected } = callbacks || {};
+      const provider: Web3ModalProvider = (await web3Modal.connect()) as Web3ModalProvider;
+      if (onConnected) {
+        console.log('connected');
+        onConnected();
+      }
+      await updateWeb3ModalTheme();
       setInjectedProvider(new Web3Provider(provider));
-    });
-    provider.on('chainChanged', chainId => {
-      if (DEBUG) console.log('web3 chainChanged:', chainId);
-      setInjectedProvider(new Web3Provider(provider));
-    });
-    provider.on('connect', info => {
-      if (DEBUG) console.log('web3 info:', info);
-    });
-    provider.on('disconnect', error => {
-      if (DEBUG) console.log('web3 error:', error);
-    });
-  }, [setInjectedProvider, updateWeb3ModalTheme]);
+      provider.on('accountsChanged', accounts => {
+        if (DEBUG) console.log('web3 accountsChanged:', accounts);
+        setInjectedProvider(new Web3Provider(provider));
+      });
+      provider.on('chainChanged', chainId => {
+        if (DEBUG) console.log('web3 chainChanged:', chainId);
+        setInjectedProvider(new Web3Provider(provider));
+      });
+      provider.on('connect', info => {
+        if (DEBUG) console.log('web3 info:', info);
+      });
+      provider.on('disconnect', error => {
+        if (DEBUG) console.log('web3 error:', error);
+      });
+    },
+    [setInjectedProvider, updateWeb3ModalTheme],
+  );
 
   useEffect(() => {
     if (web3Modal.cachedProvider) void loadWeb3Modal();

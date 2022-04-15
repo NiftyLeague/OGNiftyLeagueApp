@@ -14,20 +14,25 @@ const ProfileVerification = ({
   setSuccess: (value: React.SetStateAction<boolean>) => void;
 }): JSX.Element => {
   const { address, userProvider } = useContext(NetworkContext);
-  const nonce = `0x${crypto.randomBytes(4).toString('hex')}`;
-  const token = `${uuidv4()}-${uuidv4()}-${uuidv4()}-${uuidv4()}-${uuidv4()}-${uuidv4()}-${uuidv4()}-${uuidv4()}`;
-  const [error, msgSent, signMsg] = useSign(nonce, token);
+  const [error, setError] = useState('');
+  const [msgSent, signMsg] = useSign();
 
   useEffect(() => {
     void (async () => {
-      const authToken = await signMsg();
-      if (authToken) {
-        setAuth(authToken);
-        setSuccess(true);
+      if (!msgSent) {
+        try {
+          const authToken = await signMsg();
+          if (authToken) {
+            setAuth(authToken);
+            setSuccess(true);
+          }
+        } catch (err) {
+          setError(err);
+        }
       }
-      if (address && userProvider && nonce.length > 5 && token && !msgSent) void signMsg();
     })();
-  }, [address, msgSent, nonce, token, userProvider, setAuth, setSuccess, signMsg]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [address, msgSent]);
 
   return (
     <Container style={{ textAlign: 'center', padding: '40px' }}>
