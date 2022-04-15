@@ -103,8 +103,6 @@ const RentalCard = ({
     setViewTraitsDialogOpen(true);
   };
 
-  const handleRent = () => {};
-
   return (
     <>
       <Card className={classes.cardRoot}>
@@ -143,7 +141,7 @@ const RentalCard = ({
       {viewTraitsDialogOpen && (
         <ViewTraitsDialog rental={rental} handleClose={() => setViewTraitsDialogOpen(false)} onRent={handleShowRent} />
       )}
-      <RentDialog rental={rental} open={rentDialogOpen} onClose={() => setRentDialogOpen(false)} onRent={handleRent} />
+      {rentDialogOpen && <RentDialog rental={rental} onClose={() => setRentDialogOpen(false)} />}
     </>
   );
 };

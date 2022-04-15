@@ -3,14 +3,16 @@ import React, { useContext, useState } from 'react';
 
 import { NetworkContext } from 'NetworkProvider';
 import { getProviderAndSigner } from 'helpers';
+import { v4 as uuidv4 } from 'uuid';
+import crypto from 'crypto';
 
-export const useSign = (
-  nonce: string | null,
-  token: string | null,
-): [boolean, boolean, () => Promise<string | null>] => {
+export const useSign = (_nonce?: string | null, _token?: string | null): [boolean, () => Promise<string | null>] => {
   const { address, userProvider } = useContext(NetworkContext);
   const [msgSent, setMsgSent] = useState(false);
-  const [error, setError] = useState(false);
+
+  const nonce = _nonce || `0x${crypto.randomBytes(4).toString('hex')}`;
+  const token =
+    _token || `${uuidv4()}-${uuidv4()}-${uuidv4()}-${uuidv4()}-${uuidv4()}-${uuidv4()}-${uuidv4()}-${uuidv4()}`;
 
   const signMsg = async (): Promise<string | null> => {
     if (address && userProvider && nonce && token) {
@@ -32,11 +34,11 @@ export const useSign = (
           }),
         })
           .then(res => {
-            if (res.status === 404) setError(true);
+            if (res.status === 404) throw Error('Failed to verify signature!');
             return res.text();
           })
           .catch(() => {
-            setError(true);
+            throw Error('Failed to verify signature!');
           });
         if (result?.length) {
           const auth = result.slice(1, -1);
@@ -51,5 +53,5 @@ export const useSign = (
     return null;
   };
 
-  return [error, msgSent, signMsg];
+  return [msgSent, signMsg];
 };

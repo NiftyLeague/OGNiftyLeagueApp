@@ -12,17 +12,24 @@ const GameVerification = (): JSX.Element => {
   const params = new URLSearchParams(search);
   const nonce = params.get('nonce');
   const token = params.get('token');
-  const [error, msgSent, signMsg] = useSign(nonce, token);
+  const [error, setError] = useState('');
+  const [msgSent, signMsg] = useSign(nonce, token);
 
   useEffect(() => {
     void (async () => {
-      const authToken = await signMsg();
-      if (authToken) {
-        setSuccess(true);
+      if (!msgSent) {
+        try {
+          const authToken = await signMsg();
+          if (authToken) {
+            setSuccess(true);
+          }
+        } catch (err) {
+          setError(err);
+        }
       }
-      if (!msgSent) void signMsg();
     })();
-  }, [address, msgSent, nonce, signMsg, token, userProvider]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [address, nonce, token, msgSent]);
 
   return (
     <Container style={{ textAlign: 'center', padding: '40px' }}>

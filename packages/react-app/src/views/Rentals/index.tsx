@@ -3,7 +3,7 @@
 import React, { useMemo, useState } from 'react';
 import { CircularProgress, Container, Grid } from '@mui/material';
 import { RentalCard } from 'components';
-import useRentals from 'hooks/useRentals';
+import { useRentals } from 'hooks/rental';
 import isEmpty from 'lodash/isEmpty';
 
 import RentalSearchSidebar from 'components/RentalSearchSidebar';

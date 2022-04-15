@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import {
   Typography,
   Modal,
@@ -19,6 +19,10 @@ import DegenImage from 'components/DegenImage';
 import { getErrorForName } from 'utils/name';
 import { ethers } from 'ethers';
 import TitleAndValue from 'components/TitleAndValue';
+import { NetworkContext } from 'NetworkProvider';
+import { useSign } from 'utils/sign';
+import { useRent, useRental } from 'hooks/rental';
+import ErrorModal from 'components/Modal/ErrorModal';
 
 const useStyles = makeStyles(() => ({
   modal: {
@@ -98,25 +102,27 @@ const useStyles = makeStyles(() => ({
 }));
 
 const RentDialog = ({
-  open,
   rental,
   onClose,
-  onRent,
 }: {
-  open: boolean;
   rental: Rental | null;
   onClose: () => void;
-  onRent: () => void;
 }): JSX.Element | null => {
   const classes = useStyles();
   const [agreed, setAgreed] = useState(false);
-  const [address, setAddress] = useState('');
+  const [scholarAddress, setScholarAddress] = useState('');
   const [name, setName] = useState('');
   const [addressError, setAddressError] = useState('');
   const [nameError, setNameError] = useState('');
   const [rentFor, setRentFor] = useState('scholar');
   const [renameEnabled, setRenameEnabled] = useState(false);
   const [useRentalPass, setUseRentalPass] = useState(false);
+  const { address, loadWeb3Modal } = useContext(NetworkContext);
+  const [signError, setSignError] = useState('');
+  const [rentError, setRentError] = useState('');
+  const [msgSent, signMsg] = useSign();
+  const rent = useRent(rental?.id, 2, rental?.price, scholarAddress);
+  const rentalDetails = useRental(rental?.id);
 
   const handleChangeAgreement = () => {
     setAgreed(!agreed);
@@ -138,6 +144,44 @@ const RentDialog = ({
     }
   };
 
+  const handleRent = async () => {
+    try {
+      await rent();
+    } catch (err: any) {
+      setRentError(err.message);
+    }
+  };
+
+  const showSignModal = async () => {
+    if (!msgSent) {
+      try {
+        console.log('-------before signMsg-------', address, msgSent);
+        const authToken = await signMsg();
+        if (authToken) {
+          void handleRent();
+        }
+      } catch (err: any) {
+        setRentError(err.message);
+      }
+    }
+  };
+
+  const precheckRent = () => {
+    const auth = window.localStorage.getItem('authentication-token');
+    if (!address) {
+      void loadWeb3Modal({ onConnected: showSignModal });
+    } else if (!auth) {
+      void showSignModal();
+    } else {
+      void handleRent();
+    }
+  };
+
+  const handleCloseErrorModal = () => {
+    setSignError('');
+    setRentError('');
+  };
+
   if (!rental) {
     return null;
   }
@@ -145,7 +189,7 @@ const RentDialog = ({
   return (
     <Modal
       className={classes.modal}
-      open={open}
+      open
       onClose={onClose}
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
@@ -190,10 +234,10 @@ const RentDialog = ({
               margin="dense"
               onChange={({ target: { value } }) => {
                 setAddressError('');
-                setAddress(value);
+                setScholarAddress(value);
               }}
               onBlur={({ target: { value } }) => validateAddress(value)}
-              value={address}
+              value={scholarAddress}
             />
             <FormControlLabel
               control={
@@ -267,10 +311,11 @@ const RentDialog = ({
                 </div>
               }
             />
-            <Button className={classes.rentButton} disabled={!agreed} onClick={onRent}>
+            <Button className={classes.rentButton} disabled={!agreed} onClick={precheckRent}>
               Rent Now
             </Button>
           </Box>
+          <ErrorModal content={signError || rentError} onClose={handleCloseErrorModal} />
         </Box>
       ) : (
         <div>Error</div>
