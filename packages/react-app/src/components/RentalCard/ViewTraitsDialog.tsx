@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Typography, Modal, Card, CardContent, List, ListItem, ListItemText, Box } from '@mui/material';
+import { useThemeSwitcher } from 'react-css-theme-switcher';
+import { Typography, Modal, Card, List, ListItem, ListItemText, Box } from '@mui/material';
 import { Rental } from 'types/api';
 import makeStyles from '@mui/styles/makeStyles';
 import { NetworkContext } from 'NetworkProvider';
@@ -7,69 +8,71 @@ import DegenImage from 'components/DegenImage';
 import { NFT_CONTRACT } from '../../constants';
 import { TRAIT_INDEXES, TRAIT_NAME_MAP, TRAIT_VALUE_MAP } from '../../constants/characters';
 
-const useStyles = makeStyles(() => ({
-  modal: {
-    width: `100%`,
-    height: `100%`,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  modalContent: {
-    backgroundColor: 'black',
-    maxWidth: '700px',
-  },
-  cardRoot: {
-    border: '1px solid rgb(66, 66, 66)',
-    textAlign: 'center',
-    background: '#212121',
-    color: 'white',
-  },
-  cardContent: { padding: 0, paddingBottom: 0, color: '#fff', textAlign: 'center' },
-  traitList: { padding: 16, display: 'flex', flexWrap: 'wrap', flexDirection: 'row' },
-  traitListItem: { width: '25%', alignItems: 'baseline' },
-  traitListText: { color: '#fff', fontSize: 18, textAlign: 'center' },
-  traitListTextSecondary: { color: '#aaa0a0', fontSize: 18, textAlign: 'center' },
-  imageContainer: {
-    position: 'relative',
-    borderRadius: 8,
-    overflow: 'hidden',
-  },
-  name: {
-    color: 'white',
-  },
-  id: {
-    color: 'grey',
-  },
-  multiplier: {
-    color: 'yellow',
-  },
-  rentalCount: {
-    color: 'green',
-  },
-  owner: {
-    fontSize: '0.8rem',
-  },
-  underline: {
-    textDecoration: 'underline',
-  },
-  tokenIdAndName: {
-    display: 'flex',
-    justifyContent: 'space-between',
-  },
-  price: {
-    color: 'red',
-  },
-  title: {
-    padding: '1rem 0rem',
-    borderBottom: '1px grey solid',
-  },
-  rentButton: {
-    flex: 1,
-    background: '#443760ba',
-    cursor: 'pointer',
-  },
-}));
+const useStyles = makeStyles(() => {
+  return {
+    modal: {
+      width: '100%',
+      height: '100%',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    modalContent: {
+      width: '700px',
+    },
+    cardRoot: {
+      textAlign: 'center',
+    },
+    cardContent: {
+      padding: 0,
+      paddingBottom: 0,
+      paddingRight: 5,
+      textAlign: 'center',
+      position: 'relative',
+    },
+    traitList: { padding: 16, paddingBottom: 62, display: 'flex', flexWrap: 'wrap', flexDirection: 'row' },
+    traitListItem: { width: '33%', alignItems: 'baseline' },
+    traitListText: { fontSize: 18, textAlign: 'center' },
+    traitListTextSecondary: { color: '#aaa0a0', fontSize: 18, textAlign: 'center' },
+    imageContainer: {
+      position: 'relative',
+      overflow: 'hidden',
+      padding: 15,
+    },
+    id: {
+      color: 'grey',
+    },
+    rentalCount: {
+      color: 'green',
+    },
+    owner: {
+      fontSize: '0.8rem',
+    },
+    underline: {
+      textDecoration: 'underline',
+    },
+    tokenIdAndName: {
+      display: 'flex',
+      justifyContent: 'space-between',
+    },
+    price: {
+      color: 'red',
+    },
+    title: {
+      padding: '1rem 0rem',
+      borderBottom: '1px grey solid',
+    },
+    rentButton: {
+      padding: '6px 10px',
+      borderRadius: '3px',
+      width: '98%',
+      background: '#443760ba',
+      cursor: 'pointer',
+      position: 'absolute',
+      bottom: '10px',
+    },
+  };
+});
 
 const ViewTraitsDialog = ({
   rental,
@@ -83,6 +86,9 @@ const ViewTraitsDialog = ({
   const classes = useStyles();
   const [traitList, setTraitList] = useState([]);
   const { readContracts } = useContext(NetworkContext);
+
+  const { currentTheme } = useThemeSwitcher();
+  const darkThemed = currentTheme === 'dark';
 
   useEffect(() => {
     async function getCharacter() {
@@ -106,6 +112,7 @@ const ViewTraitsDialog = ({
       onClose={handleClose}
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
+      sx={{ color: darkThemed ? 'white' : 'black' }}
     >
       {rental ? (
         <Box
@@ -113,23 +120,24 @@ const ViewTraitsDialog = ({
             display: 'grid',
             gap: 1,
             gridTemplateColumns: 'repeat(2, 1fr)',
+            backgroundColor: darkThemed ? 'black' : 'white',
           }}
           className={classes.modalContent}
         >
-          <Card className={classes.cardRoot}>
-            <div className={classes.imageContainer}>
+          <Card className={classes.cardRoot} sx={{ backgroundColor: darkThemed ? 'black' : 'white' }}>
+            <Box className={classes.imageContainer}>
               <DegenImage tokenId={rental.id} />
-              <div className={classes.name}>{rental.name || 'No Name DEGEN'}</div>
-              <div className={classes.id}>#{rental.id}</div>
-              <div className={classes.multiplier}>{rental.multiplier}x Multiplier</div>
-              <div className={classes.rentalCount}>{rental.rental_count} Active Rentals</div>
-              <div className={classes.price}>{rental.price} NFTL / 1 Week</div>
-              <div className={classes.owner}>
+              <Box sx={{ color: darkThemed ? 'white' : 'black' }}>{rental.name || 'No Name DEGEN'}</Box>
+              <Box className={classes.id}>#{rental.id}</Box>
+              <Box sx={{ color: darkThemed ? 'yellow' : 'black' }}>{rental.multiplier}x Multiplier</Box>
+              <Box className={classes.rentalCount}>{rental.rental_count} Active Rentals</Box>
+              <Box className={classes.price}>{rental.price} NFTL / 1 Week</Box>
+              <Box className={classes.owner} sx={{ color: darkThemed ? 'white' : 'black' }}>
                 Owned by <span className={classes.underline}>{rental.owner.slice(0, 5)}...</span>
-              </div>
-            </div>
+              </Box>
+            </Box>
           </Card>
-          <Box className={classes.cardContent}>
+          <Box className={classes.cardContent} sx={{ backgroundColor: darkThemed ? 'black' : 'white' }}>
             <Typography className={classes.title} variant="h6">
               Degen Traits
             </Typography>
@@ -148,13 +156,13 @@ const ViewTraitsDialog = ({
                   </ListItem>
                 ))}
             </List>
-            <div className={classes.rentButton} onClick={onRent}>
+            <Box className={classes.rentButton} onClick={onRent}>
               Rent Now
-            </div>
+            </Box>
           </Box>
         </Box>
       ) : (
-        <div>Error</div>
+        <Box>Error</Box>
       )}
     </Modal>
   );
