@@ -10,10 +10,15 @@ import {
   Button,
   DialogContentText,
   TextField,
+  RadioGroup,
+  Radio,
 } from '@mui/material';
 import { Rental } from 'types/api';
 import makeStyles from '@mui/styles/makeStyles';
 import DegenImage from 'components/DegenImage';
+import { getErrorForName } from 'utils/name';
+import { ethers } from 'ethers';
+import TitleAndValue from 'components/TitleAndValue';
 
 const useStyles = makeStyles(() => ({
   modal: {
@@ -98,42 +103,39 @@ const RentDialog = ({
   onClose,
   onRent,
 }: {
-  open: boolean,
+  open: boolean;
   rental: Rental | null;
   onClose: () => void;
   onRent: () => void;
 }): JSX.Element | null => {
   const classes = useStyles();
-  const [agreement, setAgreement] = useState(false);
-  const [error, setError] = useState(false);
-  const [helperText, setHelperText] = useState('');
-  const [input, setInput] = useState('');
+  const [agreed, setAgreed] = useState(false);
+  const [address, setAddress] = useState('');
+  const [name, setName] = useState('');
+  const [addressError, setAddressError] = useState('');
+  const [nameError, setNameError] = useState('');
+  const [rentFor, setRentFor] = useState('scholar');
+  const [renameEnabled, setRenameEnabled] = useState(false);
+  const [useRentalPass, setUseRentalPass] = useState(false);
 
   const handleChangeAgreement = () => {
-    setAgreement(!agreement);
+    setAgreed(!agreed);
   };
 
   const validateName = (value: string) => {
-    setInput(value);
-    const regex = new RegExp('^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$');
-    const doubleSpaceRegex = new RegExp('^(?!.*[ ]{2})');
-    let hasError = true;
-    if (!value.length) {
-      setHelperText('Please input a name.');
-    } else if (value.length > 32) {
-      setHelperText('Max character length of 32.');
-    } else if (!regex.test(value)) {
-      setHelperText('Invalid character. Please only use numbers, letters, or spaces.');
-    } else if (value.charAt(0) === ' ' || value.charAt(value.length - 1) === ' ') {
-      setHelperText('No leading or trailing spaces.');
-    } else if (!doubleSpaceRegex.test(value)) {
-      setHelperText('No double spaces allowed.');
+    setName(value);
+    const errorMsg = getErrorForName(value);
+    setNameError(errorMsg);
+  };
+
+  const validateAddress = (value: string) => {
+    if (!ethers.utils.isAddress(value)) {
+      setAddressError('Address is invalid!');
+    } else if (!value) {
+      setAddressError('Please input an address');
     } else {
-      hasError = false;
-      setHelperText('');
+      setAddressError('');
     }
-    setError(hasError);
-    return hasError;
   };
 
   if (!rental) {
@@ -165,27 +167,57 @@ const RentDialog = ({
               Owned by <span className={classes.underline}>{rental.owner.slice(0, 5)}...</span>
             </div>
             <DialogContentText className={classes.white}>Who are you renting for?</DialogContentText>
+            <RadioGroup
+              aria-label="anonymous"
+              name="anonymous"
+              value={rentFor}
+              row
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                setRentFor(event.target.value);
+              }}
+            >
+              <FormControlLabel value="scholar" control={<Radio />} label="Scholar" />
+              <FormControlLabel value="myself" control={<Radio />} label="Myself" />
+            </RadioGroup>
             <DialogContentText className={classes.white}>What is your scholars ETH wallet address?</DialogContentText>
             <TextField
               autoFocus
-              error={error}
-              helperText={helperText}
+              error={!!addressError}
+              helperText={addressError}
               fullWidth
-              label="New Name"
+              label="ETH Address"
+              placeholder="0xUnknown"
               margin="dense"
-              onChange={({ target: { value } }) => validateName(value)}
-              value={input}
+              onChange={({ target: { value } }) => {
+                setAddressError('');
+                setAddress(value);
+              }}
+              onBlur={({ target: { value } }) => validateAddress(value)}
+              value={address}
             />
-            <DialogContentText className={classes.white}>Do you want to rename the degen?</DialogContentText>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  className={classes.checkbox}
+                  checked={renameEnabled}
+                  onChange={() => setRenameEnabled(!renameEnabled)}
+                  name="checked"
+                  color="primary"
+                />
+              }
+              label={<div className={classes.checkboxLabel}>Rename the degen</div>}
+            />
             <TextField
               autoFocus
-              error={error}
-              helperText={helperText}
+              error={!!nameError}
+              helperText={nameError}
               fullWidth
               label="New Name"
+              placeholder="Enter new Degen name"
               margin="dense"
               onChange={({ target: { value } }) => validateName(value)}
-              value={input}
+              value={name}
+              disabled={!renameEnabled}
             />
             <DialogContentText className={classes.white}>There is a 1000 NFTL fee for renaming</DialogContentText>
           </Card>
@@ -194,17 +226,35 @@ const RentDialog = ({
               Rental Overview
             </Typography>
             <List dense className={classes.overview}>
-              <div className={classes.white}>{rental.name || 'No Name DEGEN'}</div>
-              <div className={classes.id}>#{rental.id}</div>
-              <div className={classes.multiplier}>{rental.multiplier}x Multiplier</div>
-              <div className={classes.rentalCount}>{rental.rental_count} Active Rentals</div>
-              <div className={classes.price}>{rental.price} NFTL / 1 Week</div>
+              <TitleAndValue title="Degen Being Rented" value={rental.name || 'No Name DEGEN'} />
+              <TitleAndValue title="" value={`Degen #${rental.id}`} />
+              <TitleAndValue title="Rental Term" value={`Degen #${rental.multiplier}`} />
+              <TitleAndValue title="Scholarship?" value={rentFor === 'scholar' ? 'Yes' : 'No'} />
+              <TitleAndValue title="Total Multipliers" value={`${rental.multiplier}x`} />
+              <TitleAndValue title="Rental Queue" value={`${3}x`} />
+              <TitleAndValue title="First Week Rental Cost" value={`${rental.price} NFTL`} />
+              <TitleAndValue title="Renews Daily After Week 1 at" value={`${rental.price_daily} NFTL`} />
+              <TitleAndValue title="Rental Posseses Remaining" value="15 of 50" />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    className={classes.checkbox}
+                    checked={useRentalPass}
+                    onChange={() => setUseRentalPass(!useRentalPass)}
+                    name="checked"
+                    color="primary"
+                  />
+                }
+                label={<div className={classes.checkboxLabel}>Use a rental pass?</div>}
+              />
+              <TitleAndValue title="Renaming Fee" value="1000 NFTL" />
+              <TitleAndValue title="Total Due Now" value="2200 NFTL" />
             </List>
             <FormControlLabel
               control={
                 <Checkbox
                   className={classes.checkbox}
-                  checked={agreement}
+                  checked={agreed}
                   onChange={handleChangeAgreement}
                   name="checked"
                   color="primary"
@@ -217,7 +267,7 @@ const RentDialog = ({
                 </div>
               }
             />
-            <Button className={classes.rentButton} disabled={!agreement} onClick={onRent}>
+            <Button className={classes.rentButton} disabled={!agreed} onClick={onRent}>
               Rent Now
             </Button>
           </Box>
