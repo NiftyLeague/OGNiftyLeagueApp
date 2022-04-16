@@ -7,7 +7,7 @@ import Paper from '@mui/material/Paper';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
 import { Button } from 'antd';
 import Web3Modal from 'web3modal';
-import { Provider, MainnetProvider, Web3ModalCallbacks } from 'types/web3';
+import { Provider, MainnetProvider } from 'types/web3';
 import Address from './Address';
 import Balance from './Balance';
 
@@ -75,7 +75,7 @@ interface AccountsProps {
   address: string;
   blockExplorer: string;
   mobileView?: boolean;
-  loadWeb3Modal?: (callbacks?: Web3ModalCallbacks) => Promise<void>;
+  loadWeb3Modal?: () => Promise<void>;
   logoutOfWeb3Modal?: () => void;
   mainnetProvider: MainnetProvider;
   userProvider?: Provider;
@@ -124,11 +124,7 @@ export default function Account({
           }}
           shape="round"
           size="large"
-          onClick={() => {
-            if (loadWeb3Modal) {
-              void loadWeb3Modal();
-            }
-          }}
+          onClick={loadWeb3Modal}
         >
           connect
         </Button>,

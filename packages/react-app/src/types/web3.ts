@@ -57,7 +57,3 @@ export interface GasStationResponse {
   fastestWait: number;
   gasPriceRange: { [range: string]: number };
 }
-
-export interface Web3ModalCallbacks {
-  onConnected?: () => any;
-}
