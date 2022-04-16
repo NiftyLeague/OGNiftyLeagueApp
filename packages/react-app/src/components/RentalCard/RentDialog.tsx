@@ -34,15 +34,17 @@ const useStyles = makeStyles(() => ({
   },
   modalContent: {
     backgroundColor: 'black',
-    width: '720px',
+    width: '100%',
+    maxWidth: '840px',
   },
-  cardRoot: {
+  left: {
     border: '1px solid rgb(66, 66, 66)',
     textAlign: 'center',
     background: '#212121',
     color: 'white',
+    padding: '12px 24px',
   },
-  cardContent: { padding: 0, paddingBottom: 0, color: '#fff', textAlign: 'center' },
+  right: { padding: 0, paddingBottom: 0, color: '#fff', textAlign: 'center' },
   overview: {
     padding: 16,
   },
@@ -50,6 +52,42 @@ const useStyles = makeStyles(() => ({
     position: 'relative',
     borderRadius: 8,
     overflow: 'hidden',
+    width: '100%',
+    maxWidth: '338px',
+    margin: 'auto',
+  },
+  rentForWhom: {
+    color: 'white',
+    marginTop: '24px',
+  },
+  rentFor: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  rentForItem: {
+    '& .MuiFormControlLabel-label': {
+      fontSize: '0.875rem',
+    },
+  },
+  textField: {
+    marginTop: '8px',
+    '& input': {
+      padding: '8px 12px',
+      fontSize: '14px',
+    },
+    '& label': {
+      fontSize: '14px',
+      transform: 'translate(14px, 8px) scale(1)',
+      '&.Mui-focused': {
+        transform: 'translate(14px, -9px) scale(0.75)',
+        fontSize: '16px',
+      },
+      '&.MuiFormLabel-filled': {
+        transform: 'translate(14px, -9px) scale(0.75)',
+        fontSize: '16px',
+      },
+    },
   },
   white: {
     color: 'white',
@@ -85,8 +123,13 @@ const useStyles = makeStyles(() => ({
     background: '#443760ba',
     cursor: 'pointer',
   },
+  checkboxContainer: {
+    marginBottom: 0,
+    marginTop: 8,
+  },
   checkbox: {
     color: 'white',
+    padding: 4,
     '&.Mui-checked': {
       color: 'white',
     },
@@ -95,19 +138,16 @@ const useStyles = makeStyles(() => ({
     color: '#999',
     fontSize: '0.8rem',
   },
+  renameFeeWarning: {
+    fontSize: '0.8rem',
+  },
   pointerUnderline: {
     textDecoration: 'underline',
     cursor: 'pointer',
   },
 }));
 
-const RentDialog = ({
-  rental,
-  onClose,
-}: {
-  rental: Rental | null;
-  onClose: () => void;
-}): JSX.Element | null => {
+const RentDialog = ({ rental, onClose }: { rental: Rental | null; onClose: () => void }): JSX.Element | null => {
   const classes = useStyles();
   const [agreed, setAgreed] = useState(false);
   const [scholarAddress, setScholarAddress] = useState('');
@@ -155,7 +195,6 @@ const RentDialog = ({
   const showSignModal = async () => {
     if (!msgSent) {
       try {
-        console.log('-------before signMsg-------', address, msgSent);
         const authToken = await signMsg();
         if (authToken) {
           void handleRent();
@@ -203,15 +242,16 @@ const RentDialog = ({
           }}
           className={classes.modalContent}
         >
-          <Card className={classes.cardRoot}>
+          <Box className={classes.left}>
             <div className={classes.imageContainer}>
               <DegenImage tokenId={rental.id} />
             </div>
             <div className={classes.owner}>
               Owned by <span className={classes.underline}>{rental.owner.slice(0, 5)}...</span>
             </div>
-            <DialogContentText className={classes.white}>Who are you renting for?</DialogContentText>
+            <DialogContentText className={classes.rentForWhom}>Who are you renting for?</DialogContentText>
             <RadioGroup
+              className={classes.rentFor}
               aria-label="anonymous"
               name="anonymous"
               value={rentFor}
@@ -220,18 +260,29 @@ const RentDialog = ({
                 setRentFor(event.target.value);
               }}
             >
-              <FormControlLabel value="scholar" control={<Radio />} label="Scholar" />
-              <FormControlLabel value="myself" control={<Radio />} label="Myself" />
+              <FormControlLabel
+                className={classes.rentForItem}
+                value="scholar"
+                control={<Radio size="small" />}
+                label="Scholar"
+              />
+              <FormControlLabel
+                className={classes.rentForItem}
+                value="myself"
+                control={<Radio size="small" />}
+                label="Myself"
+              />
             </RadioGroup>
             <DialogContentText className={classes.white}>What is your scholars ETH wallet address?</DialogContentText>
             <TextField
+              margin="none"
+              className={classes.textField}
               autoFocus
               error={!!addressError}
               helperText={addressError}
               fullWidth
               label="ETH Address"
               placeholder="0xUnknown"
-              margin="dense"
               onChange={({ target: { value } }) => {
                 setAddressError('');
                 setScholarAddress(value);
@@ -240,6 +291,7 @@ const RentDialog = ({
               value={scholarAddress}
             />
             <FormControlLabel
+              className={classes.checkboxContainer}
               control={
                 <Checkbox
                   className={classes.checkbox}
@@ -252,6 +304,7 @@ const RentDialog = ({
               label={<div className={classes.checkboxLabel}>Rename the degen</div>}
             />
             <TextField
+              className={classes.textField}
               autoFocus
               error={!!nameError}
               helperText={nameError}
@@ -263,9 +316,11 @@ const RentDialog = ({
               value={name}
               disabled={!renameEnabled}
             />
-            <DialogContentText className={classes.white}>There is a 1000 NFTL fee for renaming</DialogContentText>
-          </Card>
-          <Box className={classes.cardContent}>
+            <DialogContentText className={classes.renameFeeWarning}>
+              There is a 1000 NFTL fee for renaming
+            </DialogContentText>
+          </Box>
+          <Box className={classes.right}>
             <Typography className={classes.title} variant="h6">
               Rental Overview
             </Typography>
