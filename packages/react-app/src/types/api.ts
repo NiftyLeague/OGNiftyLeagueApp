@@ -22,6 +22,7 @@ export interface Rental {
   total_rented: number;
   tribe: string;
   owner: string;
+  traits_string: string;
 }
 
 export type Rentals = { [key: string]: Rental };

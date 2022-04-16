@@ -28,7 +28,10 @@ export const PAGE_SIZE = 50;
 
 export const INITIAL_FILTER_STATE = {
   tribes: [],
-  price: {},
+  price: {
+    low: undefined,
+    high: undefined,
+  },
   totalMultiplier: {
     low: undefined,
     high: undefined,
