@@ -22,21 +22,33 @@ const useRentals = (filterState: typeof INITIAL_FILTER_STATE): [boolean, boolean
       return;
     }
 
-    const { totalMultiplier, numOfRentals, ...arrayTraits } = filterState;
+    const { ...arrayTraits } = filterState;
     const arrayTraitKeys = Object.keys(arrayTraits).filter(key => !isEmpty(filterState[key]));
     setRentals(
       Object.keys(items)
-        .filter(rentalId =>
-          arrayTraitKeys.every(key => {
+        .filter(rentalId => {
+          const traits = items[rentalId].traits_string.split(',');
+          return arrayTraitKeys.every(key => {
+            if (key in FILTER_STATE_MAPPING) {
+              return arrayTraits[key].some(ele => traits.includes(ele));
+            }
             const traitValue = items[rentalId][FILTER_STATE_KEY_TO_TRAIT_MAPPING[key]];
+            if (key === 'price' || key === 'numOfRentals' || key === 'totalMultiplier') {
+              const { low, high } = filterState[key];
+              if (low && high) {
+                const element = items[rentalId];
+                return element[key] > low && element[key] < high;
+              }
+              return true;
+            }
             return (
               !traitValue ||
               (filterState[key] as string[])
                 .map(traitId => FILTER_STATE_MAPPING[key][traitId].toLowerCase())
                 .includes(traitValue)
             );
-          }),
-        )
+          });
+        })
         .reduce((mergedObj, rentalId) => ({ ...mergedObj, [rentalId]: items[rentalId] }), {}),
     );
   };
@@ -74,7 +86,10 @@ const useRentals = (filterState: typeof INITIAL_FILTER_STATE): [boolean, boolean
       }
     }
     void resolveRentals();
-  }, [authToken]);
+  }, [authToken, filterState]);
+  if (rentals) {
+    console.log('number of filtered rentals: ', Object.keys(rentals).length);
+  }
 
   return [loading, error, rentals];
 };

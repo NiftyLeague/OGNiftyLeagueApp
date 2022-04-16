@@ -7,15 +7,18 @@ import { INITIAL_FILTER_STATE, FILTER_STATE_MAPPING, FILTER_LABEL_MAPPING } from
 import Section from '../../views/Rentals/Section';
 import { RangeContinuous, RangeDiscrete } from '../../views/Rentals/Range';
 import { SelectSearchable, SelectTwoColumns } from '../../views/Rentals/Select';
+import zIndex from '@mui/material/styles/zIndex';
+import { auto } from '@popperjs/core';
 
 type FilterState = typeof INITIAL_FILTER_STATE;
 
 const useStyles = makeStyles(() => ({
   sidebar: {
-    width: 200,
-    minHeight: '100vh',
-    minWidth: 200,
-    position: 'relative',
+    height: 'calc( 100vh - 66px )',
+    minHeight: 'calc( 100vh - 66px )',
+    position: 'fixed',
+    left: '360px',
+    zIndex: 2,
     paddingTop: '20px',
   },
   toggle: {
@@ -63,7 +66,9 @@ const RentalSearchSidebar = ({
     <Box
       className={classes.sidebar}
       sx={{
-        transform: isOpen ? 'translate(0px, 0px)' : 'translate(-200px, 0px)',
+        minWidth: isOpen ? '360px' : '0px',
+        overflowY: isOpen ? 'auto' : 'none',
+        width: isOpen ? '360px' : '0px',
         border: isOpen ? 'black 1px solid' : 'none',
         backgroundColor: isOpen ? '#121212' : 'none',
       }}
