@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useCallback } from 'react';
 import {
   Typography,
   Modal,
@@ -184,15 +184,15 @@ const RentDialog = ({ rental, onClose }: { rental: Rental | null; onClose: () =>
     }
   };
 
-  const handleRent = async () => {
+  const handleRent = useCallback(async () => {
     try {
       await rent();
     } catch (err: any) {
       setRentError(err.message);
     }
-  };
+  }, [rent]);
 
-  const showSignModal = async () => {
+  const showSignModal = useCallback(async () => {
     if (!msgSent) {
       try {
         const authToken = await signMsg();
@@ -203,13 +203,14 @@ const RentDialog = ({ rental, onClose }: { rental: Rental | null; onClose: () =>
         setRentError(err.message);
       }
     }
-  };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [address, msgSent]);
 
   const precheckRent = () => {
-    const auth = window.localStorage.getItem('authentication-token');
+    const authToken = window.localStorage.getItem('authentication-token');
     if (!address) {
-      void loadWeb3Modal({ onConnected: showSignModal });
-    } else if (!auth) {
+      void loadWeb3Modal();
+    } else if (!authToken) {
       void showSignModal();
     } else {
       void handleRent();
@@ -367,7 +368,7 @@ const RentDialog = ({ rental, onClose }: { rental: Rental | null; onClose: () =>
               }
             />
             <Button className={classes.rentButton} disabled={!agreed} onClick={precheckRent}>
-              Rent Now
+              {address ? 'Rent Now' : 'Connect wallet to rent'}
             </Button>
           </Box>
           <ErrorModal content={signError || rentError} onClose={handleCloseErrorModal} />
