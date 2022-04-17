@@ -11,7 +11,7 @@ export const getErrorForName = (value: string): string => {
   }
 
   if (!regex.test(value)) {
-    return 'Invalid character. Please only use numbers, letters, or spaces.';
+    return 'Please only use numbers, letters, or spaces.';
   }
 
   if (value.charAt(0) === ' ' || value.charAt(value.length - 1) === ' ') {
