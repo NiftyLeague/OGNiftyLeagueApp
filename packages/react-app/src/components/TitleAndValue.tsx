@@ -5,6 +5,7 @@ const useStyles = makeStyles(() => ({
   container: {
     display: 'flex',
     justifyContent: 'space-between',
+    padding: '4px',
   },
   title: {},
   value: {},

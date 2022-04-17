@@ -44,9 +44,24 @@ const useStyles = makeStyles(() => ({
     color: 'white',
     padding: '12px 24px',
   },
-  right: { padding: 0, paddingBottom: 0, color: '#fff', textAlign: 'center' },
-  overview: {
+  right: {
+    padding: 0,
+    paddingBottom: 0,
+    color: '#fff',
+    textAlign: 'center',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  section: {
     padding: 16,
+    borderBottom: '1px grey solid',
+    textAlign: 'right',
+  },
+  rentButtonContainer: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
   },
   imageContainer: {
     position: 'relative',
@@ -119,17 +134,23 @@ const useStyles = makeStyles(() => ({
     borderBottom: '1px grey solid',
   },
   rentButton: {
-    flex: 1,
     background: '#443760ba',
     cursor: 'pointer',
+    width: '100%',
+    borderRadius: 0,
   },
-  checkboxContainer: {
+  renameCheckboxContainer: {
     marginBottom: 0,
-    marginTop: 8,
+    marginTop: '8px',
+    marginRight: '4px',
+  },
+  passCheckboxContainer: {
+    marginBottom: 0,
+    marginRight: '4px',
   },
   checkbox: {
     color: 'white',
-    padding: 4,
+    padding: '4px 8px',
     '&.Mui-checked': {
       color: 'white',
     },
@@ -144,6 +165,11 @@ const useStyles = makeStyles(() => ({
   pointerUnderline: {
     textDecoration: 'underline',
     cursor: 'pointer',
+  },
+  tosCheckboxContainer: {
+    width: '100%',
+    padding: '8px',
+    marginLeft: '0px',
   },
 }));
 
@@ -203,7 +229,7 @@ const RentDialog = ({ rental, onClose }: { rental: Rental | null; onClose: () =>
         setRentError(err.message);
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address, msgSent]);
 
   const precheckRent = () => {
@@ -238,7 +264,6 @@ const RentDialog = ({ rental, onClose }: { rental: Rental | null; onClose: () =>
         <Box
           sx={{
             display: 'grid',
-            gap: 1,
             gridTemplateColumns: 'repeat(2, 1fr)',
           }}
           className={classes.modalContent}
@@ -278,7 +303,6 @@ const RentDialog = ({ rental, onClose }: { rental: Rental | null; onClose: () =>
             <TextField
               margin="none"
               className={classes.textField}
-              autoFocus
               error={!!addressError}
               helperText={addressError}
               fullWidth
@@ -292,7 +316,7 @@ const RentDialog = ({ rental, onClose }: { rental: Rental | null; onClose: () =>
               value={scholarAddress}
             />
             <FormControlLabel
-              className={classes.checkboxContainer}
+              className={classes.renameCheckboxContainer}
               control={
                 <Checkbox
                   className={classes.checkbox}
@@ -306,13 +330,11 @@ const RentDialog = ({ rental, onClose }: { rental: Rental | null; onClose: () =>
             />
             <TextField
               className={classes.textField}
-              autoFocus
               error={!!nameError}
               helperText={nameError}
               fullWidth
               label="New Name"
               placeholder="Enter new Degen name"
-              margin="dense"
               onChange={({ target: { value } }) => validateName(value)}
               value={name}
               disabled={!renameEnabled}
@@ -325,17 +347,20 @@ const RentDialog = ({ rental, onClose }: { rental: Rental | null; onClose: () =>
             <Typography className={classes.title} variant="h6">
               Rental Overview
             </Typography>
-            <List dense className={classes.overview}>
+            <Box className={classes.section}>
               <TitleAndValue title="Degen Being Rented" value={rental.name || 'No Name DEGEN'} />
               <TitleAndValue title="" value={`Degen #${rental.id}`} />
-              <TitleAndValue title="Rental Term" value={`Degen #${rental.multiplier}`} />
+              <TitleAndValue title="Rental Term" value="1 Week" />
               <TitleAndValue title="Scholarship?" value={rentFor === 'scholar' ? 'Yes' : 'No'} />
               <TitleAndValue title="Total Multipliers" value={`${rental.multiplier}x`} />
               <TitleAndValue title="Rental Queue" value={`${3}x`} />
+            </Box>
+            <Box className={classes.section}>
               <TitleAndValue title="First Week Rental Cost" value={`${rental.price} NFTL`} />
               <TitleAndValue title="Renews Daily After Week 1 at" value={`${rental.price_daily} NFTL`} />
-              <TitleAndValue title="Rental Posseses Remaining" value="15 of 50" />
+              <TitleAndValue title="Rental Passes Remaining" value="15 of 50" />
               <FormControlLabel
+                className={classes.passCheckboxContainer}
                 control={
                   <Checkbox
                     className={classes.checkbox}
@@ -349,27 +374,31 @@ const RentDialog = ({ rental, onClose }: { rental: Rental | null; onClose: () =>
               />
               <TitleAndValue title="Renaming Fee" value="1000 NFTL" />
               <TitleAndValue title="Total Due Now" value="2200 NFTL" />
-            </List>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  className={classes.checkbox}
-                  checked={agreed}
-                  onChange={handleChangeAgreement}
-                  name="checked"
-                  color="primary"
-                />
-              }
-              label={
-                <div className={classes.checkboxLabel}>
-                  I have read the <span className={classes.pointerUnderline}>terms & conditions</span> regarding
-                  disabling a rental
-                </div>
-              }
-            />
-            <Button className={classes.rentButton} disabled={!agreed} onClick={precheckRent}>
-              {address ? 'Rent Now' : 'Connect wallet to rent'}
-            </Button>
+            </Box>
+            <Box className={classes.rentButtonContainer}>
+              <FormControlLabel
+                className={classes.tosCheckboxContainer}
+                control={
+                  <Checkbox
+                    className={classes.checkbox}
+                    checked={agreed}
+                    onChange={handleChangeAgreement}
+                    name="checked"
+                    color="primary"
+                  />
+                }
+                label={
+                  <div className={classes.checkboxLabel}>
+                    I have read the <span className={classes.pointerUnderline}>terms & conditions</span> regarding
+                    <br />
+                    rentals and how renewal subscriptions work
+                  </div>
+                }
+              />
+              <Button className={classes.rentButton} disabled={!agreed} onClick={precheckRent}>
+                {address ? 'Rent Now' : 'Connect wallet to rent'}
+              </Button>
+            </Box>
           </Box>
           <ErrorModal content={signError || rentError} onClose={handleCloseErrorModal} />
         </Box>
