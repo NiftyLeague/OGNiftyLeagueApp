@@ -51,7 +51,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const RentalSearchSidebar = ({
+export const RentalSearchSidebar = ({
   isOpen,
   toggleSidebar,
   filterState,
