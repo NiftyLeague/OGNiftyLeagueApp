@@ -21,22 +21,32 @@ const useRentals = (filterState: typeof INITIAL_FILTER_STATE): [boolean, boolean
     if (!items) {
       return;
     }
-
+    const searchTerm = filterState.search
+      ? Object.keys(items)
+          .filter(rentalId => {
+            const itemName = items[rentalId].name?.toLowerCase();
+            return (
+              rentalId.toLocaleLowerCase().includes(filterState.search.toLocaleLowerCase()) ||
+              itemName?.includes(filterState.search.toLocaleLowerCase())
+            );
+          })
+          .reduce((mergedObj, rentalId) => ({ ...mergedObj, [rentalId]: items[rentalId] }), {})
+      : items;
     const { ...arrayTraits } = filterState;
     const arrayTraitKeys = Object.keys(arrayTraits).filter(key => !isEmpty(filterState[key]));
     setRentals(
-      Object.keys(items)
+      Object.keys(searchTerm)
         .filter(rentalId => {
-          const traits = items[rentalId].traits_string.split(',');
+          const traits = searchTerm[rentalId].traits_string.split(',');
           return arrayTraitKeys.every(key => {
             if (key in FILTER_STATE_MAPPING) {
               return arrayTraits[key].some(ele => traits.includes(ele));
             }
-            const traitValue = items[rentalId][FILTER_STATE_KEY_TO_TRAIT_MAPPING[key]];
+            const traitValue = searchTerm[rentalId][FILTER_STATE_KEY_TO_TRAIT_MAPPING[key]];
             if (key === 'price' || key === 'numOfRentals' || key === 'totalMultiplier') {
               const { low, high } = filterState[key];
               if (low && high) {
-                const element = items[rentalId];
+                const element = searchTerm[rentalId];
                 return element[key] > low && element[key] < high;
               }
               return true;

@@ -1,14 +1,14 @@
 import React from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import { Typography, Box } from '@mui/material';
-import { useThemeSwitcher } from 'react-css-theme-switcher';
+import { Button } from 'antd';
 import { ArrowBackIosNew, ArrowForwardIos } from '@mui/icons-material';
+
 import { INITIAL_FILTER_STATE, FILTER_STATE_MAPPING, FILTER_LABEL_MAPPING } from '../../views/Rentals/constants';
 import Section from '../../views/Rentals/Section';
 import { RangeContinuous, RangeDiscrete } from '../../views/Rentals/Range';
 import { SelectSearchable, SelectTwoColumns } from '../../views/Rentals/Select';
-import zIndex from '@mui/material/styles/zIndex';
-import { auto } from '@popperjs/core';
+import { flexbox } from '@mui/system';
 
 type FilterState = typeof INITIAL_FILTER_STATE;
 
@@ -16,14 +16,14 @@ const useStyles = makeStyles(() => ({
   sidebar: {
     height: 'calc( 100vh - 66px )',
     minHeight: 'calc( 100vh - 66px )',
-    position: 'fixed',
-    left: '360px',
+    position: 'sticky',
+    top: '64px',
     zIndex: 2,
     paddingTop: '20px',
   },
   toggle: {
     position: 'absolute',
-    top: 5,
+    top: 29,
     width: 20,
     height: 20,
   },
@@ -38,6 +38,16 @@ const useStyles = makeStyles(() => ({
     fontSize: '1.2rem',
     padding: '0.3rem',
     borderBottom: '1px #555 solid',
+    display: 'flex',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
+  resetButton: {
+    verticalAlign: 'top',
+    background: '-webkit-linear-gradient(89deg, #620edf 0%, #5e72eb 100%)',
+    color: '#fff',
+    borderColor: '#6f6c6c',
+    padding: '0 16px',
   },
 }));
 
@@ -46,11 +56,13 @@ const RentalSearchSidebar = ({
   toggleSidebar,
   filterState,
   setFilterState,
+  initFilter,
 }: {
   isOpen: boolean;
   toggleSidebar: () => void;
   filterState: FilterState;
   setFilterState: React.Dispatch<React.SetStateAction<FilterState>>;
+  initFilter: () => void;
 }): JSX.Element => {
   const classes = useStyles();
 
@@ -78,7 +90,12 @@ const RentalSearchSidebar = ({
           display: isOpen ? 'block' : 'none',
         }}
       >
-        <Typography className={classes.title}>Filter Rentals</Typography>
+        <Box className={classes.title}>
+          <Typography>Filter Rentals</Typography>
+          <Button className={classes.resetButton} shape="round" size="large" onClick={initFilter}>
+            Reset
+          </Button>
+        </Box>
         <Section label="Overview">
           <RangeContinuous
             label="Price"

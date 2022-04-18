@@ -62,6 +62,7 @@ export const INITIAL_FILTER_STATE = {
   neckwear: [],
   leftItems: [],
   rightItems: [],
+  search: '',
 };
 
 export const FILTER_STATE_MAPPING = {
