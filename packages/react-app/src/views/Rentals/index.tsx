@@ -9,10 +9,11 @@ import { RentalCard } from 'components';
 import useRentals from 'hooks/useRentals';
 import isEmpty from 'lodash/isEmpty';
 
-import RentalSearchSidebar from 'components/RentalSearchSidebar';
+import { RentalSearchSidebar } from 'components/RentalSearchSideBar';
 import { INITIAL_FILTER_STATE, PAGE_SIZE } from './constants';
 import CustomSearchInput from './CustomSearchInput';
 import { useStyles } from '../Characters/styles';
+import useDebounce from './../../hooks/useDebounce';
 
 const PAGE_KEY = 'FILTER_PAGE';
 
@@ -39,13 +40,14 @@ const CharactersContainer = (): JSX.Element => {
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
-
+  // for debouncing search field => waiting 5 milliseconds after adding new character in search field then filter the rentals
+  const debouncedSearch = useDebounce(search, 500);
   useEffect(() => {
     setFilterState(prev => ({
       ...prev,
       search,
     }));
-  }, [search]);
+  }, [debouncedSearch ])
 
   return (
     <>
@@ -73,7 +75,7 @@ const CharactersContainer = (): JSX.Element => {
                   ))}
             </Grid>
           )}
-          {(rentals && (Object.keys(rentals).length > PAGE_SIZE)) ? (
+          {rentals && Object.keys(rentals).length > PAGE_SIZE ? (
             <Pagination
               className={clsx(classes.pagination, { [classes.paginationDark]: currentTheme === 'dark' })}
               color="primary"
