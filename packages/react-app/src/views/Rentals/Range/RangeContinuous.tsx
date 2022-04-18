@@ -50,8 +50,8 @@ const useStyles = makeStyles(() => ({
 
 interface RangeContinuousProps {
   label: string;
-  low: number;
-  high: number;
+  low: number | undefined;
+  high: number | undefined;
   setRange: (low: number, high: number) => void;
 }
 
@@ -91,7 +91,7 @@ const RangeContinuous = ({ label, low, high, setRange }: RangeContinuousProps): 
             setError('');
             setLowValue(Number(value));
           }}
-          value={lowValue}
+          value={lowValue || ''}
           variant="outlined"
           type="number"
           inputProps={{ min: 0 }}
@@ -105,7 +105,7 @@ const RangeContinuous = ({ label, low, high, setRange }: RangeContinuousProps): 
             setError('');
             setHighValue(Number(value));
           }}
-          value={highValue}
+          value={highValue || ''}
           variant="outlined"
           type="number"
           inputProps={{ min: 0 }}
