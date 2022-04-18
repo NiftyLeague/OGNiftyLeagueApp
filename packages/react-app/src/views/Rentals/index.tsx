@@ -6,7 +6,7 @@ import clsx from 'clsx';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
 
 import { RentalCard } from 'components';
-import useRentals from 'hooks/useRentals';
+import { useRentals } from 'hooks/rental';
 import isEmpty from 'lodash/isEmpty';
 
 import RentalSearchSidebar from 'components/RentalSearchSidebar';

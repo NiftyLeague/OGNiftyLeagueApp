@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState, useEffect, useCallback } from 'react';
 import {
   Typography,
   Modal,
@@ -10,10 +10,19 @@ import {
   Button,
   DialogContentText,
   TextField,
+  RadioGroup,
+  Radio,
 } from '@mui/material';
 import { Rental } from 'types/api';
 import makeStyles from '@mui/styles/makeStyles';
 import DegenImage from 'components/DegenImage';
+import { getErrorForName } from 'utils/name';
+import { ethers } from 'ethers';
+import TitleAndValue from 'components/TitleAndValue';
+import { NetworkContext } from 'NetworkProvider';
+import { useSign } from 'utils/sign';
+import { useRent, useRental } from 'hooks/rental';
+import ErrorModal from 'components/Modal/ErrorModal';
 
 const useStyles = makeStyles(() => ({
   modal: {
@@ -25,22 +34,75 @@ const useStyles = makeStyles(() => ({
   },
   modalContent: {
     backgroundColor: 'black',
-    width: '720px',
+    width: '100%',
+    maxWidth: '840px',
   },
-  cardRoot: {
+  left: {
     border: '1px solid rgb(66, 66, 66)',
     textAlign: 'center',
     background: '#212121',
     color: 'white',
+    padding: '12px 24px',
   },
-  cardContent: { padding: 0, paddingBottom: 0, color: '#fff', textAlign: 'center' },
-  overview: {
+  right: {
+    padding: 0,
+    paddingBottom: 0,
+    color: '#fff',
+    textAlign: 'center',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  section: {
     padding: 16,
+    borderBottom: '1px grey solid',
+    textAlign: 'right',
+  },
+  rentButtonContainer: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
   },
   imageContainer: {
     position: 'relative',
     borderRadius: 8,
     overflow: 'hidden',
+    width: '100%',
+    maxWidth: '338px',
+    margin: 'auto',
+  },
+  rentForWhom: {
+    color: 'white',
+    marginTop: '24px',
+  },
+  rentFor: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  rentForItem: {
+    '& .MuiFormControlLabel-label': {
+      fontSize: '0.875rem',
+    },
+  },
+  textField: {
+    marginTop: '8px',
+    '& input': {
+      padding: '8px 12px',
+      fontSize: '14px',
+    },
+    '& label': {
+      fontSize: '14px',
+      transform: 'translate(14px, 8px) scale(1)',
+      '&.Mui-focused': {
+        transform: 'translate(14px, -9px) scale(0.75)',
+        fontSize: '16px',
+      },
+      '&.MuiFormLabel-filled': {
+        transform: 'translate(14px, -9px) scale(0.75)',
+        fontSize: '16px',
+      },
+    },
   },
   white: {
     color: 'white',
@@ -72,12 +134,23 @@ const useStyles = makeStyles(() => ({
     borderBottom: '1px grey solid',
   },
   rentButton: {
-    flex: 1,
     background: '#443760ba',
     cursor: 'pointer',
+    width: '100%',
+    borderRadius: 0,
+  },
+  renameCheckboxContainer: {
+    marginBottom: 0,
+    marginTop: '8px',
+    marginRight: '4px',
+  },
+  passCheckboxContainer: {
+    marginBottom: 0,
+    marginRight: '4px',
   },
   checkbox: {
     color: 'white',
+    padding: '4px 8px',
     '&.Mui-checked': {
       color: 'white',
     },
@@ -86,54 +159,93 @@ const useStyles = makeStyles(() => ({
     color: '#999',
     fontSize: '0.8rem',
   },
+  renameFeeWarning: {
+    fontSize: '0.8rem',
+  },
   pointerUnderline: {
     textDecoration: 'underline',
     cursor: 'pointer',
   },
+  tosCheckboxContainer: {
+    width: '100%',
+    padding: '8px',
+    marginLeft: '0px',
+  },
 }));
 
-const RentDialog = ({
-  open,
-  rental,
-  onClose,
-  onRent,
-}: {
-  open: boolean,
-  rental: Rental | null;
-  onClose: () => void;
-  onRent: () => void;
-}): JSX.Element | null => {
+const RentDialog = ({ rental, onClose }: { rental: Rental | null; onClose: () => void }): JSX.Element | null => {
   const classes = useStyles();
-  const [agreement, setAgreement] = useState(false);
-  const [error, setError] = useState(false);
-  const [helperText, setHelperText] = useState('');
-  const [input, setInput] = useState('');
+  const [agreed, setAgreed] = useState(false);
+  const [scholarAddress, setScholarAddress] = useState('');
+  const [name, setName] = useState('');
+  const [addressError, setAddressError] = useState('');
+  const [nameError, setNameError] = useState('');
+  const [rentFor, setRentFor] = useState('scholar');
+  const [renameEnabled, setRenameEnabled] = useState(false);
+  const [useRentalPass, setUseRentalPass] = useState(false);
+  const { address, loadWeb3Modal } = useContext(NetworkContext);
+  const [signError, setSignError] = useState('');
+  const [rentError, setRentError] = useState('');
+  const [msgSent, signMsg] = useSign();
+  const rent = useRent(rental?.id, 2, rental?.price, scholarAddress);
+  const rentalDetails = useRental(rental?.id);
 
   const handleChangeAgreement = () => {
-    setAgreement(!agreement);
+    setAgreed(!agreed);
   };
 
   const validateName = (value: string) => {
-    setInput(value);
-    const regex = new RegExp('^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$');
-    const doubleSpaceRegex = new RegExp('^(?!.*[ ]{2})');
-    let hasError = true;
-    if (!value.length) {
-      setHelperText('Please input a name.');
-    } else if (value.length > 32) {
-      setHelperText('Max character length of 32.');
-    } else if (!regex.test(value)) {
-      setHelperText('Invalid character. Please only use numbers, letters, or spaces.');
-    } else if (value.charAt(0) === ' ' || value.charAt(value.length - 1) === ' ') {
-      setHelperText('No leading or trailing spaces.');
-    } else if (!doubleSpaceRegex.test(value)) {
-      setHelperText('No double spaces allowed.');
+    setName(value);
+    const errorMsg = getErrorForName(value);
+    setNameError(errorMsg);
+  };
+
+  const validateAddress = (value: string) => {
+    if (!ethers.utils.isAddress(value)) {
+      setAddressError('Address is invalid!');
+    } else if (!value) {
+      setAddressError('Please input an address');
     } else {
-      hasError = false;
-      setHelperText('');
+      setAddressError('');
     }
-    setError(hasError);
-    return hasError;
+  };
+
+  const handleRent = useCallback(async () => {
+    try {
+      await rent();
+    } catch (err: any) {
+      setRentError(err.message);
+    }
+  }, [rent]);
+
+  const showSignModal = useCallback(async () => {
+    if (!msgSent) {
+      try {
+        const authToken = await signMsg();
+        if (authToken) {
+          void handleRent();
+        }
+      } catch (err: any) {
+        setRentError(err.message);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [address, msgSent]);
+
+  const precheckRent = () => {
+    const authToken = window.localStorage.getItem('authentication-token');
+    if (!address) {
+      void loadWeb3Modal();
+    } else if (!authToken) {
+      void showSignModal();
+    } else {
+      void handleRent();
+    }
+  };
+
+  const handleCloseErrorModal = () => {
+    setSignError('');
+    setRentError('');
   };
 
   if (!rental) {
@@ -143,7 +255,7 @@ const RentDialog = ({
   return (
     <Modal
       className={classes.modal}
-      open={open}
+      open
       onClose={onClose}
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
@@ -152,75 +264,143 @@ const RentDialog = ({
         <Box
           sx={{
             display: 'grid',
-            gap: 1,
             gridTemplateColumns: 'repeat(2, 1fr)',
           }}
           className={classes.modalContent}
         >
-          <Card className={classes.cardRoot}>
+          <Box className={classes.left}>
             <div className={classes.imageContainer}>
               <DegenImage tokenId={rental.id} />
             </div>
             <div className={classes.owner}>
               Owned by <span className={classes.underline}>{rental.owner.slice(0, 5)}...</span>
             </div>
-            <DialogContentText className={classes.white}>Who are you renting for?</DialogContentText>
+            <DialogContentText className={classes.rentForWhom}>Who are you renting for?</DialogContentText>
+            <RadioGroup
+              className={classes.rentFor}
+              aria-label="anonymous"
+              name="anonymous"
+              value={rentFor}
+              row
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                setRentFor(event.target.value);
+              }}
+            >
+              <FormControlLabel
+                className={classes.rentForItem}
+                value="scholar"
+                control={<Radio size="small" />}
+                label="Scholar"
+              />
+              <FormControlLabel
+                className={classes.rentForItem}
+                value="myself"
+                control={<Radio size="small" />}
+                label="Myself"
+              />
+            </RadioGroup>
             <DialogContentText className={classes.white}>What is your scholars ETH wallet address?</DialogContentText>
             <TextField
-              autoFocus
-              error={error}
-              helperText={helperText}
+              margin="none"
+              className={classes.textField}
+              error={!!addressError}
+              helperText={addressError}
               fullWidth
-              label="New Name"
-              margin="dense"
-              onChange={({ target: { value } }) => validateName(value)}
-              value={input}
+              label="ETH Address"
+              placeholder="0xUnknown"
+              onChange={({ target: { value } }) => {
+                setAddressError('');
+                setScholarAddress(value);
+              }}
+              onBlur={({ target: { value } }) => validateAddress(value)}
+              value={scholarAddress}
             />
-            <DialogContentText className={classes.white}>Do you want to rename the degen?</DialogContentText>
-            <TextField
-              autoFocus
-              error={error}
-              helperText={helperText}
-              fullWidth
-              label="New Name"
-              margin="dense"
-              onChange={({ target: { value } }) => validateName(value)}
-              value={input}
-            />
-            <DialogContentText className={classes.white}>There is a 1000 NFTL fee for renaming</DialogContentText>
-          </Card>
-          <Box className={classes.cardContent}>
-            <Typography className={classes.title} variant="h6">
-              Rental Overview
-            </Typography>
-            <List dense className={classes.overview}>
-              <div className={classes.white}>{rental.name || 'No Name DEGEN'}</div>
-              <div className={classes.id}>#{rental.id}</div>
-              <div className={classes.multiplier}>{rental.multiplier}x Multiplier</div>
-              <div className={classes.rentalCount}>{rental.rental_count} Active Rentals</div>
-              <div className={classes.price}>{rental.price} NFTL / 1 Week</div>
-            </List>
             <FormControlLabel
+              className={classes.renameCheckboxContainer}
               control={
                 <Checkbox
                   className={classes.checkbox}
-                  checked={agreement}
-                  onChange={handleChangeAgreement}
+                  checked={renameEnabled}
+                  onChange={() => setRenameEnabled(!renameEnabled)}
                   name="checked"
                   color="primary"
                 />
               }
-              label={
-                <div className={classes.checkboxLabel}>
-                  I have read the <span className={classes.pointerUnderline}>terms & conditions</span> regarding
-                  disabling a rental
-                </div>
-              }
+              label={<div className={classes.checkboxLabel}>Rename the degen</div>}
             />
-            <Button className={classes.rentButton} disabled={!agreement} onClick={onRent}>
-              Rent Now
-            </Button>
+            <TextField
+              className={classes.textField}
+              error={!!nameError}
+              helperText={nameError}
+              fullWidth
+              label="New Name"
+              placeholder="Enter new Degen name"
+              onChange={({ target: { value } }) => validateName(value)}
+              value={name}
+              disabled={!renameEnabled}
+            />
+            <DialogContentText className={classes.renameFeeWarning}>
+              There is a 1000 NFTL fee for renaming
+            </DialogContentText>
           </Box>
+          <Box className={classes.right}>
+            <Typography className={classes.title} variant="h6">
+              Rental Overview
+            </Typography>
+            <Box className={classes.section}>
+              <TitleAndValue title="Degen Being Rented" value={rental.name || 'No Name DEGEN'} />
+              <TitleAndValue title="" value={`Degen #${rental.id}`} />
+              <TitleAndValue title="Rental Term" value="1 Week" />
+              <TitleAndValue title="Scholarship?" value={rentFor === 'scholar' ? 'Yes' : 'No'} />
+              <TitleAndValue title="Total Multipliers" value={`${rental.multiplier}x`} />
+              <TitleAndValue title="Rental Queue" value={`${3}x`} />
+            </Box>
+            <Box className={classes.section}>
+              <TitleAndValue title="First Week Rental Cost" value={`${rental.price} NFTL`} />
+              <TitleAndValue title="Renews Daily After Week 1 at" value={`${rental.price_daily} NFTL`} />
+              <TitleAndValue title="Rental Passes Remaining" value="15 of 50" />
+              <FormControlLabel
+                className={classes.passCheckboxContainer}
+                control={
+                  <Checkbox
+                    className={classes.checkbox}
+                    checked={useRentalPass}
+                    onChange={() => setUseRentalPass(!useRentalPass)}
+                    name="checked"
+                    color="primary"
+                  />
+                }
+                label={<div className={classes.checkboxLabel}>Use a rental pass?</div>}
+              />
+              <TitleAndValue title="Renaming Fee" value="1000 NFTL" />
+              <TitleAndValue title="Total Due Now" value="2200 NFTL" />
+            </Box>
+            <Box className={classes.rentButtonContainer}>
+              <FormControlLabel
+                className={classes.tosCheckboxContainer}
+                control={
+                  <Checkbox
+                    className={classes.checkbox}
+                    checked={agreed}
+                    onChange={handleChangeAgreement}
+                    name="checked"
+                    color="primary"
+                  />
+                }
+                label={
+                  <div className={classes.checkboxLabel}>
+                    I have read the <span className={classes.pointerUnderline}>terms & conditions</span> regarding
+                    <br />
+                    rentals and how renewal subscriptions work
+                  </div>
+                }
+              />
+              <Button className={classes.rentButton} disabled={!agreed} onClick={precheckRent}>
+                {address ? 'Rent Now' : 'Connect wallet to rent'}
+              </Button>
+            </Box>
+          </Box>
+          <ErrorModal content={signError || rentError} onClose={handleCloseErrorModal} />
         </Box>
       ) : (
         <div>Error</div>
