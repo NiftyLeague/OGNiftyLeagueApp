@@ -36,6 +36,7 @@ interface CustomSearchInputProps {
 const CustomSearchInput = ({ search, setSearch }: CustomSearchInputProps): JSX.Element => {
   const classes: any = useStyles();
   const stopClick = (e: React.SyntheticEvent | React.MouseEvent) => e.stopPropagation();
+
   return (
     <Paper className={classes.paper} onClick={stopClick}>
       <InputBase
@@ -43,7 +44,7 @@ const CustomSearchInput = ({ search, setSearch }: CustomSearchInputProps): JSX.E
         placeholder="NFT Name or ID"
         inputProps={{ 'aria-label': 'NFT Name or ID' }}
         value={search}
-        onChange={({ target: { value } }) => setSearch(value)}
+        onChange={event => setSearch(event.target.value)}
       />
       <IconButton type="submit" className={classes.iconButton} aria-label="search" size="large">
         <SearchIcon />
