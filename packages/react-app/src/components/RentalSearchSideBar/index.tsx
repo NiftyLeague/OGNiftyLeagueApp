@@ -8,7 +8,6 @@ import { INITIAL_FILTER_STATE, FILTER_STATE_MAPPING, FILTER_LABEL_MAPPING } from
 import Section from '../../views/Rentals/Section';
 import { RangeContinuous, RangeDiscrete } from '../../views/Rentals/Range';
 import { SelectSearchable, SelectTwoColumns } from '../../views/Rentals/Select';
-import { flexbox } from '@mui/system';
 
 type FilterState = typeof INITIAL_FILTER_STATE;
 
@@ -33,6 +32,7 @@ const useStyles = makeStyles(() => ({
     borderRadius: '100%',
     backgroundColor: '#313131',
     padding: 5,
+    cursor: 'pointer',
   },
   title: {
     fontSize: '1.2rem',
@@ -99,8 +99,8 @@ export const RentalSearchSidebar = ({
         <Section label="Overview">
           <RangeContinuous
             label="Price"
-            low={1}
-            high={99}
+            low={filterState.price.low}
+            high={filterState.price.high}
             setRange={(low, high) => handleFilterRangeUpdate('price', { low, high })}
           />
           <RangeDiscrete
