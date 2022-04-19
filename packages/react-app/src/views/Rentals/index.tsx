@@ -9,12 +9,13 @@ import { RentalCard } from 'components';
 import { useRentals } from 'hooks/rental';
 import isEmpty from 'lodash/isEmpty';
 
-import { RentalSearchSidebar } from 'components/RentalSearchSideBar';
-import { INITIAL_FILTER_STATE, PAGE_SIZE } from './constants';
+import { RentalSearchSidebar } from 'components/RentalSearchSidebar';
+import { INITIAL_FILTER_STATE } from './constants';
 import CustomSearchInput from './CustomSearchInput';
 import { useStyles } from '../Characters/styles';
 import useDebounce from '../../hooks/useDebounce';
 
+const PAGE_SIZE = 20;
 const PAGE_KEY = 'FILTER_PAGE';
 
 const CharactersContainer = (): JSX.Element => {
