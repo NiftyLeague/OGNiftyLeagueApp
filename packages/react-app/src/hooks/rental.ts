@@ -24,20 +24,28 @@ export const useRentals = (filterState: typeof INITIAL_FILTER_STATE): [boolean, 
       return;
     }
 
-    const { price: priceRange, totalMultiplier, numOfRentals, backgrounds, ...arrayTraits } = filterState;
+    const {
+      search: searchTerm,
+      price: priceRange,
+      totalMultiplier,
+      numOfRentals,
+      backgrounds,
+      ...arrayTraits
+    } = filterState;
     const arrayTraitKeys = Object.keys(arrayTraits).filter(key => !isEmpty(filterState[key]));
 
-    const searchedItems: Rentals = filterState.search
+    const searchedItems: Rentals = searchTerm
       ? Object.keys(items)
           .filter(rentalId => {
             const itemName = items[rentalId].name?.toLowerCase();
             return (
-              rentalId.toLocaleLowerCase().includes(filterState.search.toLocaleLowerCase()) ||
-              itemName?.includes(filterState.search.toLocaleLowerCase())
+              rentalId.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase()) ||
+              itemName?.includes(searchTerm.toLocaleLowerCase())
             );
           })
           .reduce((mergedObj, rentalId) => ({ ...mergedObj, [rentalId]: items[rentalId] }), {})
       : items;
+
     setRentals(
       Object.keys(searchedItems)
         .filter(rentalId =>
