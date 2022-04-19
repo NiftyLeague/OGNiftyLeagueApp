@@ -7,6 +7,7 @@
   height: calc(100vh - 64px);
   overflow: auto;
   overflow-x: hidden;
+  z-index: 3;
 
   background: -moz-linear-gradient(89deg, #620edf 0%, #5e72eb 100%);
   background: -ms-linear-gradient(89deg, #620edf 0%, #5e72eb 100%);
