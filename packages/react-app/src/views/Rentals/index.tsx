@@ -34,7 +34,10 @@ const CharactersContainer = (): JSX.Element => {
   };
 
   const initFilter = () => {
-    setFilterState(INITIAL_FILTER_STATE);
+    setFilterState({
+      ...INITIAL_FILTER_STATE,
+      search,
+    });
   };
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const toggleSidebar = () => {
