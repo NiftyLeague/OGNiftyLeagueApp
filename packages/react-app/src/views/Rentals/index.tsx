@@ -13,7 +13,7 @@ import { RentalSearchSidebar } from 'components/RentalSearchSideBar';
 import { INITIAL_FILTER_STATE, PAGE_SIZE } from './constants';
 import CustomSearchInput from './CustomSearchInput';
 import { useStyles } from '../Characters/styles';
-import useDebounce from './../../hooks/useDebounce';
+import useDebounce from '../../hooks/useDebounce';
 
 const PAGE_KEY = 'FILTER_PAGE';
 
@@ -47,7 +47,7 @@ const CharactersContainer = (): JSX.Element => {
       ...prev,
       search,
     }));
-  }, [debouncedSearch ])
+  }, [debouncedSearch]);
 
   return (
     <>
