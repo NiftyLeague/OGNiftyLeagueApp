@@ -27,31 +27,42 @@ export const useRentals = (filterState: typeof INITIAL_FILTER_STATE): [boolean, 
     const { price: priceRange, totalMultiplier, numOfRentals, backgrounds, ...arrayTraits } = filterState;
     const arrayTraitKeys = Object.keys(arrayTraits).filter(key => !isEmpty(filterState[key]));
 
+    const searchedItems: Rentals = filterState.search
+      ? Object.keys(items)
+          .filter(rentalId => {
+            const itemName = items[rentalId].name?.toLowerCase();
+            return (
+              rentalId.toLocaleLowerCase().includes(filterState.search.toLocaleLowerCase()) ||
+              itemName?.includes(filterState.search.toLocaleLowerCase())
+            );
+          })
+          .reduce((mergedObj, rentalId) => ({ ...mergedObj, [rentalId]: items[rentalId] }), {})
+      : items;
     setRentals(
-      Object.keys(items)
+      Object.keys(searchedItems)
         .filter(rentalId =>
           arrayTraitKeys.every(key => {
             const traitValue: string =
-              items[rentalId].traits_string.split(',')[FILTER_STATE_KEY_TO_INDEX[key] as number];
+              searchedItems[rentalId].traits_string.split(',')[FILTER_STATE_KEY_TO_INDEX[key] as number];
             return (filterState[key] as string[]).includes(traitValue);
           }),
         )
         .filter(rentalId => {
-          const { price } = items[rentalId];
+          const { price } = searchedItems[rentalId];
           if (priceRange.low && priceRange.high) {
             return priceRange.low <= price && price <= priceRange.high;
           }
           return true;
         })
         .filter(rentalId => {
-          const { multiplier } = items[rentalId];
+          const { multiplier } = searchedItems[rentalId];
           if (totalMultiplier.low && totalMultiplier.high) {
             return totalMultiplier.low <= multiplier && multiplier <= totalMultiplier.high;
           }
           return true;
         })
         .filter(rentalId => {
-          const { total_rented } = items[rentalId];
+          const { total_rented } = searchedItems[rentalId];
           if (numOfRentals.low && numOfRentals.high) {
             return numOfRentals.low <= total_rented && total_rented <= numOfRentals.high;
           }
@@ -62,10 +73,10 @@ export const useRentals = (filterState: typeof INITIAL_FILTER_STATE): [boolean, 
             return true;
           }
 
-          const { background } = items[rentalId];
+          const { background } = searchedItems[rentalId];
           return !!backgrounds.find(bgKey => (BACKGROUNDS[bgKey] as string).toLowerCase().includes(background));
         })
-        .reduce((mergedObj, rentalId) => ({ ...mergedObj, [rentalId]: items[rentalId] }), {}),
+        .reduce((mergedObj, rentalId) => ({ ...mergedObj, [rentalId]: searchedItems[rentalId] }), {}),
     );
   };
 
