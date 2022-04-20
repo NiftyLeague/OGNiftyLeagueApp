@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React, { useCallback, useEffect, useState } from 'react';
-import { TextField } from '@mui/material';
+import { TextField, Button } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import classnames from 'classnames';
+import { useThemeSwitcher } from 'react-css-theme-switcher';
 
 const useStyles = makeStyles(() => ({
   fields: {
@@ -60,6 +61,7 @@ const RangeContinuous = ({ label, low, high, setRange }: RangeContinuousProps): 
   const [lowValue, setLowValue] = useState<number>();
   const [highValue, setHighValue] = useState<number>();
   const [error, setError] = useState('');
+  const { currentTheme } = useThemeSwitcher();
 
   useEffect(() => {
     setLowValue(low);
@@ -81,10 +83,22 @@ const RangeContinuous = ({ label, low, high, setRange }: RangeContinuousProps): 
 
   return (
     <>
-      <div className={classes.label}>{label}</div>
+      <div className={classes.label} style={{ color: currentTheme === 'dark' ? '#121212' : '#fff' }}>
+        {label}
+      </div>
       <div className={classes.fields}>
         <TextField
           className={classes.textField}
+          sx={{
+            '& div': {
+              '& input': {
+                color: currentTheme === 'dark' ? '#121212' : '#fff',
+              },
+              '& fieldset': {
+                borderColor: currentTheme === 'dark' ? '#121212' : '#fff',
+              },
+            },
+          }}
           fullWidth
           placeholder="Min"
           onChange={({ target: { value } }) => {
@@ -96,9 +110,19 @@ const RangeContinuous = ({ label, low, high, setRange }: RangeContinuousProps): 
           type="number"
           inputProps={{ min: 0 }}
         />
-        <div className={classes.to}>to</div>
+        <div style={{ color: currentTheme === 'dark' ? '#121212' : '#fff' }}>to</div>
         <TextField
           className={classes.textField}
+          sx={{
+            '& div': {
+              '& input': {
+                color: currentTheme === 'dark' ? '#121212' : '#fff',
+              },
+              '& fieldset': {
+                borderColor: currentTheme === 'dark' ? '#121212' : '#fff',
+              },
+            },
+          }}
           fullWidth
           placeholder="Max"
           onChange={({ target: { value } }) => {
