@@ -8,6 +8,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import SelectProps from './SelectProps';
 import Section from '../Section';
 import SelectList from './SelectList';
+import { useThemeSwitcher } from 'react-css-theme-switcher';
 
 const useStyles = makeStyles(() => ({
   searchField: {
@@ -38,12 +39,30 @@ const useStyles = makeStyles(() => ({
 const SelectSearchable = ({ label, selectedOptions, setSelectedOptions, options }: SelectProps): JSX.Element => {
   const classes: any = useStyles();
   const [searchText, setSeachText] = useState<string>('');
+  const { currentTheme } = useThemeSwitcher();
 
   return (
     <Section label={label}>
       {Object.keys(options).length > 7 && (
         <TextField
-          className={classes.searchField}
+          sx={{
+            padding: '20px 16px 8px',
+            margin: 0,
+
+            '& legend': {
+              display: 'none',
+            },
+            '& div': {
+              '& input': {
+                paddingTop: '8px',
+                paddingBottom: '11px',
+                color: currentTheme === 'dark' ? '#121212' : '#fff',
+              },
+              '& fieldset': {
+                borderColor: currentTheme === 'dark' ? '#121212' : '#fff',
+              },
+            },
+          }}
           fullWidth
           placeholder="Search"
           onChange={({ target: { value } }) => {
@@ -53,7 +72,7 @@ const SelectSearchable = ({ label, selectedOptions, setSelectedOptions, options 
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <SearchIcon />
+                <SearchIcon sx={{ color: currentTheme === 'dark' ? '#121212' : '#fff' }} />
               </InputAdornment>
             ),
           }}

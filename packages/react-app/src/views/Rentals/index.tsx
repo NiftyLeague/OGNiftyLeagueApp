@@ -9,7 +9,7 @@ import { RentalCard } from 'components';
 import { useRentals } from 'hooks/rental';
 import isEmpty from 'lodash/isEmpty';
 
-import { RentalSearchSidebar } from 'components/RentalSearchSidebar';
+import { RentalSearchSidebar } from 'components/RentalSearchSideBar';
 import { INITIAL_FILTER_STATE } from './constants';
 import CustomSearchInput from './CustomSearchInput';
 import { useStyles } from '../Characters/styles';

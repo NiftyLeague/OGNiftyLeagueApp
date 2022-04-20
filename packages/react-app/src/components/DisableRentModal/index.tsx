@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Checkbox, FormControlLabel, Typography, Modal, Card, CardContent, CardHeader, Button } from '@mui/material';
 import { Rental } from 'types/api';
 import makeStyles from '@mui/styles/makeStyles';
 import DegenImage from 'components/DegenImage';
 import { DISABLE_RENT_API_URL } from 'constants/characters';
+import { Address } from 'components';
+import { NetworkContext } from 'NetworkProvider';
 
 const useStyles = makeStyles(() => ({
   modal: {
@@ -16,7 +18,7 @@ const useStyles = makeStyles(() => ({
   },
   card: {
     border: '1px solid rgb(66, 66, 66)',
-    maxWidth: '500px',
+    maxWidth: '600px',
     margin: 'auto',
     textAlign: 'center',
     background: '#212121',
@@ -47,6 +49,7 @@ const DisableRentModal = ({
   handleClose: () => void;
   setRental: (any) => void;
 }): JSX.Element => {
+  const { targetNetwork, mainnetProvider } = useContext(NetworkContext);
   const [agreement, setAgreement] = React.useState(false);
   const [error, setError] = React.useState();
   const classes = useStyles();
@@ -100,10 +103,18 @@ const DisableRentModal = ({
           <span className={classes.error}>{error}</span>
           <CardContent>
             <DegenImage tokenId={rental.id} />
-            <div>
+            <div style={{ marginTop: '2rem' }}>
               {rental.owner ? (
                 <>
-                  Owned by <span className={classes.pointerUnderline}>{rental.owner.slice(0, 5)}...</span>
+                  <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    Owned by:
+                    <Address
+                      address={rental.owner}
+                      blockExplorer={targetNetwork.blockExplorer}
+                      copyable
+                      ensProvider={mainnetProvider}
+                    />
+                  </span>{' '}
                 </>
               ) : (
                 <>No owner</>

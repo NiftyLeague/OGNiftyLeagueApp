@@ -3,28 +3,7 @@
 import { Accordion, AccordionDetails, AccordionSummary, InputLabel } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import React from 'react';
-import makeStyles from '@mui/styles/makeStyles';
-
-const useStyles = makeStyles(() => ({
-  accordion: {
-    margin: '0 !important',
-  },
-  label: {
-    fontWeight: 'bold',
-    fontSize: 16,
-    color: 'rgba(0, 0, 0, 0.92) !important',
-    marginBottom: '0 !important',
-  },
-  summary: {
-    '&.Mui-expanded': {
-      borderTop: '1px solid rgba(0, 0, 0, 0.12)',
-      borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
-    },
-    '& .MuiAccordionSummary-content': {
-      margin: '20px 0 !important',
-    },
-  },
-}));
+import { useThemeSwitcher } from 'react-css-theme-switcher';
 
 const Section = ({
   label,
@@ -33,19 +12,39 @@ const Section = ({
   label: string;
   children: JSX.Element | Array<JSX.Element | null | false>;
 }): JSX.Element => {
-  const classes: any = useStyles();
+  const { currentTheme } = useThemeSwitcher();
 
   return (
-    <Accordion className={classes.accordion}>
+    <Accordion sx={{ margin: '0 !important', backgroundColor: currentTheme === 'dark' ? '#121212' : '#fff' }}>
       <AccordionSummary
-        className={classes.summary}
-        expandIcon={<ExpandMoreIcon />}
+        sx={{
+          '&.Mui-expanded': {
+            borderTop: '1px solid rgba(0, 0, 0, 0.12)',
+            borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
+          },
+          '& .MuiAccordionSummary-content': {
+            margin: '20px 0 !important',
+          },
+          color: `${currentTheme === 'dark' ? '#fff' : '#121212'}`,
+        }}
+        expandIcon={<ExpandMoreIcon sx={{ color: `${currentTheme === 'dark' ? '#fff' : '#121212'}` }} />}
         aria-controls="panel1a-content"
         id="panel1a-header"
       >
-        <InputLabel className={classes.label}>{label}</InputLabel>
+        <InputLabel
+          sx={{
+            fontWeight: 'bold',
+            fontSize: 16,
+            marginBottom: '0 !important',
+            color: `${currentTheme === 'dark' ? '#fff' : '#121212'}`,
+          }}
+        >
+          {label}
+        </InputLabel>
       </AccordionSummary>
-      <AccordionDetails>{children}</AccordionDetails>
+      <AccordionDetails sx={{ backgroundColor: currentTheme === 'dark' ? '#fff' : '#121212' }}>
+        {children}
+      </AccordionDetails>
     </Accordion>
   );
 };
