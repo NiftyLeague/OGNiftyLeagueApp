@@ -16,6 +16,21 @@ const useStyles = makeStyles(() => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  owner: {
+    marginTop: '2rem',
+  },
+  ownerSpan: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    '& span': {
+      '& span': {
+        '& a': {
+          color: '#fff !important',
+        },
+      },
+    },
+  },
   card: {
     border: '1px solid rgb(66, 66, 66)',
     maxWidth: '600px',
@@ -103,10 +118,10 @@ const DisableRentModal = ({
           <span className={classes.error}>{error}</span>
           <CardContent>
             <DegenImage tokenId={rental.id} />
-            <div style={{ marginTop: '2rem' }}>
+            <div className={classes.owner}>
               {rental.owner ? (
                 <>
-                  <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <span className={classes.ownerSpan}>
                     Owned by:
                     <Address
                       address={rental.owner}

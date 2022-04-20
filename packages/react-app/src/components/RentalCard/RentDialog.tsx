@@ -23,6 +23,7 @@ import { NetworkContext } from 'NetworkProvider';
 import { useSign } from 'utils/sign';
 import { useRent, useRental } from 'hooks/rental';
 import ErrorModal from 'components/Modal/ErrorModal';
+import Address from 'components/Address';
 
 const useStyles = makeStyles(() => ({
   modal: {
@@ -35,7 +36,9 @@ const useStyles = makeStyles(() => ({
   modalContent: {
     backgroundColor: 'black',
     width: '100%',
-    maxWidth: '840px',
+    maxWidth: '1200px',
+    display: 'grid',
+    gridTemplateColumns: 'repeat(2, 1fr)',
   },
   left: {
     border: '1px solid rgb(66, 66, 66)',
@@ -119,6 +122,19 @@ const useStyles = makeStyles(() => ({
   owner: {
     fontSize: '0.8rem',
   },
+  ownerSpan: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: '1rem',
+    '& span': {
+      '& span': {
+        '& a': {
+          color: '#fff !important',
+        },
+      },
+    },
+  },
   underline: {
     textDecoration: 'underline',
   },
@@ -183,7 +199,7 @@ const RentDialog = ({ rental, onClose }: { rental: Rental | null; onClose: () =>
   const [rentFor, setRentFor] = useState('scholar');
   const [renameEnabled, setRenameEnabled] = useState(false);
   const [useRentalPass, setUseRentalPass] = useState(false);
-  const { address, loadWeb3Modal } = useContext(NetworkContext);
+  const { address, loadWeb3Modal, readContracts, targetNetwork, mainnetProvider } = useContext(NetworkContext);
   const [signError, setSignError] = useState('');
   const [rentError, setRentError] = useState('');
   const [msgSent, signMsg] = useSign();
@@ -261,19 +277,21 @@ const RentDialog = ({ rental, onClose }: { rental: Rental | null; onClose: () =>
       aria-describedby="simple-modal-description"
     >
       {rental ? (
-        <Box
-          sx={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(2, 1fr)',
-          }}
-          className={classes.modalContent}
-        >
+        <Box className={classes.modalContent}>
           <Box className={classes.left}>
             <div className={classes.imageContainer}>
               <DegenImage tokenId={rental.id} />
             </div>
             <div className={classes.owner}>
-              Owned by <span className={classes.underline}>{rental.owner.slice(0, 5)}...</span>
+              <span className={classes.ownerSpan}>
+                Owned by :
+                <Address
+                  address={rental.owner}
+                  blockExplorer={targetNetwork.blockExplorer}
+                  copyable
+                  ensProvider={mainnetProvider}
+                />
+              </span>
             </div>
             <DialogContentText className={classes.rentForWhom}>Who are you renting for?</DialogContentText>
             <RadioGroup
@@ -390,7 +408,6 @@ const RentDialog = ({ rental, onClose }: { rental: Rental | null; onClose: () =>
                 label={
                   <div className={classes.checkboxLabel}>
                     I have read the <span className={classes.pointerUnderline}>terms & conditions</span> regarding
-                    <br />
                     rentals and how renewal subscriptions work
                   </div>
                 }

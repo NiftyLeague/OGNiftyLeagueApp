@@ -33,7 +33,7 @@ const RangeSelectDiscrete = ({ label, min, max, low, high, setRange }: RangeSele
   }, [low, high]);
   return (
     <>
-      <div style={{ marginTop: '16px', textAlign: 'left', color: currentTheme === 'dark' ? '#121212' : '#fff' }}>
+      <div className={classes.label} style={{ color: currentTheme === 'dark' ? '#121212' : '#fff' }}>
         {label}
       </div>{' '}
       <Slider

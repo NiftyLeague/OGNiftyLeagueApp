@@ -58,6 +58,19 @@ const useStyles = makeStyles(() => {
     owner: {
       fontSize: '0.8rem',
     },
+    ownerSpan: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginTop: '1rem',
+      '& span': {
+        '& span': {
+          '& a': {
+            color: '#fff !important',
+          },
+        },
+      },
+    },
     underline: {
       textDecoration: 'underline',
     },
@@ -143,10 +156,7 @@ const ViewTraitsDialog = ({
               <Box className={classes.rentalCount}>{rental.rental_count} Active Rentals</Box>
               <Box className={classes.price}>{rental.price} NFTL / 1 Week</Box>
               <Box className={classes.owner} sx={{ color: darkThemed ? 'white' : 'black' }}>
-                <span
-                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '.5rem' }}
-                  className={classes.owner}
-                >
+                <span className={classes.ownerSpan}>
                   Owned by :
                   <Address
                     address={rental.owner}
@@ -154,7 +164,7 @@ const ViewTraitsDialog = ({
                     copyable
                     ensProvider={mainnetProvider}
                   />
-                </span>{' '}
+                </span>
               </Box>
             </Box>
           </Card>

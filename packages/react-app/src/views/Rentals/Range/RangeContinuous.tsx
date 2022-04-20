@@ -11,7 +11,10 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     alignItems: 'center',
   },
-
+  label: {
+    marginTop: '8px',
+    textAlign: 'left',
+  },
   textField: {
     padding: '20px 16px 8px',
     margin: 0,
@@ -80,21 +83,15 @@ const RangeContinuous = ({ label, low, high, setRange }: RangeContinuousProps): 
 
   return (
     <>
-      <div style={{ marginTop: '8px', textAlign: 'left', color: currentTheme === 'dark' ? '#121212' : '#fff' }}>
+      <div className={classes.label} style={{ color: currentTheme === 'dark' ? '#121212' : '#fff' }}>
         {label}
-      </div>{' '}
+      </div>
       <div className={classes.fields}>
         <TextField
+          className={classes.textField}
           sx={{
-            padding: '20px 16px 8px',
-            margin: 0,
-            '& legend': {
-              display: 'none',
-            },
             '& div': {
               '& input': {
-                paddingTop: '8px',
-                paddingBottom: '11px',
                 color: currentTheme === 'dark' ? '#121212' : '#fff',
               },
               '& fieldset': {
@@ -113,18 +110,12 @@ const RangeContinuous = ({ label, low, high, setRange }: RangeContinuousProps): 
           type="number"
           inputProps={{ min: 0 }}
         />
-        <div style={{ paddingTop: '6px', color: currentTheme === 'dark' ? '#121212' : '#fff' }}>to</div>
+        <div style={{ color: currentTheme === 'dark' ? '#121212' : '#fff' }}>to</div>
         <TextField
+          className={classes.textField}
           sx={{
-            padding: '20px 16px 8px',
-            margin: 0,
-            '& legend': {
-              display: 'none',
-            },
             '& div': {
               '& input': {
-                paddingTop: '8px',
-                paddingBottom: '11px',
                 color: currentTheme === 'dark' ? '#121212' : '#fff',
               },
               '& fieldset': {
