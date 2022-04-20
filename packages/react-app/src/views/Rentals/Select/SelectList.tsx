@@ -20,26 +20,10 @@ const SelectList = ({ className, selectedOptions, setSelectedOptions, entries }:
 
   return (
     <List
+      className={className}
       sx={{
-        width: '100%',
-        maxWidth: 360,
-        maxHeight: 400,
-        overflow: 'auto',
-        overflowX: 'hidden',
         bgcolor: currentTheme === 'dark' ? '#fff' : '#121212',
         color: currentTheme === 'dark' ? '#fff' : '#121212',
-        display: 'flex',
-        justifyContent: 'center',
-        flexWrap: 'wrap',
-
-        '&::-webkit-scrollbar': {
-          display: 'none',
-        },
-        '& > li': {
-          minWidth: '50%',
-          maxWidth: '50%',
-          flex: 1,
-        },
       }}
     >
       {entries.map(([id, value]) => (

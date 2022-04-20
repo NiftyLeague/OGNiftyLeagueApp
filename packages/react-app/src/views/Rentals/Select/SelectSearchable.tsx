@@ -14,6 +14,7 @@ const useStyles = makeStyles(() => ({
   searchField: {
     padding: '20px 16px 8px',
     margin: 0,
+
     '& legend': {
       display: 'none',
     },
@@ -46,16 +47,8 @@ const SelectSearchable = ({ label, selectedOptions, setSelectedOptions, options 
       {Object.keys(options).length > 7 && (
         <TextField
           sx={{
-            padding: '20px 16px 8px',
-            margin: 0,
-
-            '& legend': {
-              display: 'none',
-            },
             '& div': {
               '& input': {
-                paddingTop: '8px',
-                paddingBottom: '11px',
                 color: currentTheme === 'dark' ? '#121212' : '#fff',
               },
               '& fieldset': {
@@ -63,6 +56,7 @@ const SelectSearchable = ({ label, selectedOptions, setSelectedOptions, options 
               },
             },
           }}
+          className={classes.searchField}
           fullWidth
           placeholder="Search"
           onChange={({ target: { value } }) => {
