@@ -3,6 +3,7 @@
 import React from 'react';
 import { ListItemIcon, Checkbox, ListItem, ListItemButton, ListItemText } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
+import { useThemeSwitcher } from 'react-css-theme-switcher';
 
 const useStyles = makeStyles(() => ({
   listItemIcon: {
@@ -20,11 +21,14 @@ interface FilterItemProps {
 const FilterItem = ({ id, value, checked, onToggle }: FilterItemProps): JSX.Element => {
   const classes: any = useStyles();
   const labelId = `checkbox-list-label-${id}`;
+  const { currentTheme } = useThemeSwitcher();
+
   return (
-    <ListItem key={id} disablePadding>
+    <ListItem sx={{ color: currentTheme === 'dark' ? '#121212' : '#fff' }} key={id} disablePadding>
       <ListItemButton role={undefined} onClick={() => onToggle(id)} dense>
         <ListItemIcon className={classes.listItemIcon}>
           <Checkbox
+            sx={{ color: currentTheme === 'dark' ? '#121212' : '#fff' }}
             edge="start"
             checked={checked}
             tabIndex={-1}
@@ -32,7 +36,7 @@ const FilterItem = ({ id, value, checked, onToggle }: FilterItemProps): JSX.Elem
             inputProps={{ 'aria-labelledby': labelId }}
           />
         </ListItemIcon>
-        <ListItemText id={labelId} primary={value} />
+        <ListItemText sx={{ color: currentTheme === 'dark' ? '#121212' : '#fff' }} id={labelId} primary={value} />
       </ListItemButton>
     </ListItem>
   );
