@@ -1,13 +1,13 @@
 import React from 'react';
 import makeStyles from '@mui/styles/makeStyles';
-import { Typography, Box } from '@mui/material';
-import { Button } from 'antd';
+import { Button, Typography, Box } from '@mui/material';
 import { ArrowBackIosNew, ArrowForwardIos } from '@mui/icons-material';
 
 import { INITIAL_FILTER_STATE, FILTER_STATE_MAPPING, FILTER_LABEL_MAPPING } from '../../views/Rentals/constants';
 import Section from '../../views/Rentals/Section';
 import { RangeContinuous, RangeDiscrete } from '../../views/Rentals/Range';
 import { SelectSearchable, SelectTwoColumns } from '../../views/Rentals/Select';
+import { useThemeSwitcher } from 'react-css-theme-switcher';
 
 type FilterState = typeof INITIAL_FILTER_STATE;
 
@@ -30,7 +30,6 @@ const useStyles = makeStyles(() => ({
     width: 30,
     height: 30,
     borderRadius: '100%',
-    backgroundColor: '#313131',
     padding: 5,
     cursor: 'pointer',
   },
@@ -65,6 +64,7 @@ export const RentalSearchSidebar = ({
   initFilter: () => void;
 }): JSX.Element => {
   const classes = useStyles();
+  const { currentTheme } = useThemeSwitcher();
 
   const handleFilterOptionsUpdate = (key: string, values: string[]) => {
     setFilterState((prevState: FilterState) => ({ ...prevState, [key]: values }));
@@ -82,7 +82,7 @@ export const RentalSearchSidebar = ({
         overflowY: isOpen ? 'auto' : 'none',
         width: isOpen ? '360px' : '0px',
         border: isOpen ? 'black 1px solid' : 'none',
-        backgroundColor: isOpen ? '#121212' : 'none',
+        backgroundColor: isOpen && currentTheme === 'dark' ? '#fff' : '#121212',
       }}
     >
       <Box
@@ -91,10 +91,20 @@ export const RentalSearchSidebar = ({
         }}
       >
         <Box className={classes.title}>
-          <Typography>Filter Rentals</Typography>
-          <Button className={classes.resetButton} shape="round" size="large" onClick={initFilter}>
+          <Typography sx={{ color: currentTheme === 'dark' ? '#121212' : '#fff' }}>Filter Rentals</Typography>
+          <Button
+            size="large"
+            onClick={initFilter}
+            sx={{
+              color: `${currentTheme === 'dark' ? '#5e72eb' : '#fff'}`,
+              borderColor: '#6f6c6c',
+              borderRadius: '25px',
+              background: `${currentTheme === 'light' && '-webkit-linear-gradient(89deg, #620edf 0%, #5e72eb 100%)'}`,
+            }}
+            variant="outlined"
+          >
             Reset
-          </Button>
+          </Button>{' '}
         </Box>
         <Section label="Overview">
           <RangeContinuous
@@ -143,7 +153,47 @@ export const RentalSearchSidebar = ({
           right: isOpen ? 15 : -30,
         }}
       >
-        {isOpen ? <ArrowBackIosNew className={classes.icon} /> : <ArrowForwardIos className={classes.icon} />}
+        {isOpen ? (
+          <ArrowBackIosNew
+            sx={{
+              color: isOpen
+                ? currentTheme === 'dark'
+                  ? '#fff'
+                  : '#313131'
+                : currentTheme === 'dark'
+                ? '#313131'
+                : '#fff',
+              backgroundColor: isOpen
+                ? currentTheme === 'dark'
+                  ? '#313131'
+                  : '#fff'
+                : currentTheme === 'dark'
+                ? '#fff'
+                : '#313131',
+            }}
+            className={classes.icon}
+          />
+        ) : (
+          <ArrowForwardIos
+            sx={{
+              color: isOpen
+                ? currentTheme === 'dark'
+                  ? '#fff'
+                  : '#313131'
+                : currentTheme === 'dark'
+                ? '#313131'
+                : '#fff',
+              backgroundColor: isOpen
+                ? currentTheme === 'dark'
+                  ? '#313131'
+                  : '#fff'
+                : currentTheme === 'dark'
+                ? '#fff'
+                : '#313131',
+            }}
+            className={classes.icon}
+          />
+        )}
       </Box>
     </Box>
   );

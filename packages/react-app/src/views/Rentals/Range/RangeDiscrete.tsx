@@ -3,6 +3,7 @@
 import makeStyles from '@mui/styles/makeStyles';
 import React, { useState, useEffect } from 'react';
 import { Slider } from 'antd';
+import { useThemeSwitcher } from 'react-css-theme-switcher';
 
 const useStyles = makeStyles(() => ({
   label: {
@@ -24,6 +25,7 @@ const RangeSelectDiscrete = ({ label, min, max, low, high, setRange }: RangeSele
   const classes: any = useStyles();
   const [lowValue, setLowValue] = useState<number>();
   const [highValue, setHighValue] = useState<number>();
+  const { currentTheme } = useThemeSwitcher();
 
   useEffect(() => {
     setLowValue(low);
@@ -31,7 +33,9 @@ const RangeSelectDiscrete = ({ label, min, max, low, high, setRange }: RangeSele
   }, [low, high]);
   return (
     <>
-      <div className={classes.label}>{label}</div>
+      <div style={{ marginTop: '16px', textAlign: 'left', color: currentTheme === 'dark' ? '#121212' : '#fff' }}>
+        {label}
+      </div>{' '}
       <Slider
         range
         defaultValue={[min, max]}

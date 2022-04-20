@@ -7,6 +7,7 @@ import { NetworkContext } from 'NetworkProvider';
 import DegenImage from 'components/DegenImage';
 import { NFT_CONTRACT } from '../../constants';
 import { TRAIT_INDEXES, TRAIT_NAME_MAP, TRAIT_VALUE_MAP } from '../../constants/characters';
+import Address from 'components/Address';
 
 const useStyles = makeStyles(() => {
   return {
@@ -18,7 +19,7 @@ const useStyles = makeStyles(() => {
       justifyContent: 'center',
     },
     modalContent: {
-      width: '700px',
+      width: '900px',
     },
     cardRoot: {
       textAlign: 'center',
@@ -29,8 +30,17 @@ const useStyles = makeStyles(() => {
       paddingRight: 5,
       textAlign: 'center',
       position: 'relative',
+      height: '60vh',
     },
-    traitList: { padding: 16, paddingBottom: 62, display: 'flex', flexWrap: 'wrap', flexDirection: 'row' },
+    traitList: {
+      overflowY: 'auto',
+      padding: 16,
+      paddingBottom: 62,
+      display: 'flex',
+      flexWrap: 'wrap',
+      flexDirection: 'row',
+      height: '75%',
+    },
     traitListItem: { width: '33%', alignItems: 'baseline' },
     traitListText: { fontSize: 18, textAlign: 'center' },
     traitListTextSecondary: { color: '#aaa0a0', fontSize: 18, textAlign: 'center' },
@@ -85,7 +95,7 @@ const ViewTraitsDialog = ({
 }): JSX.Element => {
   const classes = useStyles();
   const [traitList, setTraitList] = useState([]);
-  const { readContracts } = useContext(NetworkContext);
+  const { readContracts, targetNetwork, mainnetProvider } = useContext(NetworkContext);
 
   const { currentTheme } = useThemeSwitcher();
   const darkThemed = currentTheme === 'dark';
@@ -133,7 +143,18 @@ const ViewTraitsDialog = ({
               <Box className={classes.rentalCount}>{rental.rental_count} Active Rentals</Box>
               <Box className={classes.price}>{rental.price} NFTL / 1 Week</Box>
               <Box className={classes.owner} sx={{ color: darkThemed ? 'white' : 'black' }}>
-                Owned by <span className={classes.underline}>{rental.owner.slice(0, 5)}...</span>
+                <span
+                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '.5rem' }}
+                  className={classes.owner}
+                >
+                  Owned by :
+                  <Address
+                    address={rental.owner}
+                    blockExplorer={targetNetwork.blockExplorer}
+                    copyable
+                    ensProvider={mainnetProvider}
+                  />
+                </span>{' '}
               </Box>
             </Box>
           </Card>
