@@ -111,7 +111,7 @@ const DisableRentModal = ({
           <CardHeader
             title={
               <Typography variant="h6" style={{ color: 'white' }}>
-                Disable Degen #{rental.id} Rentals
+                {`${rental.is_active ? 'Disable' : 'Enable'} Degen #${rental.id} Rentals`}
               </Typography>
             }
           />
@@ -137,9 +137,14 @@ const DisableRentModal = ({
             </div>
 
             <div className={classes.description}>
+              {rental.is_active
+                ? `
               Disabling your rental allows you to rent your rental to only specific wallets (by using our rent for
               someone system) and avoid the rental price curve. Keep in mind that enabling your degen for rentals incurs
-              a 1,000 NFTL fee.
+              a 1,000 NFTL fee.`
+                : `
+              Enabling your rental allows you to rent your rental to any wallets. Keep in mind that enabling your degen for rentals incurs
+              a 1,000 NFTL fee.`}
             </div>
             <FormControlLabel
               control={
