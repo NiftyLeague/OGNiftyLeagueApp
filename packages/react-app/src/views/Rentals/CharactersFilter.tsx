@@ -45,12 +45,12 @@ const CharactersFilter = ({ filterState, setFilterState }: CharactersFilterProps
         options={FILTER_STATE_MAPPING.tribes}
       />
       <Section label="Overview">
-        <RangeContinuous
+        {/* <RangeContinuous
           label="Price"
           low={filterState.price.low}
           high={filterState.price.high}
           setRange={(low, high) => handleFilterRangeUpdate('price', { low, high })}
-        />
+        /> */}
         <RangeDiscrete
           label="Total Multipliers"
           min={1}

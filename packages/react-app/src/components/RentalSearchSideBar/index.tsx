@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import { Button, Typography, Box } from '@mui/material';
 import { ArrowBackIosNew, ArrowForwardIos } from '@mui/icons-material';
 
+import { useThemeSwitcher } from 'react-css-theme-switcher';
 import { INITIAL_FILTER_STATE, FILTER_STATE_MAPPING, FILTER_LABEL_MAPPING } from '../../views/Rentals/constants';
 import Section from '../../views/Rentals/Section';
 import { RangeContinuous, RangeDiscrete } from '../../views/Rentals/Range';
 import { SelectSearchable, SelectTwoColumns } from '../../views/Rentals/Select';
-import { useThemeSwitcher } from 'react-css-theme-switcher';
 
 type FilterState = typeof INITIAL_FILTER_STATE;
 
@@ -19,6 +19,8 @@ const useStyles = makeStyles(() => ({
     top: '64px',
     zIndex: 2,
     paddingTop: '20px',
+    backgroundColor: '#121212',
+    color: '#fff',
   },
   toggle: {
     position: 'absolute',
@@ -32,6 +34,8 @@ const useStyles = makeStyles(() => ({
     borderRadius: '100%',
     padding: 5,
     cursor: 'pointer',
+    color: '#fff',
+    backgroundColor: '#313131',
   },
   title: {
     fontSize: '1.2rem',
@@ -40,12 +44,15 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     justifyContent: 'space-around',
     alignItems: 'center',
+    color: '#fff',
   },
   resetButton: {
     verticalAlign: 'top',
     borderColor: '#6f6c6c',
     padding: '0 16px',
     borderRadius: '25px',
+    color: '#fff',
+    background: '-webkit-linear-gradient(89deg, #620edf 0%, #5e72eb 100%)',
   },
 }));
 
@@ -62,7 +69,6 @@ export const RentalSearchSidebar = ({
   setFilterState: React.Dispatch<React.SetStateAction<FilterState>>;
   initFilter: () => void;
 }): JSX.Element => {
-  const { currentTheme } = useThemeSwitcher();
   const classes = useStyles();
 
   const handleFilterOptionsUpdate = (key: string, values: string[]) => {
@@ -72,7 +78,7 @@ export const RentalSearchSidebar = ({
   const handleFilterRangeUpdate = (key: string, values: { low: number; high: number }) => {
     setFilterState((prevState: FilterState) => ({ ...prevState, [key]: values }));
   };
-
+  const [init, setInit] = useState(false);
   return (
     <Box
       className={classes.sidebar}
@@ -81,7 +87,6 @@ export const RentalSearchSidebar = ({
         overflowY: isOpen ? 'auto' : 'none',
         width: isOpen ? '360px' : '0px',
         border: isOpen ? 'black 1px solid' : 'none',
-        backgroundColor: isOpen && currentTheme === 'dark' ? '#fff' : '#121212',
       }}
     >
       <Box
@@ -90,13 +95,12 @@ export const RentalSearchSidebar = ({
         }}
       >
         <Box className={classes.title}>
-          <Typography sx={{ color: currentTheme === 'dark' ? '#121212' : '#fff' }}>Filter Rentals</Typography>
+          <Typography>Filter Rentals</Typography>
           <Button
             size="large"
-            onClick={initFilter}
-            sx={{
-              color: `${currentTheme === 'dark' ? '#5e72eb' : '#fff'}`,
-              background: `${currentTheme === 'light' && '-webkit-linear-gradient(89deg, #620edf 0%, #5e72eb 100%)'}`,
+            onClick={() => {
+              initFilter();
+              setInit(!init);
             }}
             className={classes.resetButton}
             variant="outlined"
@@ -110,6 +114,7 @@ export const RentalSearchSidebar = ({
             low={filterState.price.low}
             high={filterState.price.high}
             setRange={(low, high) => handleFilterRangeUpdate('price', { low, high })}
+            init={init}
           />
           <RangeDiscrete
             label="Total Multipliers"
@@ -153,42 +158,10 @@ export const RentalSearchSidebar = ({
       >
         {isOpen ? (
           <ArrowBackIosNew
-            sx={{
-              color: isOpen
-                ? currentTheme === 'dark'
-                  ? '#fff'
-                  : '#313131'
-                : currentTheme === 'dark'
-                ? '#313131'
-                : '#fff',
-              backgroundColor: isOpen
-                ? currentTheme === 'dark'
-                  ? '#313131'
-                  : '#fff'
-                : currentTheme === 'dark'
-                ? '#fff'
-                : '#313131',
-            }}
             className={classes.icon}
           />
         ) : (
           <ArrowForwardIos
-            sx={{
-              color: isOpen
-                ? currentTheme === 'dark'
-                  ? '#fff'
-                  : '#313131'
-                : currentTheme === 'dark'
-                ? '#313131'
-                : '#fff',
-              backgroundColor: isOpen
-                ? currentTheme === 'dark'
-                  ? '#313131'
-                  : '#fff'
-                : currentTheme === 'dark'
-                ? '#fff'
-                : '#313131',
-            }}
             className={classes.icon}
           />
         )}
