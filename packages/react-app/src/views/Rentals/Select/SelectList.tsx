@@ -5,7 +5,6 @@ import React from 'react';
 
 import FilterItem from './FilterItem';
 import { useToggleSelect } from './hooks';
-import { useThemeSwitcher } from 'react-css-theme-switcher';
 
 interface SelectListProps {
   className: string;
@@ -16,16 +15,9 @@ interface SelectListProps {
 
 const SelectList = ({ className, selectedOptions, setSelectedOptions, entries }: SelectListProps): JSX.Element => {
   const handleToggle = useToggleSelect(selectedOptions, setSelectedOptions);
-  const { currentTheme } = useThemeSwitcher();
 
   return (
-    <List
-      className={className}
-      sx={{
-        bgcolor: currentTheme === 'dark' ? '#fff' : '#121212',
-        color: currentTheme === 'dark' ? '#fff' : '#121212',
-      }}
-    >
+    <List className={className}>
       {entries.map(([id, value]) => (
         <FilterItem id={id} value={value} checked={selectedOptions.indexOf(id) !== -1} onToggle={handleToggle} />
       ))}

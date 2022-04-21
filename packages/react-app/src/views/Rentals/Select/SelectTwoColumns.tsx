@@ -15,12 +15,11 @@ const useStyles = makeStyles(() => ({
     overflow: 'auto',
     overflowX: 'hidden',
     bgcolor: 'background.paper',
+
     display: 'flex',
     justifyContent: 'center',
     flexWrap: 'wrap',
-    '&::-webkit-scrollbar': {
-      display: 'none',
-    },
+
     '& > li': {
       minWidth: '50%',
       maxWidth: '50%',

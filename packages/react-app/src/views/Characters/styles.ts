@@ -26,6 +26,12 @@ const searchStyles = {
     height: 28,
     margin: 4,
   },
+  noItem: {
+    height: 'calc(100vh - 133px)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 };
 
 const multiSelectStyles = {
