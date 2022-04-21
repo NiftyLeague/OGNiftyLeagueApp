@@ -8,13 +8,11 @@ import makeStyles from '@mui/styles/makeStyles';
 import SelectProps from './SelectProps';
 import Section from '../Section';
 import SelectList from './SelectList';
-import { useThemeSwitcher } from 'react-css-theme-switcher';
 
 const useStyles = makeStyles(() => ({
   searchField: {
     padding: '20px 16px 8px',
     margin: 0,
-
     '& legend': {
       display: 'none',
     },
@@ -40,22 +38,11 @@ const useStyles = makeStyles(() => ({
 const SelectSearchable = ({ label, selectedOptions, setSelectedOptions, options }: SelectProps): JSX.Element => {
   const classes: any = useStyles();
   const [searchText, setSeachText] = useState<string>('');
-  const { currentTheme } = useThemeSwitcher();
 
   return (
     <Section label={label}>
       {Object.keys(options).length > 7 && (
         <TextField
-          sx={{
-            '& div': {
-              '& input': {
-                color: currentTheme === 'dark' ? '#121212' : '#fff',
-              },
-              '& fieldset': {
-                borderColor: currentTheme === 'dark' ? '#121212' : '#fff',
-              },
-            },
-          }}
           className={classes.searchField}
           fullWidth
           placeholder="Search"
@@ -66,7 +53,7 @@ const SelectSearchable = ({ label, selectedOptions, setSelectedOptions, options 
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <SearchIcon sx={{ color: currentTheme === 'dark' ? '#121212' : '#fff' }} />
+                <SearchIcon />
               </InputAdornment>
             ),
           }}
