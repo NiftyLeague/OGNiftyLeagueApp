@@ -233,3 +233,11 @@ a:active {
 .web3modal-modal-lightbox {
   z-index: 2000 !important;
 }
+
+.address-box.ant-typography {
+  vertical-align: middle;
+}
+
+.address-box .anticon.anticon-copy {
+  vertical-align: text-top;
+}
