@@ -48,41 +48,43 @@ export const useRentals = (filterState: typeof INITIAL_FILTER_STATE): [boolean, 
 
     setRentals(
       Object.keys(searchedItems)
-        .filter(rentalId =>
-          arrayTraitKeys.every(key => {
-            const traitValue: string =
-              searchedItems[rentalId].traits_string.split(',')[FILTER_STATE_KEY_TO_INDEX[key] as number];
-            return (filterState[key] as string[]).includes(traitValue);
-          }),
-        )
         .filter(rentalId => {
-          const { price } = searchedItems[rentalId];
-          if (priceRange.low && priceRange.high) {
-            return priceRange.low <= price && price <= priceRange.high;
-          }
-          return true;
-        })
-        .filter(rentalId => {
-          const { multiplier } = searchedItems[rentalId];
-          if (totalMultiplier.low && totalMultiplier.high) {
-            return totalMultiplier.low <= multiplier && multiplier <= totalMultiplier.high;
-          }
-          return true;
-        })
-        .filter(rentalId => {
-          const { total_rented } = searchedItems[rentalId];
-          if (numOfRentals.low && numOfRentals.high) {
-            return numOfRentals.low <= total_rented && total_rented <= numOfRentals.high;
-          }
-          return true;
-        })
-        .filter(rentalId => {
-          if (isEmpty(backgrounds)) {
-            return true;
+          const item = searchedItems[rentalId];
+          const { price, multiplier, total_rented, background } = item;
+          if (
+            !arrayTraitKeys.every(key => {
+              const traitValue: string = item.traits_string.split(',')[FILTER_STATE_KEY_TO_INDEX[key] as number];
+              return (filterState[key] as string[]).includes(traitValue);
+            })
+          ) {
+            return false;
           }
 
-          const { background } = searchedItems[rentalId];
-          return !!backgrounds.find(bgKey => (BACKGROUNDS[bgKey] as string).toLowerCase().includes(background));
+          if (priceRange.low && priceRange.high) {
+            if (!(priceRange.low <= price && price <= priceRange.high)) {
+              return false;
+            }
+          }
+
+          if (totalMultiplier.low && totalMultiplier.high) {
+            if (!(totalMultiplier.low <= multiplier && multiplier <= totalMultiplier.high)) {
+              return false;
+            }
+          }
+
+          if (numOfRentals.low && numOfRentals.high) {
+            if (!(numOfRentals.low <= total_rented && total_rented <= numOfRentals.high)) {
+              return false;
+            }
+          }
+
+          if (!isEmpty(backgrounds)) {
+            if (!backgrounds.find(bgKey => (BACKGROUNDS[bgKey] as string).toLowerCase().includes(background))) {
+              return false;
+            }
+          }
+
+          return true;
         })
         .reduce((mergedObj, rentalId) => ({ ...mergedObj, [rentalId]: searchedItems[rentalId] }), {}),
     );
