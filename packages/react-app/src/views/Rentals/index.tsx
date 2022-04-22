@@ -51,7 +51,7 @@ const CharactersContainer = (): JSX.Element => {
       search,
     }));
   }, [debouncedSearch]);
-
+  console.log('loading: ', loading);
   return (
     <>
       <div style={{ display: 'flex', alignItems: 'flex-start' }}>
@@ -63,7 +63,9 @@ const CharactersContainer = (): JSX.Element => {
           initFilter={initFilter}
         />
         <Container>
-          <CustomSearchInput search={search} setSearch={setSearch} />
+          <Box sx={{ marginTop: '20px' }}>
+            <CustomSearchInput search={search} setSearch={setSearch} />
+          </Box>
           {loading ? (
             <CircularProgress size={100} style={{ marginTop: 100 }} />
           ) : (
@@ -79,24 +81,26 @@ const CharactersContainer = (): JSX.Element => {
                     ))}
                 </Grid>
               ) : (
-                <Box className={clsx(classes.noItem)}><p>No items found</p></Box>
+                <Box className={clsx(classes.noItem)}>
+                  <p>No items found</p>
+                </Box>
               )}
+              {rentals && Object.keys(rentals).length > PAGE_SIZE ? (
+                <Pagination
+                  className={clsx(classes.pagination, { [classes.paginationDark]: currentTheme === 'dark' })}
+                  color="primary"
+                  count={Math.ceil(Object.keys(rentals)?.length / PAGE_SIZE)}
+                  onChange={(_, value) => {
+                    setPage(value);
+                    localStorage.setItem(PAGE_KEY, value.toString());
+                  }}
+                  page={page}
+                  size="large"
+                  variant="outlined"
+                />
+              ) : null}
             </>
           )}
-          {rentals && Object.keys(rentals).length > PAGE_SIZE ? (
-            <Pagination
-              className={clsx(classes.pagination, { [classes.paginationDark]: currentTheme === 'dark' })}
-              color="primary"
-              count={Math.ceil(Object.keys(rentals)?.length / PAGE_SIZE)}
-              onChange={(_, value) => {
-                setPage(value);
-                localStorage.setItem(PAGE_KEY, value.toString());
-              }}
-              page={page}
-              size="large"
-              variant="outlined"
-            />
-          ) : null}
         </Container>
       </div>
     </>

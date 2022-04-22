@@ -5,7 +5,6 @@ import { Typography, Skeleton } from 'antd';
 import { MainnetProvider } from 'types/web3';
 import { useLookupAddress } from 'eth-hooks/dapps/ens';
 import { TEthersProvider } from 'eth-hooks/models/providerTypes';
-import { DEBUG } from '../constants';
 
 /*
   ~ What it does? ~
@@ -91,7 +90,7 @@ export default function Address({
       )}
       <span style={{ verticalAlign: 'middle', paddingLeft: 5, height: 'inherit', marginTop: '-3px' }}>
         {copyable ? (
-          <Text copyable={{ text: address }}>
+          <Text copyable={{ text: address }} className="address-box">
             <a
               style={{ color: currentTheme === 'light' ? '#222222' : '#ddd' }}
               target="_blank"
@@ -102,7 +101,7 @@ export default function Address({
             </a>
           </Text>
         ) : (
-          <Text style={{ color: '#ddd' }}>{displayAddress}</Text>
+          <Text style={{ color: currentTheme === 'light' ? '#222222' : '#ddd' }}>{displayAddress}</Text>
         )}
       </span>
     </>

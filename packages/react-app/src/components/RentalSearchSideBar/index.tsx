@@ -18,13 +18,12 @@ const useStyles = makeStyles(() => ({
     position: 'sticky',
     top: '64px',
     zIndex: 2,
-    paddingTop: '20px',
-    backgroundColor: '#121212',
-    color: '#fff',
+    backgroundColor: '#fff',
+    color: '#000',
   },
   toggle: {
     position: 'absolute',
-    top: 29,
+    top: 13,
     width: 20,
     height: 20,
   },
@@ -38,13 +37,14 @@ const useStyles = makeStyles(() => ({
     backgroundColor: '#313131',
   },
   title: {
-    fontSize: '1.2rem',
-    padding: '0.3rem',
+    padding: '10px 36px 10px 10px',
     borderBottom: '1px #555 solid',
     display: 'flex',
     justifyContent: 'space-around',
-    alignItems: 'center',
-    color: '#fff',
+  },
+  titleText: {
+    fontSize: '1.4rem',
+    fontWeight: '600',
   },
   resetButton: {
     verticalAlign: 'top',
@@ -95,7 +95,7 @@ export const RentalSearchSidebar = ({
         }}
       >
         <Box className={classes.title}>
-          <Typography>Filter Rentals</Typography>
+          <Typography className={classes.titleText}>Filter Rentals</Typography>
           <Button
             size="large"
             onClick={() => {
