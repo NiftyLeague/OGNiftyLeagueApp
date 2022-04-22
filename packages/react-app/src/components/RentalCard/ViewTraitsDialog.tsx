@@ -30,16 +30,13 @@ const useStyles = makeStyles(() => {
       paddingRight: 5,
       textAlign: 'center',
       position: 'relative',
-      height: '60vh',
     },
     traitList: {
-      overflowY: 'auto',
       padding: 16,
       paddingBottom: 62,
       display: 'flex',
       flexWrap: 'wrap',
       flexDirection: 'row',
-      height: '75%',
     },
     traitListItem: { width: '33%', alignItems: 'baseline' },
     traitListText: { fontSize: 18, textAlign: 'center' },
@@ -57,19 +54,13 @@ const useStyles = makeStyles(() => {
     },
     owner: {
       fontSize: '0.8rem',
+      alignItems: 'center',
     },
     ownerSpan: {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       marginTop: '1rem',
-      '& span': {
-        '& span': {
-          '& a': {
-            color: '#fff !important',
-          },
-        },
-      },
     },
     underline: {
       textDecoration: 'underline',

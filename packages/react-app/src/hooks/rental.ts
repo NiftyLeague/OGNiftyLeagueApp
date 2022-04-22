@@ -96,8 +96,8 @@ export const useRentals = (filterState: typeof INITIAL_FILTER_STATE): [boolean, 
         const result = await fetch(RENTALS_URL)
           .then(async res => {
             if (res.status === 404) setError(true);
-            setLoading(false);
             const json = (await res.json()) as Rentals;
+            setLoading(false);
             return json;
           })
           .catch(() => {

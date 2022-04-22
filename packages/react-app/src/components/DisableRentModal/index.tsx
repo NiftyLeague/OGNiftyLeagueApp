@@ -18,22 +18,16 @@ const useStyles = makeStyles(() => ({
   },
   owner: {
     marginTop: '2rem',
+    alignItems: 'center',
   },
   ownerSpan: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    '& span': {
-      '& span': {
-        '& a': {
-          color: '#fff !important',
-        },
-      },
-    },
   },
   card: {
     border: '1px solid rgb(66, 66, 66)',
-    maxWidth: '600px',
+    maxWidth: '450px',
     margin: 'auto',
     textAlign: 'center',
     background: '#212121',
@@ -46,11 +40,20 @@ const useStyles = makeStyles(() => ({
   },
   checkbox: {
     color: 'white',
+    height: 'fit-content',
+    padding: '0px',
     '&.Mui-checked': {
       color: 'white',
     },
   },
-  checkboxLabel: { color: '#999', fontSize: '0.8rem' },
+  checkboxLabel: {
+    color: '#999',
+    fontSize: '0.9rem',
+    letterSpacing: '1px',
+    '&::first-letter': {
+      marginLeft: '6px',
+    },
+  },
   description: { margin: '2rem 0rem' },
   error: { color: 'red' },
 }));
@@ -167,9 +170,14 @@ const DisableRentModal = ({
                   >
                     terms & conditions
                   </Link>{' '}
-                  regarding disabling a rental
+                  regarding {rental.is_active ? 'disabling' : 'enabling'} a rental
                 </div>
               }
+              sx={{
+                display: 'flex',
+                alignItems: 'unset',
+                margin: '0px 2px 15px 2px',
+              }}
             />
             <Button className={classes.disableButton} disabled={!agreement} onClick={handleButtonClick}>
               {rental.is_active ? `Disable Degen #${rental.id} Rentals` : `Enable Degen #${rental.id} Rentals`}
