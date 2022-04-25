@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Card, IconButton } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { useThemeSwitcher } from 'react-css-theme-switcher';
 
 import { Rental } from 'types/api';
 import DegenImage from 'components/DegenImage';
+import Address from 'components/Address';
 import ViewTraitsDialog from './ViewTraitsDialog';
 import RentDialog from './RentDialog';
 
@@ -15,6 +17,7 @@ const H_PADDING = '12px';
 export const useStyles = makeStyles(() => ({
   cardRoot: {
     background: 'transparent',
+    width: 300,
   },
   imageContainer: {
     position: 'relative',
@@ -22,31 +25,29 @@ export const useStyles = makeStyles(() => ({
     overflow: 'hidden',
   },
   multiplier: {
-    position: 'absolute',
     top: V_PADDING,
     left: H_PADDING,
   },
   rentalCount: {
-    position: 'absolute',
     top: V_PADDING,
     right: H_PADDING,
+    color: '#50b900',
   },
   favorite: {
-    position: 'absolute',
     bottom: '20px',
     left: 0,
   },
   owner: {
-    position: 'absolute',
     bottom: `calc(${V_PADDING} + 20px)`,
     right: H_PADDING,
-  },
-  tokenIdAndName: {
     display: 'flex',
-    justifyContent: 'space-between',
+  },
+  tokenId: {
+    color: '#979798',
   },
   price: {
     textAlign: 'left',
+    color: '#971b1c',
   },
   actions: {
     display: 'flex',
@@ -54,30 +55,40 @@ export const useStyles = makeStyles(() => ({
     fontSize: '16px',
   },
   rentButton: {
+    color: 'white',
     flex: 1,
-    background: '#443760ba',
+    background: '#6400e6',
     cursor: 'pointer',
   },
   viewTraitsButton: {
     flex: 1,
     cursor: 'pointer',
-
-    '&:hover': {
-      background: '#443760ba',
-    },
   },
   bottom: {
-    width: 'calc(100% - 32px)',
     margin: 'auto',
     padding: '8px 10px',
-    transform: 'translateY(-20px)',
-    borderRadius: '4px',
-    background: '-webkit-linear-gradient(89deg, #620edf 75%, #5e72eb 100%)',
-    color: 'white',
-    fontSize: '14px',
+    borderRadius: '2px',
+    fontSize: '13px',
     gap: '6px',
     display: 'flex',
     flexDirection: 'column',
+  },
+  flexBetween: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+  degenName: {
+    fontSize: 15,
+    fontWeight: 'bold',
+  },
+  address: {
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    display: 'block',
+    whiteSpace: 'nowrap',
+    width: 70,
+    fontSize: '13px',
+    textDecoration: 'underline',
   },
 }));
 
@@ -90,10 +101,12 @@ const RentalCard = ({
   favs?: string[];
   handleToggleFavs?: (tokenId: string) => void;
 }): JSX.Element => {
-  const { id: tokenId, name, multiplier, rental_count, price } = rental;
+  const { id: tokenId, name, multiplier, rental_count, price, owner } = rental;
   const classes = useStyles();
   const [rentDialogOpen, setRentDialogOpen] = useState(false);
   const [viewTraitsDialogOpen, setViewTraitsDialogOpen] = useState(false);
+  const { currentTheme } = useThemeSwitcher();
+  const darkTheme = currentTheme === 'dark';
   const handleShowRent = () => {
     setViewTraitsDialogOpen(false);
     setRentDialogOpen(true);
@@ -108,31 +121,56 @@ const RentalCard = ({
       <Card className={classes.cardRoot}>
         <div className={classes.imageContainer}>
           <DegenImage tokenId={tokenId} />
-          <div className={classes.multiplier}>{multiplier}x Multiplier</div>
-          <div className={classes.rentalCount}>{rental_count} Rentals</div>
-          <IconButton
-            className={classes.favorite}
-            aria-label="favorite"
-            onClick={() => {
-              if (handleToggleFavs) handleToggleFavs(tokenId);
-            }}
-            size="large"
-          >
-            {favs?.includes(tokenId) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-          </IconButton>
-          <div className={classes.owner}>0x0wner</div>
         </div>
-        <div className={classes.bottom}>
-          <div className={classes.tokenIdAndName}>
-            <div>#{tokenId}</div>
-            <div>{name || 'No Name DEGEN'}</div>
+        <div
+          className={classes.bottom}
+          style={{
+            background: darkTheme ? '#191b1f' : '#e7dfe1',
+            color: darkTheme ? 'white' : 'black',
+          }}
+        >
+          <div className={classes.flexBetween}>
+            <div className={classes.degenName}>{name || 'No Name DEGEN'}</div>
+            <div
+              className={classes.multiplier}
+              style={{
+                color: darkTheme ? 'yellow' : '#333300',
+              }}
+            >
+              {multiplier}x Multiplier
+            </div>
           </div>
-          <div className={classes.price}>Rent for {price} NFTL / Week</div>
+          <div className={classes.flexBetween}>
+            <div className={classes.tokenId}>Degen #{tokenId}</div>
+            <div className={classes.rentalCount}>{rental_count} Active Rentals</div>
+          </div>
+          <div className={classes.flexBetween}>
+            <div className={classes.price}>{price} NFTL / Week</div>
+            <div className={classes.owner}>
+              Ownedby&nbsp;&nbsp;
+              <a
+                className={classes.address}
+                style={{ color: currentTheme === 'light' ? '#222222' : '#ddd' }}
+                target="_blank"
+                href={`https://etherscan.io/address/${owner}`}
+                rel="noopener noreferrer"
+              >
+                {owner}
+              </a>
+            </div>
+          </div>
           <div className={classes.actions}>
             <div className={classes.rentButton} onClick={handleShowRent}>
-              Rent Now
+              Rent Degen
             </div>
-            <div className={classes.viewTraitsButton} onClick={handleViewTraits}>
+            <div
+              className={classes.viewTraitsButton}
+              onClick={handleViewTraits}
+              style={{
+                background: darkTheme ? 'white' : 'black',
+                color: darkTheme ? 'black' : 'white',
+              }}
+            >
               View Traits
             </div>
           </div>

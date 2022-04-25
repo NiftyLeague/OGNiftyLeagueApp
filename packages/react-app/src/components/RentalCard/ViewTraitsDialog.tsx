@@ -5,9 +5,9 @@ import { Rental } from 'types/api';
 import makeStyles from '@mui/styles/makeStyles';
 import { NetworkContext } from 'NetworkProvider';
 import DegenImage from 'components/DegenImage';
+import Address from 'components/Address';
 import { NFT_CONTRACT } from '../../constants';
 import { TRAIT_INDEXES, TRAIT_NAME_MAP, TRAIT_VALUE_MAP } from '../../constants/characters';
-import Address from 'components/Address';
 
 const useStyles = makeStyles(() => {
   return {
@@ -33,24 +33,35 @@ const useStyles = makeStyles(() => {
     },
     traitList: {
       padding: 16,
-      paddingBottom: 62,
+      paddingBottom: 48,
       display: 'flex',
       flexWrap: 'wrap',
       flexDirection: 'row',
     },
-    traitListItem: { width: '33%', alignItems: 'baseline' },
-    traitListText: { fontSize: 18, textAlign: 'center' },
-    traitListTextSecondary: { color: '#aaa0a0', fontSize: 18, textAlign: 'center' },
+    traitListItem: { width: '33%', alignItems: 'baseline', padding: '3px' },
+    traitListText: { fontSize: 15, textAlign: 'center', padding: '7px 0px' },
+    traitListTextSecondary: {
+      color: '#aaa0a0',
+      fontSize: 15,
+      textAlign: 'center',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      display: 'block',
+      whiteSpace: 'nowrap',
+      textDecoration: 'underline',
+    },
     imageContainer: {
       position: 'relative',
       overflow: 'hidden',
-      padding: 15,
+      padding: 35,
     },
     id: {
       color: 'grey',
+      paddingBottom: '0.5rem',
     },
     rentalCount: {
       color: 'green',
+      padding: '0.5rem 0rem',
     },
     owner: {
       fontSize: '0.8rem',
@@ -73,7 +84,7 @@ const useStyles = makeStyles(() => {
       color: 'red',
     },
     title: {
-      padding: '1rem 0rem',
+      padding: '2rem 0rem',
       borderBottom: '1px grey solid',
     },
     rentButton: {
@@ -84,6 +95,9 @@ const useStyles = makeStyles(() => {
       cursor: 'pointer',
       position: 'absolute',
       bottom: '10px',
+    },
+    name: {
+      padding: '1rem 0rem 0.5rem 0rem',
     },
   };
 });
@@ -141,7 +155,9 @@ const ViewTraitsDialog = ({
           <Card className={classes.cardRoot} sx={{ backgroundColor: darkThemed ? 'black' : 'white' }}>
             <Box className={classes.imageContainer}>
               <DegenImage tokenId={rental.id} />
-              <Box sx={{ color: darkThemed ? 'white' : 'black' }}>{rental.name || 'No Name DEGEN'}</Box>
+              <Box className={classes.name} sx={{ color: darkThemed ? 'white' : 'black' }}>
+                {rental.name || 'No Name DEGEN'}
+              </Box>
               <Box className={classes.id}>#{rental.id}</Box>
               <Box sx={{ color: darkThemed ? 'yellow' : 'black' }}>{rental.multiplier}x Multiplier</Box>
               <Box className={classes.rentalCount}>{rental.rental_count} Active Rentals</Box>
