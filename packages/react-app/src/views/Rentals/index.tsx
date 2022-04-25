@@ -6,10 +6,11 @@ import clsx from 'clsx';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
 
 import { RentalCard } from 'components';
-import { useRentals } from 'hooks/rental';
+import { useMyRentals, useRentals } from 'hooks/rental';
 import isEmpty from 'lodash/isEmpty';
 
 import { RentalSearchSidebar } from 'components/RentalSearchSidebar';
+import { MyRental, Rental } from 'types/api';
 import { INITIAL_FILTER_STATE } from './constants';
 import CustomSearchInput from './CustomSearchInput';
 import { useStyles } from '../Characters/styles';
@@ -25,8 +26,8 @@ const CharactersContainer = (): JSX.Element => {
   const [page, setPage] = useState(storedPage ? parseInt(storedPage, 10) : 1);
   const [search, setSearch] = useState('');
   const [filterState, setFilterState] = useState(INITIAL_FILTER_STATE);
-  const filterActive = useMemo(() => Object.values(filterState).some(v => isEmpty(v)), [filterState]);
   const [loading, error, rentals] = useRentals(filterState);
+  const [myRentals, refreshMyRentals] = useMyRentals();
   const handleFilter = (value: typeof filterState) => {
     setPage(1);
     localStorage.setItem(PAGE_KEY, '1');
@@ -50,8 +51,16 @@ const CharactersContainer = (): JSX.Element => {
       ...prev,
       search,
     }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedSearch]);
-  console.log('loading: ', loading);
+
+  const notRentedRentals =
+    // eslint-disable-next-line no-nested-ternary
+    !rentals || isEmpty(rentals)
+      ? []
+      : !myRentals || isEmpty(myRentals)
+      ? Object.values(rentals)
+      : Object.values(rentals).filter(item => !myRentals.find((myRental: MyRental) => myRental.degen_id === item.id));
   return (
     <>
       <div style={{ display: 'flex', alignItems: 'flex-start' }}>
@@ -70,15 +79,13 @@ const CharactersContainer = (): JSX.Element => {
             <CircularProgress size={100} style={{ marginTop: 100 }} />
           ) : (
             <>
-              {rentals && Object.keys(rentals).length > 0 ? (
+              {notRentedRentals?.length > 0 ? (
                 <Grid container spacing={2} style={{ flexGrow: 1, margin: '8px 0px 8px -8px' }}>
-                  {Object.values(rentals)
-                    .slice((page - 1) * PAGE_SIZE, (page - 1) * PAGE_SIZE + PAGE_SIZE)
-                    .map(rental => (
-                      <Grid item xs={12} sm={6} md={4} lg={3} key={rental.id}>
-                        <RentalCard rental={rental} />
-                      </Grid>
-                    ))}
+                  {notRentedRentals.slice((page - 1) * PAGE_SIZE, (page - 1) * PAGE_SIZE + PAGE_SIZE).map(rental => (
+                    <Grid item xs={12} sm={6} md={4} lg={3} key={rental.id}>
+                      <RentalCard rental={rental} refreshMyRentals={refreshMyRentals} />
+                    </Grid>
+                  ))}
                 </Grid>
               ) : (
                 <Box className={clsx(classes.noItem)}>
