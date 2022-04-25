@@ -96,6 +96,7 @@ export const useRentals = (filterState: typeof INITIAL_FILTER_STATE): [boolean, 
         })
         .reduce((mergedObj, degenId) => ({ ...mergedObj, [degenId]: searchedItems[degenId] }), {}),
     );
+    setLoading(false);
   };
 
   useEffect(() => {

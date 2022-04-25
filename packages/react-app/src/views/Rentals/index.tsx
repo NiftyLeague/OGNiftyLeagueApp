@@ -10,11 +10,13 @@ import { useMyRentals, useRentals } from 'hooks/rental';
 import isEmpty from 'lodash/isEmpty';
 
 import { RentalSearchSidebar } from 'components/RentalSearchSidebar';
+import { SORT_FUNCTION } from 'constants/index';
 import { MyRental, Rental } from 'types/api';
 import { INITIAL_FILTER_STATE } from './constants';
 import CustomSearchInput from './CustomSearchInput';
 import { useStyles } from '../Characters/styles';
 import useDebounce from '../../hooks/useDebounce';
+import CustomSort from './CustomSort';
 
 const PAGE_SIZE = 20;
 const PAGE_KEY = 'FILTER_PAGE';
@@ -27,6 +29,7 @@ const CharactersContainer = (): JSX.Element => {
   const [search, setSearch] = useState('');
   const [filterState, setFilterState] = useState(INITIAL_FILTER_STATE);
   const [loading, error, rentals] = useRentals(filterState);
+  const [sort, setSort] = useState('idAscending');
   const [myRentals, refreshMyRentals] = useMyRentals();
   const handleFilter = (value: typeof filterState) => {
     setPage(1);
@@ -54,13 +57,15 @@ const CharactersContainer = (): JSX.Element => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedSearch]);
 
-  const notRentedRentals =
+  const tmp =
     // eslint-disable-next-line no-nested-ternary
     !rentals || isEmpty(rentals)
       ? []
       : !myRentals || isEmpty(myRentals)
       ? Object.values(rentals)
-      : Object.values(rentals).filter(item => !myRentals.find((myRental: MyRental) => myRental.degen_id === item.id));
+      : Object.values(rentals)
+          .filter(item => !myRentals.find((myRental: MyRental) => myRental.degen_id === item.id))
+          .sort(SORT_FUNCTION[sort]);
   return (
     <>
       <div style={{ display: 'flex', alignItems: 'flex-start' }}>
@@ -71,22 +76,38 @@ const CharactersContainer = (): JSX.Element => {
           setFilterState={handleFilter}
           initFilter={initFilter}
         />
-        <Container>
-          <Box sx={{ marginTop: '20px' }}>
+        <Container className={classes.container}>
+          <Box className={classes.topBox}>
             <CustomSearchInput search={search} setSearch={setSearch} />
+            <CustomSort sort={sort} setSort={setSort} />
           </Box>
           {loading ? (
             <CircularProgress size={100} style={{ marginTop: 100 }} />
           ) : (
             <>
-              {notRentedRentals?.length > 0 ? (
-                <Grid container spacing={2} style={{ flexGrow: 1, margin: '8px 0px 8px -8px' }}>
-                  {notRentedRentals.slice((page - 1) * PAGE_SIZE, (page - 1) * PAGE_SIZE + PAGE_SIZE).map(rental => (
-                    <Grid item xs={12} sm={6} md={4} lg={3} key={rental.id}>
-                      <RentalCard rental={rental} refreshMyRentals={refreshMyRentals} />
-                    </Grid>
-                  ))}
-                </Grid>
+              {rentals ? (
+                <Box className={classes.grid}>
+                  {!myRentals || isEmpty(myRentals) ? (
+                    <>
+                      {Object.values(rentals)
+                        .sort(SORT_FUNCTION[sort])
+                        .slice((page - 1) * PAGE_SIZE, (page - 1) * PAGE_SIZE + PAGE_SIZE)
+                        .map(rental => (
+                          <RentalCard rental={rental} refreshMyRentals={refreshMyRentals} />
+                        ))}
+                    </>
+                  ) : (
+                    <>
+                      {Object.values(rentals)
+                        .filter(item => !myRentals.find((myRental: MyRental) => myRental.degen_id === item.id))
+                        .sort(SORT_FUNCTION[sort])
+                        .slice((page - 1) * PAGE_SIZE, (page - 1) * PAGE_SIZE + PAGE_SIZE)
+                        .map(rental => (
+                          <RentalCard rental={rental} refreshMyRentals={refreshMyRentals} />
+                        ))}
+                    </>
+                  )}
+                </Box>
               ) : (
                 <Box className={clsx(classes.noItem)}>
                   <p>No items found</p>
