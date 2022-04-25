@@ -156,15 +156,7 @@ export const RentalSearchSidebar = ({
           right: isOpen ? 15 : -30,
         }}
       >
-        {isOpen ? (
-          <ArrowBackIosNew
-            className={classes.icon}
-          />
-        ) : (
-          <ArrowForwardIos
-            className={classes.icon}
-          />
-        )}
+        {isOpen ? <ArrowBackIosNew className={classes.icon} /> : <ArrowForwardIos className={classes.icon} />}
       </Box>
     </Box>
   );

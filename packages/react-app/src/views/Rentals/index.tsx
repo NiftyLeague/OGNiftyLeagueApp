@@ -6,11 +6,12 @@ import clsx from 'clsx';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
 
 import { RentalCard } from 'components';
-import { useRentals } from 'hooks/rental';
+import { useMyRentals, useRentals } from 'hooks/rental';
 import isEmpty from 'lodash/isEmpty';
 
 import { RentalSearchSidebar } from 'components/RentalSearchSidebar';
 import { SORT_FUNCTION } from 'constants/index';
+import { MyRental, Rental } from 'types/api';
 import { INITIAL_FILTER_STATE } from './constants';
 import CustomSearchInput from './CustomSearchInput';
 import { useStyles } from '../Characters/styles';
@@ -27,9 +28,9 @@ const CharactersContainer = (): JSX.Element => {
   const [page, setPage] = useState(storedPage ? parseInt(storedPage, 10) : 1);
   const [search, setSearch] = useState('');
   const [filterState, setFilterState] = useState(INITIAL_FILTER_STATE);
-  const filterActive = useMemo(() => Object.values(filterState).some(v => isEmpty(v)), [filterState]);
   const [loading, error, rentals] = useRentals(filterState);
   const [sort, setSort] = useState('idAscending');
+  const [myRentals, refreshMyRentals] = useMyRentals();
   const handleFilter = (value: typeof filterState) => {
     setPage(1);
     localStorage.setItem(PAGE_KEY, '1');
@@ -55,7 +56,16 @@ const CharactersContainer = (): JSX.Element => {
     }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedSearch]);
-  console.log('loading: ', loading);
+
+  const tmp =
+    // eslint-disable-next-line no-nested-ternary
+    !rentals || isEmpty(rentals)
+      ? []
+      : !myRentals || isEmpty(myRentals)
+      ? Object.values(rentals)
+      : Object.values(rentals)
+          .filter(item => !myRentals.find((myRental: MyRental) => myRental.degen_id === item.id))
+          .sort(SORT_FUNCTION[sort]);
   return (
     <>
       <div style={{ display: 'flex', alignItems: 'flex-start' }}>
@@ -75,14 +85,28 @@ const CharactersContainer = (): JSX.Element => {
             <CircularProgress size={100} style={{ marginTop: 100 }} />
           ) : (
             <>
-              {rentals && Object.keys(rentals).length > 0 ? (
+              {rentals ? (
                 <Box className={classes.grid}>
-                  {Object.values(rentals)
-                    .sort(SORT_FUNCTION[sort])
-                    .slice((page - 1) * PAGE_SIZE, (page - 1) * PAGE_SIZE + PAGE_SIZE)
-                    .map(rental => (
-                      <RentalCard key={rental.id} rental={rental} />
-                    ))}
+                  {!myRentals || isEmpty(myRentals) ? (
+                    <>
+                      {Object.values(rentals)
+                        .sort(SORT_FUNCTION[sort])
+                        .slice((page - 1) * PAGE_SIZE, (page - 1) * PAGE_SIZE + PAGE_SIZE)
+                        .map(rental => (
+                          <RentalCard rental={rental} refreshMyRentals={refreshMyRentals} />
+                        ))}
+                    </>
+                  ) : (
+                    <>
+                      {Object.values(rentals)
+                        .filter(item => !myRentals.find((myRental: MyRental) => myRental.degen_id === item.id))
+                        .sort(SORT_FUNCTION[sort])
+                        .slice((page - 1) * PAGE_SIZE, (page - 1) * PAGE_SIZE + PAGE_SIZE)
+                        .map(rental => (
+                          <RentalCard rental={rental} refreshMyRentals={refreshMyRentals} />
+                        ))}
+                    </>
+                  )}
                 </Box>
               ) : (
                 <Box className={clsx(classes.noItem)}>
