@@ -21,7 +21,7 @@ import { ethers } from 'ethers';
 import TitleAndValue from 'components/TitleAndValue';
 import { NetworkContext } from 'NetworkProvider';
 import { useSign } from 'utils/sign';
-import { useRent, useRental } from 'hooks/rental';
+import { useRentalRename, useRent, useRental, useRentalPassCount, useRentalRenameFee } from 'hooks/rental';
 import ErrorModal from 'components/Modal/ErrorModal';
 import Address from 'components/Address';
 
@@ -36,7 +36,7 @@ const useStyles = makeStyles(() => ({
   modalContent: {
     backgroundColor: 'black',
     width: '100%',
-    maxWidth: '1200px',
+    maxWidth: '960px',
     display: 'grid',
     gridTemplateColumns: 'repeat(2, 1fr)',
   },
@@ -59,9 +59,9 @@ const useStyles = makeStyles(() => ({
     padding: 16,
     borderBottom: '1px grey solid',
     textAlign: 'right',
+    flex: 1,
   },
   rentButtonContainer: {
-    flex: 1,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'flex-end',
@@ -189,7 +189,15 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const RentDialog = ({ rental, onClose }: { rental: Rental | null; onClose: () => void }): JSX.Element | null => {
+const RentDialog = ({
+  rental,
+  onClose,
+  refreshMyRentals,
+}: {
+  rental: Rental | null;
+  onClose: () => void;
+  refreshMyRentals: () => void;
+}): JSX.Element | null => {
   const classes = useStyles();
   const [agreed, setAgreed] = useState(false);
   const [scholarAddress, setScholarAddress] = useState('');
@@ -203,8 +211,10 @@ const RentDialog = ({ rental, onClose }: { rental: Rental | null; onClose: () =>
   const [signError, setSignError] = useState('');
   const [rentError, setRentError] = useState('');
   const [msgSent, signMsg] = useSign();
-  const rent = useRent(rental?.id, 2, rental?.price, scholarAddress);
-  const rentalDetails = useRental(rental?.id);
+  const [, , rentalDetails] = useRental(rental?.id);
+  const [, , rentalPassCount] = useRentalPassCount(rental?.id);
+  const rent = useRent(rental?.id, rentalDetails?.rental_count || 0, rental?.price, scholarAddress);
+  const [, , renameFee = 1000] = useRentalRenameFee(rental?.id);
 
   const handleChangeAgreement = () => {
     setAgreed(!agreed);
@@ -228,11 +238,21 @@ const RentDialog = ({ rental, onClose }: { rental: Rental | null; onClose: () =>
 
   const handleRent = useCallback(async () => {
     try {
-      await rent();
+      const myRental = await rent();
+
+      // useRentalRename is actually not a hook, so we can safely use it here
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const renameRental = useRentalRename(rental?.id, myRental?.id, name);
+
+      refreshMyRentals();
+      if (renameEnabled) {
+        await renameRental();
+      }
+      onClose();
     } catch (err: any) {
       setRentError(err.message);
     }
-  }, [rent]);
+  }, [name, onClose, refreshMyRentals, renameEnabled, rent, rental?.id]);
 
   const showSignModal = useCallback(async () => {
     if (!msgSent) {
@@ -249,6 +269,16 @@ const RentDialog = ({ rental, onClose }: { rental: Rental | null; onClose: () =>
   }, [address, msgSent]);
 
   const precheckRent = () => {
+    if (rentFor === 'scholar' && !scholarAddress) {
+      setAddressError('Please input an address.');
+      return;
+    }
+
+    if (renameEnabled && !name) {
+      setNameError('Please input a name.');
+      return;
+    }
+
     const authToken = window.localStorage.getItem('authentication-token');
     if (!address) {
       void loadWeb3Modal();
@@ -301,7 +331,11 @@ const RentDialog = ({ rental, onClose }: { rental: Rental | null; onClose: () =>
               value={rentFor}
               row
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                setRentFor(event.target.value);
+                const { value } = event.target;
+                setRentFor(value);
+                if (value !== 'scholar') {
+                  setAddressError('');
+                }
               }}
             >
               <FormControlLabel
@@ -339,7 +373,13 @@ const RentDialog = ({ rental, onClose }: { rental: Rental | null; onClose: () =>
                 <Checkbox
                   className={classes.checkbox}
                   checked={renameEnabled}
-                  onChange={() => setRenameEnabled(!renameEnabled)}
+                  onChange={() => {
+                    const value = !renameEnabled;
+                    setRenameEnabled(value);
+                    if (!value) {
+                      setNameError('');
+                    }
+                  }}
                   name="checked"
                   color="primary"
                 />
@@ -358,7 +398,7 @@ const RentDialog = ({ rental, onClose }: { rental: Rental | null; onClose: () =>
               disabled={!renameEnabled}
             />
             <DialogContentText className={classes.renameFeeWarning}>
-              There is a 1000 NFTL fee for renaming
+              There is a {renameFee} NFTL fee for renaming
             </DialogContentText>
           </Box>
           <Box className={classes.right}>
@@ -371,27 +411,31 @@ const RentDialog = ({ rental, onClose }: { rental: Rental | null; onClose: () =>
               <TitleAndValue title="Rental Term" value="1 Week" />
               <TitleAndValue title="Scholarship?" value={rentFor === 'scholar' ? 'Yes' : 'No'} />
               <TitleAndValue title="Total Multipliers" value={`${rental.multiplier}x`} />
-              <TitleAndValue title="Rental Queue" value={`${3}x`} />
+              <TitleAndValue title="Rental Queue" value={`${rentalDetails?.rental_count || 0}`} />
             </Box>
             <Box className={classes.section}>
               <TitleAndValue title="First Week Rental Cost" value={`${rental.price} NFTL`} />
               <TitleAndValue title="Renews Daily After Week 1 at" value={`${rental.price_daily} NFTL`} />
-              <TitleAndValue title="Rental Passes Remaining" value="15 of 50" />
-              <FormControlLabel
-                className={classes.passCheckboxContainer}
-                control={
-                  <Checkbox
-                    className={classes.checkbox}
-                    checked={useRentalPass}
-                    onChange={() => setUseRentalPass(!useRentalPass)}
-                    name="checked"
-                    color="primary"
+              {rentalPassCount > 0 && (
+                <>
+                  <TitleAndValue title="Rental Passes Remaining" value={`${rentalPassCount}`} />
+                  <FormControlLabel
+                    className={classes.passCheckboxContainer}
+                    control={
+                      <Checkbox
+                        className={classes.checkbox}
+                        checked={useRentalPass}
+                        onChange={() => setUseRentalPass(!useRentalPass)}
+                        name="checked"
+                        color="primary"
+                      />
+                    }
+                    label={<div className={classes.checkboxLabel}>Use a rental pass?</div>}
                   />
-                }
-                label={<div className={classes.checkboxLabel}>Use a rental pass?</div>}
-              />
-              <TitleAndValue title="Renaming Fee" value="1000 NFTL" />
-              <TitleAndValue title="Total Due Now" value="2200 NFTL" />
+                </>
+              )}
+              {renameEnabled && <TitleAndValue title="Renaming Fee" value={`${renameFee} NFTL`} />}
+              <TitleAndValue title="Total Due Now" value={`${rental.price + (renameEnabled ? renameFee : 0)} NFTL`} />
             </Box>
             <Box className={classes.rentButtonContainer}>
               <FormControlLabel

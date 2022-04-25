@@ -85,10 +85,12 @@ const RentalCard = ({
   rental,
   favs,
   handleToggleFavs,
+  refreshMyRentals,
 }: {
   rental: Rental;
   favs?: string[];
   handleToggleFavs?: (tokenId: string) => void;
+  refreshMyRentals: () => void;
 }): JSX.Element => {
   const { id: tokenId, name, multiplier, rental_count, price } = rental;
   const classes = useStyles();
@@ -141,7 +143,9 @@ const RentalCard = ({
       {viewTraitsDialogOpen && (
         <ViewTraitsDialog rental={rental} handleClose={() => setViewTraitsDialogOpen(false)} onRent={handleShowRent} />
       )}
-      {rentDialogOpen && <RentDialog rental={rental} onClose={() => setRentDialogOpen(false)} />}
+      {rentDialogOpen && (
+        <RentDialog rental={rental} onClose={() => setRentDialogOpen(false)} refreshMyRentals={refreshMyRentals} />
+      )}
     </>
   );
 };
