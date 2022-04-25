@@ -27,6 +27,11 @@ export interface Rental {
 
 export type Rentals = { [key: string]: Rental };
 
+export interface MyRental {
+  degen_id: string;
+  id: string;
+}
+
 export interface CharacterType {
   name: string | null;
   owner: string | null;
