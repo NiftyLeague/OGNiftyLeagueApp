@@ -88,6 +88,7 @@ export const useRentals = (filterState: typeof INITIAL_FILTER_STATE): [boolean, 
         })
         .reduce((mergedObj, rentalId) => ({ ...mergedObj, [rentalId]: searchedItems[rentalId] }), {}),
     );
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -99,7 +100,6 @@ export const useRentals = (filterState: typeof INITIAL_FILTER_STATE): [boolean, 
           .then(async res => {
             if (res.status === 404) setError(true);
             const json = (await res.json()) as Rentals;
-            setLoading(false);
             return json;
           })
           .catch(() => {

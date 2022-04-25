@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Checkbox, FormControlLabel, Typography, Modal, Card, CardContent, CardHeader, Button } from '@mui/material';
+import { useThemeSwitcher } from 'react-css-theme-switcher';
 import { Rental } from 'types/api';
 import makeStyles from '@mui/styles/makeStyles';
 import DegenImage from 'components/DegenImage';
@@ -30,7 +31,6 @@ const useStyles = makeStyles(() => ({
     maxWidth: '450px',
     margin: 'auto',
     textAlign: 'center',
-    background: '#212121',
     color: 'white',
   },
   pointerUnderline: { textDecoration: 'underline', cursor: 'pointer' },
@@ -39,7 +39,6 @@ const useStyles = makeStyles(() => ({
     backgroundColor: '#5f44e5',
   },
   checkbox: {
-    color: 'white',
     height: 'fit-content',
     padding: '0px',
     '&.Mui-checked': {
@@ -47,7 +46,6 @@ const useStyles = makeStyles(() => ({
     },
   },
   checkboxLabel: {
-    color: '#999',
     fontSize: '0.9rem',
     letterSpacing: '1px',
     '&::first-letter': {
@@ -71,6 +69,7 @@ const DisableRentModal = ({
   const [agreement, setAgreement] = React.useState(false);
   const [error, setError] = React.useState();
   const classes = useStyles();
+  const { currentTheme } = useThemeSwitcher();
   const handleChangeAgreement = () => {
     setAgreement(!agreement);
   };
@@ -110,10 +109,15 @@ const DisableRentModal = ({
       aria-describedby="simple-modal-description"
     >
       {rental ? (
-        <Card className={classes.card}>
+        <Card
+          className={classes.card}
+          sx={{
+            backgroundColor: currentTheme === 'dark' ? '#212121' : 'white',
+          }}
+        >
           <CardHeader
             title={
-              <Typography variant="h6" style={{ color: 'white' }}>
+              <Typography variant="h6" style={{ color: currentTheme === 'dark' ? 'white' : '#212121' }}>
                 {`${rental.is_active ? 'Disable' : 'Enable'} Degen #${rental.id} Rentals`}
               </Typography>
             }
@@ -124,7 +128,7 @@ const DisableRentModal = ({
             <div className={classes.owner}>
               {rental.owner ? (
                 <>
-                  <span className={classes.ownerSpan}>
+                  <span className={classes.ownerSpan} style={{ color: currentTheme === 'dark' ? 'white' : 'black' }}>
                     Owned by:
                     <Address
                       address={rental.owner}
@@ -139,7 +143,7 @@ const DisableRentModal = ({
               )}
             </div>
 
-            <div className={classes.description}>
+            <div className={classes.description} style={{ color: currentTheme === 'dark' ? 'white' : 'black' }}>
               {rental.is_active
                 ? `
               Disabling your rental allows you to rent your rental to only specific wallets (by using our rent for
@@ -157,10 +161,11 @@ const DisableRentModal = ({
                   onChange={handleChangeAgreement}
                   name="checked"
                   color="primary"
+                  style={{ color: currentTheme === 'dark' ? 'white' : '#212121' }}
                 />
               }
               label={
-                <div className={classes.checkboxLabel}>
+                <div className={classes.checkboxLabel} style={{ color: currentTheme === 'dark' ? '#999' : '#444' }}>
                   I have read the{' '}
                   <Link
                     className={classes.pointerUnderline}

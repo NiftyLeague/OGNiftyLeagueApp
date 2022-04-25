@@ -12,7 +12,6 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     alignItems: 'center',
     width: 400,
-    marginLeft: 'auto',
   },
   input: {
     marginLeft: 3,

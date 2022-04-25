@@ -87,6 +87,16 @@ export const useStyles = makeStyles(theme => ({
       justifyContent: 'center',
     },
   },
+  grid: {
+    display: 'flex',
+    justifyContent: 'space-around',
+    flexWrap: 'wrap',
+  },
+  container: {
+    maxWidth: '100% !important',
+    background: '#2f2f2f',
+    minHeight: 'calc(100vh - 64px)',
+  },
   paginationDark: {
     '& button, li > div': {
       color: 'white',
@@ -94,6 +104,11 @@ export const useStyles = makeStyles(theme => ({
     },
   },
   snackbar: { width: '60vw', bottom: 18 },
+  topBox: {
+    marginTop: '20px',
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
   [theme.breakpoints.down('lg')]: {
     snackbar: { width: '75vw' },
   },
