@@ -126,7 +126,7 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: '1rem',
+    marginTop: '0.875rem',
     '& span': {
       '& span': {
         '& a': {
@@ -134,6 +134,9 @@ const useStyles = makeStyles(() => ({
         },
       },
     },
+  },
+  ownerLabel: {
+    marginRight: '12px',
   },
   underline: {
     textDecoration: 'underline',
@@ -314,7 +317,7 @@ const RentDialog = ({
             </div>
             <div className={classes.owner}>
               <span className={classes.ownerSpan}>
-                Owned by :
+                <span className={classes.ownerLabel}>Owned by:</span>
                 <Address
                   address={rental.owner}
                   blockExplorer={targetNetwork.blockExplorer}

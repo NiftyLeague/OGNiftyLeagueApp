@@ -62,6 +62,9 @@ const useStyles = makeStyles(() => {
       justifyContent: 'center',
       marginTop: '1rem',
     },
+    ownerLabel: {
+      marginRight: '12px',
+    },
     underline: {
       textDecoration: 'underline',
     },
@@ -148,7 +151,7 @@ const ViewTraitsDialog = ({
               <Box className={classes.price}>{rental.price} NFTL / 1 Week</Box>
               <Box className={classes.owner} sx={{ color: darkThemed ? 'white' : 'black' }}>
                 <span className={classes.ownerSpan}>
-                  Owned by :
+                  <span className={classes.ownerLabel}>Owned by:</span>
                   <Address
                     address={rental.owner}
                     blockExplorer={targetNetwork.blockExplorer}
