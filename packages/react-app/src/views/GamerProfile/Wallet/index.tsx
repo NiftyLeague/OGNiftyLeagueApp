@@ -281,7 +281,6 @@ const Wallet = (): JSX.Element => {
     variables: { address: address?.toLowerCase() },
     skip: !address,
   });
-
   const characters = useMemo(() => {
     const characterList = data?.owner?.characters ? [...data.owner.characters] : [];
     return characterList.sort((a, b) => parseInt(a.id, 10) - parseInt(b.id, 10));
