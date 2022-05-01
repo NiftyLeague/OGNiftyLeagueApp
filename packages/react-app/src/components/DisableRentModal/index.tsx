@@ -126,7 +126,7 @@ const DisableRentModal = ({
           <CardHeader
             title={
               <Typography variant="h6" style={{ color: 'white' }}>
-                {`${rental.is_active ? 'Disable' : 'Enable'} Degen #${rental.id} Rentals`}
+                {`${rental.is_active ? 'Disable' : 'Enable'} ${rental.name || `Degen #${rental.id}`} Rentals`}
               </Typography>
             }
           />
