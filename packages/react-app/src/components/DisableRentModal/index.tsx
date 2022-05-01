@@ -16,8 +16,16 @@ const useStyles = makeStyles(() => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  imageContainer: {
+    position: 'relative',
+    borderRadius: 8,
+    overflow: 'hidden',
+    width: '100%',
+    maxWidth: '338px',
+    margin: 'auto',
+  },
   owner: {
-    marginTop: '2rem',
+    marginTop: '0.875rem',
     alignItems: 'center',
   },
   ownerSpan: {
@@ -25,9 +33,12 @@ const useStyles = makeStyles(() => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  ownerLabel: {
+    marginRight: '12px',
+  },
   card: {
     border: '1px solid rgb(66, 66, 66)',
-    maxWidth: '450px',
+    maxWidth: '440px',
     margin: 'auto',
     textAlign: 'center',
     background: '#212121',
@@ -50,11 +61,12 @@ const useStyles = makeStyles(() => ({
     color: '#999',
     fontSize: '0.9rem',
     letterSpacing: '1px',
-    '&::first-letter': {
-      marginLeft: '6px',
-    },
+    textAlign: 'left',
+    marginLeft: '12px',
   },
-  description: { margin: '2rem 0rem' },
+  description: {
+    margin: '1rem 0rem',
+  },
   error: { color: 'red' },
 }));
 
@@ -120,12 +132,14 @@ const DisableRentModal = ({
           />
           <span className={classes.error}>{error}</span>
           <CardContent>
-            <DegenImage tokenId={rental.id} />
+            <div className={classes.imageContainer}>
+              <DegenImage tokenId={rental.id} />
+            </div>
             <div className={classes.owner}>
               {rental.owner ? (
                 <>
                   <span className={classes.ownerSpan}>
-                    Owned by:
+                    <span className={classes.ownerLabel}>Owned by:</span>
                     <Address
                       address={rental.owner}
                       blockExplorer={targetNetwork.blockExplorer}
@@ -142,11 +156,11 @@ const DisableRentModal = ({
             <div className={classes.description}>
               {rental.is_active
                 ? `
-              Disabling your rental allows you to rent your rental to only specific wallets (by using our rent for
-              someone system) and avoid the rental price curve. Keep in mind that enabling your degen for rentals incurs
+              Disabling your rental allows you to rent your rental to only specific wallets (by using our rent for \
+              someone system) and avoid the rental price curve. Keep in mind that enabling your degen for rentals incurs \
               a 1,000 NFTL fee.`
                 : `
-              Enabling your rental allows you to rent your rental to any wallets. Keep in mind that enabling your degen for rentals incurs
+              Enabling your rental allows you to rent your rental to any wallets. Keep in mind that enabling your degen for rentals incurs \
               a 1,000 NFTL fee.`}
             </div>
             <FormControlLabel
@@ -169,8 +183,9 @@ const DisableRentModal = ({
                     rel="noopener noreferrer"
                   >
                     terms & conditions
-                  </Link>{' '}
-                  regarding {rental.is_active ? 'disabling' : 'enabling'} a rental
+                  </Link>
+                  {' regarding '}
+                  {rental.is_active ? 'disabling' : 'enabling'} a rental
                 </div>
               }
               sx={{

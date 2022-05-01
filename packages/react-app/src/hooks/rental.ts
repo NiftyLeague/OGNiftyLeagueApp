@@ -308,6 +308,7 @@ export const useMyRentals = (): [MyRental[] | undefined, () => void] => {
         setRentals(result);
       } catch (err) {
         // eslint-disable-next-line no-empty
+        console.error(err);
       }
     }
     void resolveRentals();
