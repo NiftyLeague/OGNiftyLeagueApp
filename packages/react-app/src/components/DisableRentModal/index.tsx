@@ -155,9 +155,8 @@ const DisableRentModal = ({
             <div className={classes.description}>
               {rental.is_active
                 ? `
-                  Disabling rentals creates a private queue and allows you to choose who to sponsor. If you \
-                  currently have renters on your degen, their rental period must expire before your degen will \
-                  be fully disabled. Note that there is a 1k NFTL re-enabling fee.`
+                  Disabling your rental makes your rental queue private. Note that your queue will clear as \
+                  existing rentals reach the already paid-for expiration. Re-enabling fee is 1000 NFTL.`
                 : `Enable Rental Fee: 1,000 NFTL`}
             </div>
             <FormControlLabel
