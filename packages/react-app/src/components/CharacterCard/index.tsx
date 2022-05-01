@@ -14,7 +14,7 @@ import {
   ListItem,
   ListItemText,
 } from '@mui/material';
-import { Image } from 'antd';
+import { Button } from 'antd';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import EditIcon from '@mui/icons-material/Edit';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -23,11 +23,14 @@ import makeStyles from '@mui/styles/makeStyles';
 
 import { NetworkContext } from 'NetworkProvider';
 import Tooltip from 'components/Tooltip';
+import DisableRentModal from 'components/DisableRentModal';
 import UnavailableImg from 'assets/images/unavailable-image.png';
 import LoadingGif from 'assets/gifs/loading.gif';
 import { formatDateTime } from 'helpers/dateTime';
 import useBackgroundType from 'hooks/useBackgroundType';
 import { Character } from 'types/graph';
+import { Rental, CharacterType } from 'types/api';
+import DegenImage from 'components/DegenImage';
 import RenameDialog from './RenameDialog';
 import OpenSeaLink from './OpenSeaLink';
 import ShareCharacter from './ShareCharacter';
@@ -49,8 +52,6 @@ export const useStyles = makeStyles(theme => ({
   cardTitle: { display: 'flex', alignItems: 'center' },
   cardTitleLink: { fontSize: 18, marginRight: 6, color: '#fff', '&:hover': { color: '#fff' } },
   cardSubheader: { fontSize: 14, textAlign: 'left', color: '#ffffff66' },
-  media: { height: 338, display: 'flex', alignItems: 'center', justifyContent: 'center' },
-  loading: { width: 80, height: 80 },
   actionButtons: { color: '#fff', borderRadius: '50%', '&:focus': { outline: 'none' } },
   reduceSize: { padding: 8, '& svg': { fontSize: 22 } },
   traitsHeader: { color: '#fff', paddingLeft: 8 },
@@ -59,35 +60,18 @@ export const useStyles = makeStyles(theme => ({
   traitListItem: { width: '33%', alignItems: 'baseline' },
   traitListText: { color: '#fff', fontSize: 14 },
   traitListTextSecondary: { color: '#aaa0a0', fontSize: 14 },
+  disable: {
+    marginBottom: '10px',
+    verticalAlign: 'top !important',
+    background: '-webkit-linear-gradient(89deg, #212121 0%, #333c42 100%) !important',
+    color: '#fff !important',
+    borderColor: '#eee !important',
+    padding: '0 16px !important',
+    '&:hover': {
+      background: '-webkit-linear-gradient(89deg, #333c42 0%, #212121 100%) !important',
+    },
+  },
 }));
-
-const DegenImage = ({ tokenId }: { tokenId: string }) => {
-  const classes = useStyles();
-  const { targetNetwork } = useContext(NetworkContext);
-  const [loading, error, background] = useBackgroundType(tokenId);
-  if (error) return <CardMedia className={classes.media} title="Unavailable image" image={UnavailableImg} />;
-  if (loading)
-    return (
-      <div className={classes.media}>
-        <Image className={classes.loading} src={LoadingGif} />
-      </div>
-    );
-
-  const imageURL = `${DEGEN_BASE_IMAGE_URL}/${targetNetwork.name || 'rinkeby'}/images/${tokenId}`;
-  if (background === 'Legendary')
-    return (
-      <CardMedia
-        className={clsx(classes.media, 'pixelated')}
-        title="Legendary DEGEN mp4"
-        component="video"
-        autoPlay
-        loop
-        src={`${imageURL}.mp4`}
-      />
-    );
-
-  return <CardMedia className={clsx(classes.media, 'pixelated')} title="DEGEN image" image={`${imageURL}.png`} />;
-};
 
 const CharacterCard = ({
   character,
@@ -122,7 +106,31 @@ const CharacterCard = ({
   else if (tokenIdNum >= 100) fontSize = '1rem';
 
   const actionClasses = clsx(classes.actionButtons, { [classes.reduceSize]: singleClaim });
-
+  const [rental, setRental] = useState<Rental>();
+  const [disableRentDialogOpen, setDisableRentDialogOpen] = useState(false);
+  const handleDisableRent = () => {
+    setDisableRentDialogOpen(true);
+  };
+  const auth = window.localStorage.getItem('authentication-token');
+  useEffect(() => {
+    async function getCharacter() {
+      if (auth && tokenId) {
+        const rentalData = await fetch(
+          `https://odgwhiwhzb.execute-api.us-east-1.amazonaws.com/prod/rentals/rentables?ids=${tokenId}`,
+          {
+            method: 'GET',
+            headers: { authorizationToken: auth },
+          },
+        );
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        const rentalJSON = await rentalData.json();
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        setRental(rentalJSON[tokenId]);
+      }
+    }
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    void getCharacter();
+  }, [auth, tokenId]);
   return (
     <>
       <Card className={classes.cardRoot}>
@@ -211,6 +219,11 @@ const CharacterCard = ({
             </List>
           </CardContent>
         </Collapse>
+        {ownerOwned && rental && (
+          <Button className={classes.disable} shape="round" size="large" onClick={handleDisableRent}>
+            {rental.is_active ? 'Disable Rentals' : 'Enable Rentals'}
+          </Button>
+        )}
       </Card>
       {ownerOwned ? (
         <RenameDialog
@@ -221,6 +234,9 @@ const CharacterCard = ({
           userNFTLBalance={userNFTLBalance ?? 0}
         />
       ) : null}
+      {ownerOwned && disableRentDialogOpen && (
+        <DisableRentModal rental={rental} handleClose={() => setDisableRentDialogOpen(false)} setRental={setRental} />
+      )}
     </>
   );
 };
