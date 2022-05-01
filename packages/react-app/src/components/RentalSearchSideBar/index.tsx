@@ -56,7 +56,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export const RentalSearchSidebar = ({
+export const RentalSearchSideBar = ({
   isOpen,
   toggleSidebar,
   filterState,
@@ -161,4 +161,4 @@ export const RentalSearchSidebar = ({
     </Box>
   );
 };
-export default RentalSearchSidebar;
+export default RentalSearchSideBar;

@@ -9,7 +9,7 @@ import { RentalCard } from 'components';
 import { useMyRentals, useRentals } from 'hooks/rental';
 import isEmpty from 'lodash/isEmpty';
 
-import { RentalSearchSidebar } from 'components/RentalSearchSidebar';
+import { RentalSearchSideBar } from 'components/RentalSearchSideBar';
 import { MyRental, Rental } from 'types/api';
 import { INITIAL_FILTER_STATE } from './constants';
 import CustomSearchInput from './CustomSearchInput';
@@ -64,7 +64,7 @@ const CharactersContainer = (): JSX.Element => {
   return (
     <>
       <div style={{ display: 'flex', alignItems: 'flex-start' }}>
-        <RentalSearchSidebar
+        <RentalSearchSideBar
           isOpen={sidebarOpen}
           toggleSidebar={toggleSidebar}
           filterState={filterState}
