@@ -28,6 +28,7 @@ import useBackgroundType from 'hooks/useBackgroundType';
 import useNFTLBalance from 'hooks/useNFTLBalance';
 import UnavailableImg from 'assets/images/unavailable-image.png';
 import LoadingGif from 'assets/gifs/loading.gif';
+import { Rental, CharacterType } from 'types/api';
 import { downloadDegenAsZip } from 'utils/file';
 import ErrorModal from 'components/Modal/ErrorModal';
 import { DEGEN_BASE_IMAGE_URL, TRAIT_INDEXES, TRAIT_NAME_MAP, TRAIT_VALUE_MAP } from '../constants/characters';
@@ -93,7 +94,7 @@ const Character = (): JSX.Element | null => {
   const classes = useStyles();
   const mobileView = useIsWidthDown('sm');
   const { tokenId } = useParams<{ tokenId: string }>();
-  const [character, setCharacter] = useState({
+  const [character, setCharacter] = useState<CharacterType>({
     name: null,
     owner: null,
     traitList: [],
