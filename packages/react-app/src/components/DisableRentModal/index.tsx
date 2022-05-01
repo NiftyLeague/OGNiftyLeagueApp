@@ -152,13 +152,11 @@ const DisableRentModal = ({
                 <>No owner</>
               )}
             </div>
-
             <div className={classes.description}>
               {rental.is_active
                 ? `
-              Disabling your rental allows you to rent your rental to only specific wallets (by using our rent for \
-              someone system) and avoid the rental price curve. Keep in mind that enabling your degen for rentals incurs \
-              a 1,000 NFTL fee.`
+                  Disabling your rental makes your rental queue private. Note that your queue will clear as \
+                  existing rentals reach the already paid-for expiration. Re-enabling fee is 1000 NFTL.`
                 : `Enable Rental Fee: 1,000 NFTL`}
             </div>
             <FormControlLabel
