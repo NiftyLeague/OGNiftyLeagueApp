@@ -159,9 +159,7 @@ const DisableRentModal = ({
               Disabling your rental allows you to rent your rental to only specific wallets (by using our rent for \
               someone system) and avoid the rental price curve. Keep in mind that enabling your degen for rentals incurs \
               a 1,000 NFTL fee.`
-                : `
-              Enabling your rental allows you to rent your rental to any wallets. Keep in mind that enabling your degen for rentals incurs \
-              a 1,000 NFTL fee.`}
+                : `Enable Rental Fee: 1,000 NFTL`}
             </div>
             <FormControlLabel
               control={
