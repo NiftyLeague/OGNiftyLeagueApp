@@ -4,7 +4,7 @@ import crypto from 'crypto';
 import Container from '@mui/material/Container';
 
 import { NetworkContext } from 'NetworkProvider';
-import { getProviderAndSigner } from 'helpers';
+import { useSign } from 'utils/sign';
 
 const ProfileVerification = ({
   setAuth,
@@ -14,52 +14,25 @@ const ProfileVerification = ({
   setSuccess: (value: React.SetStateAction<boolean>) => void;
 }): JSX.Element => {
   const { address, userProvider } = useContext(NetworkContext);
-  const [msgSent, setMsgSent] = useState(false);
-  const [error, setError] = useState(false);
-  const nonce = `0x${crypto.randomBytes(4).toString('hex')}`;
-  // eslint-disable-next-line @typescript-eslint/restrict-template-expressions, @typescript-eslint/no-unsafe-call
-  const token = `${uuidv4()}-${uuidv4()}-${uuidv4()}-${uuidv4()}-${uuidv4()}-${uuidv4()}-${uuidv4()}-${uuidv4()}`;
+  const [error, setError] = useState('');
+  const [msgSent, signMsg] = useSign();
 
   useEffect(() => {
-    const signMsg = async () => {
-      if (userProvider) {
-        const { signer } = getProviderAndSigner(userProvider);
-        if (signer) {
-          const addressToLower = address.toLowerCase();
-          const signAddress = `${addressToLower.substr(0, 6)}...${addressToLower.substr(-4)}`;
-          const verification = await signer.signMessage(
-            `Please sign this message to verify that ${signAddress} belongs to you. ${nonce || ''}`,
-          );
-          setMsgSent(true);
-          const result = await fetch('https://odgwhiwhzb.execute-api.us-east-1.amazonaws.com/prod/verification', {
-            method: 'POST',
-            body: JSON.stringify({
-              token,
-              nonce,
-              verification,
-              address: addressToLower,
-            }),
-          })
-            .then(res => {
-              if (res.status === 404) setError(true);
-              return res.text();
-            })
-            .catch(() => {
-              setError(true);
-            });
-          if (result && result.length) {
-            const auth = result.slice(1, -1);
-            setAuth(auth);
+    void (async () => {
+      if (!msgSent) {
+        try {
+          const authToken = await signMsg();
+          if (authToken) {
+            setAuth(authToken);
             setSuccess(true);
-            window.localStorage.setItem('authentication-token', auth);
-            window.localStorage.setItem('uuid-token', token);
-            window.localStorage.setItem('nonce', nonce);
           }
+        } catch (err) {
+          setError(err);
         }
       }
-    };
-    if (address && userProvider && nonce.length > 5 && token && !msgSent) void signMsg();
-  }, [address, msgSent, nonce, token, userProvider, setAuth, setSuccess]);
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [address, msgSent]);
 
   return (
     <Container style={{ textAlign: 'center', padding: '40px' }}>
