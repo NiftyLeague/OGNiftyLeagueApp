@@ -46,7 +46,7 @@ export default function App(): JSX.Element {
             <Route path="/games" element={<Games />} />
             <Route path="/degens" element={<Characters />} />
             <Route path="/degens/:tokenId" element={<Character />} />
-            <Route path="/rentals" element={<Rentals />} />
+            {/* <Route path="/rentals" element={<Rentals />} /> */}
             <Route path="/profile" element={<GamerProfile />} />
             <Route path="/disclaimer" element={<Disclaimer />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
