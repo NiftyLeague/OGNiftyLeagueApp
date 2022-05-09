@@ -1,0 +1,19 @@
+.rentals-search-wrapper {
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 64px;
+  height: calc(100vh - 64px);
+  overflow: auto;
+  overflow-x: hidden;
+  z-index: 3;
+
+  background: -moz-linear-gradient(89deg, #620edf 0%, #5e72eb 100%);
+  background: -ms-linear-gradient(89deg, #620edf 0%, #5e72eb 100%);
+  background: -o-linear-gradient(89deg, #620edf 0%, #5e72eb 100%);
+  background: -webkit-linear-gradient(right, #5e72eb, #620edf);
+  background: -o-linear-gradient(right, #5e72eb, #620edf);
+  background: linear-gradient(89deg, #620edf 0%, #5e72eb 100%);
+  background: -webkit-linear-gradient(89deg, #620edf 0%, #5e72eb 100%);
+}

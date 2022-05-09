@@ -6,3 +6,34 @@ export interface Account {
   update_counter?: number;
   updated_at?: number;
 }
+
+export interface Rental {
+  name?: string;
+  background: string;
+  id: string;
+  is_active: boolean;
+  last_rented_at: number;
+  multiplier: number;
+  multipliers: number;
+  price: number;
+  price_daily: number;
+  rental_count: number;
+  stats: any;
+  total_rented: number;
+  tribe: string;
+  owner: string;
+  traits_string: string;
+}
+
+export type Rentals = { [key: string]: Rental };
+
+export interface MyRental {
+  degen_id: string;
+  id: string;
+}
+
+export interface CharacterType {
+  name: string | null;
+  owner: string | null;
+  traitList: [];
+}
