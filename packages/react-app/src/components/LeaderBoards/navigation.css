@@ -1,0 +1,104 @@
+.ant-menu.leader-board {
+  height: 40px;
+  /* margin: 0px 2px; */
+  align-items: center;
+}
+.leader-board .ant-menu-item-selected {
+  /* border-bottom: none !important; */
+  color: #fff !important;
+  font-size: 1.3rem !important;
+  /* background-color: aliceblue !important; */
+}
+.leader-board .ant-menu-item-selected:hover {
+  border-bottom: none !important;
+  color: #fff !important;
+  font-size: 1.3rem !important;
+  /* background-color: aliceblue !important; */
+}
+.leader-board .ant-menu-item-active {
+  border-bottom: none !important;
+  /* color: white !important; */
+  font: bold !important;
+}
+.leader-board > li.ant-menu-overflow-item.ant-menu-item.ant-menu-item-only-child {
+  height: 100%;
+  font-size: 1.2rem;
+  border-bottom: none !important;
+  margin: 0px 0px 0px 0px !important;
+  padding: 4px 10px !important;
+  color: #eee;
+}
+.leader-board li span {
+  line-height: 35px;
+}
+.modal-table {
+  color: #8c9cb4;
+}
+.modal-table .header {
+  position: absolute;
+  left: 100px;
+  top: 400px;
+  width: 100%;
+  display: flex;
+}
+.modal-table .header .row {
+  width: 80%;
+}
+.modal-table .header .cell {
+  border-right: 2px solid #8c9cb4;
+  padding: 0px 10px;
+  width: 30%;
+  padding: 5px 20px;
+}
+.modal-table .header .index {
+  border-right: 2px solid #8c9cb4;
+  width: 10%;
+  padding: 5px 0px;
+}
+.modal-table .header .end {
+  border-right: none;
+}
+.modal-table .body {
+  position: absolute;
+  left: 100px;
+  top: 480px;
+  width: 100%;
+  color: black;
+}
+
+.modal-table .body .row {
+  width: 80%;
+}
+
+.modal-table .body .row .cell {
+  border-right: 2px solid #8c9cb4;
+  border-bottom: 2px solid #8c9cb4;
+  width: 30%;
+  padding: 5px 20px;
+}
+.modal-table .body .row.first {
+  height: 10px;
+}
+.modal-table .body .row.last .cell {
+  height: 10px;
+  border-bottom: none;
+}
+.modal-table .body .row .index {
+  width: 10%;
+}
+.modal-table .body .row .end {
+  border-right: none;
+  width: 25%;
+}
+
+.ellipsis {
+  display: -webkit-box;
+  max-width: 400px;
+  /* height: 25px; */
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.3;
+  overflow-wrap: break-word;
+}

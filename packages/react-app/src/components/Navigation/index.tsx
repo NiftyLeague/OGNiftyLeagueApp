@@ -32,6 +32,9 @@ const navItems = () => [
   <Menu.Item key="/profile">
     <Link to="/profile">Profile</Link>
   </Menu.Item>,
+  <Menu.Item key="/leader-boards">
+    <Link to="/leader-boards">LeaderBoards</Link>
+  </Menu.Item>,
 ];
 
 function Navigation(): JSX.Element {

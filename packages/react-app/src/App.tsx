@@ -17,6 +17,7 @@ const NotFound = lazy(() => import('./views/NotFound'));
 const Subgraph = lazy(() => import('./views/Subgraph'));
 const GamerProfile = lazy(() => import('./views/GamerProfile'));
 const GameVerification = lazy(() => import('./views/GameVerification'));
+const LeaderBoards = lazy(() => import('./views/LeaderBoards'));
 
 // EXTERNAL CONTRACT EXAMPLE:
 // If you want to bring in the mainnet DAI contract it would look like:
@@ -53,6 +54,7 @@ export default function App(): JSX.Element {
             <Route path="/terms-of-service" element={<ToS />} />
             <Route path="/contracts" element={<ContractAddresses />} />
             <Route path="/verification" element={<GameVerification />} />
+            <Route path="/leader-boards" element={<LeaderBoards />} />
             {DEBUG ? (
               <>
                 <Route path="/NFTL" element={<Contract name={NFTL_CONTRACT} />} />
