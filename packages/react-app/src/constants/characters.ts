@@ -1,5 +1,6 @@
 export const DEGEN_BASE_API_URL = 'https://api.nifty-league.com';
 export const DEGEN_BASE_IMAGE_URL = 'https://nifty-league.s3.amazonaws.com/degens';
+export const DISABLE_RENT_API_URL = 'https://odgwhiwhzb.execute-api.us-east-1.amazonaws.com/prod/rentals/rentable/';
 export const DEGEN_ASSETS_DOWNLOAD_URL = 'https://odgwhiwhzb.execute-api.us-east-1.amazonaws.com/prod/assets/degen';
 
 export const TRAIT_INDEXES = {
@@ -60,6 +61,14 @@ export const TRIBES = {
   5: 'Cat',
   6: 'Alien',
 };
+
+export const BACKGROUNDS = {
+  1: '1x (Common)',
+  2: '2x (Rare)',
+  3: '4x (Meta)',
+  4: '6x (Legendary)',
+};
+
 export const SKIN_COLORS = {
   // Ape
   10: 'Single Origin',

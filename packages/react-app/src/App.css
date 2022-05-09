@@ -229,3 +229,15 @@ a:active {
 .ant-menu-item-selected a:hover {
   color: #5e72eb;
 }
+
+.web3modal-modal-lightbox {
+  z-index: 2000 !important;
+}
+
+.address-box.ant-typography {
+  vertical-align: middle;
+}
+
+.address-box .anticon.anticon-copy {
+  vertical-align: text-top;
+}
